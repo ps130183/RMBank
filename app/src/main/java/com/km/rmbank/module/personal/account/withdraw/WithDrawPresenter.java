@@ -59,6 +59,17 @@ public class WithDrawPresenter implements WithDrawContract.Presenter {
     }
 
     @Override
+    public void deleteWithdrawAccount(final WithDrawAccountDto withDrawAccountDto) {
+        apiWrapper.deleteWithdrawAccount(withDrawAccountDto.getId())
+                .subscribe(activity.newSubscriber(new Action1() {
+                    @Override
+                    public void call(Object o) {
+                        view.deleteSuccess(withDrawAccountDto);
+                    }
+                }));
+    }
+
+    @Override
     public void onCreateView() {
 
     }

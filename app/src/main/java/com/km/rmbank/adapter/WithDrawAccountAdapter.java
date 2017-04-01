@@ -16,6 +16,9 @@ import butterknife.BindView;
 
 public class WithDrawAccountAdapter extends BaseAdapter<WithDrawAccountDto> implements BaseAdapter.IAdapter<WithDrawAccountAdapter.ViewHolder> {
 
+    private OnDeleteWithdrawListener onDeleteWithdrawListener;
+    private OnEditWithdrawListener onEditWithdrawListener;
+
     public WithDrawAccountAdapter(Context mContext) {
         super(mContext, R.layout.item_rv_withdraw_account);
         setiAdapter(this);
@@ -28,11 +31,29 @@ public class WithDrawAccountAdapter extends BaseAdapter<WithDrawAccountDto> impl
 
     @Override
     public void createView(ViewHolder holder, int position) {
-        WithDrawAccountDto withDrawAccountDto = getItemData(position);
+        final WithDrawAccountDto withDrawAccountDto = getItemData(position);
         holder.tvUserName.setText(withDrawAccountDto.getName());
         holder.tvUserPhone.setText(withDrawAccountDto.getWithdrawPhone());
         holder.tvTypeName.setText(withDrawAccountDto.getTypeName());
         holder.tvAccount.setText(withDrawAccountDto.getWithdrawNumber());
+
+        holder.tvEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onEditWithdrawListener != null){
+                    onEditWithdrawListener.editWithdraw(withDrawAccountDto);
+                }
+            }
+        });
+
+        holder.tvDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onDeleteWithdrawListener != null){
+                    onDeleteWithdrawListener.deleteWithdraw(withDrawAccountDto);
+                }
+            }
+        });
     }
 
     class ViewHolder extends BaseViewHolder{
@@ -46,9 +67,29 @@ public class WithDrawAccountAdapter extends BaseAdapter<WithDrawAccountDto> impl
         @BindView(R.id.tv_account)
         TextView tvAccount;
 
+        @BindView(R.id.tv_delete)
+        TextView tvDelete;
+        @BindView(R.id.tv_edit)
+        TextView tvEdit;
 
         public ViewHolder(View itemView) {
             super(itemView);
         }
+    }
+
+    public interface OnDeleteWithdrawListener{
+        void deleteWithdraw(WithDrawAccountDto withDrawAccountDto);
+    }
+
+    public interface OnEditWithdrawListener{
+        void editWithdraw(WithDrawAccountDto withDrawAccountDto);
+    }
+
+    public void setOnDeleteWithdrawListener(OnDeleteWithdrawListener onDeleteWithdrawListener) {
+        this.onDeleteWithdrawListener = onDeleteWithdrawListener;
+    }
+
+    public void setOnEditWithdrawListener(OnEditWithdrawListener onEditWithdrawListener) {
+        this.onEditWithdrawListener = onEditWithdrawListener;
     }
 }

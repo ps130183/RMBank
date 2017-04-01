@@ -184,6 +184,17 @@ public class ApiWrapper extends RetrofitUtil {
                 withDrawAccountDto.getTypeName(),withDrawAccountDto.getWithdrawNumber())
                 .compose(this.<String>applySchedulers());
     }
+
+    /**
+     * 删除提现账户
+     * @param id
+     * @return
+     */
+    public Observable<String> deleteWithdrawAccount(String id){
+        return getService().deleteWithDrawAccount(Constant.user.getToken(),id,1)
+                .compose(this.<String>applySchedulers());
+    }
+
     /**
      * 编辑提现账户
      * @param withDrawAccountDto
@@ -191,6 +202,7 @@ public class ApiWrapper extends RetrofitUtil {
      */
     public Observable<String> updateWithDrawAccount(WithDrawAccountDto withDrawAccountDto){
         return getService().updateWithDrawAccount(Constant.user.getToken(),
+                withDrawAccountDto.getId(),
                 withDrawAccountDto.getName(),withDrawAccountDto.getWithdrawPhone(),
                 withDrawAccountDto.getTypeName(),withDrawAccountDto.getWithdrawNumber())
                 .compose(this.<String>applySchedulers());
@@ -203,6 +215,17 @@ public class ApiWrapper extends RetrofitUtil {
     public Observable<List<WithDrawAccountDto>> getWithDrawAccount(){
         return getService().getWithDrawAccount(Constant.user.getToken())
                 .compose(this.<List<WithDrawAccountDto>>applySchedulers());
+    }
+
+    /**
+     * 提现
+     * @param withDrawAccountDto
+     * @param money
+     * @return
+     */
+    public Observable<String> submitWithDraw(WithDrawAccountDto withDrawAccountDto,String money){
+        return getService().submitWithDraw(Constant.user.getToken(),withDrawAccountDto.getId(),money)
+                .compose(this.<String>applySchedulers());
     }
 
     /**

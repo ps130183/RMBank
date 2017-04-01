@@ -1,5 +1,6 @@
 package com.km.rmbank.module.personal.account.withdraw;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,6 +10,7 @@ import android.view.View;
 import com.km.rmbank.R;
 import com.km.rmbank.adapter.WithDrawAccountAdapter;
 import com.km.rmbank.basic.BaseActivity;
+import com.km.rmbank.basic.BaseAdapter;
 import com.km.rmbank.basic.RVUtils;
 import com.km.rmbank.cell.WithDrawAccountListCell;
 import com.km.rmbank.dto.WithDrawAccountDto;
@@ -22,7 +24,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class WithDrawListActivity extends BaseActivity<WithDrawPresenter> implements WithDrawContract.View {
+public class WithDrawListActivity extends BaseActivity<WithDrawPresenter> implements WithDrawContract.View, WithDrawAccountAdapter.OnEditWithdrawListener, WithDrawAccountAdapter.OnDeleteWithdrawListener{
 
     @BindView(R.id.recyclerview)
     RecyclerView mRecyclerView;
@@ -40,58 +42,39 @@ public class WithDrawListActivity extends BaseActivity<WithDrawPresenter> implem
 
     @Override
     public WithDrawPresenter getmPresenter() {
-        return new WithDrawPresenter(this,this);
+        return new WithDrawPresenter(this, this);
     }
 
     @Override
     protected void onCreate() {
         initRecyclerView();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         mPresenter.getWithDrawList();
     }
 
-    private void initRecyclerView(){
+    private void initRecyclerView() {
         RVUtils.setLinearLayoutManage(mRecyclerView, LinearLayoutManager.VERTICAL);
         RVUtils.addDivideItemForRv(mRecyclerView);
         WithDrawAccountAdapter adapter = new WithDrawAccountAdapter(this);
         mRecyclerView.setAdapter(adapter);
-    }
-
-    private ICell.OnCellClickListener<WithDrawAccountDto> withdrawCellOnClick = new ICell.OnCellClickListener<WithDrawAccountDto>() {
-        @Override
-        public void cellClick(WithDrawAccountDto mData, int position) {
-                  switch (position){
-//                      case R.id.cb_isdefault://设置默认
-////                          showToast(position + "   mdata = " + mData.toString() );
-////                          setDefaultWithDrawAccount(mData);
-//                          break;
-                      case R.id.tv_edit:
-                          Bundle bundle = new Bundle();
-                          bundle.putParcelable("withDrawAccountEntity",mData);
-                          toNextActivity(CreateWithDrawAccountActivity.class,bundle);
-                          break;
-                      case R.id.tv_delete:
-                          deleteWithDraw(mData);
-                          break;
-
-                      default:
-                          toNextActivity(WithDrawActivity.class);
-                          break;
-                  }
-        }
-    };
-
-    private void deleteWithDraw(final WithDrawAccountDto entity){
-        DialogUtils.showDefaultAlertDialog("是否要删除该提现账号？", new DialogUtils.ClickListener() {
+        adapter.setOnEditWithdrawListener(this);
+        adapter.setOnDeleteWithdrawListener(this);
+        adapter.setItemClickListener(new BaseAdapter.ItemClickListener<WithDrawAccountDto>() {
             @Override
-            public void clickConfirm() {
-//                iCells.remove(entity);
-//                adapter.notifyDataChanged();
+            public void onItemClick(WithDrawAccountDto itemData, int position) {
+                Bundle bundle = new Bundle();
+                bundle.putParcelable("withDrawAccountDto",itemData);
+                toNextActivity(WithDrawActivity.class,bundle);
             }
         });
     }
 
     @OnClick(R.id.btn_add_account)
-    public void createAccount(View view){
+    public void createAccount(View view) {
         toNextActivity(CreateWithDrawAccountActivity.class);
     }
 
@@ -105,4 +88,28 @@ public class WithDrawListActivity extends BaseActivity<WithDrawPresenter> implem
         WithDrawAccountAdapter adapter = (WithDrawAccountAdapter) mRecyclerView.getAdapter();
         adapter.addData(withDrawAccountDtos);
     }
+
+    @Override
+    public void deleteSuccess(WithDrawAccountDto withDrawAccountDto) {
+        WithDrawAccountAdapter adapter = (WithDrawAccountAdapter) mRecyclerView.getAdapter();
+        adapter.removeData(withDrawAccountDto);
+    }
+
+    @Override
+    public void editWithdraw(WithDrawAccountDto withDrawAccountDto) {
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("withDrawAccountDto",withDrawAccountDto);
+        toNextActivity(CreateWithDrawAccountActivity.class,bundle);
+    }
+
+    @Override
+    public void deleteWithdraw(final WithDrawAccountDto withDrawAccountDto) {
+        DialogUtils.showDefaultAlertDialog("是否要删除该提现账号？", new DialogUtils.ClickListener() {
+            @Override
+            public void clickConfirm() {
+                mPresenter.deleteWithdrawAccount(withDrawAccountDto);
+            }
+        });
+    }
+
 }

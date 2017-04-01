@@ -70,6 +70,13 @@ public class CreateWithDrawAccountActivity extends BaseActivity<WithDrawPresente
                 }
             }
         });
+
+        if (!isCreate){//编辑
+            etName.setText(withDrawAccountDto.getName());
+            etPhone.setText(withDrawAccountDto.getWithdrawPhone());
+            etTypeName.setText(withDrawAccountDto.getTypeName());
+            etAccount.setText(withDrawAccountDto.getWithdrawNumber());
+        }
     }
 
     @Override
@@ -80,6 +87,11 @@ public class CreateWithDrawAccountActivity extends BaseActivity<WithDrawPresente
 
     @Override
     public void showWithDrawList(List<WithDrawAccountDto> withDrawAccountDtos) {
+
+    }
+
+    @Override
+    public void deleteSuccess(WithDrawAccountDto withDrawAccountDto) {
 
     }
 }

@@ -44,7 +44,8 @@
             android:launchMode="singleTask"/>
         <activity android:name=".module.rmshop.goods.GoodsActivity" />
         <activity android:name=".module.personal.userinfo.UserInfoActivity" />
-        <activity android:name=".module.personal.account.UserAccountActivity" />
+        <activity android:name=".module.personal.account.UserAccountActivity"
+            android:launchMode="singleTask"/>
         <activity android:name=".module.personal.account.withdraw.WithDrawListActivity" />
         <activity android:name=".module.personal.account.withdraw.CreateWithDrawAccountActivity" />
         <activity android:name=".module.personal.shopcart.ShoppingCartActivity" />
@@ -76,7 +77,6 @@
         <activity android:name=".module.personal.receiveraddress.ReceiverAddressActivity" />
         <activity android:name=".module.personal.receiveraddress.CreateReceiverAddressActivity" />
         <activity android:name=".module.register.RegisterUserActivity"></activity>
-
     </application>
 
 </manifest>

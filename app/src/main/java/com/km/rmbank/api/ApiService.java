@@ -31,46 +31,50 @@ public interface ApiService {
 
     /**
      * 登录
+     *
      * @param mobilePhone
      * @param loginPwd
      * @return
      */
     @FormUrlEncoded
-    @POST(SecretConstant.API_HOST_PATH+"/user/login")
+    @POST(SecretConstant.API_HOST_PATH + "/user/login")
     Observable<Response<UserDto>> login(@Field("mobilePhone") String mobilePhone,
                                         @Field("loginPwd") String loginPwd);
 
     /**
      * 注册
+     *
      * @param mobilePhone
      * @param password
      * @param smsCode
      * @return
      */
     @FormUrlEncoded
-    @POST(SecretConstant.API_HOST_PATH+"/user/register")
+    @POST(SecretConstant.API_HOST_PATH + "/user/register")
     Observable<Response<DefaultDto>> userRegister(@Field("mobilePhone") String mobilePhone,
                                                   @Field("loginPwd") String password,
                                                   @Field("smsCode") String smsCode);
 
     /**
      * 获取手机验证码
+     *
      * @param mobilePhone
      * @return
      */
     @FormUrlEncoded
-    @POST(SecretConstant.API_HOST_PATH+"/sms/send/code")
+    @POST(SecretConstant.API_HOST_PATH + "/sms/send/code")
     Observable<Response<DefaultDto>> getPhoneCode(@Field("mobilePhone") String mobilePhone);
 
     /**
      * 忘记密码
+     *
      * @param mobilePhone
      * @param password
      * @param smsCode
      * @return
      */
     @FormUrlEncoded
-    @POST(SecretConstant.API_HOST_PATH+"/user/forgetLoginPwd")
+    @POST(SecretConstant.API_HOST_PATH + "/user/forgetLoginPwd")
     Observable<Response<DefaultDto>> forgetLoginPwd(@Field("mobilePhone") String mobilePhone,
                                                     @Field("pwd") String password,
                                                     @Field("smsCode") String smsCode);
@@ -78,26 +82,29 @@ public interface ApiService {
 
     /**
      * 个人信息
+     *
      * @return
      */
     @FormUrlEncoded
-    @POST(SecretConstant.API_HOST_PATH+"/auth/user/info")
+    @POST(SecretConstant.API_HOST_PATH + "/auth/user/info")
     Observable<Response<UserInfoDto>> getUserInfo(@Field("token") String token);
 
     /**
      * 修改个人信息
+     *
      * @param token
      * @return
      */
     @FormUrlEncoded
-    @POST(SecretConstant.API_HOST_PATH+"/auth/user/update/info")
+    @POST(SecretConstant.API_HOST_PATH + "/auth/user/update/info")
     Observable<Response<String>> updateUserInfo(@Field("token") String token,
-                                                              @Field("nickName") String nickName,
-                                                              @Field("portraitUrl") String portraitUrl,
-                                                              @Field("birthday") String birthday);
+                                                @Field("nickName") String nickName,
+                                                @Field("portraitUrl") String portraitUrl,
+                                                @Field("birthday") String birthday);
 
     /**
      * 生成个人名片
+     *
      * @param token
      * @param name
      * @param mobilePhone
@@ -112,7 +119,7 @@ public interface ApiService {
      * @return
      */
     @FormUrlEncoded
-    @POST(SecretConstant.API_HOST_PATH+"/auth/userCard/update/info")
+    @POST(SecretConstant.API_HOST_PATH + "/auth/userCard/update/info")
     Observable<Response<UserCardDto>> createUserCard(@Field("token") String token,
                                                      @Field("name") String name,
                                                      @Field("mobilePhone") String mobilePhone,
@@ -127,74 +134,95 @@ public interface ApiService {
 
     /**
      * 获取个人名片
+     *
      * @return
      */
     @FormUrlEncoded
-    @POST(SecretConstant.API_HOST_PATH+"/auth/userCard/info")
+    @POST(SecretConstant.API_HOST_PATH + "/auth/userCard/info")
     Observable<Response<UserCardDto>> getUserCard(@Field("token") String token);
 
     /**
      * 获取行业数据
+     *
      * @param token
      * @return
      */
     @FormUrlEncoded
-    @POST(SecretConstant.API_HOST_PATH+"/auth/list/industry")
+    @POST(SecretConstant.API_HOST_PATH + "/auth/list/industry")
     Observable<Response<List<IndustryDto>>> getIndustryList(@Field("token") String token);
-
-
 
 
     /**
      * 上传图片
+     *
      * @param params
      * @return
      */
     @Multipart
-    @POST(SecretConstant.API_HOST_PATH+"/file/up")
+    @POST(SecretConstant.API_HOST_PATH + "/file/up")
     Observable<Response<String>> imageUpload(@PartMap Map<String, RequestBody> params);
 
     /**
      * 查询账户余额
+     *
      * @param token
      * @return
      */
     @FormUrlEncoded
-    @POST(SecretConstant.API_HOST_PATH+"/auth/user/my/account")
+    @POST(SecretConstant.API_HOST_PATH + "/auth/user/my/account")
     Observable<Response<UserBalanceDto>> getUserAccountBalance(@Field("token") String token);
 
     /**
      * 查询账户明细
+     *
      * @param token
      * @return
      */
     @FormUrlEncoded
-    @POST(SecretConstant.API_HOST_PATH+"/auth/account/user/stream/list")
+    @POST(SecretConstant.API_HOST_PATH + "/auth/account/user/stream/list")
     Observable<Response<List<UserAccountDetailDto>>> getUserAccountDetail(@Field("token") String token,
-                                                                    @Field("pageNo") int pageNo);
+                                                                          @Field("pageNo") int pageNo);
 
 
     /**
      * 新增提现账户
+     *
      * @param token
      * @return
      */
     @FormUrlEncoded
-    @POST(SecretConstant.API_HOST_PATH+"/auth/user/withdraw/add/account")
+    @POST(SecretConstant.API_HOST_PATH + "/auth/user/withdraw/add/account")
     Observable<Response<String>> createWithDrawAccount(@Field("token") String token,
                                                        @Field("name") String name,
                                                        @Field("withdrawPhone") String withdrawPhone,
                                                        @Field("typeName") String typeName,
                                                        @Field("withdrawNumber") String withdrawNumber);
 
+
+    /**
+     * 删除提现账户
+     *
+     * @param token
+     * @param id
+     * @param delete
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(SecretConstant.API_HOST_PATH + "/auth/user/withdraw/delete/account")
+    Observable<Response<String>> deleteWithDrawAccount(@Field("token") String token,
+                                                       @Field("id") String id,
+                                                       @Field("delete") int delete);
+
     /**
      * 编辑提现账户
+     *
      * @param token
      * @return
      */
     @FormUrlEncoded
-    @POST(SecretConstant.API_HOST_PATH+"/auth/user/withdraw/update/account")
+    @POST(SecretConstant.API_HOST_PATH + "/auth/user/withdraw/update/account")
     Observable<Response<String>> updateWithDrawAccount(@Field("token") String token,
+                                                       @Field("id") String id,
                                                        @Field("name") String name,
                                                        @Field("withdrawPhone") String withdrawPhone,
                                                        @Field("typeName") String typeName,
@@ -202,21 +230,35 @@ public interface ApiService {
 
     /**
      * 获取提现账户列表
+     *
      * @param token
      * @return
      */
     @FormUrlEncoded
-    @POST(SecretConstant.API_HOST_PATH+"/auth/user/withdraw/list/account")
+    @POST(SecretConstant.API_HOST_PATH + "/auth/user/withdraw/list/account")
     Observable<Response<List<WithDrawAccountDto>>> getWithDrawAccount(@Field("token") String token);
+
+    /**
+     * 提现
+     *
+     * @param token
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(SecretConstant.API_HOST_PATH + "/auth/user/withdraw")
+    Observable<Response<String>> submitWithDraw(@Field("token") String token,
+                                                @Field("accountId") String accountId,
+                                                @Field("userAmount") String userAmount);
 
 
     /**
      * 获取商品列表  商城
+     *
      * @param pageNo
      * @returnr
      */
     @FormUrlEncoded
-    @POST(SecretConstant.API_HOST_PATH+"/product/normal/list")
+    @POST(SecretConstant.API_HOST_PATH + "/product/normal/list")
     Observable<Response<List<GoodsDto>>> getGoodsListOfShopping(@Field("pageNo") int pageNo);
 
 }

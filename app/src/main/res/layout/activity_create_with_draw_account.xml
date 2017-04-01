@@ -55,6 +55,8 @@
             android:layout_height="wrap_content"
             android:hint="联系电话"
             style="@style/SingleLineEditText"
+            android:inputType="phone"
+            android:maxLength="11"
             />
 
     </LinearLayout>

@@ -12,6 +12,7 @@ import com.km.rmbank.basic.BaseEntity;
 
 public class WithDrawAccountDto extends BaseEntity implements Parcelable {
 
+    private String id;
     private String name;
     private String withdrawPhone;
     private String typeName;
@@ -59,6 +60,14 @@ public class WithDrawAccountDto extends BaseEntity implements Parcelable {
         this.delete = delete;
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public WithDrawAccountDto() {
     }
 
@@ -78,6 +87,7 @@ public class WithDrawAccountDto extends BaseEntity implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.id);
         dest.writeString(this.name);
         dest.writeString(this.withdrawPhone);
         dest.writeString(this.typeName);
@@ -86,6 +96,7 @@ public class WithDrawAccountDto extends BaseEntity implements Parcelable {
     }
 
     protected WithDrawAccountDto(Parcel in) {
+        this.id = in.readString();
         this.name = in.readString();
         this.withdrawPhone = in.readString();
         this.typeName = in.readString();
