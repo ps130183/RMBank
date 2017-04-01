@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_set_user_pass_word"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.km.rmbank.module.register.RegisterUserActivity">
+
+    <TextView
+        android:id="@+id/tv_user_phone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="您的手机号为：1563202312"
+        android:textSize="@dimen/text_size_16"
+        android:layout_marginTop="@dimen/view_space_16"
+        android:layout_marginBottom="@dimen/view_space_16"
+        android:padding="@dimen/view_space_16"
+        android:background="@color/color_white"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="设置密码"
+        android:textSize="@dimen/text_size_16"
+        android:padding="@dimen/view_space_16"
+        android:background="@color/color_white"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@color/color_white"
+        android:paddingTop="@dimen/view_space_8"
+        android:paddingBottom="@dimen/view_space_8"
+        android:paddingLeft="@dimen/view_space_16"
+        android:paddingRight="@dimen/view_space_16">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="密        码："
+            android:textSize="@dimen/text_size_14"
+            />
+        <EditText
+            android:id="@+id/et_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="请输入密码"
+            android:textSize="@dimen/text_size_14"
+            android:background="@color/color_white"
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@color/color_white"
+        android:paddingTop="@dimen/view_space_8"
+        android:paddingBottom="@dimen/view_space_8"
+        android:paddingLeft="@dimen/view_space_16"
+        android:paddingRight="@dimen/view_space_16">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="重复密码："
+            android:textSize="@dimen/text_size_14"
+
+            />
+        <EditText
+            android:id="@+id/et_double_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="请输入重复密码"
+            android:textSize="@dimen/text_size_14"
+            android:background="@color/color_white"
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@color/color_white"
+        android:paddingTop="@dimen/view_space_8"
+        android:paddingBottom="@dimen/view_space_8"
+        android:paddingLeft="@dimen/view_space_16"
+        android:paddingRight="@dimen/view_space_16">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="验  证  码："
+            android:textSize="@dimen/text_size_14"
+
+            />
+        <EditText
+            android:id="@+id/et_smscode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="请输入手机验证码"
+            android:textSize="@dimen/text_size_14"
+            android:background="@color/color_white"
+            />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_register"
+        style="@style/Button"
+        android:text="注册"/>
+
+</LinearLayout>

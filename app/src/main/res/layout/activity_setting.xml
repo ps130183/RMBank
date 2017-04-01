@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_setting"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.km.rmbank.module.personal.setting.SettingActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/view_space_32"
+        android:background="@color/color_white"
+        android:layout_marginTop="@dimen/view_space_16">
+
+        <TextView
+            android:id="@+id/tv_clear_cache"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="清楚缓存"
+            style="@style/Personal.User.Setting.tv"
+            />
+        <include layout="@layout/divider_height_1"/>
+        <TextView
+            android:id="@+id/tv_push_message_setting"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="推送消息设置"
+            style="@style/Personal.User.Setting.tv"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/view_space_32"
+        android:background="@color/color_white"
+        android:layout_marginTop="@dimen/view_space_16">
+
+        <TextView
+            android:id="@+id/tv_about"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="关于我们"
+            style="@style/Personal.User.Setting.tv"
+            />
+        <include layout="@layout/divider_height_1"/>
+        <TextView
+            android:id="@+id/tv_user_agreement"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="用户协议"
+            style="@style/Personal.User.Setting.tv"
+            />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_logout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="退出登录"
+        android:textColor="@color/color_red"
+        android:textSize="@dimen/text_size_16"
+        android:background="@color/color_white"
+        android:gravity="center"
+        android:layout_marginTop="@dimen/view_space_32"
+        android:paddingTop="@dimen/view_space_16"
+        android:paddingBottom="@dimen/view_space_16"
+        />
+
+</LinearLayout>

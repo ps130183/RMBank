@@ -1,0 +1,4 @@
+<manifest package="com.blankj.utilcode">
+
+    <uses-permission name="android.permission.CHANGE_WIFI_STATE" />
+</manifest>

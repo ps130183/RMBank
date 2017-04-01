@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical">
+
+    <EditText
+        android:id="@+id/et_search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/view_space_8"
+        android:layout_toLeftOf="@+id/btn_search"
+        android:hint="请输入客户号或客户名搜索"
+        android:textSize="@dimen/text_size_14" />
+
+    <Button
+        android:id="@+id/btn_search"
+        android:layout_width="60dp"
+        android:layout_height="30dp"
+        android:layout_alignParentRight="true"
+        android:text="搜索" />
+</RelativeLayout>

@@ -1,0 +1,96 @@
+apply plugin: 'com.android.library'
+apply plugin: 'com.jakewharton.butterknife'
+
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion "25.0.2"
+
+    defaultConfig {
+        minSdkVersion 15
+        targetSdkVersion 25
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.jakewharton:butterknife-gradle-plugin:8.4.0'
+    }
+}
+
+allprojects{
+    repositories{
+        maven { url "https://jitpack.io" }
+    }
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    compile 'com.android.support:appcompat-v7:25.1.0'
+    testCompile 'junit:junit:4.12'
+    //material Design
+    compile 'com.android.support:design:25.1.0'
+    //logutils
+    //    compile 'com.apkfuns.logutils:library:1.4.2.2'
+    compile 'com.orhanobut:logger:1.3'
+    //recyclerView
+    compile 'com.android.support:recyclerview-v7:25.1.0'
+    compile 'com.daimajia.swipelayout:library:1.2.0@aar'
+    //RxJava
+    compile 'io.reactivex:rxandroid:1.2.1'
+    compile 'io.reactivex:rxjava:1.1.6'
+    //Retrofit
+    compile 'com.squareup.retrofit2:retrofit:2.1.0'
+    compile 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.1.0'
+    //RxBinding
+    compile 'com.squareup.retrofit2:converter-scalars:2.1.0'
+    compile 'com.jakewharton.rxbinding:rxbinding:0.4.0'
+    compile 'com.jakewharton.rxbinding:rxbinding-appcompat-v7:0.4.0'
+    compile 'com.jakewharton.rxbinding:rxbinding-recyclerview-v7:0.4.0'
+    //okhttp公共请求参数拦截器
+    compile 'com.github.jkyeo:okhttp-basicparamsinterceptor:v0.9'
+    //butterknife
+    compile 'com.jakewharton:butterknife:8.4.0'
+    //日期选择器
+    compile 'com.code-troopers.betterpickers:library:3.1.0'
+    //banner
+    compile 'com.youth.banner:banner:1.4.9'
+    //glide 图片加载
+    compile 'com.github.bumptech.glide:glide:3.7.0'
+    //t他不layout
+    compile 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar'
+    //动态改变状态栏
+    compile 'com.readystatesoftware.systembartint:systembartint:1.0.3'
+    //带图片的B冉
+    compile 'com.githang:com-phillipcalvin-iconbutton:1.0.1@aar'
+    //步骤指示器
+    compile 'com.github.baoyachi:StepView:1.9'
+    compile 'com.marshalchen.ultimaterecyclerview:library:0.7.2'
+    //quanxian apply
+    compile 'com.lovedise:permissiongen:0.0.6'
+    //弹出提示框
+    compile 'com.github.hss01248:DialogUtil:1.0.4'
+    //    //图片选择器
+    //    compile 'cn.finalteam:galleryfinal:1.4.8.7'
+    compile project(':gallerypick')
+    //工具泪
+//    compile project(':utilcode')
+}

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_edit_user_email"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.km.rmbank.module.personal.userinfo.editcart.EditUserEmailActivity">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/view_space_16"
+        android:background="@color/color_white">
+        <EditText
+            android:id="@+id/et_email"
+            style="@style/Personal.User.EditCard.et_focuse"
+            android:hint="请填写邮箱地址"
+            android:inputType="textEmailAddress"
+            />
+        <ImageView
+            android:id="@+id/iv_clear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/ic_cancel_grey600_24dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/view_space_16"
+            />
+
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="用于接收邮件所用，请填写正确格式的邮箱地址"
+        android:textSize="@dimen/text_size_12"
+        android:gravity="left"
+        android:layout_marginTop="@dimen/view_space_4"
+        android:layout_marginLeft="@dimen/view_space_16"
+        />
+
+</LinearLayout>

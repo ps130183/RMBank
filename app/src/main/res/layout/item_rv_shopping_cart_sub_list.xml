@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="@dimen/view_space_16"
+        android:paddingBottom="@dimen/view_space_16"
+        style="@style/BackGauge"
+        android:background="@color/color_default_background">
+        <CheckBox
+            android:id="@+id/checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            />
+
+        <ImageView
+            android:layout_width="120dp"
+            android:layout_height="80dp"
+            android:src="@mipmap/timg"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="海参大礼包 产自新西昌平区 3只＊150g促销大保健）速度围观啦～"
+            android:lines="2"
+            android:ellipsize="end"
+            android:layout_marginLeft="@dimen/view_space_4"
+            android:layout_marginRight="@dimen/view_space_8"
+            android:layout_gravity="center_vertical"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="right"
+        android:orientation="horizontal"
+        style="@style/BackGauge"
+        android:paddingRight="@dimen/view_space_16"
+        android:paddingTop="@dimen/view_space_8"
+        android:paddingBottom="@dimen/view_space_8"
+        android:background="@color/color_white"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="共 "
+            android:textColor="@color/color_block"
+            />
+        <TextView
+            android:id="@+id/tv_goods_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="3"
+            android:textColor="@color/color_block"
+            android:textSize="@dimen/text_size_18"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" 件商品  需付款：¥ "
+            android:textColor="@color/color_block"
+            />
+        <TextView
+            android:id="@+id/tv_total_money"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="450.0"
+            android:textColor="@color/color_block"
+            android:textSize="@dimen/text_size_18"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" 元"
+            android:textColor="@color/color_block"
+            />
+
+
+    </LinearLayout>
+</LinearLayout>
+

@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        style="@style/Personal.function_ll"
+        >
+
+        <TextView
+            android:id="@+id/tv_my_team"
+            style="@style/Personal.function_tv"
+            android:text="我的团队"
+            android:drawableLeft="@mipmap/ic_chevron_right_black_24dp"
+            />
+
+        <View
+            android:id="@+id/line_team_contact"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="30dp"
+            android:background="@color/color_divider1"/>
+
+        <TextView
+            android:id="@+id/tv_my_contact"
+            style="@style/Personal.function_tv"
+            android:text="我的人脉"
+            android:drawableLeft="@mipmap/ic_chevron_right_black_24dp"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_integral_goods"
+        style="@style/Personal.function_ll"
+        >
+        
+        <TextView
+            android:id="@+id/tv_my_integral"
+            style="@style/Personal.function_tv"
+            android:text="我的积分"
+            android:drawableLeft="@mipmap/ic_chevron_right_black_24dp"
+            android:visibility="visible"
+            />
+
+        <View
+            android:id="@+id/line_integral_goods"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="30dp"
+            android:visibility="visible"
+            android:background="@color/color_divider1"/>
+
+        <TextView
+            android:id="@+id/tv_goods_manager"
+            style="@style/Personal.function_tv"
+            android:text="商品管理"
+            android:drawableLeft="@mipmap/ic_chevron_right_black_24dp"
+            />
+        
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/Personal.function_ll"
+        >
+
+        <TextView
+            android:id="@+id/tv_my_order"
+            style="@style/Personal.function_tv"
+            android:text="我的订单"
+            android:drawableLeft="@mipmap/ic_chevron_right_black_24dp"
+            />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="30dp"
+            android:background="@color/color_divider1"/>
+
+        <TextView
+            android:id="@+id/tv_address"
+            style="@style/Personal.function_tv"
+            android:text="收货地址"
+            android:drawableLeft="@mipmap/ic_chevron_right_black_24dp"
+            />
+
+    </LinearLayout>
+    <LinearLayout
+        style="@style/Personal.function_ll"
+        >
+
+        <TextView
+            android:id="@+id/tv_service"
+            style="@style/Personal.function_tv"
+            android:text="在线客服"
+            android:drawableLeft="@mipmap/ic_chevron_right_black_24dp"
+            />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="30dp"
+            android:background="@color/color_divider1"/>
+
+        <TextView
+            android:id="@+id/tv_attention"
+            style="@style/Personal.function_tv"
+            android:text="我的关注"
+            android:drawableLeft="@mipmap/ic_chevron_right_black_24dp"
+            />
+
+    </LinearLayout>
+
+</LinearLayout>

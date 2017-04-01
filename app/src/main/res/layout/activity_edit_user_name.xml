@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_edit_user_name"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.km.rmbank.module.personal.userinfo.editcart.EditUserNameActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/view_space_16"
+        android:background="@color/color_white">
+        <EditText
+            android:id="@+id/et_name"
+            style="@style/Personal.User.EditCard.et_focuse"
+            android:hint="姓名"
+            />
+        <ImageView
+            android:id="@+id/iv_clear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/ic_cancel_grey600_24dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/view_space_16"
+            />
+
+    </RelativeLayout>
+
+
+
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="使用真实姓名方便好友找到你，也能显示出对别人的尊重。"
+        android:textSize="@dimen/text_size_12"
+        android:gravity="center"
+        android:layout_margin="@dimen/view_space_4"
+        />
+
+</LinearLayout>

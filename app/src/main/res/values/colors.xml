@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#ffffff</color>
+    <!--<color name="colorPrimary">#3F51B5</color>-->
+    <color name="colorPrimaryDark">#00000000</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <color name="gallery_blue">#ffffff</color>
+
+    <!--默认背景颜色-->
+    <color name="color_default_background">#f4f2f2</color>
+    <!--白色-->
+    <color name="color_white">#ffffff</color>
+    <!--黑色-->
+    <color name="color_block">#000000</color>
+    <!--标题栏背景色-->
+    <color name="color_toolbar_background">#d50000</color>
+
+    <color name="color_search_background">#36000000</color>
+
+    <color name="color_text_gray">#d4d2d2</color>
+
+    <!--分割线-->
+    <color name="color_divider1">#eeeeee</color>
+    <color name="color_divider2">#cfcdcd</color>
+
+    <color name="color_btn_unclick">#a6a6a6</color>
+    <color name="color_btn_click">#0395f7</color>
+
+    <color name="color_text_account">#66e1ca</color>
+    <color name="color_blue">#0180ff</color>
+    <color name="color_blue2">#2bf8ff</color>
+    <color name="color_red">#ff0109</color>
+    <color name="color_green">#62fd01</color>
+
+    <color name="btnUnPressedColor">#3a89f7</color>
+    <color name="btnPressedColor">#ffffff</color>
+
+    <color name="colorGray1">#eff6fa</color>
+    <color name="colorSubTitle">#f9f4f4</color>
+    <color name="colorAddBtnBorder">#cccccc</color>
+    <color name="colorRcDivider">#f5dada</color>
+    <color name="colorTabRbtnBackground">#fefefe</color>
+    <color name="colorTabRbtnLines">#c2c2c2</color>
+</resources>

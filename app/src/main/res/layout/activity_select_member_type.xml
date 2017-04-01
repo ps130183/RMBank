@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_select_member_type"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.km.rmbank.module.personal.vip.SelectMemberTypeActivity">
+
+    <LinearLayout
+        android:id="@+id/ll_member_type"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@color/color_white">
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="@dimen/view_space_16">
+
+            <TextView
+                android:id="@+id/tv_member1"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:background="@drawable/shape_member_type_selected"
+                android:layout_centerInParent="true"
+                android:text="体验式会员"
+                android:gravity="center"
+                android:textColor="@color/color_white"
+                android:textStyle="bold"
+                />
+
+            <ImageView
+                android:id="@+id/iv_member1"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@mipmap/ic_item_swipe_right"
+                android:layout_alignBottom="@+id/tv_member1"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="@dimen/view_space_16"
+                />
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="@dimen/view_space_16">
+
+            <TextView
+                android:id="@+id/tv_member2"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:background="@drawable/shape_member_type_unselected"
+                android:layout_centerInParent="true"
+                android:text="合伙人会员"
+                android:gravity="center"
+                android:textColor="@color/color_red"
+                android:textStyle="bold"
+                />
+
+            <ImageView
+                android:id="@+id/iv_member2"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@mipmap/ic_item_swipe_right"
+                android:layout_alignBottom="@+id/tv_member2"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="@dimen/view_space_16"
+                />
+
+        </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_above="@+id/btn_become_member"
+        android:layout_below="@+id/ll_member_type"
+        android:background="@color/color_white">
+        <include layout="@layout/divider_height_1"/>
+
+        <TextView
+            android:id="@+id/tv_member_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="*体验式会员(1980元)"
+            android:padding="@dimen/view_space_16"
+            />
+
+        <TextView
+            android:id="@+id/tv_member_intro"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/view_space_16"
+            android:paddingRight="@dimen/view_space_16"
+            android:text="1.可以干什么有什么服务好的服务不是说的是做的，卡忙北鼻
+2.可以干什么有什么服务好的服务不是说的是做的，卡忙北鼻
+   哦耶被逼
+3.可以干什么有什么服务好的服务不是说的是做的，卡忙北鼻
+   继续做事儿吧"
+            />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_become_member"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/Button"
+        android:text="前往认证"
+        android:layout_alignParentBottom="true"
+        />
+
+</RelativeLayout>

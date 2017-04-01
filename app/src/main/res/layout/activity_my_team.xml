@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_my_team"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.km.rmbank.module.personal.team.MyTeamActivity">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        android:background="@color/color_red"
+        android:paddingBottom="@dimen/view_space_16">
+
+        <TextView
+            android:id="@+id/tv_team_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1500"
+            android:textSize="@dimen/text_size_20"
+            android:textColor="@color/color_white"
+            android:textStyle="bold"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/view_space_32"
+            android:layout_centerHorizontal="true"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="人"
+            android:textColor="@color/color_white"
+            android:textSize="@dimen/text_size_16"
+            android:textStyle="bold"
+            android:layout_toRightOf="@id/tv_team_number"
+            android:layout_alignBottom="@id/tv_team_number"
+            android:layout_marginLeft="@dimen/view_space_4"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="团队规模"
+            android:textColor="@color/color_white"
+            android:textSize="@dimen/text_size_16"
+            android:textStyle="bold"
+            android:layout_marginLeft="@dimen/view_space_32"
+            android:layout_alignParentBottom="true"
+            />
+
+    </RelativeLayout>
+    <include layout="@layout/recyclerview"/>
+</LinearLayout>

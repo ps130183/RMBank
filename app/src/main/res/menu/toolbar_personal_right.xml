@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:id="@+id/rich_scan"
+        android:title="扫一扫"
+        android:icon="@mipmap/ic_fullscreen_white_48dp"
+        app:showAsAction="withText"
+        />
+
+    <item android:id="@+id/share"
+        android:title="分享"
+        android:icon="@mipmap/ic_share_white_48dp"
+        app:showAsAction="withText"/>
+
+</menu>

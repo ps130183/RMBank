@@ -1,0 +1,77 @@
+package com.km.rmbank.module.rmshop;
+
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
+import android.widget.TextView;
+
+import com.flyco.tablayout.SlidingTabLayout;
+import com.km.rmbank.R;
+import com.km.rmbank.adapter.ViewPagerTabLayoutAdapter;
+import com.km.rmbank.basic.BaseFragment;
+import com.km.rmbank.basic.BasePresenter;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.BindView;
+
+/**
+ * Created by kamangkeji on 17/3/14.
+ */
+
+public class RmShopFragment extends BaseFragment {
+
+    @BindView(R.id.title)
+    TextView title;
+
+    @BindView(R.id.s_tab_layout)
+    SlidingTabLayout mStabLayout;
+    private String[] mTitle = {"全部分类","海产品","农产品","电子产品","服装","化妆品","海参","笔记本"};
+
+
+    @BindView(R.id.viewpager)
+    ViewPager viewPager;
+
+    private int tabCurPosition;
+    private List<String> tabList;
+
+    public static RmShopFragment newInstance(Bundle bundle) {
+        RmShopFragment fragment = new RmShopFragment();
+        fragment.setArguments(bundle);
+        return fragment;
+    }
+
+    @Override
+    protected int getContentView() {
+        return R.layout.fragment_home_rmshop;
+    }
+
+    @Override
+    protected void createView() {
+        title.setText("人脉商城");
+        initViewPager();
+    }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
+    private void initViewPager(){
+        List<Fragment> fragments = new ArrayList<>();
+        List<String> titleList = new ArrayList<>();
+        for (int i = 0; i < mTitle.length; i++){
+            titleList.add(mTitle[i]);
+            Bundle bundle  = new Bundle();
+            bundle.putString("tabname", mTitle[i]);
+            bundle.putInt("tabid",i);
+            fragments.add(GoodsFragment.newInstance(bundle));
+        }
+        ViewPagerTabLayoutAdapter viewPagerAdapter = new ViewPagerTabLayoutAdapter(this.getFragmentManager(),fragments,titleList);
+        viewPager.setAdapter(viewPagerAdapter);
+
+        mStabLayout.setViewPager(viewPager);
+    }
+}
