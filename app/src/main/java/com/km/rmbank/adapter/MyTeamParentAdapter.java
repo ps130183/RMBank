@@ -12,6 +12,11 @@ import com.km.rmbank.basic.BaseAdapter;
 import com.km.rmbank.basic.RVUtils;
 import com.km.rmbank.entity.TeamEntity;
 import com.km.rmbank.dto.UserDto;
+import com.nineoldandroids.animation.Animator;
+import com.nineoldandroids.animation.ObjectAnimator;
+import com.orhanobut.logger.Logger;
+import com.ps.androidlib.animator.AnimatorViewWrapper;
+import com.ps.androidlib.animator.RecyclerViewAnimator;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -52,7 +57,7 @@ public class MyTeamParentAdapter extends BaseAdapter<TeamEntity> implements Base
         holder.tvMemberNumber.setText(teamEntity.getUserEntities().size()+"人");
     }
 
-    class ViewHolder extends BaseViewHolder{
+    class ViewHolder extends BaseViewHolder {
 
         @BindView(R.id.tv_team_name)
         TextView tvTeamName;
@@ -65,6 +70,7 @@ public class MyTeamParentAdapter extends BaseAdapter<TeamEntity> implements Base
         RelativeLayout rlTeam;
         @BindView(R.id.tv_member_number)
         TextView tvMemberNumber;
+        private RecyclerViewAnimator mAnimator;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -76,12 +82,14 @@ public class MyTeamParentAdapter extends BaseAdapter<TeamEntity> implements Base
             RVUtils.addDivideItemForRv(rvMember,RVUtils.DIVIDER_COLOR_ACCOUNT_DETAILS,2);
             teamMemberAdapter = new TeamMemberAdapter(mContext);
             rvMember.setAdapter(teamMemberAdapter);
-            rvMember.setVisibility(View.GONE);
+            rvMember.setVisibility(View.VISIBLE);
+            mAnimator = new RecyclerViewAnimator();
         }
 
         @OnClick({R.id.rl_team,R.id.tv_team_name,R.id.tv_member_number})
         public void clickTeam(View view){
-            rvMember.setVisibility(rvMember.getVisibility() == View.GONE ? View.VISIBLE : View.GONE);
+//            rvMember.setVisibility(rvMember.getVisibility() == View.GONE ? View.VISIBLE : View.GONE);
+            mAnimator.recyclerViewSetVisiable(rvMember);
         }
     }
 
@@ -92,4 +100,5 @@ public class MyTeamParentAdapter extends BaseAdapter<TeamEntity> implements Base
     public void setOnClickUserListener(MyTeamParentAdapter.onClickUserListener onClickUserListener) {
         this.onClickUserListener = onClickUserListener;
     }
+
 }

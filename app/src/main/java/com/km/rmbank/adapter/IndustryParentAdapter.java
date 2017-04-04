@@ -14,11 +14,13 @@ import com.km.rmbank.R;
 import com.km.rmbank.basic.BaseAdapter;
 import com.km.rmbank.basic.RVUtils;
 import com.km.rmbank.dto.IndustryDto;
+import com.ps.androidlib.animator.RecyclerViewAnimator;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 /**
  * Created by kamangkeji on 17/3/29.
@@ -63,18 +65,6 @@ public class IndustryParentAdapter extends BaseAdapter<IndustryDto> implements B
         });
 
         //父级行业
-        holder.rlParent.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (holder.rvSub.getVisibility() == View.GONE){
-                    holder.rvSub.setVisibility(View.VISIBLE);
-                    holder.vChecked.setVisibility(View.VISIBLE);
-                } else {
-                    holder.rvSub.setVisibility(View.GONE);
-                    holder.vChecked.setVisibility(View.GONE);
-                }
-            }
-        });
         holder.checkBox.setChecked(parentEntity.isChecked());
         holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -106,6 +96,7 @@ public class IndustryParentAdapter extends BaseAdapter<IndustryDto> implements B
         @BindView(R.id.rv_sub)
         RecyclerView rvSub;
         IndustrySubAdapter subAdapter;
+        private RecyclerViewAnimator animator;
 
         @BindView(R.id.checked)
         CheckBox checkBox;
@@ -128,8 +119,18 @@ public class IndustryParentAdapter extends BaseAdapter<IndustryDto> implements B
             RVUtils.addDivideItemForRv(rvSub,RVUtils.DIVIDER_COLOR_ACCOUNT_DETAILS,2);
             subAdapter = new IndustrySubAdapter(mContext);
             rvSub.setAdapter(subAdapter);
+            animator = new RecyclerViewAnimator();
+        }
+        @OnClick(R.id.rl_parent)
+        public void rlParentClick(View view){
+            if (!animator.recyclerViewSetVisiable(rvSub)){
+                vChecked.setVisibility(View.VISIBLE);
+            } else {
+                vChecked.setVisibility(View.GONE);
+            }
         }
     }
+
 
     /**
      * 检测子集中 是否有被选中的行业
