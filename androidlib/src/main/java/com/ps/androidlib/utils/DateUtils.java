@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-import com.codetroopers.betterpickers.calendardatepicker.CalendarDatePickerDialogFragment;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -148,20 +146,6 @@ public class DateUtils {
         return iymd;
     }
 
-    public CalendarDatePickerDialogFragment chooseDate(Activity mContext, @NonNull String curDate, CalendarDatePickerDialogFragment.OnDateSetListener dateSetListener){
-        int[] ymd = getYMD(curDate);
-        CalendarDatePickerDialogFragment cdp = new CalendarDatePickerDialogFragment()
-                .setOnDateSetListener(dateSetListener)
-                .setFirstDayOfWeek(Calendar.SUNDAY)
-                .setPreselectedDate(ymd[0],ymd[1] - 1,ymd[2])
-//                .setDateRange(new MonthAdapter.CalendarDay(), null) //日期的选择范围
-                .setDoneText("确定")
-                .setCancelText("取消");
-//                .setThemeDark();
-
-//        cdp.showgetSupportFragmentManager(), FRAG_TAG_DATE_PICKER);
-        return cdp;
-    }
 
 
 }

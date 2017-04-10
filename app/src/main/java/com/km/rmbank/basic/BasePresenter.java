@@ -6,4 +6,5 @@ package com.km.rmbank.basic;
 
 public interface BasePresenter {
     void onCreateView();
+    void clearSubscription();
 }

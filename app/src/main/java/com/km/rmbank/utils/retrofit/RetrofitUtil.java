@@ -1,32 +1,47 @@
-package com.km.rmbank.utils;
+package com.km.rmbank.utils.retrofit;
 
 import android.graphics.Bitmap;
 
-import com.jkyeo.basicparamsinterceptor.BasicParamsInterceptor;
 import com.km.rmbank.api.ApiService;
 import com.km.rmbank.basic.BaseApplication;
 import com.km.rmbank.dto.Response;
+import com.km.rmbank.utils.fileupload.FileUploadingListener;
 import com.orhanobut.logger.Logger;
 import com.ps.androidlib.interceptor.CacheInterceptor;
 import com.ps.androidlib.interceptor.HttpLoggingInterceptor;
 import com.ps.androidlib.utils.ClippingPicture;
+import com.ps.androidlib.utils.ImageUtils;
+
+import org.reactivestreams.Publisher;
 
 import java.io.File;
 import java.util.concurrent.TimeUnit;
 
+import io.reactivex.BackpressureStrategy;
+import io.reactivex.Flowable;
+import io.reactivex.FlowableEmitter;
+import io.reactivex.FlowableOnSubscribe;
+import io.reactivex.FlowableTransformer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
 import okhttp3.Cache;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
-import rx.Observable;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Func1;
-import rx.schedulers.Schedulers;
+//import rx.Observable;
+//import rx.Scheduler;
+//import rx.Subscriber;
+//import rx.android.schedulers.AndroidSchedulers;
+//import rx.functions.Action1;
+//import rx.functions.Func1;
+//import rx.schedulers.Schedulers;
 
 /**
  * Created by Sunflower on 2015/11/4.
@@ -90,7 +105,7 @@ public class RetrofitUtil {
                     .build();
             retrofit = new Retrofit.Builder()
                     .addConverterFactory(GsonConverterFactory.create())
-                    .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .addConverterFactory(ScalarsConverterFactory.create())
                     .client(client)
                     .baseUrl(API_HOST)
@@ -108,33 +123,33 @@ public class RetrofitUtil {
      * @param <T>
      * @return
      */
-    public <T> Observable<T> flatResponse(final Response<T> response) {
+    public <T> Flowable<T> flatResponse(final Response<T> response) {
         Logger.d(response.toString());
-        return Observable.create(new Observable.OnSubscribe<T>() {
+        return Flowable.create(new FlowableOnSubscribe<T>() {
 
             @Override
-            public void call(Subscriber<? super T> subscriber) {
+            public void subscribe(FlowableEmitter<T> e) throws Exception {
+                long request = e.requested();
                 if (response.isSuccess()) {
-                    if (!subscriber.isUnsubscribed()) {
-//                        subscriber.onNext(response.object);
-                        subscriber.onNext(response.result);
+                    if (!e.isCancelled() && request > 0) {
+                        if (response.result == null){
+                            e.onNext((T) "");
+                        } else {
+                            e.onNext(response.result);
+                        }
                     }
                 } else {
-                    if (!subscriber.isUnsubscribed()) {
-//                        subscriber.onError(new APIException(response.code, response.message));
-                        subscriber.onError(new APIException(response.status, response.message));
+                    if (!e.isCancelled()) {
+                        e.onError(new APIException(response.status, response.message));
                     }
                     return;
                 }
-
-                if (!subscriber.isUnsubscribed()) {
-                    subscriber.onCompleted();
+                if (!e.isCancelled()) {
+                    e.onComplete();
                 }
-
             }
-        });
+        }, BackpressureStrategy.ERROR);
     }
-
 
     /**
      * 自定义异常，当接口返回的{@link Response#status}不为{@link com.km.rmbank.dto.RetCode#SUCCESS}时，需要跑出此异常
@@ -166,59 +181,25 @@ public class RetrofitUtil {
      * @param <T>
      * @return
      */
-//    protected <T> Observable.Transformer<T, T> applySchedulers() {
-////        return new Observable.Transformer<T, T>() {
-////            @Override
-////            public Observable<T> call(Observable<T> observable) {
-////                return observable.subscribeOn(Schedulers.io())
-////                        .observeOn(AndroidSchedulers.mainThread());
-////            }
-////        };
-//
-//        return (Observable.Transformer<T, T>) schedulersTransformer;
-//    }
-//
-//    final Observable.Transformer schedulersTransformer = new Observable.Transformer() {
-//        @Override
-//        public Object call(Object observable) {
-//            return ((Observable) observable).subscribeOn(Schedulers.io())
-//                    .observeOn(AndroidSchedulers.mainThread())
-//                    ;
-//        }
-//    };
-
-    protected <T> Observable.Transformer<Response<T>, T> applySchedulers() {
-//        return new Observable.Transformer<Response<T>, T>() {
-//            @Override
-//            public Observable<T> call(Observable<Response<T>> responseObservable) {
-//                return responseObservable.subscribeOn(Schedulers.io())
-//                        .observeOn(AndroidSchedulers.mainThread())
-//                        .flatMap(new Func1<Response<T>, Observable<T>>() {
-//                            @Override
-//                            public Observable<T> call(Response<T> tResponse) {
-//                                return flatResponse(tResponse);
-//                            }
-//                        })
-//                        ;
-//            }
-//        };
-        return (Observable.Transformer<Response<T>, T>) transformer;
+    protected <T> FlowableTransformer<Response<T>, T> applySchedulers() {
+        return (FlowableTransformer<Response<T>, T>) transformer;
     }
 
-    final Observable.Transformer transformer = new Observable.Transformer() {
+    final FlowableTransformer transformer = new FlowableTransformer() {
         @Override
-        public Object call(Object observable) {
-            return ((Observable) observable).subscribeOn(Schedulers.io())
+        public Publisher apply(Flowable upstream) {
+            return upstream.subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .flatMap(new Func1() {
+                    .flatMap(new Function() {
                         @Override
-                        public Object call(Object response) {
-                            return flatResponse((Response<Object>)response);
+                        public Object apply(@NonNull Object o) throws Exception {
+                            return flatResponse((Response<? extends Object>) o);
                         }
-                    })
-                    ;
+                    });
         }
     };
+
+
 
 
     /**
@@ -252,7 +233,8 @@ public class RetrofitUtil {
      */
     public RequestBody createPictureRequestBody(String path) {
 //        Bitmap bitmap = ClippingPicture.decodeResizeBitmapSd(path, 400, 800);
-        Bitmap bitmap = ClippingPicture.decodeBitmapSd(path);
+        Bitmap bitmap = ImageUtils.compressByQuality(ImageUtils.getBitmap(path),(long) (1024*1024),true);
+//        Bitmap bitmap = ClippingPicture.decodeBitmapSd(path);
         return RequestBody.create(MediaType.parse("image/*"), ClippingPicture.bitmapToBytes(bitmap));
     }
 

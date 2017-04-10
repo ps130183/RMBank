@@ -24,7 +24,7 @@
     <LinearLayout
         android:id="@+id/ll_add_shop_cart"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/toolbar_height"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:orientation="horizontal"
         android:background="@color/color_white"
@@ -39,12 +39,15 @@
             android:gravity="center"
             />
         <TextView
+            android:id="@+id/tv_follow"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="关注"
-            android:drawableTop="@mipmap/ic_favorite_outline_black_24dp"
+            android:drawableTop="@mipmap/ic_unfollow_60"
             android:gravity="center"
+            android:layout_marginTop="@dimen/view_space_4"
+            android:layout_marginBottom="@dimen/view_space_4"
             />
         <TextView
             android:layout_width="0dp"

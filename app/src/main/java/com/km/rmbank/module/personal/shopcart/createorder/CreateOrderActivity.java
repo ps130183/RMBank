@@ -38,7 +38,7 @@ public class CreateOrderActivity extends BaseActivity<CreateOrderPresenter> impl
 
     @Override
     public CreateOrderPresenter getmPresenter() {
-        return new CreateOrderPresenter(this,this);
+        return new CreateOrderPresenter(this);
     }
 
     @Override

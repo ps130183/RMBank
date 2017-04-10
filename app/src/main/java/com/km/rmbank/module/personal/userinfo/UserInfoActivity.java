@@ -11,11 +11,9 @@ import com.hss01248.dialog.interfaces.MyItemDialogListener;
 import com.km.rmbank.R;
 import com.km.rmbank.basic.BaseActivity;
 import com.km.rmbank.dto.UserInfoDto;
-import com.km.rmbank.module.HomeActivity;
 import com.km.rmbank.utils.PickerUtils;
-import com.km.rmbank.utils.SecretConstant;
+import com.km.rmbank.utils.retrofit.SecretConstant;
 import com.lvfq.pickerview.TimePickerView;
-import com.orhanobut.logger.Logger;
 import com.ps.androidlib.utils.DialogUtils;
 import com.ps.androidlib.utils.GlideUtils;
 import com.ps.androidlib.utils.imageselector.ImageUtils;
@@ -54,7 +52,7 @@ public class UserInfoActivity extends BaseActivity<UserInfoPresenter> implements
 
     @Override
     public UserInfoPresenter getmPresenter() {
-        return new UserInfoPresenter(this,this);
+        return new UserInfoPresenter(this);
     }
 
     @Override

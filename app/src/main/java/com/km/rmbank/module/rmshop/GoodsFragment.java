@@ -11,6 +11,7 @@ import com.km.rmbank.basic.BaseAdapter;
 import com.km.rmbank.basic.BaseFragment;
 import com.km.rmbank.basic.RVUtils;
 import com.km.rmbank.dto.GoodsDto;
+import com.km.rmbank.module.rmshop.goods.GoodsActivity;
 import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;
@@ -43,7 +44,7 @@ public class GoodsFragment extends BaseFragment<GoodsPresenter> implements Goods
 
     @Override
     public GoodsPresenter getmPresenter() {
-        return new GoodsPresenter(this, (BaseActivity) getContext());
+        return new GoodsPresenter(this);
     }
 
     @Override
@@ -73,6 +74,15 @@ public class GoodsFragment extends BaseFragment<GoodsPresenter> implements Goods
                 Logger.d(GoodsFragment.this.tabname);
                 mPresenter.loadGoodsList(adapter.getNextPage());
             }
+        });
+        adapter.setItemClickListener(new BaseAdapter.ItemClickListener<GoodsDto>() {
+            @Override
+            public void onItemClick(GoodsDto itemData, int position) {
+                Bundle bundle = new Bundle();
+                bundle.putString("productNo",itemData.getProductNo());
+                toNextActivity(GoodsActivity.class,bundle);
+            }
+
         });
     }
 

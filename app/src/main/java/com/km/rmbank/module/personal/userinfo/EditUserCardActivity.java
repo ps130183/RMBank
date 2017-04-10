@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
@@ -12,7 +13,6 @@ import com.km.rmbank.basic.BaseActivity;
 import com.km.rmbank.dto.IndustryDto;
 import com.km.rmbank.dto.UserCardDto;
 import com.km.rmbank.module.personal.userinfo.editcart.EditUserAddressActivity;
-import com.km.rmbank.module.personal.userinfo.editcart.EditUserCardPresenter;
 import com.km.rmbank.module.personal.userinfo.editcart.EditUserCompanyActivity;
 import com.km.rmbank.module.personal.userinfo.editcart.EditUserCompanyIntroActivity;
 import com.km.rmbank.module.personal.userinfo.editcart.EditUserEmailActivity;
@@ -20,6 +20,7 @@ import com.km.rmbank.module.personal.userinfo.editcart.EditUserJobActivity;
 import com.km.rmbank.module.personal.userinfo.editcart.EditUserNameActivity;
 import com.km.rmbank.module.personal.userinfo.editcart.EditUserPhoneActivity;
 import com.km.rmbank.module.personal.userinfo.editcart.EditUserResourceActivity;
+import com.km.rmbank.utils.Constant;
 import com.km.rmbank.utils.PickerUtils;
 import com.km.rmbank.utils.QRCodeUtils;
 
@@ -76,6 +77,9 @@ public class EditUserCardActivity extends BaseActivity<EditUserCardPresenter> im
     @BindView(R.id.iv_qrcode)
     ImageView ivQRCode;
 
+    @BindView(R.id.btn_create_code)
+    Button btnCreateCode;
+
     private UserCardDto userCardDto;
 
     @Override
@@ -91,7 +95,7 @@ public class EditUserCardActivity extends BaseActivity<EditUserCardPresenter> im
 
     @Override
     public EditUserCardPresenter getmPresenter() {
-        return new EditUserCardPresenter(this,this);
+        return new EditUserCardPresenter(this);
     }
 
     @Override
@@ -152,11 +156,11 @@ public class EditUserCardActivity extends BaseActivity<EditUserCardPresenter> im
             buffer.replace(buffer.length() - 1,buffer.length(),"");
             resourdeIds.replace(resourdeIds.length() - 1,resourdeIds.length(),"");
             if (resultCode == REQUEST_CODE_ET_PROVIDER_RESOURCE){
-                userCardDto.setProvideResourcesArr(industryEntities);
+                userCardDto.setProvideResourcesMap(industryEntities);
                 userCardDto.setProvideResourcesId(resourdeIds.toString());
                 etProviderResource.setText(buffer.toString());
             } else {
-                userCardDto.setDemandResourcesArr(industryEntities);
+                userCardDto.setDemandResourcesMap(industryEntities);
                 userCardDto.setDemandResourcesId(resourdeIds.toString());
                 etNeedResource.setText(buffer.toString());
             }
@@ -325,6 +329,10 @@ public class EditUserCardActivity extends BaseActivity<EditUserCardPresenter> im
         this.userCardDto = userCardDto;
         if (this.userCardDto == null){
             this.userCardDto = new UserCardDto();
+        } else {
+            ivQRCode.setImageBitmap(QRCodeUtils.createQRCode(EditUserCardActivity.this, Constant.user.getMobilePhone()));
+            ivQRCode.setVisibility(View.VISIBLE);
+            btnCreateCode.setText("更新名片");
         }
 
         etName.setText(userCardDto.getName());
@@ -332,8 +340,8 @@ public class EditUserCardActivity extends BaseActivity<EditUserCardPresenter> im
         etCompany.setText(userCardDto.getCompany());
         etJob.setText(userCardDto.getPosition());
         etCompanyIntro.setText(userCardDto.getCompanyProfile());
-        setResource(userCardDto.getProvideResourcesArr(),REQUEST_CODE_ET_PROVIDER_RESOURCE);
-        setResource(userCardDto.getDemandResourcesArr(),REQUEST_CODE_ET_NEED_RESOURCE);
+        setResource(userCardDto.getProvideResourcesMap(),REQUEST_CODE_ET_PROVIDER_RESOURCE);
+        setResource(userCardDto.getDemandResourcesMap(),REQUEST_CODE_ET_NEED_RESOURCE);
         etLocation.setText(userCardDto.getLocation());
         etAddress.setText(userCardDto.getDetailedAddress());
         etEmail.setText(userCardDto.getEmailAddress());

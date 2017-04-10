@@ -5,6 +5,7 @@ import android.os.Handler;
 import com.km.rmbank.basic.BaseActivity;
 import com.km.rmbank.dto.GoodsDto;
 import com.km.rmbank.entity.ShoppingCartEntity;
+import com.km.rmbank.utils.retrofit.PresenterWrapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,14 +15,11 @@ import java.util.Random;
  * Created by kamangkeji on 17/3/20.
  */
 
-public class ShoppingCartPresenter implements ShoppingCartContact.Presenter {
+public class ShoppingCartPresenter extends PresenterWrapper<ShoppingCartContact.View> implements ShoppingCartContact.Presenter {
 
-    private ShoppingCartContact.View view;
-    private BaseActivity mActivity;
 
-    public ShoppingCartPresenter(ShoppingCartContact.View view, BaseActivity mActivity) {
-        this.view = view;
-        this.mActivity = mActivity;
+    public ShoppingCartPresenter(ShoppingCartContact.View mView) {
+        super(mView);
     }
 
     @Override
@@ -37,12 +35,12 @@ public class ShoppingCartPresenter implements ShoppingCartContact.Presenter {
             entity.setGoodsEntities(goodsEntities);
             shoppingCartEntities.add(entity);
         }
-        view.showLoading();
+        mView.showLoading();
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                view.hideLoading();
-                view.showShoppingCartDatas(shoppingCartEntities);
+                mView.hideLoading();
+                mView.showShoppingCartDatas(shoppingCartEntities);
             }
         },3000);
     }

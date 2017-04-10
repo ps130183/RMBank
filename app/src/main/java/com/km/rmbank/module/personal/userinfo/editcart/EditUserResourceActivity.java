@@ -39,7 +39,7 @@ public class EditUserResourceActivity extends BaseActivity<ResourcePresenter> im
 
     @Override
     public ResourcePresenter getmPresenter() {
-        return new ResourcePresenter(this,this);
+        return new ResourcePresenter(this);
     }
 
     @Override

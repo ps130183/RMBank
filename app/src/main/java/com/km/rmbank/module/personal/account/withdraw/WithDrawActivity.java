@@ -56,7 +56,7 @@ public class WithDrawActivity extends BaseActivity<WithDrawAPresenter> implement
 
     @Override
     public WithDrawAPresenter getmPresenter() {
-        return new WithDrawAPresenter(this,this);
+        return new WithDrawAPresenter(this);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.km.rmbank.basic;
 
 import android.content.Context;
+import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -17,6 +18,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.ButterKnife;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
 
 /**
  * Created by kamangkeji on 17/1/19.
@@ -30,7 +35,7 @@ public class BaseAdapter<T> extends RecyclerView.Adapter<BaseAdapter.BaseViewHol
     protected static final int viewtype_load_more = Integer.MAX_VALUE - 2;
     protected static final int viewtype_item_empty = Integer.MAX_VALUE - 1;
 
-//    private boolean loadMore = false;
+    //    private boolean loadMore = false;
     private boolean loadMoreFinish = false;
 
     private boolean mExistFooterView = false;//底部
@@ -51,7 +56,7 @@ public class BaseAdapter<T> extends RecyclerView.Adapter<BaseAdapter.BaseViewHol
         this.mContext = mContext;
         this.listContents = listContents;
         this.itemLayoutRes = itemLayoutRes;
-        if (listContents.size() > 0){
+        if (listContents.size() > 0) {
             curPage = 1;
         } else {
             curPage = 0;
@@ -59,7 +64,7 @@ public class BaseAdapter<T> extends RecyclerView.Adapter<BaseAdapter.BaseViewHol
     }
 
     public BaseAdapter(Context mContext, int itemLayoutRes) {
-        this(mContext,new ArrayList<T>(),itemLayoutRes);
+        this(mContext, new ArrayList<T>(), itemLayoutRes);
     }
 
     @Override
@@ -67,18 +72,18 @@ public class BaseAdapter<T> extends RecyclerView.Adapter<BaseAdapter.BaseViewHol
         LayoutInflater inflater = LayoutInflater.from(mContext);
         if (iAdapter == null) {
             throw new IllegalArgumentException(this.toString() + "  iAdapter is not null,请实现iadapter接口");
-        } else if (viewType == viewtype_item_empty){//没有数据
-            return new EmptyViewHolder(ViewUtils.getView(inflater,parent, R.layout.rc_item_empty));
-        } else if (viewType == viewtype_header){
-            return getHeaderViewHolder(inflater,parent);
-        } else if (viewType == viewtype_footer){//footer
-            return getFooterViewHolder(inflater,parent);
-        } else if (viewType == viewtype_load_more){//加载更多
-                if (loadMoreFinish){
-                    return new LoadMoreViewHolder(ViewUtils.getView(inflater,parent,R.layout.rc_footer_load_more_finish));
-                } else {
-                    return new LoadMoreViewHolder(ViewUtils.getView(inflater,parent,R.layout.rc_footer_load_more));
-                }
+        } else if (viewType == viewtype_item_empty) {//没有数据
+            return new EmptyViewHolder(ViewUtils.getView(inflater, parent, R.layout.rc_item_empty));
+        } else if (viewType == viewtype_header) {
+            return getHeaderViewHolder(inflater, parent);
+        } else if (viewType == viewtype_footer) {//footer
+            return getFooterViewHolder(inflater, parent);
+        } else if (viewType == viewtype_load_more) {//加载更多
+            if (loadMoreFinish) {
+                return new LoadMoreViewHolder(ViewUtils.getView(inflater, parent, R.layout.rc_footer_load_more_finish));
+            } else {
+                return new LoadMoreViewHolder(ViewUtils.getView(inflater, parent, R.layout.rc_footer_load_more));
+            }
         } else {
             View view = inflater.inflate(itemLayoutRes, parent, false);
             return iAdapter.createViewHolder(view, viewType);
@@ -87,53 +92,55 @@ public class BaseAdapter<T> extends RecyclerView.Adapter<BaseAdapter.BaseViewHol
 
     /**
      * 获取footerviewholder
+     *
      * @return
      */
-    protected BaseFooterViewHolder getFooterViewHolder(LayoutInflater inflater, ViewGroup parent){
-        return new BaseFooterViewHolder(ViewUtils.getView(inflater,parent,R.layout.rv_footer_default));
+    protected BaseFooterViewHolder getFooterViewHolder(LayoutInflater inflater, ViewGroup parent) {
+        return new BaseFooterViewHolder(ViewUtils.getView(inflater, parent, R.layout.rv_footer_default));
     }
 
     /**
      * 获取HeaderViewHolder
+     *
      * @param inflater
      * @param parent
      * @return
      */
-    protected BaseHeaderViewHolder getHeaderViewHolder(LayoutInflater inflater, ViewGroup parent){
-        return new BaseHeaderViewHolder(ViewUtils.getView(inflater,parent,R.layout.rv_header_default));
+    protected BaseHeaderViewHolder getHeaderViewHolder(LayoutInflater inflater, ViewGroup parent) {
+        return new BaseHeaderViewHolder(ViewUtils.getView(inflater, parent, R.layout.rv_header_default));
     }
 
     @Override
     public void onBindViewHolder(BaseViewHolder holder, int position) {
         if (iAdapter == null) {
             throw new IllegalArgumentException("iAdapter is not null,请实现iadapter接口");
-        } else if (listContents.size() == 0 || position == listContents.size()){
+        } else if (listContents.size() == 0 || position == listContents.size()) {
 
-        }else {
+        } else {
             iAdapter.createView(holder, position);
-            setItemClick(holder.itemView,position);
+            setItemClick(holder.itemView, position);
         }
     }
 
     @Override
     public int getItemCount() {
         int itemCount = listContents.size();
-        if (moreDataListener != null && itemCount > ApiWrapper.maxData - 1){//有加载更多
+        if (moreDataListener != null && itemCount > ApiWrapper.maxData - 1) {//有加载更多
             itemCount += 1;
         }
-        if (mExistFooterView){ //底部
+        if (mExistFooterView) { //底部
             itemCount += 1;
         }
-        return listContents.size() > 0 ? itemCount : (mExistEmptyView?1:itemCount);
+        return listContents.size() > 0 ? itemCount : (mExistEmptyView ? 1 : itemCount);
     }
 
     @Override
     public int getItemViewType(int position) {
-        if (mExistEmptyView && listContents.size() == 0){
+        if (mExistEmptyView && listContents.size() == 0) {
             return viewtype_item_empty;
-        } else if (moreDataListener != null && position >= listContents.size()){
+        } else if (moreDataListener != null && position >= listContents.size()) {
             return viewtype_load_more;
-        } else if (mExistFooterView && position >= listContents.size()){
+        } else if (mExistFooterView && position >= listContents.size()) {
             return viewtype_footer;
         }
         return viewtype_item;
@@ -141,11 +148,12 @@ public class BaseAdapter<T> extends RecyclerView.Adapter<BaseAdapter.BaseViewHol
 
     /**
      * 获取指定位置的数据
+     *
      * @param position
      * @return
      */
-    public T getItemData(int position){
-        if (position >= 0 && listContents.size() > position){
+    public T getItemData(int position) {
+        if (position >= 0 && listContents.size() > position) {
             return listContents.get(position);
         } else {
             throw new IllegalArgumentException("position is container listContents.size,点击的位置不在列表的范围之内");
@@ -154,9 +162,10 @@ public class BaseAdapter<T> extends RecyclerView.Adapter<BaseAdapter.BaseViewHol
 
     /**
      * 获取所有数据
+     *
      * @return
      */
-    public List<T> getAllData(){
+    public List<T> getAllData() {
         return listContents;
     }
 
@@ -166,20 +175,22 @@ public class BaseAdapter<T> extends RecyclerView.Adapter<BaseAdapter.BaseViewHol
 
     /**
      * 获取下一页
+     *
      * @return
      */
-    public int getNextPage(){
-        return curPage+1;
+    public int getNextPage() {
+        return curPage + 1;
     }
 
     /**
      * 向类表里填充数据
+     *
      * @param datas
      * @param nextPage 下一页
      */
-    public void addData(List<T> datas,int nextPage){
-        if (listContents != null && (datas != null && datas.size() > 0)){
-            if (nextPage > 1){
+    public void addData(List<T> datas, int nextPage) {
+        if (listContents != null && (datas != null && datas.size() > 0)) {
+            if (nextPage > 1) {
                 curPage++;
             } else {
                 curPage = 1;
@@ -188,7 +199,7 @@ public class BaseAdapter<T> extends RecyclerView.Adapter<BaseAdapter.BaseViewHol
             listContents.addAll(datas);
             loadMoreFinish = false;
         } else {
-            if (listContents.size() > 0){
+            if (listContents.size() > 0) {
                 loadMoreFinish = true;
             }
         }
@@ -198,28 +209,44 @@ public class BaseAdapter<T> extends RecyclerView.Adapter<BaseAdapter.BaseViewHol
 
     /**
      * 向类表里填充数据
+     *
      * @param datas
      */
-    public void addData(List<T> datas){
-        addData(datas,1);
+    public void addData(List<T> datas) {
+        addData(datas, 1);
     }
+
     /**
      * 向类表里填充数据
+     *
      * @param datas
      */
-    public void addData(T datas){
-        if (listContents != null){
+    public int addData(T datas) {
+        int position = 0;
+
+        if (listContents != null) {
             listContents.add(datas);
-            notifyDataSetChanged();
+            position = listContents.indexOf(datas);
+            notifyDataChanged();
+        }
+        return position;
+    }
+
+    public void addDataOnFirst(T datas) {
+        if (listContents != null) {
+            listContents.add(0, datas);
+//            notifyItemChanged(listContents.size() - 1);
+            notifyDataChanged();
         }
     }
 
     /**
      * 移除某条数据
+     *
      * @param data
      */
-    public void removeData(T data){
-        if (listContents != null){
+    public void removeData(T data) {
+        if (listContents != null) {
             listContents.remove(data);
             notifyDataSetChanged();
         }
@@ -228,8 +255,8 @@ public class BaseAdapter<T> extends RecyclerView.Adapter<BaseAdapter.BaseViewHol
     /**
      * 清空所有数据
      */
-    public void clearAllData(){
-        if (listContents != null){
+    public void clearAllData() {
+        if (listContents != null) {
             listContents.clear();
             notifyDataSetChanged();
         }
@@ -237,15 +264,16 @@ public class BaseAdapter<T> extends RecyclerView.Adapter<BaseAdapter.BaseViewHol
 
     /**
      * 设置单击事件
+     *
      * @param itemView
      * @param position
      */
-    private void setItemClick(View itemView, final int position){
-        if (itemClickListener != null){
+    private void setItemClick(View itemView, final int position) {
+        if (itemClickListener != null) {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    itemClickListener.onItemClick(getItemData(position),position);
+                    itemClickListener.onItemClick(getItemData(position), position);
                 }
             });
         }
@@ -273,17 +301,21 @@ public class BaseAdapter<T> extends RecyclerView.Adapter<BaseAdapter.BaseViewHol
     /**
      * 空数据
      */
-    class EmptyViewHolder extends BaseViewHolder{
+    class EmptyViewHolder extends BaseViewHolder {
 
         public EmptyViewHolder(View itemView) {
             super(itemView);
         }
     }
 
+    public void setmExistEmptyView(boolean mExistEmptyView) {
+        this.mExistEmptyView = mExistEmptyView;
+    }
+
     /**
      * 加载更多
      */
-    class LoadMoreViewHolder extends BaseViewHolder{
+    class LoadMoreViewHolder extends BaseViewHolder {
 
         public LoadMoreViewHolder(View itemView) {
             super(itemView);
@@ -298,14 +330,14 @@ public class BaseAdapter<T> extends RecyclerView.Adapter<BaseAdapter.BaseViewHol
     /**
      * footer
      */
-    protected class BaseFooterViewHolder extends BaseViewHolder{
+    protected class BaseFooterViewHolder extends BaseViewHolder {
 
         public BaseFooterViewHolder(View itemView) {
             super(itemView);
         }
     }
 
-    protected class BaseHeaderViewHolder extends BaseViewHolder{
+    protected class BaseHeaderViewHolder extends BaseViewHolder {
 
         public BaseHeaderViewHolder(View itemView) {
             super(itemView);
@@ -330,7 +362,9 @@ public class BaseAdapter<T> extends RecyclerView.Adapter<BaseAdapter.BaseViewHol
     }
 
 
-    /**----------------------------加载更多------------开始--------------*/
+    /**
+     * ----------------------------加载更多------------开始--------------
+     */
     private boolean isLoadMore;
     private int totalItemCount = 0;
     private int lastVisiableItemPosition = 0;
@@ -340,11 +374,12 @@ public class BaseAdapter<T> extends RecyclerView.Adapter<BaseAdapter.BaseViewHol
     /**
      * 加载更多
      * 建议在recyclerView 设置完adapter以后再进行加载更多的设置
+     *
      * @param recyclerView
      * @param moreDataListener
      */
-    public void addLoadMore(RecyclerView recyclerView, final MoreDataListener moreDataListener){
-        if (recyclerView.getLayoutManager() instanceof LinearLayoutManager){
+    public void addLoadMore(RecyclerView recyclerView, final MoreDataListener moreDataListener) {
+        if (recyclerView.getLayoutManager() instanceof LinearLayoutManager) {
             this.moreDataListener = moreDataListener;
             final LinearLayoutManager llm = (LinearLayoutManager) recyclerView.getLayoutManager();
             recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -358,7 +393,8 @@ public class BaseAdapter<T> extends RecyclerView.Adapter<BaseAdapter.BaseViewHol
                     totalItemCount = llm.getItemCount();
                     lastVisiableItemPosition = llm.findLastVisibleItemPosition();
 
-                    if (!loadMoreFinish && !isLoadMore && totalItemCount <= (lastVisiableItemPosition + visibleThreshold)){
+                    if (!loadMoreFinish && !isLoadMore && totalItemCount <= (lastVisiableItemPosition + visibleThreshold)
+                            && !(curPage == 1 && totalItemCount < 20)) {
                         moreDataListener.loadMoreData();
                         isLoadMore = true;
                     }
@@ -367,18 +403,22 @@ public class BaseAdapter<T> extends RecyclerView.Adapter<BaseAdapter.BaseViewHol
         }
     }
 
-    private interface BaseOnScrollListener{}
+    private interface BaseOnScrollListener {
+    }
 
-    public interface MoreDataListener extends BaseOnScrollListener{
+    public interface MoreDataListener extends BaseOnScrollListener {
         void loadMoreData();
     }
 
     /**----------------------------加载更多------------结束--------------*/
 
-    /**----------------------------RecyclerView 上滑监听 和 下滑监听----------------------------------------*/
+    /**
+     * ----------------------------RecyclerView 上滑监听 和 下滑监听----------------------------------------
+     */
 
-    public interface RcScrollListener extends BaseOnScrollListener{
+    public interface RcScrollListener extends BaseOnScrollListener {
         void scrollUp();
+
         void scrollDown();
     }
 
@@ -388,12 +428,13 @@ public class BaseAdapter<T> extends RecyclerView.Adapter<BaseAdapter.BaseViewHol
 
     /**
      * 为recyclerView 添加上下滑动监听
+     *
      * @param recyclerView
      * @param scrollListener
      */
     public void addScrollListener(RecyclerView recyclerView, final RcScrollListener scrollListener,
-                                  final MoreDataListener moreDataListener){
-        if (recyclerView.getLayoutManager() instanceof LinearLayoutManager){
+                                  final MoreDataListener moreDataListener) {
+        if (recyclerView.getLayoutManager() instanceof LinearLayoutManager) {
             this.moreDataListener = moreDataListener;
             final LinearLayoutManager llm = (LinearLayoutManager) recyclerView.getLayoutManager();
             recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -401,7 +442,7 @@ public class BaseAdapter<T> extends RecyclerView.Adapter<BaseAdapter.BaseViewHol
                 public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                     super.onScrollStateChanged(recyclerView, newState);
                     Logger.d("onScrollStateChanged : " + newState + " scrollUP:" + scrollUp + "  scrollDown:" + scrollDown);
-                    if (newState == 0){  //滑动停止时 重置监听状态
+                    if (newState == 0) {  //滑动停止时 重置监听状态
                         scrollUp = false;
                         scrollDown = false;
                     }
@@ -413,20 +454,20 @@ public class BaseAdapter<T> extends RecyclerView.Adapter<BaseAdapter.BaseViewHol
 
                 @Override
                 public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                    if (dy > 0 && !scrollUp){//向上滑动
+                    if (dy > 0 && !scrollUp) {//向上滑动
                         scrollUp = true;
                         scrollListener.scrollUp();
                     }
-                    if (dy < 0 && !scrollDown){//向下滑动
+                    if (dy < 0 && !scrollDown) {//向下滑动
                         scrollDown = true;
                         scrollListener.scrollDown();
                     }
 
-                    if(moreDataListener != null){//加载更多
+                    if (moreDataListener != null) {//加载更多
                         totalItemCount = llm.getItemCount();
                         lastVisiableItemPosition = llm.findLastVisibleItemPosition();
 
-                        if (!loadMoreFinish && !isLoadMore && totalItemCount <= (lastVisiableItemPosition + visibleThreshold)){
+                        if (!loadMoreFinish && !isLoadMore && totalItemCount <= (lastVisiableItemPosition + visibleThreshold)) {
                             moreDataListener.loadMoreData();
                             isLoadMore = true;
                         }
@@ -440,13 +481,14 @@ public class BaseAdapter<T> extends RecyclerView.Adapter<BaseAdapter.BaseViewHol
     /**
      * 刷新列表
      */
-    protected void notifyDataChanged(){
-        AppUtils.executeOnUIThread(0, new AppUtils.UIThread() {
-            @Override
-            public void onUIThread() {
-                notifyDataSetChanged();
-            }
-        });
+    protected void notifyDataChanged() {
+        AppUtils.executeOnUiThread()
+                .subscribe(new Consumer() {
+                    @Override
+                    public void accept(@NonNull Object o) throws Exception {
+                        notifyDataSetChanged();
+                    }
+                });
     }
 
 }

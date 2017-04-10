@@ -1,39 +1,33 @@
 package com.km.rmbank.module.login;
 
-import com.km.rmbank.api.ApiWrapper;
-import com.km.rmbank.basic.BaseActivity;
-import com.km.rmbank.dto.DefaultDto;
 import com.km.rmbank.dto.UserDto;
-import com.ps.androidlib.utils.SPUtils;
+import com.km.rmbank.utils.retrofit.PresenterWrapper;
 
-import rx.functions.Action1;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
 
 /**
  * Created by kamangkeji on 17/3/21.
  */
 
-public class LoginPresenter implements LoginContract.Presenter {
+public class LoginPresenter extends PresenterWrapper<LoginContract.View> implements LoginContract.Presenter {
 
-    private LoginContract.View view;
-    private BaseActivity mActivity;
-    private ApiWrapper mApiwrapper;
 
-    public LoginPresenter(LoginContract.View view, BaseActivity mActivity) {
-        this.view = view;
-        this.mActivity = mActivity;
-        mApiwrapper = ApiWrapper.getInstance();
+    public LoginPresenter(LoginContract.View mView) {
+        super(mView);
     }
 
     @Override
     public void login(String mobilePhone, String passWord) {
-        view.showLoading();
+        mView.showLoading();
         mApiwrapper.login(mobilePhone,passWord)
-                .subscribe(mActivity.newSubscriber(new Action1<UserDto>() {
+                .subscribe(newSubscriber(new Consumer<UserDto>() {
                     @Override
-                    public void call(UserDto userDto) {
+                    public void accept(@NonNull UserDto userDto) throws Exception {
                         userDto.saveToSp();
-                        view.loginSuccess();
+                        mView.loginSuccess();
                     }
+
                 }));
     }
 

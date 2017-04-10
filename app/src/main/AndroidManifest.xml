@@ -18,6 +18,16 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.FLASHLIGHT" />
 
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+
+    <!-- 支付宝、微信权限 start -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <!-- 支付宝、微信权限 end -->
+
     <!-- 多分辨率支持 -->
     <supports-screens
         android:anyDensity="true"
@@ -33,6 +43,41 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <!-- 支付宝 配置 start -->
+        <activity
+            android:name="com.alipay.sdk.app.H5PayActivity"
+            android:configChanges="orientation|keyboardHidden|navigation|screenSize"
+            android:exported="false"
+            android:screenOrientation="behind"
+            android:windowSoftInputMode="adjustResize|stateHidden"></activity>
+        <activity
+            android:name="com.alipay.sdk.app.H5AuthActivity"
+            android:configChanges="orientation|keyboardHidden|navigation"
+            android:exported="false"
+            android:screenOrientation="behind"
+            android:windowSoftInputMode="adjustResize|stateHidden"></activity>
+        <!-- 支付宝 配置 end -->
+
+        <!-- 微信分享 -->
+        <activity
+            android:name=".wxapi.WXEntryActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:scheme="wxed2472eaa0db4e8d"/>
+            </intent-filter>
+        </activity>
+        <!-- 微信支付回调 -->
+        <activity
+            android:name=".wxapi.WXPayEntryActivity"
+            android:exported="true"
+            android:launchMode="singleTop" />
+
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -40,12 +85,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".module.HomeActivity"
-            android:launchMode="singleTask"/>
+        <activity
+            android:name=".module.HomeActivity"
+            android:launchMode="singleTask" />
         <activity android:name=".module.rmshop.goods.GoodsActivity" />
         <activity android:name=".module.personal.userinfo.UserInfoActivity" />
-        <activity android:name=".module.personal.account.UserAccountActivity"
-            android:launchMode="singleTask"/>
+        <activity
+            android:name=".module.personal.account.UserAccountActivity"
+            android:launchMode="singleTask" />
         <activity android:name=".module.personal.account.withdraw.WithDrawListActivity" />
         <activity android:name=".module.personal.account.withdraw.CreateWithDrawAccountActivity" />
         <activity android:name=".module.personal.shopcart.ShoppingCartActivity" />
@@ -58,8 +105,9 @@
         <activity android:name=".module.personal.userinfo.editcart.EditUserPhoneActivity" />
         <activity android:name=".module.personal.userinfo.editcart.EditUserCompanyActivity" />
         <activity android:name=".module.register.RegisterPhoneActivity" />
-        <activity android:name=".module.login.LoginActivity"
-            android:launchMode="singleTask"/>
+        <activity
+            android:name=".module.login.LoginActivity"
+            android:launchMode="singleTask" />
         <activity android:name=".module.personal.userinfo.editcart.EditUserJobActivity" />
         <activity android:name=".module.personal.userinfo.editcart.EditUserCompanyIntroActivity" />
         <activity android:name=".module.personal.userinfo.editcart.EditUserResourceActivity" />
@@ -72,11 +120,13 @@
         <activity android:name=".module.personal.integral.MyIntegralActivity" />
         <activity android:name=".module.personal.order.MyOrderActivity" />
         <activity android:name=".module.personal.goodsmanager.GoodsManagerActivity" />
-        <activity android:name=".module.personal.goodsmanager.CreateNewGoodsActivity" />
+        <activity android:name=".module.personal.goodsmanager.CreateNewGoodsActivity"
+            android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".module.personal.team.MyTeamActivity" />
         <activity android:name=".module.personal.receiveraddress.ReceiverAddressActivity" />
         <activity android:name=".module.personal.receiveraddress.CreateReceiverAddressActivity" />
-        <activity android:name=".module.register.RegisterUserActivity"></activity>
+        <activity android:name=".module.register.RegisterUserActivity" />
+        <activity android:name=".module.personal.goodsmanager.GoodsTypeActivity"></activity>
     </application>
 
 </manifest>

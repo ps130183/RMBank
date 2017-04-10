@@ -1,36 +1,30 @@
 package com.km.rmbank.module.register;
 
-import com.km.rmbank.api.ApiWrapper;
-import com.km.rmbank.basic.BaseActivity;
 import com.km.rmbank.dto.DefaultDto;
+import com.km.rmbank.utils.retrofit.PresenterWrapper;
 
-import rx.functions.Action1;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
 
 /**
  * Created by kamangkeji on 17/3/21.
  */
 
-public class RegisterPresenter implements RegisterContract.Presenter {
+public class RegisterPresenter extends PresenterWrapper<RegisterContract.View> implements RegisterContract.Presenter {
 
-    private RegisterContract.View view;
-    private BaseActivity mActivity;
 
-    private ApiWrapper mApiwrapper;
-
-    public RegisterPresenter(RegisterContract.View view, BaseActivity mActivity) {
-        this.view = view;
-        this.mActivity = mActivity;
-        mApiwrapper = ApiWrapper.getInstance();
+    public RegisterPresenter(RegisterContract.View mView) {
+        super(mView);
     }
 
     @Override
     public void getCode(String mobilePhone) {
-        view.showLoading();
+        mView.showLoading();
         mApiwrapper.getPhoneCode(mobilePhone)
-                .subscribe(mActivity.newSubscriber(new Action1<DefaultDto>() {
+                .subscribe(newSubscriber(new Consumer<DefaultDto>() {
                     @Override
-                    public void call(DefaultDto defaultDto) {
-                        view.getCodeSuccess();
+                    public void accept(@NonNull DefaultDto defaultDto) throws Exception {
+                        mView.getCodeSuccess();
                     }
                 }));
     }

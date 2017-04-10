@@ -21,9 +21,9 @@ public class UserCardDto extends BaseEntity {
 
     private String companyProfile;//企业介绍
 
-    private List<IndustryDto> provideResourcesArr;//提供资源
+    private List<IndustryDto> provideResourcesMap;//提供资源
 
-    private List<IndustryDto> demandResourcesArr;//需求资源
+    private List<IndustryDto> demandResourcesMap;//需求资源
 
     private String provideResourcesId;//提供资源
 
@@ -115,20 +115,20 @@ public class UserCardDto extends BaseEntity {
         this.emailAddress = emailAddress;
     }
 
-    public List<IndustryDto> getProvideResourcesArr() {
-        return provideResourcesArr;
+    public List<IndustryDto> getProvideResourcesMap() {
+        return provideResourcesMap;
     }
 
-    public void setProvideResourcesArr(List<IndustryDto> provideResourcesArr) {
-        this.provideResourcesArr = provideResourcesArr;
+    public void setProvideResourcesMap(List<IndustryDto> provideResourcesMap) {
+        this.provideResourcesMap = provideResourcesMap;
     }
 
-    public List<IndustryDto> getDemandResourcesArr() {
-        return demandResourcesArr;
+    public List<IndustryDto> getDemandResourcesMap() {
+        return demandResourcesMap;
     }
 
-    public void setDemandResourcesArr(List<IndustryDto> demandResourcesArr) {
-        this.demandResourcesArr = demandResourcesArr;
+    public void setDemandResourcesMap(List<IndustryDto> demandResourcesMap) {
+        this.demandResourcesMap = demandResourcesMap;
     }
 
     @Override
@@ -139,8 +139,8 @@ public class UserCardDto extends BaseEntity {
                 ", position='" + position + '\'' +
                 ", company='" + company + '\'' +
                 ", companyProfile='" + companyProfile + '\'' +
-                ", provideResourcesArr=" + provideResourcesArr +
-                ", demandResourcesArr=" + demandResourcesArr +
+                ", provideResourcesMap=" + provideResourcesMap +
+                ", demandResourcesMap=" + demandResourcesMap +
                 ", provideResourcesId='" + provideResourcesId + '\'' +
                 ", demandResourcesId='" + demandResourcesId + '\'' +
                 ", location='" + location + '\'' +

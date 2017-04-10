@@ -33,7 +33,7 @@ public class MyTeamActivity extends BaseActivity<MyTeamPresenter> implements MyT
 
     @Override
     public MyTeamPresenter getmPresenter() {
-        return new MyTeamPresenter(this,this);
+        return new MyTeamPresenter(this);
     }
 
     @Override

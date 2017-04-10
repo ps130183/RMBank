@@ -6,8 +6,8 @@ package com.km.rmbank.dto;
 
 public class UserBalanceDto {
     private String id;//  账户id  String
-    private double balance;//  余额  String
-    private double freezingAmount;// 冻结金额 String
+    private String balance;//  余额  String
+    private String freezingAmount;// 冻结金额 String
     private String createDate;// 账户创建时间 String
     private String updateDate;// 账户更新时间 String
 
@@ -19,19 +19,19 @@ public class UserBalanceDto {
         this.id = id;
     }
 
-    public double getBalance() {
+    public String getBalance() {
         return balance;
     }
 
-    public void setBalance(double balance) {
+    public void setBalance(String balance) {
         this.balance = balance;
     }
 
-    public double getFreezingAmount() {
+    public String getFreezingAmount() {
         return freezingAmount;
     }
 
-    public void setFreezingAmount(double freezingAmount) {
+    public void setFreezingAmount(String freezingAmount) {
         this.freezingAmount = freezingAmount;
     }
 

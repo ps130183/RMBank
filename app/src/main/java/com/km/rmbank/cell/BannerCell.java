@@ -1,16 +1,10 @@
 package com.km.rmbank.cell;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
 import com.km.rmbank.R;
 import com.km.rv_libs.base.BaseCell;
 import com.km.rv_libs.base.BaseViewHolder;
 import com.orhanobut.logger.Logger;
 import com.ps.androidlib.utils.BannerUtils;
-import com.ps.androidlib.utils.MToast;
-import com.ps.androidlib.utils.ViewUtils;
 import com.youth.banner.Banner;
 import com.youth.banner.listener.OnBannerListener;
 
@@ -36,7 +30,7 @@ public class BannerCell extends BaseCell<List<Integer>> {
     public void onBindViewHolder(BaseViewHolder holder, int position) {
         super.onBindViewHolder(holder,position);
         final Banner banner = holder.findView(R.id.banner);
-        BannerUtils.initBanner(banner, mData, new OnBannerListener() {
+        BannerUtils.initBannerFromRes(banner, mData, new OnBannerListener() {
             @Override
             public void OnBannerClick(int position) {
 //                MToast.showToast();

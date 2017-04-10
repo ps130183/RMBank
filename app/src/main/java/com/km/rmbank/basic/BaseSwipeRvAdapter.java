@@ -76,7 +76,15 @@ public abstract class BaseSwipeRvAdapter<T> extends RecyclerSwipeAdapter<BaseSwi
 
     @Override
     public void onBindViewHolder(BaseSwipeViewHolder viewHolder, int position) {
-        iAdapter.createView(viewHolder,position);
+        if (iAdapter == null) {
+            throw new IllegalArgumentException("iAdapter is not null,请实现iadapter接口");
+        } else if (mDatas.size() == 0 || position == mDatas.size()){
+
+        }else {
+            iAdapter.createView(viewHolder, position);
+            setItemClick(viewHolder.itemView,position);
+        }
+//        iAdapter.createView(viewHolder,position);
     }
 
     @Override
@@ -222,7 +230,7 @@ public abstract class BaseSwipeRvAdapter<T> extends RecyclerSwipeAdapter<BaseSwi
 
         View itemView;
 
-        @BindView(R.id.swiper_layout)
+//        @BindView(R.id.swiper_layout)
         SwipeLayout mSwiperLayout;
 
         public BaseSwipeViewHolder(View itemView) {
@@ -234,8 +242,11 @@ public abstract class BaseSwipeRvAdapter<T> extends RecyclerSwipeAdapter<BaseSwi
 
         protected void initSwiperLayout(){
 //            mSwiperLayout.setLayoutMode();
-            //set show mode.
-            mSwiperLayout.setShowMode(SwipeLayout.ShowMode.PullOut);
+            mSwiperLayout = (SwipeLayout) itemView.findViewById(R.id.swiper_layout);
+            if (mSwiperLayout != null){
+                //set show mode.
+                mSwiperLayout.setShowMode(SwipeLayout.ShowMode.PullOut);
+            }
 
             //set drag edge.
 //            mSwiperLayout.addDrag(SwipeLayout.DragEdge.Left,);

@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import com.km.rmbank.R;
 import com.km.rmbank.basic.BaseAdapter;
 import com.km.rmbank.entity.ImageEntity;
+import com.km.rmbank.ui.CircleProgressView;
 import com.ps.androidlib.utils.GlideUtils;
 import com.ps.androidlib.utils.ViewUtils;
 
@@ -38,6 +39,7 @@ public class AddImageAdapter extends BaseAdapter<ImageEntity> implements BaseAda
     public void createView(ViewHolder holder, int position) {
         ImageEntity entity = getItemData(position);
         GlideUtils.loadImage(holder.ivImage,entity.getImagePath());
+        holder.circleProgress.setProgress(entity.getProgress());
     }
 
     @Override
@@ -48,6 +50,8 @@ public class AddImageAdapter extends BaseAdapter<ImageEntity> implements BaseAda
     class ViewHolder extends BaseViewHolder{
         @BindView(R.id.iv_image)
         ImageView ivImage;
+        @BindView(R.id.circleProgress)
+        CircleProgressView circleProgress;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -75,5 +79,16 @@ public class AddImageAdapter extends BaseAdapter<ImageEntity> implements BaseAda
 
     public void setAddImageListener(onClickAddImageListener addImageListener) {
         this.addImageListener = addImageListener;
+    }
+
+    /**
+     * 刷新图片上传进度
+     * @param position
+     * @param progress
+     */
+    public void setProgress(int position,int progress){
+        ImageEntity imageEntity = getItemData(position);
+        imageEntity.setProgress(progress);
+        notifyItemChanged(position);
     }
 }

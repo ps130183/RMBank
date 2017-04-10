@@ -1,50 +1,48 @@
 package com.km.rmbank.module.personal.account.withdraw;
 
-import com.km.rmbank.api.ApiWrapper;
-import com.km.rmbank.basic.BaseActivity;
 import com.km.rmbank.dto.UserBalanceDto;
 import com.km.rmbank.dto.WithDrawAccountDto;
+import com.km.rmbank.utils.retrofit.PresenterWrapper;
 
-import rx.functions.Action1;
+import java.util.Map;
+
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
 
 /**
  * Created by kamangkeji on 17/4/1.
  */
 
-public class WithDrawAPresenter implements WithDrawAContract.Presenter {
+public class WithDrawAPresenter extends PresenterWrapper<WithDrawAContract.View> implements WithDrawAContract.Presenter {
 
-    private WithDrawAContract.View view;
-    private BaseActivity activity;
 
-    private ApiWrapper apiWrapper;
-    public WithDrawAPresenter(WithDrawAContract.View view, BaseActivity activity) {
-        this.view = view;
-        this.activity = activity;
-        apiWrapper = ApiWrapper.getInstance();
+    public WithDrawAPresenter(WithDrawAContract.View mView) {
+        super(mView);
     }
 
     @Override
     public void getUserBalance() {
-        apiWrapper.getUserAccountBalance()
-                .subscribe(activity.newSubscriber(new Action1<UserBalanceDto>() {
+        mApiwrapper.getUserAccountBalance()
+                .subscribe(newSubscriber(new Consumer<UserBalanceDto>() {
                     @Override
-                    public void call(UserBalanceDto userBalanceDto) {
-                        view.showBalance(userBalanceDto);
+                    public void accept(@NonNull UserBalanceDto userBalanceDto) throws Exception {
+                        mView.showBalance(userBalanceDto);
                     }
                 }));
     }
 
     @Override
     public void submitWithdraw(WithDrawAccountDto withDrawAccountDto, String money) {
-        view.showLoading();
-        apiWrapper.submitWithDraw(withDrawAccountDto,money)
-                .subscribe(activity.newSubscriber(new Action1() {
+        mView.showLoading();
+        mApiwrapper.submitWithDraw(withDrawAccountDto,money)
+                .subscribe(newSubscriber(new Consumer() {
                     @Override
-                    public void call(Object o) {
-                        view.withdrawSuccess();
+                    public void accept(@NonNull Object o) throws Exception {
+                        mView.withdrawSuccess();
                     }
                 }));
     }
+
 
     @Override
     public void onCreateView() {

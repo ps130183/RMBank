@@ -1,10 +1,11 @@
 package com.km.rmbank.module.rmshop.goods;
 
 import android.os.Bundle;
+import android.widget.TextView;
 
 import com.km.rmbank.R;
 import com.km.rmbank.basic.BaseFragment;
-import com.km.rmbank.basic.BasePresenter;
+import com.km.rmbank.dto.GoodsDetailsDto;
 import com.ps.androidlib.utils.AppUtils;
 import com.ps.androidlib.utils.BannerUtils;
 import com.youth.banner.Banner;
@@ -23,7 +24,16 @@ public class GoodsInfoFragment extends BaseFragment {
 
     @BindView(R.id.banner)
     Banner banner;
-    private int[] bannerRes = {R.mipmap.timg,R.mipmap.timg,R.mipmap.timg,R.mipmap.timg,R.mipmap.timg};
+
+    @BindView(R.id.tv_goods_title)
+    TextView tvGoodsTitle;
+    @BindView(R.id.tv_goods_sub_title)
+    TextView tvGoodsSubTitle;
+    @BindView(R.id.tv_goods_price)
+    TextView tvGoodsPrice;
+
+    @BindView(R.id.tv_freight_intro)
+    TextView tvFreightIntro;
 
     public static GoodsInfoFragment newInstance(Bundle bundle) {
         GoodsInfoFragment fragment = new GoodsInfoFragment();
@@ -38,22 +48,36 @@ public class GoodsInfoFragment extends BaseFragment {
 
     @Override
     protected void createView() {
-        initBanner();
+        Bundle bundle = getArguments();
+        if (bundle == null){
+            return;
+        }
+        GoodsDetailsDto goodsDetailsDto = bundle.getParcelable("goodsDetailsDto");
+        initBanner(goodsDetailsDto.getProductBannerList());
+        initGoodsOtherInfo(goodsDetailsDto);
     }
 
 
-    private void initBanner(){
+    /**
+     * 加载bannner数据
+     * @param bannerUrls
+     */
+    private void initBanner(final List<String> bannerUrls){
         int windowWidth = AppUtils.getCurWindowWidth(getContext());
         banner.getLayoutParams().height = windowWidth;
-        List<Integer> bannerList = new ArrayList<>();
-        for (int i = 0; i < bannerRes.length; i++){
-            bannerList.add(bannerRes[i]);
-        }
-        BannerUtils.initBanner(banner, bannerList, new OnBannerListener() {
+        BannerUtils.initBannerFromUrl(banner, bannerUrls, new OnBannerListener() {
             @Override
             public void OnBannerClick(int position) {
-                showToast(bannerRes[position] + "");
+                showToast(bannerUrls.get(position) + "");
             }
         });
+    }
+
+    private void initGoodsOtherInfo(GoodsDetailsDto goodsDetailsDto){
+        tvGoodsTitle.setText(goodsDetailsDto.getName());
+        tvGoodsSubTitle.setText(goodsDetailsDto.getSubtitle());
+        tvGoodsPrice.setText("¥"+goodsDetailsDto.getPrice());
+
+        tvFreightIntro.setText("单个商品运费"+ goodsDetailsDto.getFreightInMaxCount() +"元，每增加一件"+ goodsDetailsDto.getFreightInEveryAdd() +"元");
     }
 }

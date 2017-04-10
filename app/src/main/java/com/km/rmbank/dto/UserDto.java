@@ -3,8 +3,6 @@ package com.km.rmbank.dto;
 import android.text.TextUtils;
 
 import com.km.rmbank.basic.BaseEntity;
-import com.km.rmbank.utils.Constant;
-import com.km.rmbank.utils.RetrofitUtil;
 import com.ps.androidlib.utils.SPUtils;
 
 /**
@@ -23,7 +21,6 @@ public class UserDto extends BaseEntity {
     private String mobilePhone;
     private String hxPwd;
     private String token;
-    private String type;
 
     public String getMobilePhone() {
         return mobilePhone;
@@ -49,13 +46,6 @@ public class UserDto extends BaseEntity {
         this.token = token;
     }
 
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
 
     /**
      * 将登录信息保存到 sharePreference
@@ -65,7 +55,6 @@ public class UserDto extends BaseEntity {
         spUtils.put("mobilePhone",TextUtils.isEmpty(mobilePhone)?"":mobilePhone);
         spUtils.put("hxPwd",TextUtils.isEmpty(hxPwd)?"":hxPwd);
         spUtils.put("token",TextUtils.isEmpty(token)?"":token);
-        spUtils.put("type",TextUtils.isEmpty(type)?"":type);
     }
 
     /**
@@ -88,7 +77,6 @@ public class UserDto extends BaseEntity {
         mobilePhone = spUtils.getString("mobilePhone","");
         hxPwd = spUtils.getString("hxPwd","");
         token = spUtils.getString("token","");
-        type = spUtils.getString("type","");
     }
 
     /**
@@ -97,12 +85,10 @@ public class UserDto extends BaseEntity {
      */
     @Override
     public boolean isEmpty(){
-        boolean empty = false;
-        if (TextUtils.isEmpty(mobilePhone) || TextUtils.isEmpty(token)
-                || TextUtils.isEmpty(type)){
-            empty = true;
+        if (TextUtils.isEmpty(mobilePhone) || TextUtils.isEmpty(token)){
+            return true;
         }
-        return empty;
+        return false;
     }
 
 

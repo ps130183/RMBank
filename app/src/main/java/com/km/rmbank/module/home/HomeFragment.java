@@ -7,7 +7,6 @@ import android.support.v7.widget.RecyclerView;
 import com.km.rmbank.R;
 import com.km.rmbank.adapter.HomeAdapter;
 import com.km.rmbank.basic.BaseFragment;
-import com.km.rmbank.basic.BasePresenter;
 import com.km.rmbank.basic.RVUtils;
 import com.km.rmbank.entity.HomeEntity;
 import com.ps.androidlib.utils.BannerUtils;
@@ -56,7 +55,7 @@ public class HomeFragment extends BaseFragment {
         images.add(R.mipmap.timg);
         images.add(R.mipmap.timg);
         images.add(R.mipmap.timg);
-        BannerUtils.initBanner(banner, images, new OnBannerListener() {
+        BannerUtils.initBannerFromRes(banner, images, new OnBannerListener() {
             @Override
             public void OnBannerClick(int position) {
                 MToast.showToast(getContext(),"当前位置：" + position);

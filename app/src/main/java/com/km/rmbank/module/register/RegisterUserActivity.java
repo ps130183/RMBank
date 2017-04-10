@@ -43,7 +43,7 @@ public class RegisterUserActivity extends BaseActivity<RegisterUserPresenter> im
 
     @Override
     public RegisterUserPresenter getmPresenter() {
-        return new RegisterUserPresenter(this,this);
+        return new RegisterUserPresenter(this);
     }
 
     @NonNull

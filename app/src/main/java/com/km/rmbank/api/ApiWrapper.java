@@ -3,24 +3,32 @@ package com.km.rmbank.api;
 
 import com.google.gson.Gson;
 import com.km.rmbank.dto.DefaultDto;
+import com.km.rmbank.dto.GoodsDetailsDto;
 import com.km.rmbank.dto.GoodsDto;
+import com.km.rmbank.dto.MemberTypeDto;
+import com.km.rmbank.dto.PayOrderDto;
 import com.km.rmbank.dto.UserAccountDetailDto;
 import com.km.rmbank.dto.UserBalanceDto;
 import com.km.rmbank.dto.UserCardDto;
 import com.km.rmbank.dto.UserDto;
 import com.km.rmbank.dto.UserInfoDto;
 import com.km.rmbank.dto.IndustryDto;
+import com.km.rmbank.dto.WeiCharParamsDto;
 import com.km.rmbank.dto.WithDrawAccountDto;
 import com.km.rmbank.utils.Constant;
-import com.km.rmbank.utils.RetrofitUtil;
+import com.km.rmbank.utils.fileupload.FileUploadingListener;
+import com.km.rmbank.utils.fileupload.UploadFileRequestBody;
+import com.km.rmbank.utils.retrofit.RetrofitUtil;
 
 import java.io.File;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
+import io.reactivex.Flowable;
+import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
-import rx.Observable;
+//import rx.Observable;
+//import rx.functions.Action1;
+//import rx.functions.Func1;
 
 /**
  * Created by kamangkeji on 17/2/11.
@@ -53,7 +61,7 @@ public class ApiWrapper extends RetrofitUtil {
      * @param loginPwd
      * @return
      */
-    public Observable<UserDto> login(String mobilePhone, String loginPwd){
+    public Flowable<UserDto> login(String mobilePhone, String loginPwd){
         return getService().login(mobilePhone,loginPwd).compose(this.<UserDto>applySchedulers());
     }
 
@@ -64,7 +72,7 @@ public class ApiWrapper extends RetrofitUtil {
      * @param smsCode
      * @return
      */
-    public Observable<DefaultDto> userRegister(String mobilePhone,String loginPwd,String smsCode){
+    public Flowable<DefaultDto> userRegister(String mobilePhone,String loginPwd,String smsCode){
         return getService().userRegister(mobilePhone,loginPwd,smsCode).compose(this.<DefaultDto>applySchedulers());
     }
 
@@ -74,7 +82,7 @@ public class ApiWrapper extends RetrofitUtil {
      * @param mobilePhone
      * @return
      */
-    public Observable<DefaultDto> getPhoneCode(String mobilePhone){
+    public Flowable<DefaultDto> getPhoneCode(String mobilePhone){
         return getService().getPhoneCode(mobilePhone).compose(this.<DefaultDto>applySchedulers());
     }
 
@@ -85,7 +93,7 @@ public class ApiWrapper extends RetrofitUtil {
      * @param smsCode
      * @return
      */
-    public Observable<DefaultDto> forgetLoginPwd(String mobilePhone,String loginPwd,String smsCode){
+    public Flowable<DefaultDto> forgetLoginPwd(String mobilePhone,String loginPwd,String smsCode){
         return getService().forgetLoginPwd(mobilePhone,loginPwd,smsCode).compose(this.<DefaultDto>applySchedulers());
     }
 
@@ -93,7 +101,7 @@ public class ApiWrapper extends RetrofitUtil {
      * 获取用户信息
      * @return
      */
-    public Observable<UserInfoDto> getUserInfo(){
+    public Flowable<UserInfoDto> getUserInfo(){
         return getService().getUserInfo(Constant.user.getToken()).compose(this.<UserInfoDto>applySchedulers());
     }
 
@@ -102,7 +110,7 @@ public class ApiWrapper extends RetrofitUtil {
      * @param userInfoDto
      * @return
      */
-    public Observable<String> updateUserInfo(UserInfoDto userInfoDto){
+    public Flowable<String> updateUserInfo(UserInfoDto userInfoDto){
         return getService().updateUserInfo(Constant.user.getToken(),userInfoDto.getNickName(),
                 userInfoDto.getPortraitUrl(),userInfoDto.getBirthday()).compose(this.<String>applySchedulers());
     }
@@ -112,7 +120,7 @@ public class ApiWrapper extends RetrofitUtil {
      * @param userCardDto
      * @return
      */
-    public Observable<UserCardDto> createUserCart(UserCardDto userCardDto){
+    public Flowable<UserCardDto> createUserCart(UserCardDto userCardDto){
         return getService().createUserCard(Constant.user.getToken(),userCardDto.getName(),userCardDto.getCardPhone(),
                 userCardDto.getCompany(),userCardDto.getPosition(),userCardDto.getCompanyProfile(),
                 userCardDto.getProvideResourcesId(),userCardDto.getDemandResourcesId(),
@@ -124,14 +132,14 @@ public class ApiWrapper extends RetrofitUtil {
      * 获取个人名片
      * @return
      */
-    public Observable<UserCardDto> getUserCard(){
+    public Flowable<UserCardDto> getUserCard(){
         return getService().getUserCard(Constant.user.getToken()).compose(this.<UserCardDto>applySchedulers());
     }
     /**
      * 获取行业
      * @return
      */
-    public Observable<List<IndustryDto>> getIndustryList(){
+    public Flowable<List<IndustryDto>> getIndustryList(){
         return getService().getIndustryList(Constant.user.getToken()).compose(this.<List<IndustryDto>>applySchedulers());
     }
 
@@ -141,25 +149,41 @@ public class ApiWrapper extends RetrofitUtil {
      * @param imagePath
      * @return
      */
-    public Observable<String> imageUpload(String optionType,String imagePath){
+    public Flowable<String> imageUpload(String optionType, String imagePath){
+//        RetrofitUtil util = new RetrofitUtil();
+//        RequestBody requestOptionType = util.createRequestBody(optionType);
+//        final Map<String,RequestBody> params = new HashMap<>();
+//        params.put("optionType",requestOptionType);
+//
+//        final File image = new File(imagePath);
+//        RequestBody imageRequset = util.createPictureRequestBody(imagePath);
+//        params.put("pictureFile\"; filename=\"" + image.getName() + "", imageRequset);
+
+        return imageUpload(optionType,imagePath,null);
+    }
+
+    /**
+     * 上传图片
+     * @param optionType
+     * @param imagePath
+     * @return
+     */
+    public Flowable<String> imageUpload(String optionType, String imagePath, FileUploadingListener fileUploadObserver){
+        RetrofitUtil util = new RetrofitUtil();
+        RequestBody requestOptionType = util.createRequestBody(optionType);
 
         File image = new File(imagePath);
+        UploadFileRequestBody uploadFileRequestBody = new UploadFileRequestBody(image, fileUploadObserver);
+        MultipartBody.Part part = MultipartBody.Part.createFormData("pictureFile", image.getName(), uploadFileRequestBody);
 
-        RetrofitUtil util = new RetrofitUtil();
-        RequestBody imageRequset = util.createPictureRequestBody(imagePath);
-        RequestBody requestOptionType = util.createRequestBody(optionType);
-        Map<String,RequestBody> params = new HashMap<>();
-        params.put("optionType",requestOptionType);
-        params.put("pictureFile\"; filename=\"" + image.getName() + "", imageRequset);
-
-        return getService().imageUpload(params).compose(this.<String>applySchedulers());
+        return getService().imageUpload(requestOptionType,part).compose(this.<String>applySchedulers());
     }
 
     /**
      * 获取账户余额
      * @return
      */
-    public Observable<UserBalanceDto> getUserAccountBalance(){
+    public Flowable<UserBalanceDto> getUserAccountBalance(){
         return getService().getUserAccountBalance(Constant.user.getToken()).compose(this.<UserBalanceDto>applySchedulers());
     }
 
@@ -168,7 +192,7 @@ public class ApiWrapper extends RetrofitUtil {
      * @param pageNo
      * @return
      */
-    public Observable<List<UserAccountDetailDto>> getUserAccountDetail(int pageNo){
+    public Flowable<List<UserAccountDetailDto>> getUserAccountDetail(int pageNo){
         return getService().getUserAccountDetail(Constant.user.getToken(),pageNo)
                 .compose(this.<List<UserAccountDetailDto>>applySchedulers());
     }
@@ -178,7 +202,7 @@ public class ApiWrapper extends RetrofitUtil {
      * @param withDrawAccountDto
      * @return
      */
-    public Observable<String> createWithDrawAccount(WithDrawAccountDto withDrawAccountDto){
+    public Flowable<String> createWithDrawAccount(WithDrawAccountDto withDrawAccountDto){
         return getService().createWithDrawAccount(Constant.user.getToken(),
                 withDrawAccountDto.getName(),withDrawAccountDto.getWithdrawPhone(),
                 withDrawAccountDto.getTypeName(),withDrawAccountDto.getWithdrawNumber())
@@ -190,7 +214,7 @@ public class ApiWrapper extends RetrofitUtil {
      * @param id
      * @return
      */
-    public Observable<String> deleteWithdrawAccount(String id){
+    public Flowable<String> deleteWithdrawAccount(String id){
         return getService().deleteWithDrawAccount(Constant.user.getToken(),id,1)
                 .compose(this.<String>applySchedulers());
     }
@@ -200,7 +224,7 @@ public class ApiWrapper extends RetrofitUtil {
      * @param withDrawAccountDto
      * @return
      */
-    public Observable<String> updateWithDrawAccount(WithDrawAccountDto withDrawAccountDto){
+    public Flowable<String> updateWithDrawAccount(WithDrawAccountDto withDrawAccountDto){
         return getService().updateWithDrawAccount(Constant.user.getToken(),
                 withDrawAccountDto.getId(),
                 withDrawAccountDto.getName(),withDrawAccountDto.getWithdrawPhone(),
@@ -212,7 +236,7 @@ public class ApiWrapper extends RetrofitUtil {
      * 获取提现账户列表
      * @return
      */
-    public Observable<List<WithDrawAccountDto>> getWithDrawAccount(){
+    public Flowable<List<WithDrawAccountDto>> getWithDrawAccount(){
         return getService().getWithDrawAccount(Constant.user.getToken())
                 .compose(this.<List<WithDrawAccountDto>>applySchedulers());
     }
@@ -223,7 +247,7 @@ public class ApiWrapper extends RetrofitUtil {
      * @param money
      * @return
      */
-    public Observable<String> submitWithDraw(WithDrawAccountDto withDrawAccountDto,String money){
+    public Flowable<String> submitWithDraw(WithDrawAccountDto withDrawAccountDto,String money){
         return getService().submitWithDraw(Constant.user.getToken(),withDrawAccountDto.getId(),money)
                 .compose(this.<String>applySchedulers());
     }
@@ -233,8 +257,90 @@ public class ApiWrapper extends RetrofitUtil {
      * @param pageNo
      * @return
      */
-    public Observable<List<GoodsDto>> getGoodsListOfShopping(int pageNo){
-        return getService().getGoodsListOfShopping(pageNo)
+    public Flowable<List<GoodsDto>> getGoodsListOfShopping(int pageNo){
+        return getService().getGoodsListOfShopping(pageNo,"")
                 .compose(this.<List<GoodsDto>>applySchedulers());
+    }
+
+    /**
+     * 获取商家发布的商品列表
+     * @param pageNo
+     * @return
+     */
+    public Flowable<List<GoodsDto>> getGoodsListOfShop(int pageNo){
+        return getService().getGoodsListOfShop(Constant.user.getToken(),pageNo)
+                .compose(this.<List<GoodsDto>>applySchedulers());
+    }
+
+    /**
+     * 获取商品详情
+     * @param productNo
+     * @return
+     */
+    public Flowable<GoodsDetailsDto> getGoodsDetails(String productNo){
+        return getService().getGoodsDetails(Constant.user.getToken(),productNo)
+                .compose(this.<GoodsDetailsDto>applySchedulers());
+    }
+
+    /**
+     * 关注商品
+     * @param productNo
+     * @return
+     */
+    public Flowable<String> followGodos(String productNo){
+        return getService().followGoods(Constant.user.getToken(),productNo)
+                .compose(this.<String>applySchedulers());
+    }
+
+    /**
+     * 发布商品
+     * @param goodsDetailsDto
+     * @return
+     */
+    public Flowable<String> createNewGoods(GoodsDetailsDto goodsDetailsDto){
+        return getService().createNewGoods(Constant.user.getToken(),goodsDetailsDto.getName(),goodsDetailsDto.getSubtitle(),
+                goodsDetailsDto.getPrice(),goodsDetailsDto.getProductBannerUrl(),
+                goodsDetailsDto.getFreightInMaxCount(),goodsDetailsDto.getFreightInEveryAdd(),
+                goodsDetailsDto.getProductDetail(),goodsDetailsDto.getBannerUrl(),goodsDetailsDto.getIsInIndexActivity())
+                .compose(this.<String>applySchedulers());
+    }
+
+    /**
+     * 获取会员信息
+     * @return
+     */
+    public Flowable<List<MemberTypeDto>> getMemberTypeInfo(){
+        return getService().getMemberTypeInfo(Constant.user.getToken())
+                .compose(this.<List<MemberTypeDto>>applySchedulers());
+    }
+
+    /**
+     * 创建支付订单
+     * @param amount
+     * @return
+     */
+    public Flowable<PayOrderDto> createPayOrder(String amount){
+        return getService().createPayOrder(Constant.user.getToken(),amount)
+                .compose(this.<PayOrderDto>applySchedulers());
+    }
+
+    /**
+     * 获取支付宝支付相应参数
+     * @param payNumber
+     * @return
+     */
+    public Flowable<String> getAlipayParams(String payNumber){
+        return getService().getAlipayParams(Constant.user.getToken(),payNumber)
+                .compose(this.<String>applySchedulers());
+    }
+
+    /**
+     * 获取微信支付相应参数
+     * @param payNumber
+     * @return
+     */
+    public Flowable<WeiCharParamsDto> getWeiChatParams(String payNumber){
+        return getService().getWeiChatParams(Constant.user.getToken(),payNumber)
+                .compose(this.<WeiCharParamsDto>applySchedulers());
     }
 }

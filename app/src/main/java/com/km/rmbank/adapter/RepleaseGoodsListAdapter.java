@@ -2,12 +2,14 @@ package com.km.rmbank.adapter;
 
 import android.content.Context;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.daimajia.swipe.SwipeLayout;
 import com.km.rmbank.R;
 import com.km.rmbank.basic.BaseSwipeRvAdapter;
 import com.km.rmbank.dto.GoodsDto;
+import com.ps.androidlib.utils.GlideUtils;
 
 import java.util.ArrayList;
 
@@ -41,6 +43,11 @@ public class RepleaseGoodsListAdapter extends BaseSwipeRvAdapter<GoodsDto> imple
     public void createView(final ViewHolder holder, final int position) {
 
         final GoodsDto entity = getItemData(position);
+        GlideUtils.loadImage(holder.ivGoodsImage,entity.getThumbnailUrl());
+        holder.tvGoodsName.setText(entity.getName());
+        holder.tvGoodsPrice.setText(entity.getPrice()+"");
+        holder.tvGoodsSubTitle.setText(entity.getSubtitle());
+
 
         holder.tvSoldOut.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,6 +60,15 @@ public class RepleaseGoodsListAdapter extends BaseSwipeRvAdapter<GoodsDto> imple
     }
 
     class ViewHolder extends BaseSwipeViewHolder{
+
+        @BindView(R.id.iv_goods_image)
+        ImageView ivGoodsImage;
+        @BindView(R.id.tv_goods_name)
+        TextView tvGoodsName;
+        @BindView(R.id.tv_goods_price)
+        TextView tvGoodsPrice;
+        @BindView(R.id.tv_goods_sub_title)
+        TextView tvGoodsSubTitle;
 
         //下架
         @BindView(R.id.tv_sold_out)

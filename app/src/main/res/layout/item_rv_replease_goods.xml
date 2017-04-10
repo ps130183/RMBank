@@ -17,7 +17,7 @@
         android:background="@color/color_red"
         />
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -25,6 +25,7 @@
         android:background="@color/color_white"
         >
         <ImageView
+            android:id="@+id/iv_goods_image"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:src="@mipmap/timg"
@@ -34,41 +35,42 @@
             android:layout_margin="@dimen/view_space_16"
             />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
             <TextView
+                android:id="@+id/tv_goods_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="深海海参 产自大西洋"
                 android:textSize="@dimen/text_size_16"
                 android:layout_margin="@dimen/view_space_8"
+                android:layout_toRightOf="@+id/iv_goods_image"
+                android:layout_alignTop="@+id/iv_goods_image"
                 />
+
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="深海海参 产自大西洋"
-                android:textSize="@dimen/text_size_16"
-                android:layout_marginLeft="@dimen/view_space_8"
-                />
-            <TextView
+                android:id="@+id/tv_goods_price"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="¥1280.00"
                 android:textSize="@dimen/text_size_16"
                 android:textColor="@color/color_red"
                 android:layout_margin="@dimen/view_space_8"
+                android:layout_toRightOf="@+id/iv_goods_image"
+                android:layout_above="@+id/tv_goods_sub_title"
                 />
             <TextView
-                android:layout_width="match_parent"
+                android:id="@+id/tv_goods_sub_title"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="会员专享 全场9折"
-                android:textSize="@dimen/text_size_16"
+                android:textSize="@dimen/text_size_12"
                 android:textColor="@color/color_red"
                 android:layout_marginLeft="@dimen/view_space_8"
+                android:layout_toRightOf="@+id/iv_goods_image"
+                android:layout_alignBottom="@+id/iv_goods_image"
+                android:layout_marginBottom="@dimen/view_space_4"
+                android:background="@drawable/shape_shop_list_sub_title"
+                android:padding="@dimen/view_space_4"
                 />
-        </LinearLayout>
-    </LinearLayout>
+    </RelativeLayout>
 
 </com.daimajia.swipe.SwipeLayout>

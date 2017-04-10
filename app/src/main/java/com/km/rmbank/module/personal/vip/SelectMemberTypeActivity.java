@@ -8,12 +8,15 @@ import android.widget.TextView;
 
 import com.km.rmbank.R;
 import com.km.rmbank.basic.BaseActivity;
+import com.km.rmbank.dto.MemberTypeDto;
 import com.km.rmbank.module.personal.shopcart.payment.PaymentActivity;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class SelectMemberTypeActivity extends BaseActivity {
+public class SelectMemberTypeActivity extends BaseActivity<SelectMemberTypePresenter> implements SelectMemberTypeContract.View {
 
     @BindView(R.id.tv_member1)
     TextView tvMember1;
@@ -26,9 +29,11 @@ public class SelectMemberTypeActivity extends BaseActivity {
     @BindView(R.id.tv_member_intro)
     TextView tvMemberIntro;
 
-    private String[] memberNames = {"体验式会员(1980元)","合伙人会员(20000元)"};
+    private String amount;//支付金额
+    private String[] memberNames = {"体验式会员","合伙人会员"};
     private String[] memberTypeIntros = {"体验式会员 介绍，体验式会员 介绍，体验式会员 介绍，体验式会员 介绍，体验式会员 介绍，体验式会员 介绍，体验式会员 介绍，",
     "合伙人会员介绍,合伙人会员介绍,合伙人会员介绍,合伙人会员介绍,合伙人会员介绍,合伙人会员介绍,合伙人会员介绍,合伙人会员介绍,合伙人会员介绍,"};
+    private List<MemberTypeDto> memberTypeDtos;
     @Override
     protected int getContentView() {
         return R.layout.activity_select_member_type;
@@ -41,8 +46,12 @@ public class SelectMemberTypeActivity extends BaseActivity {
     }
 
     @Override
+    public SelectMemberTypePresenter getmPresenter() {
+        return new SelectMemberTypePresenter(this);
+    }
+
+    @Override
     protected void onCreate() {
-        selectMember(2);
     }
 
     @OnClick({R.id.tv_member1,R.id.iv_member1})
@@ -65,6 +74,7 @@ public class SelectMemberTypeActivity extends BaseActivity {
 
             tvMemberName.setText(memberNames[0]);
             tvMemberIntro.setText(memberTypeIntros[0]);
+            amount = memberTypeDtos.get(0).getMemberMoney();
         } else {
             tvMember1.setBackgroundResource(R.drawable.shape_member_type_unselected);
             tvMember1.setTextColor(getResources().getColor(R.color.color_red));
@@ -74,6 +84,7 @@ public class SelectMemberTypeActivity extends BaseActivity {
 
             tvMemberName.setText(memberNames[1]);
             tvMemberIntro.setText(memberTypeIntros[1]);
+            amount = memberTypeDtos.get(1).getMemberMoney();
         }
     }
 
@@ -81,6 +92,20 @@ public class SelectMemberTypeActivity extends BaseActivity {
     public void becomeMember(View view){
         Bundle bundle = new Bundle();
         bundle.putInt("paymentForObj",1);
+        bundle.putString("amount",amount);
         toNextActivity(PaymentActivity.class,bundle);
+    }
+
+    @Override
+    public void showMemberTypeInfo(List<MemberTypeDto> memberTypeDtos) {
+        this.memberTypeDtos = memberTypeDtos;
+        MemberTypeDto memberTypeDto1 = memberTypeDtos.get(0);
+        MemberTypeDto memberTypeDto2 = memberTypeDtos.get(1);
+        memberNames[0] += "(" + memberTypeDto1.getMemberMoney() + ")";
+        memberNames[1] += "(" + memberTypeDto2.getMemberMoney() + ")";
+
+        memberTypeIntros[0] = memberTypeDto1.getExperience();
+        memberTypeIntros[1] = memberTypeDto2.getPartner();
+        selectMember(2);
     }
 }

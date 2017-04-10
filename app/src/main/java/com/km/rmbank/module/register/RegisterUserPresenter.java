@@ -3,48 +3,44 @@ package com.km.rmbank.module.register;
 import com.km.rmbank.api.ApiWrapper;
 import com.km.rmbank.basic.BaseActivity;
 import com.km.rmbank.dto.DefaultDto;
+import com.km.rmbank.utils.retrofit.PresenterWrapper;
 
-import rx.functions.Action1;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
 
 /**
  * Created by kamangkeji on 17/3/30.
  */
 
-public class RegisterUserPresenter implements RegisterUserContract.Presenter {
+public class RegisterUserPresenter extends PresenterWrapper<RegisterUserContract.View> implements RegisterUserContract.Presenter {
 
-    private RegisterUserContract.View view;
-    private BaseActivity activity;
 
-    private ApiWrapper mApiwrapper;
-
-    public RegisterUserPresenter(RegisterUserContract.View view, BaseActivity activity) {
-        this.view = view;
-        this.activity = activity;
-        mApiwrapper = ApiWrapper.getInstance();
+    public RegisterUserPresenter(RegisterUserContract.View mView) {
+        super(mView);
     }
 
     @Override
     public void registerUser(String phone, String password,String smsCode) {
-        view.showLoading();
+        mView.showLoading();
         mApiwrapper.userRegister(phone,password,smsCode)
-                .subscribe(activity.newSubscriber(new Action1<DefaultDto>() {
+                .subscribe(newSubscriber(new Consumer() {
 
                     @Override
-                    public void call(DefaultDto defaultDto) {
-                        view.registerSuccess();
+                    public void accept(@NonNull Object o) throws Exception {
+                        mView.registerSuccess();
                     }
                 }));
     }
 
     @Override
     public void forgetLoginPwd(String phone, String password, String smsCode) {
-        view.showLoading();
+        mView.showLoading();
         mApiwrapper.forgetLoginPwd(phone,password,smsCode)
-                .subscribe(activity.newSubscriber(new Action1<DefaultDto>() {
+                .subscribe(newSubscriber(new Consumer() {
 
                     @Override
-                    public void call(DefaultDto defaultDto) {
-                        view.registerSuccess();
+                    public void accept(@NonNull Object o) throws Exception {
+                        mView.registerSuccess();
                     }
                 }));
     }

@@ -9,6 +9,7 @@ import com.daimajia.swipe.util.Attributes;
 import com.km.rmbank.R;
 import com.km.rmbank.adapter.RepleaseGoodsListAdapter;
 import com.km.rmbank.basic.BaseActivity;
+import com.km.rmbank.basic.BaseAdapter;
 import com.km.rmbank.basic.BaseFragment;
 import com.km.rmbank.basic.RVUtils;
 import com.km.rmbank.dto.GoodsDto;
@@ -38,7 +39,7 @@ public class RepleaseGoodsListFragment extends BaseFragment<RepleaseGoodsListPre
 
     @Override
     public RepleaseGoodsListPresenter getmPresenter() {
-        return new RepleaseGoodsListPresenter(this, (BaseActivity) getActivity());
+        return new RepleaseGoodsListPresenter(this);
     }
 
     @Override
@@ -52,17 +53,23 @@ public class RepleaseGoodsListFragment extends BaseFragment<RepleaseGoodsListPre
         Logger.d("initRecyclerView");
         RVUtils.setLinearLayoutManage(mRecyclerview, LinearLayoutManager.VERTICAL);
         RVUtils.addDivideItemForRv(mRecyclerview,RVUtils.DIVIDER_COLOR_ACCOUNT_DETAILS,2);
-        RepleaseGoodsListAdapter adapter = new RepleaseGoodsListAdapter(getContext());
+        final RepleaseGoodsListAdapter adapter = new RepleaseGoodsListAdapter(getContext());
         adapter.setMode(Attributes.Mode.Single);
         mRecyclerview.setAdapter(adapter);
 
         adapter.addOnClickSoldOutListener(this);
+        adapter.addLoadMore(mRecyclerview, new BaseAdapter.MoreDataListener() {
+            @Override
+            public void loadMoreData() {
+                mPresenter.loadRepleaseGoods(adapter.getNextPage());
+            }
+        });
     }
 
     @Override
-    public void showRepleaseGoods(List<GoodsDto> goodsEntities) {
+    public void showRepleaseGoods(List<GoodsDto> goodsEntities,int pageNo) {
         RepleaseGoodsListAdapter adapter = (RepleaseGoodsListAdapter) mRecyclerview.getAdapter();
-        adapter.addData(goodsEntities);
+        adapter.addData(goodsEntities,pageNo);
     }
 
     @Override

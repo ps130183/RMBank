@@ -47,7 +47,7 @@ public class ShoppingCartActivity extends BaseActivity<ShoppingCartPresenter> im
 
     @Override
     public ShoppingCartPresenter getmPresenter() {
-        return new ShoppingCartPresenter(this,this);
+        return new ShoppingCartPresenter(this);
     }
 
     @Override

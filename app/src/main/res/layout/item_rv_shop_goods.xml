@@ -8,8 +8,8 @@
 
     <ImageView
         android:id="@+id/iv_goods"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_marginLeft="@dimen/view_space_8"
         android:layout_marginRight="@dimen/view_space_8"
         android:scaleType="fitXY"
@@ -37,13 +37,15 @@
 
     <TextView
         android:id="@+id/tv_sub_title"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/view_space_8"
         android:text="会员专享 全场9折"
         android:textColor="@color/color_red"
-        android:textSize="@dimen/text_size_16"
+        android:textSize="@dimen/text_size_12"
+        android:padding="@dimen/view_space_4"
+        android:background="@drawable/shape_shop_list_sub_title"
         android:layout_toRightOf="@+id/iv_goods"
         android:layout_alignBottom="@+id/iv_goods"
-        android:layout_marginBottom="@dimen/view_space_8"/>
+        android:layout_marginBottom="@dimen/view_space_4"/>
 </RelativeLayout>

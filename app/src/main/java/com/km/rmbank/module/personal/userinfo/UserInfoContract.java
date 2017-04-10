@@ -4,6 +4,8 @@ import com.km.rmbank.basic.BasePresenter;
 import com.km.rmbank.basic.BaseView;
 import com.km.rmbank.dto.UserInfoDto;
 
+import java.util.List;
+
 /**
  * Created by kamangkeji on 17/3/31.
  */

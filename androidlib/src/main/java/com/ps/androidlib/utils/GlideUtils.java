@@ -41,11 +41,31 @@ public class GlideUtils {
             return;
         }
 
+//        ImageView placeHolder = (ImageView) ViewUtils.getView(imageView.getContext(),R.layout.placeholder_image).findViewById(R.id.placeholder);
+
+        final ObjectAnimator anim = ObjectAnimator.ofInt(imageView, "ImageLevel", 0, 10000);
+        anim.setDuration(800);
+        anim.setRepeatCount(ObjectAnimator.INFINITE);
+        anim.start();
+
         Glide.with(imageView.getContext())
                 .load(imagePath)
-                .placeholder(R.drawable.glide_placeholder)
-                .error(R.drawable.glide_placeholder)
+                .placeholder(R.drawable.glide_placeholder_rotate)
+                .error(R.drawable.glide_placeholder_rotate)
                 .crossFade(1000)
+//                .listener(new RequestListener<String, GlideDrawable>() {
+//                    @Override
+//                    public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+////                        anim.cancel();
+//                        return false;
+//                    }
+//
+//                    @Override
+//                    public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+////                        anim.cancel();
+//                        return false;
+//                    }
+//                })
                 .into(imageView);
     }
 

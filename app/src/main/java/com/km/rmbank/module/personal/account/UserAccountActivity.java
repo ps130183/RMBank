@@ -47,7 +47,7 @@ public class UserAccountActivity extends BaseActivity<UserAccountPresenter> impl
 
     @Override
     public UserAccountPresenter getmPresenter() {
-        return new UserAccountPresenter(this, this);
+        return new UserAccountPresenter(this);
     }
 
     @Override

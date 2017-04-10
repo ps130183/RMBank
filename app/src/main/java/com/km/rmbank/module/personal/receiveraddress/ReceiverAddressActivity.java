@@ -37,7 +37,7 @@ public class ReceiverAddressActivity extends BaseActivity<ReceiverAddressPresent
 
     @Override
     public ReceiverAddressPresenter getmPresenter() {
-        return new ReceiverAddressPresenter(this,this);
+        return new ReceiverAddressPresenter(this);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.km.rmbank.basic;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
@@ -15,7 +16,7 @@ import android.widget.Toast;
 import com.km.rmbank.R;
 import com.km.rmbank.api.ApiWrapper;
 import com.km.rmbank.titlebar.ToolBarTitle;
-import com.km.rmbank.utils.RetrofitUtil;
+import com.km.rmbank.utils.retrofit.RetrofitUtil;
 import com.orhanobut.logger.Logger;
 import com.ps.androidlib.utils.DialogLoading;
 import com.ps.androidlib.utils.StatusBarUtil;
@@ -27,11 +28,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.ButterKnife;
+import io.reactivex.Observer;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Action;
+import io.reactivex.functions.Consumer;
+import io.reactivex.subscribers.ResourceSubscriber;
 import kr.co.namee.permissiongen.PermissionGen;
-import rx.Subscriber;
-import rx.functions.Action0;
-import rx.functions.Action1;
-import rx.subscriptions.CompositeSubscription;
+//import rx.Subscriber;
+//import rx.functions.Action0;
+//import rx.functions.Action1;
+//import rx.subscriptions.CompositeSubscription;
 
 public abstract class BaseActivity<P extends BasePresenter> extends AppCompatActivity implements BaseView {
 
@@ -57,7 +64,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
     /**
      * 使用CompositeSubscription来持有所有的Subscriptions
      */
-    protected CompositeSubscription mCompositeSubscription;
+    protected CompositeDisposable mCompositeSubscription;
     protected ApiWrapper apiWrapper;
     private DialogLoading loading;//加载提示框
     protected Toast mToast = null;//提示框
@@ -67,7 +74,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
         super.onCreate(savedInstanceState);
         int toolbarType = getToolBarType();
         context = this;
-        mCompositeSubscription = new CompositeSubscription();
+        mCompositeSubscription = new CompositeDisposable();
         apiWrapper = ApiWrapper.getInstance();
         mPresenter = getmPresenter();//mPresenter
         if (toolbarType == TOOLBAR_TYPE_DEFAULT){
@@ -121,9 +128,13 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
         super.onDestroy();
         //一旦调用了 CompositeSubscription.unsubscribe()，这个CompositeSubscription对象就不可用了,
         // 如果还想使用CompositeSubscription，就必须在创建一个新的对象了。
-        mCompositeSubscription.unsubscribe();
+        mCompositeSubscription.clear();
     }
 
+    @Override
+    public Context getMContext() {
+        return this;
+    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -398,12 +409,11 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
      * @param <T>
      * @return
      */
-    public  <T> Subscriber newSubscriber(final Action1<? super T> onNext) {
-        return new Subscriber<T>() {
-
+    public  <T> ResourceSubscriber<T> newSubscriber(final Consumer<? super T> onNext) {
+        return new ResourceSubscriber<T>() {
 
             @Override
-            public void onCompleted() {
+            public void onComplete() {
                 hideLoadingDialog();
             }
 
@@ -429,8 +439,12 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
 
             @Override
             public void onNext(T t) {
-                if (!mCompositeSubscription.isUnsubscribed()) {
-                    onNext.call(t);
+                if (!mCompositeSubscription.isDisposed()) {
+                    try {
+                        onNext.accept(t);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             }
 
@@ -445,13 +459,8 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
      * @param <T>
      * @return
      */
-    public  <T> Subscriber newSubscriber(final Action1<? super T> onNext, final Action0 onCompleted) {
-        return new Subscriber<T>() {
-            @Override
-            public void onCompleted() {
-                hideLoadingDialog();
-                onCompleted.call();
-            }
+    public  <T> Observer<T> newSubscriber(final Consumer<? super T> onNext, final Action onCompleted) {
+        return new Observer<T>() {
 
             @Override
             public void onError(Throwable e) {
@@ -471,9 +480,28 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
             }
 
             @Override
+            public void onComplete() {
+                hideLoadingDialog();
+                try {
+                    onCompleted.run();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onSubscribe(Disposable d) {
+                mCompositeSubscription.add(d);
+            }
+
+            @Override
             public void onNext(T t) {
-                if (!mCompositeSubscription.isUnsubscribed()) {
-                    onNext.call(t);
+                if (!mCompositeSubscription.isDisposed()) {
+                    try {
+                        onNext.accept(t);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         };

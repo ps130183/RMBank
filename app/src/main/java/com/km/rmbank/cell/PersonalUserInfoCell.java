@@ -30,7 +30,7 @@ public class PersonalUserInfoCell extends BaseCell<UserInfoDto> implements View.
         super.onBindViewHolder(holder, position);
 
         if (mData !=null){
-            GlideUtils.loadImage(holder.getImageView(R.id.iv_user_portrait), "http://t2.27270.com/uploads/tu/201308/038/2.jpg");
+            GlideUtils.loadImage(holder.getImageView(R.id.iv_user_portrait), mData.getPortraitUrl());
             holder.getTextView(R.id.tv_user_nick_name).setText(mData.getNickName());
         }
 

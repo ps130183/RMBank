@@ -5,6 +5,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.km.rmbank.R;
+import com.km.rmbank.dto.UserDto;
 import com.km.rmbank.entity.PersonalFunctionEntity;
 import com.km.rv_libs.base.BaseCell;
 import com.km.rv_libs.base.BaseViewHolder;
@@ -13,10 +14,10 @@ import com.km.rv_libs.base.BaseViewHolder;
  * Created by kamangkeji on 17/3/17.
  */
 
-public class PersonalFunctionCell extends BaseCell<PersonalFunctionEntity> implements View.OnClickListener {
+public class PersonalFunctionCell extends BaseCell<UserDto> implements View.OnClickListener {
 
 
-    public PersonalFunctionCell(PersonalFunctionEntity mData, OnCellClickListener<PersonalFunctionEntity> onCellClickListener) {
+    public PersonalFunctionCell(UserDto mData, OnCellClickListener<UserDto> onCellClickListener) {
         super(mData, R.layout.personal_function, onCellClickListener);
     }
 
@@ -31,18 +32,18 @@ public class PersonalFunctionCell extends BaseCell<PersonalFunctionEntity> imple
         LinearLayout llIntegralGoods = holder.findView(R.id.ll_integral_goods);
         TextView tvMyIntegral = holder.getTextView(R.id.tv_my_integral);
         TextView tvGoodsManager = holder.getTextView(R.id.tv_goods_manager);
-        int usertype = mData.getType();
+        String usertype = "2";//mData.getType();
         switch (usertype){
-            case 0://普通用户
+            case "1"://普通用户
                 tvMyTeam.setVisibility(View.GONE);
                 lineTeamContact.setVisibility(View.GONE);
                 llIntegralGoods.setVisibility(View.GONE);
                 break;
-            case 1://体验式会员
+            case "2"://体验式会员
                 tvMyTeam.setVisibility(View.GONE);
                 lineTeamContact.setVisibility(View.GONE);
                 break;
-            case 2://合伙人会员
+            case "3"://合伙人会员
                 break;
         }
 

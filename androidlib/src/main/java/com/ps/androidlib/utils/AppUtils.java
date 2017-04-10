@@ -23,6 +23,11 @@ import android.view.WindowManager;
 import com.ps.androidlib.R;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
+
 /**
  * Created by pengsong on 2016-10-20.
  */
@@ -129,13 +134,21 @@ public class AppUtils {
      * @param uiThread
      */
     public static void executeOnUIThread(int mills, final UIThread uiThread) {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                uiThread.onUIThread();
-            }
-        }, mills);
+        Observable.just(1)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<Integer>() {
+                    @Override
+                    public void accept(@NonNull Integer integer) throws Exception {
+                        uiThread.onUIThread();
+                    }
+                });
+
     }
+
+    public static Observable executeOnUiThread(){
+        return Observable.just(1)
+                .observeOn(AndroidSchedulers.mainThread());
+    };
 
     public interface UIThread {
         void onUIThread();

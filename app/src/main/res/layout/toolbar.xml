@@ -7,10 +7,9 @@
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/toolbar_statusbar_height"
         android:background="?attr/colorPrimary"
-        android:fitsSystemWindows="true"
-        app:layout_scrollFlags="scroll|exitUntilCollapsed"
+        android:paddingTop="@dimen/statusbar_height"
         app:title=""
         app:titleTextColor="@color/color_white">
 

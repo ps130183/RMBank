@@ -109,8 +109,8 @@ public class IndustryParentAdapter extends BaseAdapter<IndustryDto> implements B
         public ViewHolder(View itemView) {
             super(itemView);
             initSub();
-            vChecked.setVisibility(View.GONE);
-            rvSub.setVisibility(View.GONE);
+            vChecked.setVisibility(View.VISIBLE);
+            rvSub.setVisibility(View.VISIBLE);
             tvCheckedHint.setText("");
         }
 
@@ -124,9 +124,9 @@ public class IndustryParentAdapter extends BaseAdapter<IndustryDto> implements B
         @OnClick(R.id.rl_parent)
         public void rlParentClick(View view){
             if (!animator.recyclerViewSetVisiable(rvSub)){
-                vChecked.setVisibility(View.VISIBLE);
-            } else {
                 vChecked.setVisibility(View.GONE);
+            } else {
+                vChecked.setVisibility(View.VISIBLE);
             }
         }
     }

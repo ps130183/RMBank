@@ -13,7 +13,7 @@ import java.util.List;
 public interface RepleaseGoodsListContract {
     interface View extends BaseView{
         void initRecyclerView();
-        void showRepleaseGoods(List<GoodsDto> goodsEntities);
+        void showRepleaseGoods(List<GoodsDto> goodsEntities,int pageNo);
     }
     interface Presenter extends BasePresenter{
         void loadRepleaseGoods(int page);

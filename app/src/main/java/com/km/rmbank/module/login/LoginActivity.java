@@ -37,7 +37,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
 
     @Override
     public LoginPresenter getmPresenter() {
-        return new LoginPresenter(this,this);
+        return new LoginPresenter(this);
     }
 
     @Override

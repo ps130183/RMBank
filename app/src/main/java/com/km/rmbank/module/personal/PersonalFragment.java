@@ -30,8 +30,10 @@ import com.km.rmbank.module.personal.team.MyTeamActivity;
 import com.km.rmbank.module.personal.userinfo.EditUserCardActivity;
 import com.km.rmbank.module.personal.userinfo.UserInfoActivity;
 import com.km.rmbank.module.personal.vip.BecomeVIPActivity;
+import com.km.rmbank.utils.Constant;
 import com.km.rv_libs.TemplateAdapter;
 import com.km.rv_libs.base.ICell;
+import com.ps.androidlib.utils.DialogUtils;
 import com.ps.androidlib.utils.MToast;
 import com.xys.libzxing.zxing.activity.CaptureActivity;
 
@@ -79,7 +81,7 @@ public class PersonalFragment extends BaseFragment<PersonalPresenter> implements
 
     @Override
     public PersonalPresenter getmPresenter() {
-        return new PersonalPresenter(this, (BaseActivity) getContext());
+        return new PersonalPresenter(this);
     }
 
     @Override
@@ -98,10 +100,10 @@ public class PersonalFragment extends BaseFragment<PersonalPresenter> implements
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Activity.RESULT_OK) {
+        if (resultCode == Activity.RESULT_OK) {//扫描二维码 成功  接收结果
             Bundle bundle = data.getExtras();
             String result = bundle.getString("result");
-            showToast(result);
+            addFriend(result);
         }
     }
 
@@ -147,7 +149,7 @@ public class PersonalFragment extends BaseFragment<PersonalPresenter> implements
 
         final List<ICell> iCells = new ArrayList<>();
         userInfoCell = new PersonalUserInfoCell(null, userCellClickListener);
-        PersonalFunctionCell fucntionCell = new PersonalFunctionCell(new PersonalFunctionEntity(2), functionCellClickListener);
+        PersonalFunctionCell fucntionCell = new PersonalFunctionCell(Constant.user, functionCellClickListener);
         iCells.add(userInfoCell);
         iCells.add(fucntionCell);
 
@@ -184,9 +186,9 @@ public class PersonalFragment extends BaseFragment<PersonalPresenter> implements
         }
     };
 
-    private ICell.OnCellClickListener<PersonalFunctionEntity> functionCellClickListener = new ICell.OnCellClickListener<PersonalFunctionEntity>() {
+    private ICell.OnCellClickListener<UserDto> functionCellClickListener = new ICell.OnCellClickListener<UserDto>() {
         @Override
-        public void cellClick(PersonalFunctionEntity mData, int position) {
+        public void cellClick(UserDto mData, int position) {
             switch (position) {
                 case R.id.tv_my_team:
 //                    MToast.showToast(getContext(), "我的团队");
@@ -224,6 +226,15 @@ public class PersonalFragment extends BaseFragment<PersonalPresenter> implements
 
     private void sweep() {
         startActivityForResult(new Intent(getActivity(), CaptureActivity.class), 0);
+    }
+
+    private void addFriend(final String phone){
+        DialogUtils.showDefaultAlertDialog("是否要和 " + phone + " 成为好友？", new DialogUtils.ClickListener() {
+            @Override
+            public void clickConfirm() {
+                showToast("与" + phone + "成为好友");
+            }
+        });
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.km.rmbank.basic;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
@@ -49,6 +50,11 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment imp
 
     public P getmPresenter() {
         return null;
+    }
+
+    @Override
+    public Context getMContext() {
+        return getContext();
     }
 
     @Override

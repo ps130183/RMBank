@@ -3,6 +3,7 @@ package com.km.rmbank.module.personal.receiveraddress;
 import com.km.rmbank.api.ApiWrapper;
 import com.km.rmbank.basic.BaseActivity;
 import com.km.rmbank.dto.ReceiverAddressDto;
+import com.km.rmbank.utils.retrofit.PresenterWrapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,17 +12,11 @@ import java.util.List;
  * Created by kamangkeji on 17/3/30.
  */
 
-public class ReceiverAddressPresenter implements ReceiverAddressContract.Presenter {
+public class ReceiverAddressPresenter extends PresenterWrapper<ReceiverAddressContract.View> implements ReceiverAddressContract.Presenter {
 
-    private ReceiverAddressContract.View view;
-    private BaseActivity activity;
 
-    private ApiWrapper mApiWrapper;
-
-    public ReceiverAddressPresenter(ReceiverAddressContract.View view, BaseActivity activity) {
-        this.view = view;
-        this.activity = activity;
-        this.mApiWrapper = ApiWrapper.getInstance();
+    public ReceiverAddressPresenter(ReceiverAddressContract.View mView) {
+        super(mView);
     }
 
     @Override
@@ -30,12 +25,12 @@ public class ReceiverAddressPresenter implements ReceiverAddressContract.Present
         for (int i = 0; i < 10; i++){
             receiverAddressDtos.add(new ReceiverAddressDto());
         }
-        view.showReceiverAddressList(receiverAddressDtos);
+        mView.showReceiverAddressList(receiverAddressDtos);
     }
 
     @Override
     public void onCreateView() {
-        view.initRecyclerView();
+        mView.initRecyclerView();
         loadReceiverAddressData();
     }
 }

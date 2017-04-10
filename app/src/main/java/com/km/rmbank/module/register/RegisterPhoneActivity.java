@@ -13,7 +13,6 @@ import com.km.rmbank.dto.DefaultDto;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import rx.functions.Action1;
 
 public class RegisterPhoneActivity extends BaseActivity<RegisterPresenter> implements RegisterContract.View {
 
@@ -34,7 +33,7 @@ public class RegisterPhoneActivity extends BaseActivity<RegisterPresenter> imple
 //
     @Override
     public RegisterPresenter getmPresenter() {
-        return new RegisterPresenter(this,this);
+        return new RegisterPresenter(this);
     }
 
     @Override

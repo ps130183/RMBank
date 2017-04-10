@@ -37,7 +37,7 @@ public class OrderFinishedFragment extends BaseFragment<OrderPresenter> implemen
 
     @Override
     public OrderPresenter getmPresenter() {
-        return new OrderPresenter(this, (BaseActivity) getActivity());
+        return new OrderPresenter(this);
     }
 
     @Override

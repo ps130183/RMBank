@@ -13,8 +13,6 @@ import com.km.rmbank.module.HomeActivity;
 import com.km.rmbank.utils.PcaDataUtils;
 
 import butterknife.OnClick;
-import rx.Observable;
-import rx.functions.Action1;
 
 public class MainActivity extends BaseActivity {
 

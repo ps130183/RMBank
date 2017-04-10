@@ -47,7 +47,7 @@ public class CreateWithDrawAccountActivity extends BaseActivity<WithDrawPresente
 
     @Override
     public WithDrawPresenter getmPresenter() {
-        return new WithDrawPresenter(this,this);
+        return new WithDrawPresenter(this);
     }
 
     @Override

@@ -20,6 +20,9 @@
 
     <color name="color_text_gray">#d4d2d2</color>
 
+    <!--圆环进度条-->
+    <color name="transparency_gray_50">#80000000</color>
+
     <!--分割线-->
     <color name="color_divider1">#eeeeee</color>
     <color name="color_divider2">#cfcdcd</color>
