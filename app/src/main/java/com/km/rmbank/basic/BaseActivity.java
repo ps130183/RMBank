@@ -19,8 +19,12 @@ import com.km.rmbank.titlebar.ToolBarTitle;
 import com.km.rmbank.utils.retrofit.RetrofitUtil;
 import com.orhanobut.logger.Logger;
 import com.ps.androidlib.utils.DialogLoading;
+import com.ps.androidlib.utils.EventBusUtils;
 import com.ps.androidlib.utils.StatusBarUtil;
 import com.ps.androidlib.utils.ViewUtils;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
@@ -73,6 +77,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         int toolbarType = getToolBarType();
+        EventBusUtils.register(this);
         context = this;
         mCompositeSubscription = new CompositeDisposable();
         apiWrapper = ApiWrapper.getInstance();
@@ -129,6 +134,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
         //一旦调用了 CompositeSubscription.unsubscribe()，这个CompositeSubscription对象就不可用了,
         // 如果还想使用CompositeSubscription，就必须在创建一个新的对象了。
         mCompositeSubscription.clear();
+        EventBusUtils.unregister(this);
     }
 
     @Override
@@ -538,4 +544,9 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
         boolean onClickKeyCodeBack();
     }
 
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void defaultMethod(String s){
+
+    }
 }

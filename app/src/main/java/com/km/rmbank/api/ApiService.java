@@ -6,6 +6,7 @@ import com.km.rmbank.dto.GoodsDetailsDto;
 import com.km.rmbank.dto.GoodsDto;
 import com.km.rmbank.dto.MemberTypeDto;
 import com.km.rmbank.dto.PayOrderDto;
+import com.km.rmbank.dto.ReceiverAddressDto;
 import com.km.rmbank.dto.Response;
 import com.km.rmbank.dto.UserAccountDetailDto;
 import com.km.rmbank.dto.UserBalanceDto;
@@ -370,6 +371,30 @@ public interface ApiService {
     @POST(SecretConstant.API_HOST_PATH + "/wx/pay/create/pre/payment/order")
     Flowable<Response<WeiCharParamsDto>> getWeiChatParams(@Field("token") String token,
                                                           @Field("payNumber") String payNumber);
+
+    /**
+     * 新增收货地址
+     * @param token
+     * @param receivePerson
+     * @param receivePersonPhone
+     * @param receiveAddress
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(SecretConstant.API_HOST_PATH + "/auth/receive/address/add")
+    Flowable<Response<String>> newReceiverAddress(@Field("token") String token,
+                                                          @Field("receivePerson") String receivePerson,
+                                                            @Field("receivePersonPhone") String receivePersonPhone,
+                                                            @Field("receiveAddress") String receiveAddress);
+
+    /**
+     * 获取收货地址列表
+     * @param token
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(SecretConstant.API_HOST_PATH + "/auth/receive/address/list")
+    Flowable<Response<List<ReceiverAddressDto>>> getReceiverAddressList(@Field("token") String token);
 
 
 }

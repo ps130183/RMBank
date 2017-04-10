@@ -9,12 +9,14 @@ import android.widget.EditText;
 
 import com.km.rmbank.R;
 import com.km.rmbank.basic.BaseActivity;
+import com.km.rmbank.basic.BasePresenter;
+import com.km.rmbank.dto.ReceiverAddressDto;
 import com.km.rmbank.utils.PickerUtils;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class CreateReceiverAddressActivity extends BaseActivity {
+public class CreateReceiverAddressActivity extends BaseActivity<CreateReceiverAddressPresenter> implements CreateReceiverAddressContract.View {
 
     @BindView(R.id.et_name)
     EditText etName;
@@ -40,6 +42,11 @@ public class CreateReceiverAddressActivity extends BaseActivity {
     }
 
     @Override
+    public CreateReceiverAddressPresenter getmPresenter() {
+        return new CreateReceiverAddressPresenter(this);
+    }
+
+    @Override
     protected void onCreate() {
         setRightBtnClick("保存", new View.OnClickListener() {
             @Override
@@ -51,19 +58,20 @@ public class CreateReceiverAddressActivity extends BaseActivity {
     }
 
     public void save(){
-        String name = etName.getText().toString();
-        String phone = etPhone.getText().toString();
-        String addressDetail = etAddressDetail.getText().toString();
-        String addressArea = etAddressArea.getText().toString();
+        ReceiverAddressDto receiverAddressDto = new ReceiverAddressDto();
+        receiverAddressDto.setReceivePerson(etName.getText().toString());
+        receiverAddressDto.setReceivePersonPhone(etPhone.getText().toString());
+        receiverAddressDto.setReceiveAddress(etAddressDetail.getText().toString() + etAddressArea.getText().toString());
 
-        if (TextUtils.isEmpty(name) || TextUtils.isEmpty(phone) || TextUtils.isEmpty(addressArea) || TextUtils.isEmpty(addressDetail)){
+        if (receiverAddressDto.isEmpty()){
             showToast("请将收货地址信息填写完整");
             return;
         }
+        mPresenter.createReceiverAddress(receiverAddressDto);
+    }
 
-        showToast("name = " + name
-        +"\nphone = " + phone
-        +"\naddressArea = " + addressArea
-        +"\naddressDetail = " +addressDetail);
+    @Override
+    public void createReceiverAddressSuccess() {
+        finish();
     }
 }

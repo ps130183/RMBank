@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +14,11 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.ps.androidlib.utils.DialogLoading;
+import com.ps.androidlib.utils.EventBusUtils;
 import com.ps.androidlib.utils.ViewUtils;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.ButterKnife;
 import kr.co.namee.permissiongen.PermissionGen;
@@ -33,19 +38,28 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment imp
 
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EventBusUtils.register(this);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = ViewUtils.getView(inflater,container,getContentView());
-        ButterKnife.bind(this,view);
+        View view = ViewUtils.getView(inflater, container, getContentView());
+        ButterKnife.bind(this, view);
         mPresenter = getmPresenter();
         createView();
-        if (mPresenter != null){
+        if (mPresenter != null) {
             mPresenter.onCreateView();
         }
         return view;
     }
 
-    protected abstract @LayoutRes int getContentView();
+    protected abstract
+    @LayoutRes
+    int getContentView();
+
     protected abstract void createView();
 
     public P getmPresenter() {
@@ -61,6 +75,12 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment imp
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         PermissionGen.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBusUtils.unregister(this);
     }
 
     /**
@@ -109,4 +129,10 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment imp
     public void hideLoading() {
 
     }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void defaultMethod(String s) {
+
+    }
+
 }

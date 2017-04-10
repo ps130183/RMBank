@@ -7,6 +7,7 @@ import com.km.rmbank.dto.GoodsDetailsDto;
 import com.km.rmbank.dto.GoodsDto;
 import com.km.rmbank.dto.MemberTypeDto;
 import com.km.rmbank.dto.PayOrderDto;
+import com.km.rmbank.dto.ReceiverAddressDto;
 import com.km.rmbank.dto.UserAccountDetailDto;
 import com.km.rmbank.dto.UserBalanceDto;
 import com.km.rmbank.dto.UserCardDto;
@@ -342,5 +343,25 @@ public class ApiWrapper extends RetrofitUtil {
     public Flowable<WeiCharParamsDto> getWeiChatParams(String payNumber){
         return getService().getWeiChatParams(Constant.user.getToken(),payNumber)
                 .compose(this.<WeiCharParamsDto>applySchedulers());
+    }
+
+    /**
+     * 新增收货地址
+     * @param receiverAddressDto
+     * @return
+     */
+    public Flowable<String> newReceiverAddress(ReceiverAddressDto receiverAddressDto){
+        return getService().newReceiverAddress(Constant.user.getToken(),
+                receiverAddressDto.getReceivePerson(),receiverAddressDto.getReceivePersonPhone(),
+                receiverAddressDto.getReceiveAddress()).compose(this.<String>applySchedulers());
+    }
+
+    /**
+     * 获取收货地址列表
+     * @return
+     */
+    public Flowable<List<ReceiverAddressDto>> getReceiverAddressList(){
+        return getService().getReceiverAddressList(Constant.user.getToken())
+                .compose(this.<List<ReceiverAddressDto>>applySchedulers());
     }
 }

@@ -7,15 +7,24 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.flyco.tablayout.SlidingTabLayout;
 import com.km.rmbank.R;
 import com.km.rmbank.adapter.ViewPagerTabLayoutAdapter;
 import com.km.rmbank.basic.BaseActivity;
-import com.km.rmbank.basic.BasePresenter;
 import com.km.rmbank.dto.GoodsDetailsDto;
+import com.km.rmbank.event.ConfirmGoodsNumberEvent;
+import com.km.rmbank.event.GoodsDetailNumberEvent;
+import com.ps.androidlib.animator.ShowViewAnimator;
+import com.ps.androidlib.utils.EventBusUtils;
 import com.ps.androidlib.utils.ViewUtils;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +48,16 @@ public class GoodsActivity extends BaseActivity<GoodsDetailsPresenter> implement
     private String productNo;
 
     private boolean isFollow;
+
+
+    //以下是 选择商品的数量
+    @BindView(R.id.rl_set_goods_number)
+    RelativeLayout rlSetGoodsNumbenr;
+    @BindView(R.id.ll_set_goods_number)
+    LinearLayout llSetGoodsNumber;
+    @BindView(R.id.et_buy_goods_count)
+    EditText etBuyGoodsCount;
+
 
     @Override
     protected int getContentView() {
@@ -76,6 +95,7 @@ public class GoodsActivity extends BaseActivity<GoodsDetailsPresenter> implement
         isFollow = "0".equals(goodsDetailsDto.getIsfollow()) ? false : true;
         initViewPager(goodsDetailsDto);
         initBottom();
+        initShowGoodsNumber();
     }
 
     @Override
@@ -150,5 +170,72 @@ public class GoodsActivity extends BaseActivity<GoodsDetailsPresenter> implement
             mPresenter.followGoods(mGoodsDetails.getProductNo());
         }
     }
+
+
+    /** ----------------- 以下是 选择商品数量 --------------------- */
+
+    @OnClick(R.id.rl_set_goods_number)
+    public void onRlTouch(View v){
+        EventBusUtils.post(new GoodsDetailNumberEvent(goodsCount));
+    }
+
+    @OnClick(R.id.ll_set_goods_number)
+    public void onllTouch(View v){
+
+    }
+
+    private ShowViewAnimator animator;
+    private void initShowGoodsNumber(){
+        animator = new ShowViewAnimator();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void showGoodsNumber(GoodsDetailNumberEvent event){
+        goodsCount = event.getNumber();
+        addOrCutGoodsCount(0);
+        if (rlSetGoodsNumbenr.getVisibility() == View.GONE){
+            rlSetGoodsNumbenr.setVisibility(View.VISIBLE);
+        }
+
+        animator.showViewByAnimator(llSetGoodsNumber, new ShowViewAnimator.onHideListener() {
+            @Override
+            public void hide() {
+                rlSetGoodsNumbenr.setVisibility(View.GONE);
+            }
+        });
+    }
+
+    @OnClick(R.id.btn_add)
+    public void addNumber(View view){
+        addOrCutGoodsCount(1);
+    }
+
+    @OnClick(R.id.btn_cut)
+    public void  cutNumber(View view){
+        addOrCutGoodsCount(-1);
+    }
+
+    @OnClick(R.id.btn_confirm)
+    public void confirmNumber(View view){
+        EventBusUtils.post(new GoodsDetailNumberEvent(goodsCount));
+        EventBusUtils.post(new ConfirmGoodsNumberEvent(goodsCount));
+    }
+
+    private int goodsCount = 1;
+    /**
+     * 选择商品数量  加 或者 减
+     *
+     * @param count
+     */
+    private void addOrCutGoodsCount(int count) {
+
+//        int stock = mGoodsDetails.getResidualStock();
+        if (goodsCount > 0 ) {
+            goodsCount += count;
+        }
+        etBuyGoodsCount.setText(goodsCount + "");
+    }
+
+    /** ----------------- 以上是 选择商品数量 --------------------- */
 
 }

@@ -1,20 +1,28 @@
 package com.km.rmbank.module.rmshop.goods;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 import com.km.rmbank.R;
 import com.km.rmbank.basic.BaseFragment;
 import com.km.rmbank.dto.GoodsDetailsDto;
+import com.km.rmbank.event.ConfirmGoodsNumberEvent;
+import com.km.rmbank.event.GoodsDetailNumberEvent;
 import com.ps.androidlib.utils.AppUtils;
 import com.ps.androidlib.utils.BannerUtils;
+import com.ps.androidlib.utils.EventBusUtils;
 import com.youth.banner.Banner;
 import com.youth.banner.listener.OnBannerListener;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 /**
  * Created by kamangkeji on 17/3/17.
@@ -34,6 +42,10 @@ public class GoodsInfoFragment extends BaseFragment {
 
     @BindView(R.id.tv_freight_intro)
     TextView tvFreightIntro;
+
+    @BindView(R.id.tv_goods_number)
+    TextView tvGoodsNumber;
+    private int goodsCount = 1;
 
     public static GoodsInfoFragment newInstance(Bundle bundle) {
         GoodsInfoFragment fragment = new GoodsInfoFragment();
@@ -79,5 +91,17 @@ public class GoodsInfoFragment extends BaseFragment {
         tvGoodsPrice.setText("¥"+goodsDetailsDto.getPrice());
 
         tvFreightIntro.setText("单个商品运费"+ goodsDetailsDto.getFreightInMaxCount() +"元，每增加一件"+ goodsDetailsDto.getFreightInEveryAdd() +"元");
+    }
+
+
+    @OnClick(R.id.iv_more_number)
+    public void showChooseGoodsNumber(View view){
+        EventBusUtils.post(new GoodsDetailNumberEvent(goodsCount));
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void receiverConfirmGoodsNumber(ConfirmGoodsNumberEvent event){
+        goodsCount = event.getGoodsNumber();
+        tvGoodsNumber.setText(goodsCount + "个");
     }
 }

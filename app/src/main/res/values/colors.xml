@@ -19,6 +19,7 @@
     <color name="color_search_background">#36000000</color>
 
     <color name="color_text_gray">#d4d2d2</color>
+    <color name="color_text_gray1">#636363</color>
 
     <!--圆环进度条-->
     <color name="transparency_gray_50">#80000000</color>
@@ -26,6 +27,8 @@
     <!--分割线-->
     <color name="color_divider1">#eeeeee</color>
     <color name="color_divider2">#cfcdcd</color>
+
+    <color name="gray_et_border_circular">#d1cccc</color>
 
     <color name="color_btn_unclick">#a6a6a6</color>
     <color name="color_btn_click">#0395f7</color>

@@ -23,6 +23,7 @@ import com.km.rmbank.module.personal.userinfo.editcart.EditUserResourceActivity;
 import com.km.rmbank.utils.Constant;
 import com.km.rmbank.utils.PickerUtils;
 import com.km.rmbank.utils.QRCodeUtils;
+import com.km.rmbank.utils.retrofit.SecretConstant;
 
 import java.util.List;
 
@@ -330,7 +331,8 @@ public class EditUserCardActivity extends BaseActivity<EditUserCardPresenter> im
         if (this.userCardDto == null){
             this.userCardDto = new UserCardDto();
         } else {
-            ivQRCode.setImageBitmap(QRCodeUtils.createQRCode(EditUserCardActivity.this, Constant.user.getMobilePhone()));
+//            ivQRCode.setImageBitmap(QRCodeUtils.createQRCode(EditUserCardActivity.this, Constant.user.getMobilePhone()));
+            ivQRCode.setImageBitmap(QRCodeUtils.createQRCode(EditUserCardActivity.this, "http://192.168.31.220:8080/Aiyg/member/sao/test"));
             ivQRCode.setVisibility(View.VISIBLE);
             btnCreateCode.setText("更新名片");
         }
@@ -347,9 +349,10 @@ public class EditUserCardActivity extends BaseActivity<EditUserCardPresenter> im
         etEmail.setText(userCardDto.getEmailAddress());
     }
 
+    ///membero/test
     @Override
     public void createUserCardSuccess(UserCardDto userCardDto) {
-        ivQRCode.setImageBitmap(QRCodeUtils.createQRCode(EditUserCardActivity.this,"www.baidu.com"));
+        ivQRCode.setImageBitmap(QRCodeUtils.createQRCode(EditUserCardActivity.this, SecretConstant.API_HOST + SecretConstant.API_HOST_PATH + "/membero/test"));
         ivQRCode.setVisibility(View.VISIBLE);
     }
 }

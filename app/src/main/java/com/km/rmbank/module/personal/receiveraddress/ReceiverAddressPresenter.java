@@ -8,6 +8,9 @@ import com.km.rmbank.utils.retrofit.PresenterWrapper;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
+
 /**
  * Created by kamangkeji on 17/3/30.
  */
@@ -21,16 +24,18 @@ public class ReceiverAddressPresenter extends PresenterWrapper<ReceiverAddressCo
 
     @Override
     public void loadReceiverAddressData() {
-        List<ReceiverAddressDto> receiverAddressDtos = new ArrayList<>();
-        for (int i = 0; i < 10; i++){
-            receiverAddressDtos.add(new ReceiverAddressDto());
-        }
-        mView.showReceiverAddressList(receiverAddressDtos);
+        mView.showLoading();
+        mApiwrapper.getReceiverAddressList()
+                .subscribe(newSubscriber(new Consumer<List<ReceiverAddressDto>>() {
+                    @Override
+                    public void accept(@NonNull List<ReceiverAddressDto> receiverAddressDtos) throws Exception {
+                        mView.showReceiverAddressList(receiverAddressDtos);
+                    }
+                }));
     }
 
     @Override
     public void onCreateView() {
         mView.initRecyclerView();
-        loadReceiverAddressData();
     }
 }

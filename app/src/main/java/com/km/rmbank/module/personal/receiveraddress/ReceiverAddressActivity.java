@@ -46,6 +46,12 @@ public class ReceiverAddressActivity extends BaseActivity<ReceiverAddressPresent
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        mPresenter.loadReceiverAddressData();
+    }
+
+    @Override
     public void initRecyclerView() {
         RVUtils.setLinearLayoutManage(mRecyclerView, LinearLayoutManager.VERTICAL);
         RVUtils.addDivideItemForRv(mRecyclerView);

@@ -38,6 +38,7 @@
         android:layout_below="@id/tv_receiver_name"
         android:layout_marginTop="@dimen/view_space_4"
         android:layout_marginBottom="@dimen/view_space_4"
+        android:layout_toLeftOf="@+id/iv_receiver_arrow_right"
         />
     <CheckBox
         android:id="@+id/cb_default"
@@ -47,6 +48,7 @@
         android:layout_below="@id/tv_receiver_address"
         />
     <ImageView
+        android:id="@+id/iv_receiver_arrow_right"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@mipmap/ic_chevron_right_black_36dp"

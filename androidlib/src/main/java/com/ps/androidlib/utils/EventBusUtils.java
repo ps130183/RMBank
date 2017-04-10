@@ -1,6 +1,8 @@
 package com.ps.androidlib.utils;
 
+import android.app.Activity;
 import android.content.Context;
+import android.support.v4.app.Fragment;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -18,11 +20,39 @@ public class EventBusUtils {
         EventBus.getDefault().register(context);
     }
     /**
+     * 注册eventBus
+     * @param activity
+     */
+    public static void register(Activity activity){
+        EventBus.getDefault().register(activity);
+    }
+    /**
+     * 注册eventBus
+     * @param fragment
+     */
+    public static void register(Fragment fragment){
+        EventBus.getDefault().register(fragment);
+    }
+    /**
      * 注销eventBus
      * @param context
      */
     public static void unregister(Context context){
         EventBus.getDefault().unregister(context);
+    }
+    /**
+     * 注销eventBus
+     * @param activity
+     */
+    public static void unregister(Activity activity){
+        EventBus.getDefault().unregister(activity);
+    }
+    /**
+     * 注销eventBus
+     * @param fragment
+     */
+    public static void unregister(Fragment fragment){
+        EventBus.getDefault().unregister(fragment);
     }
 
     /**

@@ -40,8 +40,8 @@ public class HomeActivity extends BaseActivity {
     private List<CustomTabEntity> mTabEntities;
 
     private String[] mTitle = {"首页","人脉商城","活动专区","个人中心"};
-    private int[] mSelectedIcon = {R.mipmap.icon_home_rbtn1,R.mipmap.icon_home_rbtn2,R.mipmap.icon_home_rbtn3,R.mipmap.icon_home_rbtn4};
-    private int[] mUnSelectedIcon = {R.mipmap.icon_home_rbtn1,R.mipmap.icon_home_rbtn2,R.mipmap.icon_home_rbtn3,R.mipmap.icon_home_rbtn4};
+    private int[] mSelectedIcon = {R.mipmap.icon_home_rbtn1_pressed,R.mipmap.icon_home_rbtn2_pressed,R.mipmap.icon_home_rbtn3_pressed,R.mipmap.icon_home_rbtn4_pressed};
+    private int[] mUnSelectedIcon = {R.mipmap.icon_home_rbtn1_unpress,R.mipmap.icon_home_rbtn2_unpress,R.mipmap.icon_home_rbtn3_unpress,R.mipmap.icon_home_rbtn4_unpress};
 
 //    @BindView(R.id.radiogroup)
 //    RadioGroup radioGroup;

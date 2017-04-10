@@ -35,4 +35,6 @@
     <dimen name="sectionNotificationSize">10sp</dimen>
     <dimen name="sectionSize">15sp</dimen>
     <dimen name="sectionRowMarginHorizontal">16sp</dimen>
+
+    <dimen name="view_width_30">30dp</dimen>
 </resources>

@@ -14,7 +14,7 @@ import com.km.rmbank.R;
 import com.km.rmbank.basic.BaseAdapter;
 import com.km.rmbank.basic.RVUtils;
 import com.km.rmbank.dto.IndustryDto;
-import com.ps.androidlib.animator.RecyclerViewAnimator;
+import com.ps.androidlib.animator.ShowViewAnimator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -96,7 +96,7 @@ public class IndustryParentAdapter extends BaseAdapter<IndustryDto> implements B
         @BindView(R.id.rv_sub)
         RecyclerView rvSub;
         IndustrySubAdapter subAdapter;
-        private RecyclerViewAnimator animator;
+        private ShowViewAnimator animator;
 
         @BindView(R.id.checked)
         CheckBox checkBox;
@@ -109,8 +109,8 @@ public class IndustryParentAdapter extends BaseAdapter<IndustryDto> implements B
         public ViewHolder(View itemView) {
             super(itemView);
             initSub();
-            vChecked.setVisibility(View.VISIBLE);
-            rvSub.setVisibility(View.VISIBLE);
+            vChecked.setVisibility(View.GONE);
+            rvSub.setVisibility(View.GONE);
             tvCheckedHint.setText("");
         }
 
@@ -119,15 +119,20 @@ public class IndustryParentAdapter extends BaseAdapter<IndustryDto> implements B
             RVUtils.addDivideItemForRv(rvSub,RVUtils.DIVIDER_COLOR_ACCOUNT_DETAILS,2);
             subAdapter = new IndustrySubAdapter(mContext);
             rvSub.setAdapter(subAdapter);
-            animator = new RecyclerViewAnimator();
+            animator = new ShowViewAnimator();
         }
+
         @OnClick(R.id.rl_parent)
         public void rlParentClick(View view){
-            if (!animator.recyclerViewSetVisiable(rvSub)){
-                vChecked.setVisibility(View.GONE);
-            } else {
+            if (vChecked.getVisibility() == View.GONE){
                 vChecked.setVisibility(View.VISIBLE);
             }
+            animator.showViewByAnimator(rvSub, new ShowViewAnimator.onHideListener() {
+                @Override
+                public void hide() {
+                    vChecked.setVisibility(View.GONE);
+                }
+            });
         }
     }
 
