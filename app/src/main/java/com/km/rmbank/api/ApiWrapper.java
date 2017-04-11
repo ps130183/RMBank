@@ -357,11 +357,43 @@ public class ApiWrapper extends RetrofitUtil {
     }
 
     /**
+     * 编辑收货地址
+     * @param receiverAddressDto
+     * @return
+     */
+    public Flowable<String> updateReceiverAddress(ReceiverAddressDto receiverAddressDto){
+        return getService().updateReceiverAddress(Constant.user.getToken(),
+                receiverAddressDto.getId(),receiverAddressDto.getReceivePerson(),
+                receiverAddressDto.getReceivePersonPhone(),receiverAddressDto.getReceiveAddress())
+                .compose(this.<String>applySchedulers());
+    }
+
+    /**
      * 获取收货地址列表
      * @return
      */
     public Flowable<List<ReceiverAddressDto>> getReceiverAddressList(){
         return getService().getReceiverAddressList(Constant.user.getToken())
                 .compose(this.<List<ReceiverAddressDto>>applySchedulers());
+    }
+
+    /**
+     *
+     * @param id
+     * @return
+     */
+    public Flowable<String> setDefaultReceiverAddress(String id){
+        return getService().setDefaultReceiverAddress(Constant.user.getToken(),id)
+                .compose(this.<String>applySchedulers());
+    }
+
+    /**
+     * 删除收货地址
+     * @param id
+     * @return
+     */
+    public Flowable<String> deleteReceiverAddress(String id){
+        return getService().deleteReceiverAddress(Constant.user.getToken(),id)
+                .compose(this.<String>applySchedulers());
     }
 }

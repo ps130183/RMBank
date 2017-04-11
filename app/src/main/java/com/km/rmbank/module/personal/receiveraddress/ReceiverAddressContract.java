@@ -14,8 +14,12 @@ public interface ReceiverAddressContract {
     interface View extends BaseView{
         void initRecyclerView();
         void showReceiverAddressList(List<ReceiverAddressDto> receiverAddressDtos);
+        void setDefaultReceiverAddressSuccess();
+        void deleteReceiverSuccess(ReceiverAddressDto receiverAddressDto);
     }
     interface Presenter extends BasePresenter{
         void loadReceiverAddressData();
+        void setDefaultReceiverAddress(ReceiverAddressDto receiverAddress);
+        void deleteReceiverAddress(ReceiverAddressDto receiverAddressDto);
     }
 }

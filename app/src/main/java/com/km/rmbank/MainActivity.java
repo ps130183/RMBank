@@ -1,16 +1,12 @@
 package com.km.rmbank;
 
 import android.content.Context;
-import android.os.AsyncTask;
-import android.os.Build;
 import android.support.annotation.NonNull;
 import android.view.View;
-import android.view.WindowManager;
 
 import com.km.rmbank.basic.BaseActivity;
-import com.km.rmbank.basic.BasePresenter;
 import com.km.rmbank.module.HomeActivity;
-import com.km.rmbank.utils.PcaDataUtils;
+import com.km.rmbank.utils.selectcity.CityPickData;
 
 import butterknife.OnClick;
 
@@ -40,7 +36,7 @@ public class MainActivity extends BaseActivity {
 
 
     private void initPcaData(final Context context){
-        PcaDataUtils.initData(context);
+        CityPickData.initData(context);
         toNextActivity(HomeActivity.class);
     }
 

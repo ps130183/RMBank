@@ -2,15 +2,12 @@ package com.km.rmbank.basic;
 
 import android.app.Activity;
 import android.app.Application;
-import android.content.Context;
 import android.os.Bundle;
 
 import com.hss01248.dialog.MyActyManager;
 import com.hss01248.dialog.StyledDialog;
-import com.km.rmbank.utils.PcaDataUtils;
 import com.orhanobut.logger.LogLevel;
 import com.orhanobut.logger.Logger;
-import com.ps.androidlib.utils.SPUtils;
 import com.ps.androidlib.utils.Utils;
 
 /**

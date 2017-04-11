@@ -5,6 +5,7 @@ import android.support.annotation.LayoutRes;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -15,6 +16,7 @@ import com.km.rmbank.api.ApiWrapper;
 import com.orhanobut.logger.Logger;
 import com.ps.androidlib.utils.ViewUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -33,7 +35,7 @@ public abstract class BaseSwipeRvAdapter<T> extends RecyclerSwipeAdapter<BaseSwi
 
     private Context mContext;
     private List<T> mDatas;
-
+    private int itemLayoutRes;
 
     private BaseSwipeRvAdapter.IAdapter iAdapter;
 
@@ -43,33 +45,47 @@ public abstract class BaseSwipeRvAdapter<T> extends RecyclerSwipeAdapter<BaseSwi
     private BaseAdapter.ItemClickListener<T> itemClickListener;
     private int curPage = 0;
 
-    public BaseSwipeRvAdapter(Context mContext, List<T> mDatas) {
-        this.mContext = mContext;
-        this.mDatas = mDatas;
+//    public BaseSwipeRvAdapter(Context mContext, List<T> mDatas) {
+//        this.mContext = mContext;
+//        this.mDatas = mDatas;
+//
+//        if (mDatas.size() > 0){
+//            curPage = 1;
+//        } else {
+//            curPage = 0;
+//        }
+//    }
 
-        if (mDatas.size() > 0){
+    public BaseSwipeRvAdapter(Context mContext, List<T> listContents, int itemLayoutRes) {
+        this.mContext = mContext;
+        this.mDatas = listContents;
+        this.itemLayoutRes = itemLayoutRes;
+        if (listContents.size() > 0) {
             curPage = 1;
         } else {
             curPage = 0;
         }
     }
 
+    public BaseSwipeRvAdapter(Context mContext, int itemLayoutRes) {
+        this(mContext, new ArrayList<T>(), itemLayoutRes);
+    }
 
     @Override
     public BaseSwipeViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(mContext);
         if (iAdapter == null) {
             throw new IllegalArgumentException(this.toString() + "  iAdapter is not null,请实现iadapter接口");
-        } else if (viewType == viewtype_item_empty){//没有数据
-            return new BaseSwipeRvAdapter.NonDataViewHolder(ViewUtils.getView(inflater,parent, R.layout.rc_item_empty));
-        } else if (viewType == viewtype_load_more){//加载更多
-            if (loadMoreFinish){
-                return new BaseSwipeRvAdapter.LoadMoreViewHolder(ViewUtils.getView(inflater,parent,R.layout.rc_footer_load_more_finish));
+        } else if (viewType == viewtype_item_empty) {//没有数据
+            return new BaseSwipeRvAdapter.NonDataViewHolder(ViewUtils.getView(inflater, parent, R.layout.rc_item_empty));
+        } else if (viewType == viewtype_load_more) {//加载更多
+            if (loadMoreFinish) {
+                return new BaseSwipeRvAdapter.LoadMoreViewHolder(ViewUtils.getView(inflater, parent, R.layout.rc_footer_load_more_finish));
             } else {
-                return new BaseSwipeRvAdapter.LoadMoreViewHolder(ViewUtils.getView(inflater,parent,R.layout.rc_footer_load_more));
+                return new BaseSwipeRvAdapter.LoadMoreViewHolder(ViewUtils.getView(inflater, parent, R.layout.rc_footer_load_more));
             }
         } else {
-            View view = inflater.inflate(getViewRes(), parent, false);
+            View view = inflater.inflate(itemLayoutRes, parent, false);
             return iAdapter.createViewHolder(view, viewType);
         }
     }
@@ -78,20 +94,20 @@ public abstract class BaseSwipeRvAdapter<T> extends RecyclerSwipeAdapter<BaseSwi
     public void onBindViewHolder(BaseSwipeViewHolder viewHolder, int position) {
         if (iAdapter == null) {
             throw new IllegalArgumentException("iAdapter is not null,请实现iadapter接口");
-        } else if (mDatas.size() == 0 || position == mDatas.size()){
+        } else if (mDatas.size() == 0 || position == mDatas.size()) {
 
-        }else {
+        } else {
             iAdapter.createView(viewHolder, position);
-            setItemClick(viewHolder.itemView,position);
+            setItemClick(viewHolder.mSwiperLayout.getSurfaceView(), position);
         }
 //        iAdapter.createView(viewHolder,position);
     }
 
     @Override
     public int getItemViewType(int position) {
-        if (mDatas.size() == 0){
+        if (mDatas.size() == 0) {
             return viewtype_item_empty;
-        } else if (moreDataListener != null && position == mDatas.size()){
+        } else if (moreDataListener != null && position == mDatas.size()) {
             return viewtype_load_more;
         }
         return viewtype_item;
@@ -100,7 +116,7 @@ public abstract class BaseSwipeRvAdapter<T> extends RecyclerSwipeAdapter<BaseSwi
     @Override
     public int getItemCount() {
         int itemCount = mDatas.size();
-        if (moreDataListener != null && itemCount > ApiWrapper.maxData - 1){//有加载更多
+        if (moreDataListener != null && itemCount > ApiWrapper.maxData - 1) {//有加载更多
             itemCount += 1;
         }
         return mDatas.size() > 0 ? itemCount : 1;
@@ -111,15 +127,14 @@ public abstract class BaseSwipeRvAdapter<T> extends RecyclerSwipeAdapter<BaseSwi
         return R.id.swiper_layout;
     }
 
-    protected abstract @LayoutRes int getViewRes();
-
     /**
      * 获取指定位置的数据
+     *
      * @param position
      * @return
      */
-    public T getItemData(int position){
-        if (position >= 0 && mDatas.size() > position){
+    public T getItemData(int position) {
+        if (position >= 0 && mDatas.size() > position) {
             return mDatas.get(position);
         } else {
             throw new IllegalArgumentException("position is container mDatas.size,点击的位置不在列表的范围之内");
@@ -128,9 +143,10 @@ public abstract class BaseSwipeRvAdapter<T> extends RecyclerSwipeAdapter<BaseSwi
 
     /**
      * 获取所有数据
+     *
      * @return
      */
-    public List<T> getAllData(){
+    public List<T> getAllData() {
         return mDatas;
     }
 
@@ -140,20 +156,22 @@ public abstract class BaseSwipeRvAdapter<T> extends RecyclerSwipeAdapter<BaseSwi
 
     /**
      * 获取下一页
+     *
      * @return
      */
-    public int getNextPage(){
-        return curPage+1;
+    public int getNextPage() {
+        return curPage + 1;
     }
 
     /**
      * 向类表里填充数据
+     *
      * @param datas
      * @param nextPage 下一页
      */
-    public void addData(List<T> datas,int nextPage){
-        if (mDatas != null && (datas != null && datas.size() > 0)){
-            if (nextPage > 1){
+    public void addData(List<T> datas, int nextPage) {
+        if (mDatas != null && (datas != null && datas.size() > 0)) {
+            if (nextPage > 1) {
                 curPage++;
             } else {
                 curPage = 1;
@@ -162,7 +180,7 @@ public abstract class BaseSwipeRvAdapter<T> extends RecyclerSwipeAdapter<BaseSwi
             mDatas.addAll(datas);
             loadMoreFinish = false;
         } else {
-            if (mDatas.size() > 0){
+            if (mDatas.size() > 0) {
                 loadMoreFinish = true;
             }
         }
@@ -172,17 +190,20 @@ public abstract class BaseSwipeRvAdapter<T> extends RecyclerSwipeAdapter<BaseSwi
 
     /**
      * 向类表里填充数据
+     *
      * @param datas
      */
-    public void addData(List<T> datas){
-        addData(datas,1);
+    public void addData(List<T> datas) {
+        addData(datas, 1);
     }
+
     /**
      * 向类表里填充数据
+     *
      * @param datas
      */
-    public void addData(T datas){
-        if (mDatas != null){
+    public void addData(T datas) {
+        if (mDatas != null) {
             mDatas.add(datas);
             notifyDataSetChanged();
         }
@@ -190,10 +211,11 @@ public abstract class BaseSwipeRvAdapter<T> extends RecyclerSwipeAdapter<BaseSwi
 
     /**
      * 移除某条数据
+     *
      * @param data
      */
-    public void removeData(T data){
-        if (mDatas != null){
+    public void removeData(T data) {
+        if (mDatas != null) {
             mDatas.remove(data);
             notifyDataSetChanged();
         }
@@ -202,8 +224,8 @@ public abstract class BaseSwipeRvAdapter<T> extends RecyclerSwipeAdapter<BaseSwi
     /**
      * 清空所有数据
      */
-    public void clearAllData(){
-        if (mDatas != null){
+    public void clearAllData() {
+        if (mDatas != null) {
             mDatas.clear();
             notifyDataSetChanged();
         }
@@ -211,41 +233,45 @@ public abstract class BaseSwipeRvAdapter<T> extends RecyclerSwipeAdapter<BaseSwi
 
     /**
      * 设置单击事件
+     *
      * @param itemView
      * @param position
      */
-    private void setItemClick(View itemView, final int position){
-        if (itemClickListener != null){
+    private void setItemClick(View itemView, final int position) {
+        if (itemClickListener != null) {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    itemClickListener.onItemClick(getItemData(position),position);
+//                    if (holder.mSwiperLayout.getOpenStatus() != SwipeLayout.Status.Open){
+                        itemClickListener.onItemClick(getItemData(position), position);
+//                    }
                 }
             });
         }
     }
 
 
-    public static class BaseSwipeViewHolder extends RecyclerView.ViewHolder{
+    public static class BaseSwipeViewHolder extends RecyclerView.ViewHolder {
 
         View itemView;
 
-//        @BindView(R.id.swiper_layout)
         SwipeLayout mSwiperLayout;
 
         public BaseSwipeViewHolder(View itemView) {
             super(itemView);
             this.itemView = itemView;
-            ButterKnife.bind(this,itemView);
+            ButterKnife.bind(this, itemView);
             initSwiperLayout();
         }
 
-        protected void initSwiperLayout(){
+        protected void initSwiperLayout() {
 //            mSwiperLayout.setLayoutMode();
             mSwiperLayout = (SwipeLayout) itemView.findViewById(R.id.swiper_layout);
-            if (mSwiperLayout != null){
+            if (mSwiperLayout != null) {
                 //set show mode.
                 mSwiperLayout.setShowMode(SwipeLayout.ShowMode.PullOut);
+                mSwiperLayout.setSwipeEnabled(true);
+                mSwiperLayout.setClickToClose(true); //点击其他区域关闭侧滑
             }
 
             //set drag edge.
@@ -285,7 +311,9 @@ public abstract class BaseSwipeRvAdapter<T> extends RecyclerSwipeAdapter<BaseSwi
         this.iAdapter = iAdapter;
     }
 
-    /**----------------------------加载更多------------开始--------------*/
+    /**
+     * ----------------------------加载更多------------开始--------------
+     */
     private boolean isLoadMore;
     private int totalItemCount = 0;
     private int lastVisiableItemPosition = 0;
@@ -295,11 +323,12 @@ public abstract class BaseSwipeRvAdapter<T> extends RecyclerSwipeAdapter<BaseSwi
     /**
      * 加载更多
      * 建议在recyclerView 设置完adapter以后再进行加载更多的设置
+     *
      * @param recyclerView
      * @param moreDataListener
      */
-    public void addLoadMore(RecyclerView recyclerView, final BaseAdapter.MoreDataListener moreDataListener){
-        if (recyclerView.getLayoutManager() instanceof LinearLayoutManager){
+    public void addLoadMore(RecyclerView recyclerView, final BaseAdapter.MoreDataListener moreDataListener) {
+        if (recyclerView.getLayoutManager() instanceof LinearLayoutManager) {
             this.moreDataListener = moreDataListener;
             final LinearLayoutManager llm = (LinearLayoutManager) recyclerView.getLayoutManager();
             recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -313,7 +342,7 @@ public abstract class BaseSwipeRvAdapter<T> extends RecyclerSwipeAdapter<BaseSwi
                     totalItemCount = llm.getItemCount();
                     lastVisiableItemPosition = llm.findLastVisibleItemPosition();
 
-                    if (!loadMoreFinish && !isLoadMore && totalItemCount <= (lastVisiableItemPosition + visibleThreshold)){
+                    if (!loadMoreFinish && !isLoadMore && totalItemCount <= (lastVisiableItemPosition + visibleThreshold)) {
                         moreDataListener.loadMoreData();
                         isLoadMore = true;
                     }
@@ -322,7 +351,8 @@ public abstract class BaseSwipeRvAdapter<T> extends RecyclerSwipeAdapter<BaseSwi
         }
     }
 
-    private interface BaseOnScrollListener{}
+    private interface BaseOnScrollListener {
+    }
 
     public interface MoreDataListener extends BaseSwipeRvAdapter.BaseOnScrollListener {
         void loadMoreData();
@@ -330,10 +360,13 @@ public abstract class BaseSwipeRvAdapter<T> extends RecyclerSwipeAdapter<BaseSwi
 
     /**----------------------------加载更多------------结束--------------*/
 
-    /**----------------------------RecyclerView 上滑监听 和 下滑监听----------------------------------------*/
+    /**
+     * ----------------------------RecyclerView 上滑监听 和 下滑监听----------------------------------------
+     */
 
     public interface RcScrollListener extends BaseSwipeRvAdapter.BaseOnScrollListener {
         void scrollUp();
+
         void scrollDown();
     }
 
@@ -343,12 +376,13 @@ public abstract class BaseSwipeRvAdapter<T> extends RecyclerSwipeAdapter<BaseSwi
 
     /**
      * 为recyclerView 添加上下滑动监听
+     *
      * @param recyclerView
      * @param scrollListener
      */
     public void addScrollListener(RecyclerView recyclerView, final BaseAdapter.RcScrollListener scrollListener,
-                                  final BaseAdapter.MoreDataListener moreDataListener){
-        if (recyclerView.getLayoutManager() instanceof LinearLayoutManager){
+                                  final BaseAdapter.MoreDataListener moreDataListener) {
+        if (recyclerView.getLayoutManager() instanceof LinearLayoutManager) {
             this.moreDataListener = moreDataListener;
             final LinearLayoutManager llm = (LinearLayoutManager) recyclerView.getLayoutManager();
             recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -356,7 +390,7 @@ public abstract class BaseSwipeRvAdapter<T> extends RecyclerSwipeAdapter<BaseSwi
                 public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                     super.onScrollStateChanged(recyclerView, newState);
                     Logger.d("onScrollStateChanged : " + newState + " scrollUP:" + scrollUp + "  scrollDown:" + scrollDown);
-                    if (newState == 0){  //滑动停止时 重置监听状态
+                    if (newState == 0) {  //滑动停止时 重置监听状态
                         scrollUp = false;
                         scrollDown = false;
                     }
@@ -368,20 +402,20 @@ public abstract class BaseSwipeRvAdapter<T> extends RecyclerSwipeAdapter<BaseSwi
 
                 @Override
                 public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                    if (dy > 0 && !scrollUp){//向上滑动
+                    if (dy > 0 && !scrollUp) {//向上滑动
                         scrollUp = true;
                         scrollListener.scrollUp();
                     }
-                    if (dy < 0 && !scrollDown){//向下滑动
+                    if (dy < 0 && !scrollDown) {//向下滑动
                         scrollDown = true;
                         scrollListener.scrollDown();
                     }
 
-                    if(moreDataListener != null){//加载更多
+                    if (moreDataListener != null) {//加载更多
                         totalItemCount = llm.getItemCount();
                         lastVisiableItemPosition = llm.findLastVisibleItemPosition();
 
-                        if (!loadMoreFinish && !isLoadMore && totalItemCount <= (lastVisiableItemPosition + visibleThreshold)){
+                        if (!loadMoreFinish && !isLoadMore && totalItemCount <= (lastVisiableItemPosition + visibleThreshold)) {
                             moreDataListener.loadMoreData();
                             isLoadMore = true;
                         }

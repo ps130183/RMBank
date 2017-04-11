@@ -14,11 +14,11 @@ import android.widget.TextView;
 
 import com.km.rmbank.R;
 import com.km.rmbank.entity.ProvinceBean;
+import com.km.rmbank.utils.selectcity.CityPickData;
 import com.lvfq.pickerview.OptionsPickerView;
 import com.lvfq.pickerview.TimePickerView;
 import com.lvfq.pickerview.adapter.ArrayWheelAdapter;
 import com.lvfq.pickerview.lib.WheelView;
-import com.ps.androidlib.utils.DateUtils;
 import com.ps.androidlib.utils.MToast;
 
 import java.text.ParseException;
@@ -145,6 +145,7 @@ public class PickerUtils {
         popupWindow.showAtLocation(((ViewGroup) ((Activity) context).findViewById(android.R.id.content)).getChildAt(0), Gravity.CENTER, 0, 0);
     }
 
+
     /**
      * 弹出省市区 三级联动
      * @param mContext
@@ -152,9 +153,13 @@ public class PickerUtils {
      * @param showOption
      */
     public static void showOptions(Context mContext, final TextView optionView, final View showOption){
-        final ArrayList<ProvinceBean> options1Items = PcaDataUtils.options1Items;
-        final ArrayList<ArrayList<String>> options2Items = PcaDataUtils.options2Items;
-        final ArrayList<ArrayList<ArrayList<String>>> options3Items = PcaDataUtils.options3Items;
+        showOptions(mContext,optionView,showOption,0,0,0);
+    }
+
+    public static void showOptions(Context mContext, final TextView optionView, final View showOption,int option1,int option2,int option3){
+        final ArrayList<ProvinceBean> options1Items = CityPickData.options1Items;
+        final ArrayList<ArrayList<String>> options2Items = CityPickData.options2Items;
+        final ArrayList<ArrayList<ArrayList<String>>> options3Items = CityPickData.options3Items;
 
         final OptionsPickerView pvOptions;
         //选项选择器
@@ -170,12 +175,13 @@ public class PickerUtils {
         pvOptions.setCyclic(false, false, false);
         //设置默认选中的三级项目
         //监听确定选择按钮
-        pvOptions.setSelectOptions(0, 0, 0);
+        pvOptions.setSelectOptions(option1, option2, option3);
         pvOptions.setTextSize(18);
         pvOptions.setOnoptionsSelectListener(new OptionsPickerView.OnOptionsSelectListener() {
 
             @Override
             public void onOptionsSelect(int options1, int option2, int options3) {
+
                 //返回的分别是三个级别的选中位置
                 String tx = options1Items.get(options1).getPickerViewText()
                         + options2Items.get(options1).get(option2)

@@ -35,6 +35,29 @@ public class ReceiverAddressPresenter extends PresenterWrapper<ReceiverAddressCo
     }
 
     @Override
+    public void setDefaultReceiverAddress(ReceiverAddressDto receiverAddress) {
+        mApiwrapper.setDefaultReceiverAddress(receiverAddress.getId())
+                .subscribe(newSubscriber(new Consumer<String>() {
+                    @Override
+                    public void accept(@NonNull String s) throws Exception {
+                        mView.setDefaultReceiverAddressSuccess();
+                    }
+                }));
+    }
+
+    @Override
+    public void deleteReceiverAddress(final ReceiverAddressDto receiverAddressDto) {
+        mView.showLoading();
+        mApiwrapper.deleteReceiverAddress(receiverAddressDto.getId())
+                .subscribe(newSubscriber(new Consumer<String>() {
+                    @Override
+                    public void accept(@NonNull String s) throws Exception {
+                        mView.deleteReceiverSuccess(receiverAddressDto);
+                    }
+                }));
+    }
+
+    @Override
     public void onCreateView() {
         mView.initRecyclerView();
     }

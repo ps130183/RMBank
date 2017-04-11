@@ -10,9 +10,10 @@ import com.km.rmbank.dto.ReceiverAddressDto;
 
 public interface CreateReceiverAddressContract {
     interface View extends BaseView{
-        void createReceiverAddressSuccess();
+        void createReceiverAddressSuccess(String id);
     }
     interface Presenter extends BasePresenter{
         void createReceiverAddress(ReceiverAddressDto receiverAddressDto);
+        void updateReceiverAddress(ReceiverAddressDto receiverAddressDto);
     }
 }

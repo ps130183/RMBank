@@ -38,7 +38,7 @@ public class CacheInterceptor implements Interceptor {
         if (isNetworkReachable(mContext)) {
             //有网的时候读接口上的@Headers里的配置，你可以在这里进行统一的设置
             String cacheControl = request.cacheControl().toString();
-            Logger.i("has network ,cacheControl=" + cacheControl);
+//            Logger.i("has network ,cacheControl=" + cacheControl);
             return response.newBuilder()
                     .removeHeader("Pragma")
                     .header("Cache-Control", cacheControl)

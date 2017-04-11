@@ -25,13 +25,8 @@ public class RepleaseGoodsListAdapter extends BaseSwipeRvAdapter<GoodsDto> imple
     private onClickSoldOutListener onClickSoldOutListener;
 
     public RepleaseGoodsListAdapter(Context mContext) {
-        super(mContext, new ArrayList<GoodsDto>());
+        super(mContext, R.layout.item_rv_replease_goods);
         setiAdapter(this);
-    }
-
-    @Override
-    protected int getViewRes() {
-        return R.layout.item_rv_replease_goods;
     }
 
     @Override

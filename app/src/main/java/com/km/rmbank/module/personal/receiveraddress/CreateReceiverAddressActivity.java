@@ -1,23 +1,22 @@
 package com.km.rmbank.module.personal.receiveraddress;
 
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.km.rmbank.R;
 import com.km.rmbank.basic.BaseActivity;
-import com.km.rmbank.basic.BasePresenter;
 import com.km.rmbank.dto.ReceiverAddressDto;
-import com.km.rmbank.utils.PickerUtils;
+import com.km.rmbank.utils.selectcity.SelectCityPick;
+import com.orhanobut.logger.Logger;
 
 import butterknife.BindView;
-import butterknife.OnClick;
 
 public class CreateReceiverAddressActivity extends BaseActivity<CreateReceiverAddressPresenter> implements CreateReceiverAddressContract.View {
 
+    @BindView(R.id.title)
+    TextView title;
     @BindView(R.id.et_name)
     EditText etName;
     @BindView(R.id.et_phone)
@@ -29,6 +28,9 @@ public class CreateReceiverAddressActivity extends BaseActivity<CreateReceiverAd
     EditText etAddressArea;
     @BindView(R.id.vMasker)
     View vMasker;
+
+    private SelectCityPick cityPick;
+    private ReceiverAddressDto mReceiverAddressDto;
 
     @Override
     protected int getContentView() {
@@ -48,30 +50,57 @@ public class CreateReceiverAddressActivity extends BaseActivity<CreateReceiverAd
 
     @Override
     protected void onCreate() {
+        mReceiverAddressDto = getIntent().getParcelableExtra("receiverAddressDto");
+        cityPick = new SelectCityPick();
         setRightBtnClick("保存", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 save();
             }
         });
-        PickerUtils.showOptions(this,etAddressArea,vMasker);
+        if (mReceiverAddressDto != null){//修改编辑
+            title.setText("编辑收货地址");
+            cityPick.getOptionsPosition(mReceiverAddressDto.getId());
+            initReceiverAddress();
+        }
+        cityPick.showOptions(this,etAddressArea,vMasker);
+    }
+
+    /**
+     * 编辑收货地址时   初始化页面
+     */
+    private void initReceiverAddress(){
+        etName.setText(mReceiverAddressDto.getReceivePerson());
+        etPhone.setText(mReceiverAddressDto.getReceivePersonPhone());
+        String area = cityPick.getSelectedContent();
+        String detail = mReceiverAddressDto.getReceiveAddress();
+        detail = detail.replace(area,"");
+        etAddressArea.setText(area);
+        etAddressDetail.setText(detail);
     }
 
     public void save(){
         ReceiverAddressDto receiverAddressDto = new ReceiverAddressDto();
         receiverAddressDto.setReceivePerson(etName.getText().toString());
         receiverAddressDto.setReceivePersonPhone(etPhone.getText().toString());
-        receiverAddressDto.setReceiveAddress(etAddressDetail.getText().toString() + etAddressArea.getText().toString());
+        receiverAddressDto.setReceiveAddress(etAddressArea.getText().toString() + etAddressDetail.getText().toString());
 
         if (receiverAddressDto.isEmpty()){
             showToast("请将收货地址信息填写完整");
             return;
         }
-        mPresenter.createReceiverAddress(receiverAddressDto);
+        if (mReceiverAddressDto != null){ //更新
+            receiverAddressDto.setId(mReceiverAddressDto.getId());
+            mPresenter.updateReceiverAddress(receiverAddressDto);
+        } else { //新增
+            mPresenter.createReceiverAddress(receiverAddressDto);
+        }
+
     }
 
     @Override
-    public void createReceiverAddressSuccess() {
+    public void createReceiverAddressSuccess(String id) {
+        cityPick.saveOptionsPosition(id);
         finish();
     }
 }

@@ -23,7 +23,19 @@ public class CreateReceiverAddressPresenter extends PresenterWrapper<CreateRecei
                 .subscribe(newSubscriber(new Consumer<String>() {
                     @Override
                     public void accept(@NonNull String s) throws Exception {
-                        mView.createReceiverAddressSuccess();
+                        mView.createReceiverAddressSuccess(s);
+                    }
+                }));
+    }
+
+    @Override
+    public void updateReceiverAddress(final ReceiverAddressDto receiverAddressDto) {
+        mView.showLoading();
+        mApiwrapper.updateReceiverAddress(receiverAddressDto)
+                .subscribe(newSubscriber(new Consumer<String>() {
+                    @Override
+                    public void accept(@NonNull String s) throws Exception {
+                        mView.createReceiverAddressSuccess(receiverAddressDto.getId());
                     }
                 }));
     }

@@ -63,8 +63,8 @@ public interface ApiService {
     @FormUrlEncoded
     @POST(SecretConstant.API_HOST_PATH + "/user/register")
     Flowable<Response<DefaultDto>> userRegister(@Field("mobilePhone") String mobilePhone,
-                                                  @Field("loginPwd") String password,
-                                                  @Field("smsCode") String smsCode);
+                                                @Field("loginPwd") String password,
+                                                @Field("smsCode") String smsCode);
 
     /**
      * 获取手机验证码
@@ -87,8 +87,8 @@ public interface ApiService {
     @FormUrlEncoded
     @POST(SecretConstant.API_HOST_PATH + "/user/forgetLoginPwd")
     Flowable<Response<DefaultDto>> forgetLoginPwd(@Field("mobilePhone") String mobilePhone,
-                                                    @Field("pwd") String password,
-                                                    @Field("smsCode") String smsCode);
+                                                  @Field("pwd") String password,
+                                                  @Field("smsCode") String smsCode);
 
 
     /**
@@ -109,9 +109,9 @@ public interface ApiService {
     @FormUrlEncoded
     @POST(SecretConstant.API_HOST_PATH + "/auth/user/update/info")
     Flowable<Response<String>> updateUserInfo(@Field("token") String token,
-                                                @Field("nickName") String nickName,
-                                                @Field("portraitUrl") String portraitUrl,
-                                                @Field("birthday") String birthday);
+                                              @Field("nickName") String nickName,
+                                              @Field("portraitUrl") String portraitUrl,
+                                              @Field("birthday") String birthday);
 
     /**
      * 生成个人名片
@@ -132,16 +132,16 @@ public interface ApiService {
     @FormUrlEncoded
     @POST(SecretConstant.API_HOST_PATH + "/auth/userCard/update/info")
     Flowable<Response<UserCardDto>> createUserCard(@Field("token") String token,
-                                                     @Field("name") String name,
-                                                     @Field("cardPhone") String mobilePhone,
-                                                     @Field("company") String company,
-                                                     @Field("position") String position,
-                                                     @Field("companyProfile") String companyProfile,
-                                                     @Field("provideResourcesId") String provideResourcesId,
-                                                     @Field("demandResourcesId") String demandResourcesId,
-                                                     @Field("location") String location,
-                                                     @Field("detailedAddress") String detailedAddress,
-                                                     @Field("emailAddress") String emailAddress);
+                                                   @Field("name") String name,
+                                                   @Field("cardPhone") String mobilePhone,
+                                                   @Field("company") String company,
+                                                   @Field("position") String position,
+                                                   @Field("companyProfile") String companyProfile,
+                                                   @Field("provideResourcesId") String provideResourcesId,
+                                                   @Field("demandResourcesId") String demandResourcesId,
+                                                   @Field("location") String location,
+                                                   @Field("detailedAddress") String detailedAddress,
+                                                   @Field("emailAddress") String emailAddress);
 
     /**
      * 获取个人名片
@@ -172,7 +172,7 @@ public interface ApiService {
     @Multipart
     @POST(SecretConstant.API_HOST_PATH + "/file/up")
     Flowable<Response<String>> imageUpload(@Part("optionType") RequestBody optionType,
-                                         @Part MultipartBody.Part file);
+                                           @Part MultipartBody.Part file);
 
     /**
      * 查询账户余额
@@ -193,7 +193,7 @@ public interface ApiService {
     @FormUrlEncoded
     @POST(SecretConstant.API_HOST_PATH + "/auth/account/user/stream/list")
     Flowable<Response<List<UserAccountDetailDto>>> getUserAccountDetail(@Field("token") String token,
-                                                                          @Field("pageNo") int pageNo);
+                                                                        @Field("pageNo") int pageNo);
 
 
     /**
@@ -205,10 +205,10 @@ public interface ApiService {
     @FormUrlEncoded
     @POST(SecretConstant.API_HOST_PATH + "/auth/user/withdraw/add/account")
     Flowable<Response<String>> createWithDrawAccount(@Field("token") String token,
-                                                       @Field("name") String name,
-                                                       @Field("withdrawPhone") String withdrawPhone,
-                                                       @Field("typeName") String typeName,
-                                                       @Field("withdrawNumber") String withdrawNumber);
+                                                     @Field("name") String name,
+                                                     @Field("withdrawPhone") String withdrawPhone,
+                                                     @Field("typeName") String typeName,
+                                                     @Field("withdrawNumber") String withdrawNumber);
 
 
     /**
@@ -222,8 +222,8 @@ public interface ApiService {
     @FormUrlEncoded
     @POST(SecretConstant.API_HOST_PATH + "/auth/user/withdraw/delete/account")
     Flowable<Response<String>> deleteWithDrawAccount(@Field("token") String token,
-                                                       @Field("id") String id,
-                                                       @Field("delete") int delete);
+                                                     @Field("id") String id,
+                                                     @Field("delete") int delete);
 
     /**
      * 编辑提现账户
@@ -234,11 +234,11 @@ public interface ApiService {
     @FormUrlEncoded
     @POST(SecretConstant.API_HOST_PATH + "/auth/user/withdraw/update/account")
     Flowable<Response<String>> updateWithDrawAccount(@Field("token") String token,
-                                                       @Field("id") String id,
-                                                       @Field("name") String name,
-                                                       @Field("withdrawPhone") String withdrawPhone,
-                                                       @Field("typeName") String typeName,
-                                                       @Field("withdrawNumber") String withdrawNumber);
+                                                     @Field("id") String id,
+                                                     @Field("name") String name,
+                                                     @Field("withdrawPhone") String withdrawPhone,
+                                                     @Field("typeName") String typeName,
+                                                     @Field("withdrawNumber") String withdrawNumber);
 
     /**
      * 获取提现账户列表
@@ -259,32 +259,35 @@ public interface ApiService {
     @FormUrlEncoded
     @POST(SecretConstant.API_HOST_PATH + "/auth/user/withdraw")
     Flowable<Response<String>> submitWithDraw(@Field("token") String token,
-                                                @Field("accountId") String accountId,
-                                                @Field("userAmount") String userAmount);
+                                              @Field("accountId") String accountId,
+                                              @Field("userAmount") String userAmount);
 
 
     /**
      * 获取商品列表  商城
+     *
      * @param pageNo
      * @returnr
      */
     @FormUrlEncoded
     @POST(SecretConstant.API_HOST_PATH + "/product/normal/list")
     Flowable<Response<List<GoodsDto>>> getGoodsListOfShopping(@Field("pageNo") int pageNo,
-                                                                @Field("isInIndexActivity") String isInIndexActivity);
+                                                              @Field("isInIndexActivity") String isInIndexActivity);
 
     /**
      * 商家列表的商品列表
+     *
      * @param pageNo
      * @returnr
      */
     @FormUrlEncoded
     @POST(SecretConstant.API_HOST_PATH + "/auth/product/normal/shop/list")
     Flowable<Response<List<GoodsDto>>> getGoodsListOfShop(@Field("token") String token,
-                                                            @Field("pageNo") int pageNo);
+                                                          @Field("pageNo") int pageNo);
 
     /**
      * 获取商品详情
+     *
      * @param productNo
      * @return
      */
@@ -295,6 +298,7 @@ public interface ApiService {
 
     /**
      * 关注商品
+     *
      * @param productNo
      * @return
      */
@@ -305,6 +309,7 @@ public interface ApiService {
 
     /**
      * 发布商品
+     *
      * @param token
      * @param productName
      * @param subtitle
@@ -319,20 +324,20 @@ public interface ApiService {
     @FormUrlEncoded
     @POST(SecretConstant.API_HOST_PATH + "/auth/product/normal/add")
     Flowable<Response<String>> createNewGoods(@Field("token") String token,
-                                                         @Field("name") String productName,
-                                                         @Field("subtitle") String subtitle,
-                                                         @Field("price") String price,
-                                                         @Field("productBanner") String productBanner,
-                                                         @Field("freightInMaxCount") String freightInMaxCount,
-                                                         @Field("freightInEveryAdd") String freightInEveryAdd,
-                                                         @Field("productDetail") String productDetail,
-                                                         @Field("bannerUrl") String bannerUrl,
-                                                         @Field("isInIndexActivity") String isInIndexActivity);
-
+                                              @Field("name") String productName,
+                                              @Field("subtitle") String subtitle,
+                                              @Field("price") String price,
+                                              @Field("productBanner") String productBanner,
+                                              @Field("freightInMaxCount") String freightInMaxCount,
+                                              @Field("freightInEveryAdd") String freightInEveryAdd,
+                                              @Field("productDetail") String productDetail,
+                                              @Field("bannerUrl") String bannerUrl,
+                                              @Field("isInIndexActivity") String isInIndexActivity);
 
 
     /**
      * 获取会员对应类型的金额
+     *
      * @param token
      * @returnr
      */
@@ -343,27 +348,30 @@ public interface ApiService {
 
     /**
      * 创建支付订单
+     *
      * @param token
      * @returnr
      */
     @FormUrlEncoded
     @POST(SecretConstant.API_HOST_PATH + "/auth/order/recharge/create")
     Flowable<Response<PayOrderDto>> createPayOrder(@Field("token") String token,
-                                                     @Field("amount") String amount);
+                                                   @Field("amount") String amount);
 
 
     /**
      * 获取支付宝订单信息参数
+     *
      * @param payNumber
      * @returnr
      */
     @FormUrlEncoded
     @POST(SecretConstant.API_HOST_PATH + "/auth/alipay/get/params")
     Flowable<Response<String>> getAlipayParams(@Field("token") String token,
-                                                          @Field("payNumber") String payNumber);
+                                               @Field("payNumber") String payNumber);
 
     /**
      * 获取微信订单信息参数
+     *
      * @param payNumber
      * @returnr
      */
@@ -374,6 +382,7 @@ public interface ApiService {
 
     /**
      * 新增收货地址
+     *
      * @param token
      * @param receivePerson
      * @param receivePersonPhone
@@ -383,18 +392,58 @@ public interface ApiService {
     @FormUrlEncoded
     @POST(SecretConstant.API_HOST_PATH + "/auth/receive/address/add")
     Flowable<Response<String>> newReceiverAddress(@Field("token") String token,
-                                                          @Field("receivePerson") String receivePerson,
-                                                            @Field("receivePersonPhone") String receivePersonPhone,
-                                                            @Field("receiveAddress") String receiveAddress);
+                                                  @Field("receivePerson") String receivePerson,
+                                                  @Field("receivePersonPhone") String receivePersonPhone,
+                                                  @Field("receiveAddress") String receiveAddress);
+
+    /**
+     * 编辑收货地址
+     *
+     * @param token
+     * @param receivePerson
+     * @param receivePersonPhone
+     * @param receiveAddress
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(SecretConstant.API_HOST_PATH + "/auth/receive/address/update")
+    Flowable<Response<String>> updateReceiverAddress(@Field("token") String token,
+                                                     @Field("id") String id,
+                                                     @Field("receivePerson") String receivePerson,
+                                                     @Field("receivePersonPhone") String receivePersonPhone,
+                                                     @Field("receiveAddress") String receiveAddress);
 
     /**
      * 获取收货地址列表
+     *
      * @param token
      * @return
      */
     @FormUrlEncoded
     @POST(SecretConstant.API_HOST_PATH + "/auth/receive/address/list")
     Flowable<Response<List<ReceiverAddressDto>>> getReceiverAddressList(@Field("token") String token);
+
+    /**
+     * 设置默认收货地址
+     *
+     * @param token
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(SecretConstant.API_HOST_PATH + "/auth/receive/address/update/default")
+    Flowable<Response<String>> setDefaultReceiverAddress(@Field("token") String token,
+                                                         @Field("id") String id);
+
+    /**
+     * 删除收货地址
+     *
+     * @param token
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(SecretConstant.API_HOST_PATH + "/auth/receive/address/delete")
+    Flowable<Response<String>> deleteReceiverAddress(@Field("token") String token,
+                                                         @Field("id") String id);
 
 
 }

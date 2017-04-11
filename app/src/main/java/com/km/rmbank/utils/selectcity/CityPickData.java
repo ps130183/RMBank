@@ -1,4 +1,4 @@
-package com.km.rmbank.utils;
+package com.km.rmbank.utils.selectcity;
 
 import android.content.Context;
 import android.util.SparseArray;
@@ -25,7 +25,7 @@ import java.util.List;
  * Created by kamangkeji on 17/3/22.
  */
 
-public class PcaDataUtils {
+public class CityPickData {
     public static List<ProvinceEntity> provinceEntities;
     private static List<CityEntity> cityEntities;
     private static List<AreaEntity> areaEntities;
