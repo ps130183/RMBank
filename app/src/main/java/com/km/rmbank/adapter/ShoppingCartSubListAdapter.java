@@ -2,12 +2,28 @@ package com.km.rmbank.adapter;
 
 import android.content.Context;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.km.rmbank.R;
 import com.km.rmbank.basic.BaseAdapter;
+import com.km.rmbank.dto.GoodsDetailsDto;
 import com.km.rmbank.dto.GoodsDto;
+import com.km.rmbank.event.ConfirmGoodsNumberEvent;
+import com.km.rmbank.event.GoodsDetailNumberEvent;
+import com.ps.androidlib.animator.ShowViewAnimator;
+import com.ps.androidlib.utils.EventBusUtils;
+import com.ps.androidlib.utils.GlideUtils;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
+import java.math.BigDecimal;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -16,13 +32,14 @@ import butterknife.OnClick;
  * Created by kamangkeji on 17/3/20.
  */
 
-public class ShoppingCartSubListAdapter extends BaseAdapter<GoodsDto> implements BaseAdapter.IAdapter<ShoppingCartSubListAdapter.ViewHolder> {
+public class ShoppingCartSubListAdapter extends BaseAdapter<GoodsDetailsDto> implements BaseAdapter.IAdapter<ShoppingCartSubListAdapter.ViewHolder> {
 
     private boolean isShoppingCart;
 
     private ShoppingCartParentListAdapter parentListAdapter;
     private int positionOnParent;
     private OnSubCheckedListener onSubCheckedListener;
+    private onUpdateCountForGoods onUpdateCountForGoods;
 
     public ShoppingCartSubListAdapter(Context mContext) {
         super(mContext, R.layout.item_rv_shopping_cart_sub_list);
@@ -36,7 +53,16 @@ public class ShoppingCartSubListAdapter extends BaseAdapter<GoodsDto> implements
 
     @Override
     public void createView(ViewHolder holder, int position) {
-        final GoodsDto entity = getItemData(position);
+        final GoodsDetailsDto entity = getItemData(position);
+
+        GlideUtils.loadImage(holder.ivGoodsImage,entity.getThumbnailUrl());
+        holder.tvGoodsName.setText(entity.getName());
+        holder.tvGoodsCount.setText(""+entity.getProductInShopCarCount());
+
+        BigDecimal price = new BigDecimal(entity.getPrice()+"");
+
+        holder.tvTotalMoney.setText(""+price.multiply(new BigDecimal(entity.getProductInShopCarCount()+"")).doubleValue());
+
         holder.mCheckBox.setChecked(entity.isChecked());
         holder.mCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -47,6 +73,25 @@ public class ShoppingCartSubListAdapter extends BaseAdapter<GoodsDto> implements
             }
         });
 
+        holder.etBuyGoodsCount.setText(""+entity.getProductInShopCarCount());
+
+        holder.btnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onUpdateCountForGoods != null){
+                    onUpdateCountForGoods.updateCountOfGoods(entity,"1");
+                }
+            }
+        });
+        holder.btnCut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onUpdateCountForGoods != null){
+                    onUpdateCountForGoods.updateCountOfGoods(entity,"2");
+                }
+            }
+        });
+
     }
 
     class ViewHolder extends BaseViewHolder{
@@ -54,10 +99,29 @@ public class ShoppingCartSubListAdapter extends BaseAdapter<GoodsDto> implements
         @BindView(R.id.checkbox)
         CheckBox mCheckBox;
 
+        @BindView(R.id.iv_goods_image)
+        ImageView ivGoodsImage;
+        @BindView(R.id.tv_goods_name)
+        TextView tvGoodsName;
+        @BindView(R.id.tv_goods_count)
+        TextView tvGoodsCount;
+        @BindView(R.id.tv_total_money)
+        TextView tvTotalMoney;
+
+        @BindView(R.id.ll_add_cut)
+        LinearLayout llAddCut;
+
+        @BindView(R.id.et_buy_goods_count)
+        EditText etBuyGoodsCount;
+        @BindView(R.id.btn_add)
+        Button btnAdd;
+        @BindView(R.id.btn_cut)
+        Button btnCut;
         public ViewHolder(View itemView) {
             super(itemView);
 
             mCheckBox.setVisibility(isShoppingCart ? View.VISIBLE:View.GONE);
+            llAddCut.setVisibility(isShoppingCart ? View.VISIBLE:View.GONE);
         }
 
         @OnClick(R.id.checkbox)
@@ -84,5 +148,13 @@ public class ShoppingCartSubListAdapter extends BaseAdapter<GoodsDto> implements
 
     public void setOnSubCheckedListener(OnSubCheckedListener onSubCheckedListener) {
         this.onSubCheckedListener = onSubCheckedListener;
+    }
+
+    public interface onUpdateCountForGoods{
+        void updateCountOfGoods(GoodsDetailsDto goodsDto,String optionType);
+    }
+
+    public void setOnUpdateCountForGoods(ShoppingCartSubListAdapter.onUpdateCountForGoods onUpdateCountForGoods) {
+        this.onUpdateCountForGoods = onUpdateCountForGoods;
     }
 }

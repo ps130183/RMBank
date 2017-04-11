@@ -42,7 +42,7 @@
             android:id="@+id/tv_receiver_address"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="北京市昌平区霍营街道过分霍营街道过分霍营街道过分霍营街道过分"
+            android:text="北京市昌平区霍营街道过分霍营街道过"
             android:textSize="@dimen/text_size_14"
             android:textColor="@color/color_block"
             android:ellipsize="end"
@@ -51,7 +51,8 @@
             android:layout_marginTop="@dimen/view_space_4"
             android:layout_toLeftOf="@+id/iv_other_address"
             android:drawableLeft="@mipmap/ic_place_black_24dp"
-            android:gravity="center"
+            android:gravity="center|left"
+            android:layout_alignParentLeft="true"
             />
 
         <ImageView
@@ -67,11 +68,32 @@
 
     </RelativeLayout>
 
+    <RelativeLayout
+        android:id="@+id/rl_integral"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/color_white"
+        android:paddingLeft="@dimen/view_space_16"
+        android:paddingRight="@dimen/view_space_16"
+        android:paddingTop="@dimen/view_space_8"
+        android:paddingBottom="@dimen/view_space_8"
+        android:layout_marginBottom="@dimen/view_space_4"
+        android:layout_above="@+id/rl_bottom">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="积分抵现：50"
+            />
+
+
+    </RelativeLayout>
+
     <include layout="@layout/recyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/rl_top"
-        android:layout_above="@+id/rl_bottom"/>
+        android:layout_above="@+id/rl_integral"/>
 
     <RelativeLayout
         android:id="@+id/rl_bottom"

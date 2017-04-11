@@ -22,6 +22,9 @@ public class ReceiverAddressAdapter extends BaseSwipeRvAdapter<ReceiverAddressDt
     private onSetDefaultListener onSetDefaultListener;
     private onDeleteListener onDeleteListener;
 
+    //选择收货地址
+    private boolean selectOtherAddress;
+
     public ReceiverAddressAdapter(Context mContext) {
         super(mContext, R.layout.item_rv_receiver_address);
         setiAdapter(this);
@@ -35,34 +38,40 @@ public class ReceiverAddressAdapter extends BaseSwipeRvAdapter<ReceiverAddressDt
     @Override
     public void createView(final ViewHolder holder, int position) {
         final ReceiverAddressDto receiverAddressDto = getItemData(position);
+        if (selectOtherAddress){
+            holder.cbDefault.setVisibility(View.GONE);
+            holder.getmSwiperLayout().setSwipeEnabled(false);
+        } else {
+            holder.cbDefault.setChecked(receiverAddressDto.isDefault() == 1);
+            holder.cbDefault.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (onSetDefaultListener != null){
+                        onSetDefaultListener.setDefault(receiverAddressDto);
+                    }
+                }
+            });
+
+            holder.tvDelete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (onDeleteListener != null){
+                        DialogUtils.showDefaultAlertDialog("是否要删除该收货地址？", new DialogUtils.ClickListener() {
+                            @Override
+                            public void clickConfirm() {
+                                holder.getmSwiperLayout().close(true);
+                                onDeleteListener.deleteReceiverAddress(receiverAddressDto);
+                            }
+                        });
+                    }
+                }
+            });
+        }
         holder.tvReceiverName.setText(receiverAddressDto.getReceivePerson());
         holder.tvReceiverPhone.setText(receiverAddressDto.getReceivePersonPhone());
         holder.tvReceiverAddress.setText(receiverAddressDto.getReceiveAddress());
 
-        holder.cbDefault.setChecked(receiverAddressDto.isDefault() == 1);
-        holder.cbDefault.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (onSetDefaultListener != null){
-                    onSetDefaultListener.setDefault(receiverAddressDto);
-                }
-            }
-        });
 
-        holder.tvDelete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (onDeleteListener != null){
-                    DialogUtils.showDefaultAlertDialog("是否要删除该收货地址？", new DialogUtils.ClickListener() {
-                        @Override
-                        public void clickConfirm() {
-                            holder.getmSwiperLayout().close(true);
-                            onDeleteListener.deleteReceiverAddress(receiverAddressDto);
-                        }
-                    });
-                }
-            }
-        });
     }
 
     class ViewHolder extends BaseSwipeViewHolder{
@@ -82,6 +91,11 @@ public class ReceiverAddressAdapter extends BaseSwipeRvAdapter<ReceiverAddressDt
         public ViewHolder(View itemView) {
             super(itemView);
         }
+    }
+
+
+    public void setSelectOtherAddress(boolean selectOtherAddress) {
+        this.selectOtherAddress = selectOtherAddress;
     }
 
     public interface onSetDefaultListener{

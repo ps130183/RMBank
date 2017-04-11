@@ -2,7 +2,9 @@ package com.km.rmbank.module.personal.shopcart.createorder;
 
 import com.km.rmbank.basic.BasePresenter;
 import com.km.rmbank.basic.BaseView;
-import com.km.rmbank.entity.ShoppingCartEntity;
+import com.km.rmbank.dto.PayOrderDto;
+import com.km.rmbank.dto.ReceiverAddressDto;
+import com.km.rmbank.dto.ShoppingCartDto;
 
 import java.util.List;
 
@@ -12,9 +14,13 @@ import java.util.List;
 
 public interface CreateOrderContact {
     interface View extends BaseView{
-        void showOrderDatas(List<ShoppingCartEntity> cartEntities);
+        void showDefaultReceiverAddress(ReceiverAddressDto receiverAddressDto);
+        void showOrderDatas(List<ShoppingCartDto> cartEntities);
+        void submitOrderSuccess(PayOrderDto payOrderDto);
     }
     interface Presenter extends BasePresenter{
+        void getDefaultReceiverAddress();
         void loadOrderDatas();
+        void submitOrder(String productNos,String productCounts,String receiveAddressId,String freight,String intrgral);
     }
 }

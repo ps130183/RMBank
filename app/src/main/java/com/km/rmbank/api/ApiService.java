@@ -8,6 +8,7 @@ import com.km.rmbank.dto.MemberTypeDto;
 import com.km.rmbank.dto.PayOrderDto;
 import com.km.rmbank.dto.ReceiverAddressDto;
 import com.km.rmbank.dto.Response;
+import com.km.rmbank.dto.ShoppingCartDto;
 import com.km.rmbank.dto.UserAccountDetailDto;
 import com.km.rmbank.dto.UserBalanceDto;
 import com.km.rmbank.dto.UserCardDto;
@@ -444,6 +445,79 @@ public interface ApiService {
     @POST(SecretConstant.API_HOST_PATH + "/auth/receive/address/delete")
     Flowable<Response<String>> deleteReceiverAddress(@Field("token") String token,
                                                          @Field("id") String id);
+
+    /**
+     * 获取默认收货地址
+     *
+     * @param token
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(SecretConstant.API_HOST_PATH + "/auth/receive/address/get/default")
+    Flowable<Response<ReceiverAddressDto>> getDefaultReceiverAddress(@Field("token") String token);
+
+
+    /**
+     * 获取默认收货地址
+     *
+     * @param token
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(SecretConstant.API_HOST_PATH + "/auth/shop/car/add")
+    Flowable<Response<String>> addShoppingCart(@Field("token") String token,
+                                                           @Field("productNo") String productNo,
+                                                           @Field("count") String count);
+
+    /**
+     * 获取购物车列表
+     *
+     * @param token
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(SecretConstant.API_HOST_PATH + "/auth/shop/car/list")
+    Flowable<Response<List<ShoppingCartDto>>> getShoppingCartList(@Field("token") String token);
+
+    /**
+     * 购物车 去结算 创建订单
+     *
+     * @param token
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(SecretConstant.API_HOST_PATH + "/auth/go/shopList")
+    Flowable<Response<List<ShoppingCartDto>>> createOrder(@Field("token") String token,
+                                                          @Field("productNos") String productNos);
+
+    /**
+     * 更新购物车商品的数量
+     * productNo 订单编号
+     * optionType 请求类型1增加2减少
+     * @param token
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(SecretConstant.API_HOST_PATH + "/auth/shop/car/update/count")
+    Flowable<Response<String>> updateCountOnShopCartForGoods(@Field("token") String token,
+                                                             @Field("productNo") String productNo,
+                                                             @Field("optionType") String optionType);
+
+
+    /**
+     * 提交订单
+     *
+     * @param token
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(SecretConstant.API_HOST_PATH + "/auth/order/buy/create")
+    Flowable<Response<PayOrderDto>> submitOrder(@Field("token") String token,
+                                                          @Field("productNos") String productNos,
+                                                          @Field("productCounts") String productCounts,
+                                                          @Field("receiveAddressId") String receiveAddressId,
+                                                          @Field("freight") String freight,
+                                                @Field("exchange") String exchange);
 
 
 }

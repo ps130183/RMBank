@@ -74,16 +74,20 @@ public class PaymentActivity extends BaseActivity<PayPresenter> implements PayCo
     @Override
     protected void onCreate() {
         init();
-        mPresenter.createPayOrder(mAmount);
+
     }
 
     private void init(){
         paymentForObj = getIntent().getIntExtra("paymentForObj",0);
         mAmount = getIntent().getStringExtra("amount");
+        mPayOrderDto = getIntent().getParcelableExtra("payOrderDto");
 
         if (paymentForObj == 1){//认证会员支付时，隐藏余额支付 和 积分
             llPayBalance.setVisibility(View.GONE);
             llIntergal.setVisibility(View.GONE);
+            mPresenter.createPayOrder(mAmount);
+        } else { //商品支付
+            createPayOrderSuccess(mPayOrderDto);
         }
     }
 

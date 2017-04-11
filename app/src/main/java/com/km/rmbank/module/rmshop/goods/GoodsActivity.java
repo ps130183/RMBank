@@ -17,8 +17,10 @@ import com.km.rmbank.R;
 import com.km.rmbank.adapter.ViewPagerTabLayoutAdapter;
 import com.km.rmbank.basic.BaseActivity;
 import com.km.rmbank.dto.GoodsDetailsDto;
+import com.km.rmbank.dto.ReceiverAddressDto;
 import com.km.rmbank.event.ConfirmGoodsNumberEvent;
 import com.km.rmbank.event.GoodsDetailNumberEvent;
+import com.km.rmbank.module.personal.shopcart.ShoppingCartActivity;
 import com.ps.androidlib.animator.ShowViewAnimator;
 import com.ps.androidlib.utils.EventBusUtils;
 import com.ps.androidlib.utils.ViewUtils;
@@ -104,6 +106,11 @@ public class GoodsActivity extends BaseActivity<GoodsDetailsPresenter> implement
         setFollowGoods();
     }
 
+    @Override
+    public void addShoppingCartSuccess() {
+        showToast("已加入购物车");
+    }
+
     class GoodsCenterView implements CenterViewInterface {
 
         @Override
@@ -171,6 +178,16 @@ public class GoodsActivity extends BaseActivity<GoodsDetailsPresenter> implement
         }
     }
 
+
+    @OnClick(R.id.tv_add_shopping_cart)
+    public void addShippingCart(View view){
+        mPresenter.addShoppingCart(mGoodsDetails.getProductNo(),goodsCount+"");
+    }
+
+    @OnClick(R.id.tv_shopping_cart)
+    public void toShoopinCart(View view){
+        toNextActivity(ShoppingCartActivity.class);
+    }
 
     /** ----------------- 以下是 选择商品数量 --------------------- */
 

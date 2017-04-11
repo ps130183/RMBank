@@ -1,5 +1,7 @@
 package com.km.rmbank.module.personal.shopcart;
 
+import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,11 +14,13 @@ import com.km.rmbank.R;
 import com.km.rmbank.adapter.ShoppingCartParentListAdapter;
 import com.km.rmbank.basic.BaseActivity;
 import com.km.rmbank.basic.RVUtils;
+import com.km.rmbank.dto.GoodsDetailsDto;
 import com.km.rmbank.dto.GoodsDto;
-import com.km.rmbank.entity.ShoppingCartEntity;
+import com.km.rmbank.dto.ShoppingCartDto;
 import com.km.rmbank.module.personal.shopcart.createorder.CreateOrderActivity;
 import com.km.rmbank.module.rmshop.goods.GoodsActivity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -24,7 +28,7 @@ import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 import butterknife.OnTouch;
 
-public class ShoppingCartActivity extends BaseActivity<ShoppingCartPresenter> implements ShoppingCartContact.View, ShoppingCartParentListAdapter.onCheckedAllListener, ShoppingCartParentListAdapter.OnSubItemClcikListener {
+public class ShoppingCartActivity extends BaseActivity<ShoppingCartPresenter> implements ShoppingCartContact.View, ShoppingCartParentListAdapter.onCheckedAllListener, ShoppingCartParentListAdapter.OnSubItemClcikListener, ShoppingCartParentListAdapter.onUpdateGoodsCount {
 
     @BindView(R.id.recyclerview)
     RecyclerView mRecyclerView;
@@ -59,13 +63,33 @@ public class ShoppingCartActivity extends BaseActivity<ShoppingCartPresenter> im
         mRecyclerView.setAdapter(adapter);
         adapter.setCheckedAllListener(this);
         adapter.setOnSubItemClcikListener(this);
+        adapter.setOnUpdateGoodsCount(this);
     }
 
 
     @Override
-    public void showShoppingCartDatas(List<ShoppingCartEntity> shoppingCartEntities) {
+    public void showShoppingCartDatas(List<ShoppingCartDto> shoppingCartEntities) {
         adapter.addData(shoppingCartEntities);
     }
+
+    @Override
+    public void updateGoodsCountSuccess(GoodsDetailsDto goodsDto, String optiontType) {
+        ShoppingCartParentListAdapter adapter = (ShoppingCartParentListAdapter) mRecyclerView.getAdapter();
+        if ("1".equals(optiontType)){
+            goodsDto.setProductInShopCarCount(goodsDto.getProductInShopCarCount()+1);
+        } else {
+            goodsDto.setProductInShopCarCount(goodsDto.getProductInShopCarCount()-1);
+        }
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void createOrderSuccess(List<ShoppingCartDto> shoppingCartDtos) {
+        Bundle bundle = new Bundle();
+        bundle.putParcelableArrayList("checkedGoods", (ArrayList<? extends Parcelable>) shoppingCartDtos);
+        toNextActivity(CreateOrderActivity.class,bundle);
+    }
+
 
     @Override
     public void onCheckedAll(boolean isCheckedAll) {
@@ -86,13 +110,20 @@ public class ShoppingCartActivity extends BaseActivity<ShoppingCartPresenter> im
     }
 
     @Override
-    public void onSubItemClick(GoodsDto itemData, int position) {
-        toNextActivity(GoodsActivity.class);
+    public void onSubItemClick(GoodsDetailsDto itemData, int position) {
+        Bundle bundle = new Bundle();
+        bundle.putString("productNo",itemData.getProductNo());
+        toNextActivity(GoodsActivity.class,bundle);
     }
 
     @OnClick(R.id.tv_payment)
     public void payMent(View view){
 //        showToast("去付款");
-        toNextActivity(CreateOrderActivity.class);
+        mPresenter.createOrder(adapter.getAllCheckedGoodsProductNo());
+    }
+
+    @Override
+    public void updateGoodsCount(GoodsDetailsDto productNo, String optionType) {
+        mPresenter.updateGoodsCount(productNo,optionType);
     }
 }

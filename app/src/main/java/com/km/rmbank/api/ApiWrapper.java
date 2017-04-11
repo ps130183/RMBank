@@ -8,6 +8,7 @@ import com.km.rmbank.dto.GoodsDto;
 import com.km.rmbank.dto.MemberTypeDto;
 import com.km.rmbank.dto.PayOrderDto;
 import com.km.rmbank.dto.ReceiverAddressDto;
+import com.km.rmbank.dto.ShoppingCartDto;
 import com.km.rmbank.dto.UserAccountDetailDto;
 import com.km.rmbank.dto.UserBalanceDto;
 import com.km.rmbank.dto.UserCardDto;
@@ -378,7 +379,7 @@ public class ApiWrapper extends RetrofitUtil {
     }
 
     /**
-     *
+     * 设置默认收货地址
      * @param id
      * @return
      */
@@ -396,4 +397,69 @@ public class ApiWrapper extends RetrofitUtil {
         return getService().deleteReceiverAddress(Constant.user.getToken(),id)
                 .compose(this.<String>applySchedulers());
     }
+
+    /**
+     * 获取默认收货地址
+     * @return
+     */
+    public Flowable<ReceiverAddressDto> getDefaultReceiverAddress(){
+        return getService().getDefaultReceiverAddress(Constant.user.getToken())
+                .compose(this.<ReceiverAddressDto>applySchedulers());
+    }
+
+    /**
+     * 加入购物车
+     * @param productNo
+     * @param count
+     * @return
+     */
+    public Flowable<String> addShoppingCart(String productNo,String count){
+        return getService().addShoppingCart(Constant.user.getToken(),productNo,count)
+                .compose(this.<String>applySchedulers());
+    }
+
+    /**
+     * 获取购物车列表
+     * @return
+     */
+    public Flowable<List<ShoppingCartDto>> getShoppingCartList(){
+        return getService().getShoppingCartList(Constant.user.getToken())
+                .compose(this.<List<ShoppingCartDto>>applySchedulers());
+    }
+
+    /**
+     * 购物车 去结算 创建订单
+     * @param productNo
+     * @return
+     */
+    public Flowable<List<ShoppingCartDto>> createOrder(String productNo){
+        return getService().createOrder(Constant.user.getToken(),productNo)
+                .compose(this.<List<ShoppingCartDto>>applySchedulers());
+    }
+
+    /**
+     * 更新购物车商品的数量
+     * @param productNo
+     * @param optionType
+     * @return
+     */
+    public Flowable<String> updateCountOnShopCartForGoods(String productNo,String optionType){
+        return getService().updateCountOnShopCartForGoods(Constant.user.getToken(),productNo,optionType)
+                .compose(this.<String>applySchedulers());
+    }
+
+    /**
+     * 提交订单
+     * @param productNos
+     * @param productCounts
+     * @param receiveAddressId
+     * @param freight
+     * @return
+     */
+    public Flowable<PayOrderDto> submitOrder(String productNos,String productCounts,String receiveAddressId,
+                                             String freight,String exchange){
+        return getService().submitOrder(Constant.user.getToken(),productNos,productCounts,
+                receiveAddressId,freight,exchange).compose(this.<PayOrderDto>applySchedulers());
+    }
+
 }

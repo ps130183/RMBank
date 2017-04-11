@@ -332,7 +332,7 @@ public class EditUserCardActivity extends BaseActivity<EditUserCardPresenter> im
             this.userCardDto = new UserCardDto();
         } else {
 //            ivQRCode.setImageBitmap(QRCodeUtils.createQRCode(EditUserCardActivity.this, Constant.user.getMobilePhone()));
-            ivQRCode.setImageBitmap(QRCodeUtils.createQRCode(EditUserCardActivity.this, "http://192.168.31.220:8080/Aiyg/member/sao/test"));
+            ivQRCode.setImageBitmap(QRCodeUtils.createQRCode(EditUserCardActivity.this, "http://192.168.31.220:8080/Aiyg/member/sao/test?phone=15678i283"));
             ivQRCode.setVisibility(View.VISIBLE);
             btnCreateCode.setText("更新名片");
         }

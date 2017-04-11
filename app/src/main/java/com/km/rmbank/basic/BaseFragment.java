@@ -120,6 +120,27 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment imp
         toNextActivity(nextActivity, null);
     }
 
+    public void toNextActivityForResult(Class nextActivity,int requestCode,Bundle bundle){
+        Intent intent = new Intent(getContext(),nextActivity);
+        if (bundle != null){
+            intent.putExtras(bundle);
+        }
+        startActivityForResult(intent,requestCode);
+    }
+
+    public void toNextActivityForResult(Class nextActivity,int requestCode){
+        toNextActivityForResult(nextActivity,requestCode,null);
+    }
+
+//    public void setResult(int resultCode,Bundle bundle){
+//        Intent intent = new Intent();
+//        if (bundle != null){
+//            intent.putExtras(bundle);
+//        }
+//        setResult(resultCode,intent);
+//        finish();
+//    }
+
     @Override
     public void showLoading() {
 

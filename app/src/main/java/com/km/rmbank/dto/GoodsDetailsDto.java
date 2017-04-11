@@ -14,7 +14,7 @@ import java.util.List;
 
 public class GoodsDetailsDto extends BaseEntity implements Parcelable {
 
-
+    private boolean isChecked;
     /**
      * alreadySoldCount : 0
      * bannerType : 0
@@ -65,7 +65,7 @@ public class GoodsDetailsDto extends BaseEntity implements Parcelable {
     private String price;
     private String productBannerUrl;
     private String productDetail;
-    private String productInShopCarCount;
+    private int productInShopCarCount;
     private String productNo;
     private String productType;
     private String residualStock;
@@ -80,6 +80,8 @@ public class GoodsDetailsDto extends BaseEntity implements Parcelable {
     private String updateDate;
     private List<String> productBannerList;
     private List<String> productDetailList;
+
+    private ReceiverAddressDto receiverAddressDto;
 
     @Override
     public boolean isEmpty() {
@@ -219,11 +221,11 @@ public class GoodsDetailsDto extends BaseEntity implements Parcelable {
         this.productDetail = productDetail;
     }
 
-    public String getProductInShopCarCount() {
+    public int getProductInShopCarCount() {
         return productInShopCarCount;
     }
 
-    public void setProductInShopCarCount(String productInShopCarCount) {
+    public void setProductInShopCarCount(int productInShopCarCount) {
         this.productInShopCarCount = productInShopCarCount;
     }
 
@@ -339,6 +341,25 @@ public class GoodsDetailsDto extends BaseEntity implements Parcelable {
         this.productDetailList = productDetailList;
     }
 
+    public ReceiverAddressDto getReceiverAddressDto() {
+        return receiverAddressDto;
+    }
+
+    public void setReceiverAddressDto(ReceiverAddressDto receiverAddressDto) {
+        this.receiverAddressDto = receiverAddressDto;
+    }
+
+    public boolean isChecked() {
+        return isChecked;
+    }
+
+    public void setChecked(boolean checked) {
+        isChecked = checked;
+    }
+
+    public GoodsDetailsDto() {
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -362,7 +383,7 @@ public class GoodsDetailsDto extends BaseEntity implements Parcelable {
         dest.writeString(this.price);
         dest.writeString(this.productBannerUrl);
         dest.writeString(this.productDetail);
-        dest.writeString(this.productInShopCarCount);
+        dest.writeInt(this.productInShopCarCount);
         dest.writeString(this.productNo);
         dest.writeString(this.productType);
         dest.writeString(this.residualStock);
@@ -377,9 +398,7 @@ public class GoodsDetailsDto extends BaseEntity implements Parcelable {
         dest.writeString(this.updateDate);
         dest.writeStringList(this.productBannerList);
         dest.writeStringList(this.productDetailList);
-    }
-
-    public GoodsDetailsDto() {
+        dest.writeParcelable(this.receiverAddressDto, flags);
     }
 
     protected GoodsDetailsDto(Parcel in) {
@@ -399,7 +418,7 @@ public class GoodsDetailsDto extends BaseEntity implements Parcelable {
         this.price = in.readString();
         this.productBannerUrl = in.readString();
         this.productDetail = in.readString();
-        this.productInShopCarCount = in.readString();
+        this.productInShopCarCount = in.readInt();
         this.productNo = in.readString();
         this.productType = in.readString();
         this.residualStock = in.readString();
@@ -414,9 +433,10 @@ public class GoodsDetailsDto extends BaseEntity implements Parcelable {
         this.updateDate = in.readString();
         this.productBannerList = in.createStringArrayList();
         this.productDetailList = in.createStringArrayList();
+        this.receiverAddressDto = in.readParcelable(ReceiverAddressDto.class.getClassLoader());
     }
 
-    public static final Parcelable.Creator<GoodsDetailsDto> CREATOR = new Parcelable.Creator<GoodsDetailsDto>() {
+    public static final Creator<GoodsDetailsDto> CREATOR = new Creator<GoodsDetailsDto>() {
         @Override
         public GoodsDetailsDto createFromParcel(Parcel source) {
             return new GoodsDetailsDto(source);

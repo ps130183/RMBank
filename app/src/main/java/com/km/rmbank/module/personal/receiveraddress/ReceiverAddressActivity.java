@@ -14,6 +14,8 @@ import com.km.rmbank.basic.BaseActivity;
 import com.km.rmbank.basic.BaseAdapter;
 import com.km.rmbank.basic.RVUtils;
 import com.km.rmbank.dto.ReceiverAddressDto;
+import com.km.rmbank.event.OtherAddressEvent;
+import com.ps.androidlib.utils.EventBusUtils;
 
 import java.util.List;
 
@@ -25,6 +27,7 @@ public class ReceiverAddressActivity extends BaseActivity<ReceiverAddressPresent
     @BindView(R.id.recyclerview)
     RecyclerView mRecyclerView;
 
+    private boolean selecteOtherAddress;
     @Override
     protected int getContentView() {
         return R.layout.activity_receiver_address;
@@ -43,7 +46,7 @@ public class ReceiverAddressActivity extends BaseActivity<ReceiverAddressPresent
 
     @Override
     protected void onCreate() {
-
+        selecteOtherAddress = getIntent().getBooleanExtra("select_other_address",false);
     }
 
     @Override
@@ -58,13 +61,19 @@ public class ReceiverAddressActivity extends BaseActivity<ReceiverAddressPresent
         RVUtils.addDivideItemForRv(mRecyclerView);
         ReceiverAddressAdapter addressAdapter = new ReceiverAddressAdapter(this);
         addressAdapter.setMode(Attributes.Mode.Single);
+        addressAdapter.setSelectOtherAddress(selecteOtherAddress);
         mRecyclerView.setAdapter(addressAdapter);
         addressAdapter.setItemClickListener(new BaseAdapter.ItemClickListener<ReceiverAddressDto>() {
             @Override
             public void onItemClick(ReceiverAddressDto itemData, int position) {
-                Bundle bundle = new Bundle();
-                bundle.putParcelable("receiverAddressDto",itemData);
-                toNextActivity(CreateReceiverAddressActivity.class,bundle);
+                if (selecteOtherAddress){
+                    EventBusUtils.post(new OtherAddressEvent(itemData));
+                    finish();
+                } else {
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelable("receiverAddressDto",itemData);
+                    toNextActivity(CreateReceiverAddressActivity.class,bundle);
+                }
             }
         });
 
