@@ -3,7 +3,6 @@ package com.km.rmbank.module.personal.order;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +12,6 @@ import com.flyco.tablayout.listener.OnTabSelectListener;
 import com.km.rmbank.R;
 import com.km.rmbank.adapter.ViewPagerAdapter;
 import com.km.rmbank.basic.BaseActivity;
-import com.km.rmbank.basic.BaseFragment;
 import com.ps.androidlib.utils.ViewUtils;
 
 import java.util.ArrayList;
@@ -24,7 +22,7 @@ import butterknife.BindView;
 public class MyOrderActivity extends BaseActivity {
 
     private String[] mTitles = {"未完成", "已完成"};
-//    private BaseFragment[] fragments = {OrderUnFinishFragment.newInstance(null),OrderFinishedFragment.newInstance(null)};
+//    private BaseFragment[] fragments = {MyOrderFragment.newInstance(null),OrderFinishedFragment.newInstance(null)};
 
 
     @BindView(R.id.stl_title)
@@ -108,8 +106,12 @@ public class MyOrderActivity extends BaseActivity {
 
     private void initViewPager(){
         List<Fragment> fragments = new ArrayList<>();
-        fragments.add(OrderUnFinishFragment.newInstance(null));
-        fragments.add(OrderFinishedFragment.newInstance(null));
+        Bundle bundle = new Bundle();
+        bundle.putString("finishOrder","0");
+        fragments.add(MyOrderFragment.newInstance(bundle));
+        bundle = new Bundle();
+        bundle.putString("finishOrder","4");
+        fragments.add(MyOrderFragment.newInstance(bundle));
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager(),fragments);
         mViewpager.setAdapter(adapter);
      }

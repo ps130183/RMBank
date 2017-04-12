@@ -16,6 +16,6 @@ public interface OrderContract {
         void showOrderList(List<OrderEntity> orderEntities, int page);
     }
     interface Presenter extends BasePresenter{
-        void loadOrder(int page,boolean finishOrder);
+        void loadOrder(int page,String finishOrder);
     }
 }

@@ -5,33 +5,31 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.km.rmbank.R;
-import com.km.rmbank.basic.BaseActivity;
+import com.km.rmbank.adapter.MyOrderAdapter;
+import com.km.rmbank.basic.BaseAdapter;
 import com.km.rmbank.basic.BaseFragment;
 import com.km.rmbank.basic.RVUtils;
-import com.km.rmbank.cell.OrderCell;
 import com.km.rmbank.entity.OrderEntity;
-import com.km.rv_libs.TemplateAdapter;
-import com.km.rv_libs.base.ICell;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 
-public class OrderUnFinishFragment extends BaseFragment<OrderPresenter> implements OrderContract.View {
+public class MyOrderFragment extends BaseFragment<OrderPresenter> implements OrderContract.View {
 
     @BindView(R.id.recyclerview)
     RecyclerView mRecyclerView;
 
-    public static OrderUnFinishFragment newInstance(Bundle bundle) {
-        OrderUnFinishFragment fragment = new OrderUnFinishFragment();
+    private String finishOrder;
+    public static MyOrderFragment newInstance(Bundle bundle) {
+        MyOrderFragment fragment = new MyOrderFragment();
         fragment.setArguments(bundle);
         return fragment;
     }
 
     @Override
     protected int getContentView() {
-        return R.layout.fragment_order_un_finish;
+        return R.layout.fragment_my_order;
     }
 
     @Override
@@ -41,25 +39,27 @@ public class OrderUnFinishFragment extends BaseFragment<OrderPresenter> implemen
 
     @Override
     protected void createView() {
+        finishOrder = getArguments().getString("finishOrder");
         initRecyclerView();
-        mPresenter.loadOrder(1,false);
     }
 
 
     private void initRecyclerView(){
         RVUtils.setLinearLayoutManage(mRecyclerView, LinearLayoutManager.VERTICAL);
         RVUtils.addDivideItemForRv(mRecyclerView,RVUtils.DIVIDER_COLOR_DEFAULT,2);
-        TemplateAdapter adapter = new TemplateAdapter();
+        final MyOrderAdapter adapter = new MyOrderAdapter(getContext());
         mRecyclerView.setAdapter(adapter);
+        adapter.addLoadMore(mRecyclerView, new BaseAdapter.MoreDataListener() {
+            @Override
+            public void loadMoreData() {
+                mPresenter.loadOrder(adapter.getNextPage(),finishOrder);
+            }
+        });
     }
 
     @Override
     public void showOrderList(List<OrderEntity> orderEntities, int page) {
-        TemplateAdapter adapter = (TemplateAdapter) mRecyclerView.getAdapter();
-        List<ICell> iCells = new ArrayList<>();
-        for (OrderEntity entity : orderEntities){
-            iCells.add(new OrderCell(entity,null));
-        }
-        adapter.addData(iCells);
+        MyOrderAdapter adapter = (MyOrderAdapter) mRecyclerView.getAdapter();
+        adapter.addData(orderEntities,page);
     }
 }

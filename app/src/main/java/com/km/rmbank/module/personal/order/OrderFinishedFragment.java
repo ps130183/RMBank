@@ -5,7 +5,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.km.rmbank.R;
+import com.km.rmbank.adapter.MyOrderAdapter;
 import com.km.rmbank.basic.BaseActivity;
+import com.km.rmbank.basic.BaseAdapter;
 import com.km.rmbank.basic.BaseFragment;
 import com.km.rmbank.basic.RVUtils;
 import com.km.rmbank.cell.OrderCell;
@@ -43,23 +45,24 @@ public class OrderFinishedFragment extends BaseFragment<OrderPresenter> implemen
     @Override
     protected void createView() {
         initRecyclerView();
-        mPresenter.loadOrder(1,true);
     }
 
     private void initRecyclerView(){
         RVUtils.setLinearLayoutManage(mRecyclerView, LinearLayoutManager.VERTICAL);
         RVUtils.addDivideItemForRv(mRecyclerView,RVUtils.DIVIDER_COLOR_DEFAULT,2);
-        TemplateAdapter adapter = new TemplateAdapter();
+        final MyOrderAdapter adapter = new MyOrderAdapter(getContext());
         mRecyclerView.setAdapter(adapter);
+        adapter.addLoadMore(mRecyclerView, new BaseAdapter.MoreDataListener() {
+            @Override
+            public void loadMoreData() {
+                mPresenter.loadOrder(adapter.getNextPage(),"4");
+            }
+        });
     }
 
     @Override
     public void showOrderList(List<OrderEntity> orderEntities, int page) {
-        TemplateAdapter adapter = (TemplateAdapter) mRecyclerView.getAdapter();
-        List<ICell> iCells = new ArrayList<>();
-        for (OrderEntity entity : orderEntities){
-            iCells.add(new OrderCell(entity,null));
-        }
-        adapter.addData(iCells);
+        MyOrderAdapter adapter = (MyOrderAdapter) mRecyclerView.getAdapter();
+        adapter.addData(orderEntities,page);
     }
 }

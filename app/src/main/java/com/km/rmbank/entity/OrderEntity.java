@@ -5,4 +5,5 @@ package com.km.rmbank.entity;
  */
 
 public class OrderEntity {
+
 }

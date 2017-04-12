@@ -80,7 +80,7 @@ public class RetrofitUtil {
             HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
                 @Override
                 public void log(String message) {
-//                    Logger.d(message);
+                    Logger.d(message);
                 }
             });
             //网络缓存路径文件

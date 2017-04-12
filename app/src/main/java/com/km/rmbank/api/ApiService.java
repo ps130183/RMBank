@@ -17,6 +17,7 @@ import com.km.rmbank.dto.UserInfoDto;
 import com.km.rmbank.dto.IndustryDto;
 import com.km.rmbank.dto.WeiCharParamsDto;
 import com.km.rmbank.dto.WithDrawAccountDto;
+import com.km.rmbank.entity.OrderEntity;
 import com.km.rmbank.utils.retrofit.SecretConstant;
 
 import java.util.List;
@@ -518,6 +519,18 @@ public interface ApiService {
                                                           @Field("receiveAddressId") String receiveAddressId,
                                                           @Field("freight") String freight,
                                                 @Field("exchange") String exchange);
+
+    /**
+     * 获取订单列表
+     *
+     * @param token
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(SecretConstant.API_HOST_PATH + "/auth/order/buy/list")
+    Flowable<Response<List<OrderEntity>>> getOrderList(@Field("token") String token,
+                                                       @Field("type") String type,
+                                                       @Field("pageNo") int pageNo);
 
 
 }

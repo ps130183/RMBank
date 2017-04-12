@@ -17,6 +17,7 @@ import com.km.rmbank.dto.UserInfoDto;
 import com.km.rmbank.dto.IndustryDto;
 import com.km.rmbank.dto.WeiCharParamsDto;
 import com.km.rmbank.dto.WithDrawAccountDto;
+import com.km.rmbank.entity.OrderEntity;
 import com.km.rmbank.utils.Constant;
 import com.km.rmbank.utils.fileupload.FileUploadingListener;
 import com.km.rmbank.utils.fileupload.UploadFileRequestBody;
@@ -460,6 +461,17 @@ public class ApiWrapper extends RetrofitUtil {
                                              String freight,String exchange){
         return getService().submitOrder(Constant.user.getToken(),productNos,productCounts,
                 receiveAddressId,freight,exchange).compose(this.<PayOrderDto>applySchedulers());
+    }
+
+    /**
+     * 获取我的订单列表
+     * @param type
+     * @param pageNo
+     * @return
+     */
+    public Flowable<List<OrderEntity>> getOrderList(String type, int pageNo){
+        return getService().getOrderList(Constant.user.getToken(),type,pageNo)
+                .compose(this.<List<OrderEntity>>applySchedulers());
     }
 
 }
