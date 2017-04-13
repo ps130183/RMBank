@@ -6,16 +6,11 @@ import android.support.v7.widget.RecyclerView;
 
 import com.km.rmbank.R;
 import com.km.rmbank.adapter.MyOrderAdapter;
-import com.km.rmbank.basic.BaseActivity;
 import com.km.rmbank.basic.BaseAdapter;
 import com.km.rmbank.basic.BaseFragment;
 import com.km.rmbank.basic.RVUtils;
-import com.km.rmbank.cell.OrderCell;
-import com.km.rmbank.entity.OrderEntity;
-import com.km.rv_libs.TemplateAdapter;
-import com.km.rv_libs.base.ICell;
+import com.km.rmbank.dto.OrderDto;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -61,7 +56,7 @@ public class OrderFinishedFragment extends BaseFragment<OrderPresenter> implemen
     }
 
     @Override
-    public void showOrderList(List<OrderEntity> orderEntities, int page) {
+    public void showOrderList(List<OrderDto> orderEntities, int page) {
         MyOrderAdapter adapter = (MyOrderAdapter) mRecyclerView.getAdapter();
         adapter.addData(orderEntities,page);
     }

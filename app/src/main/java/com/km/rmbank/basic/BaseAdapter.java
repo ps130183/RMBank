@@ -125,6 +125,7 @@ public class BaseAdapter<T> extends RecyclerView.Adapter<BaseAdapter.BaseViewHol
     @Override
     public int getItemCount() {
         int itemCount = listContents.size();
+
         if (moreDataListener != null && itemCount > ApiWrapper.maxData - 1) {//有加载更多
             itemCount += 1;
         }

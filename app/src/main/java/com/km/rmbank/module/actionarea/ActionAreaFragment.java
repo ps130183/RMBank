@@ -11,11 +11,12 @@ import android.widget.TextView;
 
 import com.km.rmbank.R;
 import com.km.rmbank.basic.BaseFragment;
-import com.km.rmbank.basic.BasePresenter;
 import com.km.rmbank.basic.RVUtils;
 import com.km.rmbank.cell.ActionCell;
 import com.km.rmbank.cell.BannerCell;
+import com.km.rmbank.dto.ActionDto;
 import com.km.rv_libs.TemplateAdapter;
+import com.km.rv_libs.base.BaseAdapter;
 import com.km.rv_libs.base.ICell;
 import com.ps.androidlib.utils.MToast;
 
@@ -29,13 +30,13 @@ import butterknife.OnClick;
  * Created by kamangkeji on 17/3/14.
  */
 
-public class ActionAreaFragment extends BaseFragment {
+public class ActionAreaFragment extends BaseFragment<ActionPresenter> implements ActionContract.View {
 
     @BindView(R.id.title)
     TextView title;
 
-    @BindView(R.id.swiper_refresh)
-    SwipeRefreshLayout mSwipeRefresh;
+//    @BindView(R.id.swiper_refresh)
+//    SwipeRefreshLayout mSwipeRefresh;
     @BindView(R.id.recyclerview)
     RecyclerView rvActionArea;
 
@@ -54,24 +55,42 @@ public class ActionAreaFragment extends BaseFragment {
     }
 
     @Override
-    protected void createView() {
-        title.setText("活动专区");
-        initRvActionArea();
+    public ActionPresenter getmPresenter() {
+        return new ActionPresenter(this);
     }
 
-    private void initRvActionArea(){
+    @Override
+    protected void createView() {
+        title.setText("活动专区");
+    }
 
-        RVUtils.addSwipRefresh(mSwipeRefresh, new RVUtils.OnSwipeRefresh() {
-            @Override
-            public void onRefresh(final SwipeRefreshLayout mSwipeRefresh) {
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        mSwipeRefresh.setRefreshing(false);
-                    }
-                },3000);
-            }
-        });
+
+    @OnClick(R.id.fab_apply)
+    public void apply(View view){
+        MToast.showToast(getContext(),"报名");
+    }
+
+    @Override
+    public void initAction() {
+
+//        RVUtils.addSwipRefresh(mSwipeRefresh, new RVUtils.OnSwipeRefresh() {
+//            @Override
+//            public void onRefresh(final SwipeRefreshLayout mSwipeRefresh) {
+////                new Handler().postDelayed(new Runnable() {
+////                    @Override
+////                    public void run() {
+////                        mSwipeRefresh.setRefreshing(false);
+////                    }
+////                },3000);
+//                TemplateAdapter adapter = (TemplateAdapter) rvActionArea.getAdapter();
+//                if (adapter != null){
+//                    adapter.clear();
+//                    adapter.addData(adapter.getHeaderCells());
+//                    mPresenter.getActionList(adapter.getNextPage());
+//                }
+//
+//            }
+//        });
 
         List<Integer> images = new ArrayList<>();
         images.add(R.mipmap.timg);
@@ -79,32 +98,31 @@ public class ActionAreaFragment extends BaseFragment {
         images.add(R.mipmap.timg);
         images.add(R.mipmap.timg);
 
-        List<String> names = new ArrayList<>();
-        for (int i = 0; i < 20; i++){
-            names.add("this is name " + i);
-        }
-        List<ICell> mICells = new ArrayList<>();
-        mICells.add(new BannerCell(images,R.layout.action_area_banner));
-        for(String name : names){
-            mICells.add(new ActionCell(name,R.layout.item_rv_action_area));
-        }
         RVUtils.setLinearLayoutManage(rvActionArea, LinearLayoutManager.VERTICAL);
         RVUtils.addDivideItemForRv(rvActionArea);
         final TemplateAdapter adapter = new TemplateAdapter();
-        adapter.addData(mICells);
+        adapter.addHeader(new BannerCell(images,R.layout.action_area_banner));
         rvActionArea.setAdapter(adapter);
 
-        adapter.addLoadMore(rvActionArea, new TemplateAdapter.MoreDataListener() {
+        adapter.addLoadMore(rvActionArea, new BaseAdapter.MoreDataListener() {
             @Override
             public void loadMoreData() {
-//                adapter.hideLoadeMore();
+                mPresenter.getActionList(adapter.getNextPage());
             }
         });
-
     }
 
-    @OnClick(R.id.fab_apply)
-    public void apply(View view){
-        MToast.showToast(getContext(),"报名");
+    @Override
+    public void getActionListSuccess(List<ActionDto> actionDtos, int pageNo) {
+        TemplateAdapter adapter = (TemplateAdapter) rvActionArea.getAdapter();
+        adapter.addData(getActionListCell(actionDtos));
+    }
+
+    private List<ICell> getActionListCell(List<ActionDto> actionDtos){
+        List<ICell> mICells = new ArrayList<>();
+        for(ActionDto name : actionDtos){
+            mICells.add(new ActionCell(name));
+        }
+        return mICells;
     }
 }

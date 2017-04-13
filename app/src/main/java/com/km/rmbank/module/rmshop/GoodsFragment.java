@@ -11,6 +11,7 @@ import com.km.rmbank.basic.BaseAdapter;
 import com.km.rmbank.basic.BaseFragment;
 import com.km.rmbank.basic.RVUtils;
 import com.km.rmbank.dto.GoodsDto;
+import com.km.rmbank.dto.GoodsTypeDto;
 import com.km.rmbank.module.rmshop.goods.GoodsActivity;
 import com.orhanobut.logger.Logger;
 
@@ -28,8 +29,7 @@ public class GoodsFragment extends BaseFragment<GoodsPresenter> implements Goods
     @BindView(R.id.recyclerview)
     RecyclerView rvGoods;
 
-    String tabname;
-    int tabid;
+    private GoodsTypeDto goodsTypeDto;
 
     public static GoodsFragment newInstance(Bundle bundle) {
         GoodsFragment fragment = new GoodsFragment();
@@ -50,8 +50,7 @@ public class GoodsFragment extends BaseFragment<GoodsPresenter> implements Goods
     @Override
     protected void createView() {
         Bundle bundle = getArguments();
-        tabname = bundle.getString("tabname");
-        tabid = bundle.getInt("tabid");
+        goodsTypeDto = bundle.getParcelable("goodsTypeDto");
     }
 
 
@@ -71,8 +70,8 @@ public class GoodsFragment extends BaseFragment<GoodsPresenter> implements Goods
         adapter.addLoadMore(rvGoods, new BaseAdapter.MoreDataListener() {
             @Override
             public void loadMoreData() {
-                Logger.d(GoodsFragment.this.tabname);
-                mPresenter.loadGoodsList(adapter.getNextPage());
+//                Logger.d(GoodsFragment.this.tabname);
+                mPresenter.loadGoodsList(adapter.getNextPage(),goodsTypeDto.getTypeId());
             }
         });
         adapter.setItemClickListener(new BaseAdapter.ItemClickListener<GoodsDto>() {

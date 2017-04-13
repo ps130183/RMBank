@@ -74,6 +74,7 @@ public class CreateOrderActivity extends BaseActivity<CreateOrderPresenter> impl
         RVUtils.setLinearLayoutManage(mRecyclerView, LinearLayoutManager.VERTICAL);
         RVUtils.addDivideItemForRv(mRecyclerView);
         adapter = new ShoppingCartParentListAdapter(this);
+        adapter.setShowFreight(true);
         mRecyclerView.setAdapter(adapter);
 
     }

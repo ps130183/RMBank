@@ -1,9 +1,11 @@
 package com.km.rmbank.api;
 
-import com.km.rmbank.dto.AlipayParamsDto;
+import com.km.rmbank.dto.ActionDto;
 import com.km.rmbank.dto.DefaultDto;
 import com.km.rmbank.dto.GoodsDetailsDto;
 import com.km.rmbank.dto.GoodsDto;
+import com.km.rmbank.dto.GoodsTypeDto;
+import com.km.rmbank.dto.HomeRecommendDto;
 import com.km.rmbank.dto.MemberTypeDto;
 import com.km.rmbank.dto.PayOrderDto;
 import com.km.rmbank.dto.ReceiverAddressDto;
@@ -17,23 +19,19 @@ import com.km.rmbank.dto.UserInfoDto;
 import com.km.rmbank.dto.IndustryDto;
 import com.km.rmbank.dto.WeiCharParamsDto;
 import com.km.rmbank.dto.WithDrawAccountDto;
-import com.km.rmbank.entity.OrderEntity;
+import com.km.rmbank.dto.OrderDto;
 import com.km.rmbank.utils.retrofit.SecretConstant;
 
 import java.util.List;
-import java.util.Map;
 
 import io.reactivex.Flowable;
-import io.reactivex.Observable;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
-import okhttp3.ResponseBody;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
-import retrofit2.http.PartMap;
 //import rx.Observable;
 
 /**
@@ -528,9 +526,51 @@ public interface ApiService {
      */
     @FormUrlEncoded
     @POST(SecretConstant.API_HOST_PATH + "/auth/order/buy/list")
-    Flowable<Response<List<OrderEntity>>> getOrderList(@Field("token") String token,
-                                                       @Field("type") String type,
-                                                       @Field("pageNo") int pageNo);
+    Flowable<Response<List<OrderDto>>> getOrderList(@Field("token") String token,
+                                                    @Field("type") String type,
+                                                    @Field("pageNo") int pageNo);
+
+    /**
+     * 获取商品类型
+     *
+     * @param token
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(SecretConstant.API_HOST_PATH + "/product/normal/type")
+    Flowable<Response<List<GoodsTypeDto>>> getGoodsTypes(@Field("token") String token);
+
+
+    /**
+     * 关注商品列表
+     *
+     * @param token
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(SecretConstant.API_HOST_PATH + "/auth/keep/product/list")
+    Flowable<Response<List<GoodsDto>>> getAttentionGoodsList(@Field("token") String token,
+                                                             @Field("pageNo") int pageNo);
+
+    /**
+     * 获取活动列表
+     *
+     * @param pageNo
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(SecretConstant.API_HOST_PATH + "/activity/list")
+    Flowable<Response<List<ActionDto>>> getActionList(@Field("pageNo") int pageNo);
+
+    /**
+     * 获取活动列表
+     *
+     * @param pageNo
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(SecretConstant.API_HOST_PATH + "/product/recommend/list")
+    Flowable<Response<List<HomeRecommendDto>>> getHomeActionRecommend(@Field("pageNo") int pageNo);
 
 
 }

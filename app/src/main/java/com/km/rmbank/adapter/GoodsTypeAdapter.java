@@ -3,7 +3,6 @@ package com.km.rmbank.adapter;
 import android.content.Context;
 import android.view.View;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 
 import com.km.rmbank.R;
 import com.km.rmbank.basic.BaseAdapter;
@@ -30,7 +29,7 @@ public class GoodsTypeAdapter extends BaseAdapter<GoodsTypeDto> implements BaseA
     @Override
     public void createView(ViewHolder holder, int position) {
         final GoodsTypeDto goodsTypeDto = getItemData(position);
-        holder.cbGoodsType.setText(goodsTypeDto.getTypeName());
+        holder.cbGoodsType.setText(goodsTypeDto.getProductType());
         holder.cbGoodsType.setChecked(goodsTypeDto.isChecked());
        holder.cbGoodsType.setOnClickListener(new View.OnClickListener() {
            @Override
@@ -76,7 +75,7 @@ public class GoodsTypeAdapter extends BaseAdapter<GoodsTypeDto> implements BaseA
             return;
         }
         for (GoodsTypeDto typeDto : getAllData()){
-            if (typeDto.getTypeName().equals(goodsTypeDto.getTypeName())){
+            if (typeDto.getProductType().equals(goodsTypeDto.getProductType())){
                 typeDto.setChecked(true);
                 break;
             }

@@ -14,6 +14,13 @@ import com.orhanobut.logger.Logger;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.reactivex.Flowable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
+import io.reactivex.functions.Predicate;
+
 /**
  * Created by kamangkeji on 17/3/15.
  */
@@ -29,6 +36,7 @@ public abstract class BaseAdapter<C extends ICell> extends RecyclerView.Adapter<
 
 
     private Handler mHandler;
+    protected int curPageNo = 0;
 
     public BaseAdapter() {
         mIcells = new ArrayList<>();
@@ -37,25 +45,26 @@ public abstract class BaseAdapter<C extends ICell> extends RecyclerView.Adapter<
         mHandler = new Handler();
     }
 
-    public void addData(List<C> cells){
-        if (cells != null && cells.size() > 0){
+    public void addData(List<C> cells) {
+        if (cells != null && cells.size() > 0) {
             mIcells.addAll(cells);
-        } else {
+        } else if (curPageNo == 1){
             add((C) emptyCell);
         }
         notifyDataSetChanged();
     }
 
-    public List<C> getData(){
+
+    public List<C> getData() {
         return mIcells;
     }
 
     @Override
     public BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if (mIcells != null){
-            for (ICell iCell : mIcells){
-                if (viewType == iCell.getItemViewType()){
-                    return iCell.onCreateViewHolder(parent,viewType);
+        if (mIcells != null) {
+            for (ICell iCell : mIcells) {
+                if (viewType == iCell.getItemViewType()) {
+                    return iCell.onCreateViewHolder(parent, viewType);
                 }
             }
         }
@@ -66,12 +75,12 @@ public abstract class BaseAdapter<C extends ICell> extends RecyclerView.Adapter<
     @Override
     public void onBindViewHolder(BaseViewHolder holder, int position) {
         ICell iCell = mIcells.get(position);
-        iCell.onBindViewHolder(holder,position);
+        iCell.onBindViewHolder(holder, position);
     }
 
     @Override
     public int getItemCount() {
-        if (mIcells == null){
+        if (mIcells == null) {
             return 0;
         }
         return mIcells.size();
@@ -82,82 +91,90 @@ public abstract class BaseAdapter<C extends ICell> extends RecyclerView.Adapter<
         return mIcells.get(position).getItemViewType();
     }
 
+    public int getNextPage() {
+        Logger.d("curpageNo = " + curPageNo);
+        return ++curPageNo;
+    }
+
     /**
      * add one cell
+     *
      * @param cell
      */
-    public void add(C cell){
+    public void add(C cell) {
         mIcells.add(cell);
         int index = mIcells.indexOf(cell);
         notifyItemChanged(index);
     }
 
-    public void add(int index,C cell){
-        mIcells.add(index,cell);
+    public void add(int index, C cell) {
+        mIcells.add(index, cell);
         notifyItemChanged(index);
     }
 
     /**
      * remove a cell
+     *
      * @param cell
      */
-    public void remove(C cell){
+    public void remove(C cell) {
         int indexOfCell = mIcells.indexOf(cell);
         remove(indexOfCell);
     }
 
-    public void remove(int index){
+    public void remove(int index) {
         mIcells.remove(index);
         notifyItemRemoved(index);
     }
 
     /**
-     *
      * @param start
      * @param count
      */
-    public void remove(int start,int count){
-        if((start +count) > mIcells.size()){
+    public void remove(int start, int count) {
+        if ((start + count) > mIcells.size()) {
             return;
         }
         int size = getItemCount();
-        for(int i =start;i<size;i++){
+        for (int i = start; i < size; i++) {
             mIcells.remove(i);
         }
 
-        notifyItemRangeRemoved(start,count);
+        notifyItemRangeRemoved(start, count);
     }
 
     /**
      * add a cell list
+     *
      * @param cells
      */
-    public void addAll(List<C> cells){
-        if(cells == null || cells.size() == 0){
+    public void addAll(List<C> cells) {
+        if (cells == null || cells.size() == 0) {
             return;
         }
 //        Logger.e("addAll cell size:"+cells.size());
         mIcells.addAll(cells);
-        notifyDataChanged(mIcells.size()-cells.size(),mIcells.size());
+        notifyDataChanged(mIcells.size() - cells.size(), mIcells.size());
     }
 
     /**
      * 指定位置添加cell
+     *
      * @param index
      * @param cells
      */
-    public void addAll(int index,List<C> cells){
-        if(cells == null || cells.size() == 0){
+    public void addAll(int index, List<C> cells) {
+        if (cells == null || cells.size() == 0) {
             return;
         }
-        mIcells.addAll(index,cells);
-        notifyDataChanged(index,index+cells.size());
+        mIcells.addAll(index, cells);
+        notifyDataChanged(index, index + cells.size());
     }
 
     /**
      * 刷新cell
      */
-    public void notifyDataChanged(){
+    public void notifyDataChanged() {
         mHandler.post(new Runnable() {
             @Override
             public void run() {
@@ -169,11 +186,11 @@ public abstract class BaseAdapter<C extends ICell> extends RecyclerView.Adapter<
     /**
      * 刷新指定位置的cell
      */
-    public void notifyDataChanged(final int start, final int end){
+    public void notifyDataChanged(final int start, final int end) {
         mHandler.post(new Runnable() {
             @Override
             public void run() {
-                notifyItemRangeChanged(start,end);
+                notifyItemRangeChanged(start, end);
             }
         });
     }
@@ -181,10 +198,11 @@ public abstract class BaseAdapter<C extends ICell> extends RecyclerView.Adapter<
     /**
      * 清空cells
      */
-    public void clear(){
+    public void clear() {
         mHandler.post(new Runnable() {
             @Override
             public void run() {
+                curPageNo = 0;
                 mIcells.clear();
                 notifyDataSetChanged();
             }
@@ -195,38 +213,31 @@ public abstract class BaseAdapter<C extends ICell> extends RecyclerView.Adapter<
 
     /**
      * 如果子类需要在onBindViewHolder 回调的时候做的操作可以在这个方法里做
+     *
      * @param holder
      * @param position
      */
     protected abstract void onViewHolderBound(BaseViewHolder holder, int position);
 
 
-    public void showLoadMore(){
+    public void showLoadMore() {
         isLoadMore = true;
-        if (!mIcells.contains(loadMoreCell)){
-            mHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    add((C) loadMoreCell);
-                }
-            });
+        if (!mIcells.contains(loadMoreCell)) {
+            add((C) loadMoreCell);
         }
     }
 
-    public void hideLoadeMore(){
+    public void hideLoadeMore() {
         isLoadMore = false;
-        if (mIcells.contains(loadMoreCell)){
-            mHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    remove((C) loadMoreCell);
-                }
-            });
+        if (mIcells.contains(loadMoreCell)) {
+            remove((C) loadMoreCell);
         }
     }
 
 
-    /**----------------------------加载更多------------开始--------------*/
+    /**
+     * ----------------------------加载更多------------开始--------------
+     */
     private boolean isLoadMore;
     private int totalItemCount = 0;
     private int lastVisiableItemPosition = 0;
@@ -236,11 +247,12 @@ public abstract class BaseAdapter<C extends ICell> extends RecyclerView.Adapter<
     /**
      * 加载更多
      * 建议在recyclerView 设置完adapter以后再进行加载更多的设置
+     *
      * @param recyclerView
      * @param moreDataListener
      */
-    public void addLoadMore(RecyclerView recyclerView, final MoreDataListener moreDataListener){
-        if (recyclerView.getLayoutManager() instanceof LinearLayoutManager){
+    public void addLoadMore(RecyclerView recyclerView, final MoreDataListener moreDataListener) {
+        if (recyclerView.getLayoutManager() instanceof LinearLayoutManager) {
             this.moreDataListener = moreDataListener;
             final LinearLayoutManager llm = (LinearLayoutManager) recyclerView.getLayoutManager();
             recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -254,26 +266,51 @@ public abstract class BaseAdapter<C extends ICell> extends RecyclerView.Adapter<
                     totalItemCount = llm.getItemCount();
                     lastVisiableItemPosition = llm.findLastVisibleItemPosition();
 
-                    if (!isLoadMore && totalItemCount <= (lastVisiableItemPosition + visibleThreshold)){
-                        showLoadMore();
-                        moreDataListener.loadMoreData();
-                    }
+                    Flowable.just(lastVisiableItemPosition)
+                            .filter(new Predicate<Integer>() {
+                                @Override
+                                public boolean test(@NonNull Integer integer) throws Exception {
+                                    return !isLoadMore && totalItemCount <= (lastVisiableItemPosition + visibleThreshold);
+                                }
+                            })
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .doOnNext(new Consumer<Integer>() {
+                                @Override
+                                public void accept(@NonNull Integer integer) throws Exception {
+                                    showLoadMore();
+                                    moreDataListener.loadMoreData();
+                                }
+                            })
+                            .subscribe(new Consumer<Integer>() {
+                                @Override
+                                public void accept(@NonNull Integer integer) throws Exception {
+                                    hideLoadeMore();
+                                }
+                            });
+
+//                    if (!isLoadMore && totalItemCount == (lastVisiableItemPosition + visibleThreshold)) {
+//                        if (curPageNo > 1){
+//                            showLoadMore();
+//                        }
+//                        moreDataListener.loadMoreData();
+//                    }
                 }
             });
         }
     }
 
-    private interface BaseOnScrollListener{}
+    private interface BaseOnScrollListener {
+    }
 
-    public interface MoreDataListener extends BaseOnScrollListener{
+    public interface MoreDataListener extends BaseOnScrollListener {
         void loadMoreData();
     }
 
-    public void addMoreData(final List<C> mIcells){
+    public void addMoreData(final List<C> mIcells) {
         mHandler.post(new Runnable() {
             @Override
             public void run() {
-                if (isLoadMore){//加载更多时，重置状态
+                if (isLoadMore) {//加载更多时，重置状态
                     hideLoadeMore();
                 }
                 addAll(mIcells);

@@ -11,7 +11,13 @@ import com.orhanobut.logger.Logger;
 import com.ps.androidlib.rcline.DashlineItemDivider;
 import com.ps.androidlib.rcline.DividerItemDecoration;
 
+import java.lang.ref.Reference;
 import java.util.Random;
+
+import io.reactivex.Observable;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Predicate;
 
 /**
  * Created by kamangkeji on 17/1/19.
@@ -124,11 +130,35 @@ public class RVUtils {
         mSwipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                if (refreshListener != null){
-                    // 开始刷新，设置当前为刷新状态
-                    mSwipeRefresh.setRefreshing(true);
-                    refreshListener.onRefresh(mSwipeRefresh);
-                }
+                Observable.just(refreshListener)
+                        .filter(new Predicate<OnSwipeRefresh>() {
+                            @Override
+                            public boolean test(@NonNull OnSwipeRefresh onSwipeRefresh) throws Exception {
+                                return refreshListener != null;
+                            }
+                        })
+                        .doOnNext(new Consumer<OnSwipeRefresh>() {
+                            @Override
+                            public void accept(@NonNull OnSwipeRefresh onSwipeRefresh) throws Exception {
+                                mSwipeRefresh.setRefreshing(true);
+                            }
+                        })
+                        .doOnNext(new Consumer<OnSwipeRefresh>() {
+                            @Override
+                            public void accept(@NonNull OnSwipeRefresh onSwipeRefresh) throws Exception {
+                                onSwipeRefresh.onRefresh(mSwipeRefresh);
+                            }
+                        }).subscribe(new Consumer<OnSwipeRefresh>() {
+                    @Override
+                    public void accept(@NonNull OnSwipeRefresh onSwipeRefresh) throws Exception {
+                        mSwipeRefresh.setRefreshing(false);
+                    }
+                });
+//                if (refreshListener != null){
+//                    // 开始刷新，设置当前为刷新状态
+//                    mSwipeRefresh.setRefreshing(true);
+//                    refreshListener.onRefresh(mSwipeRefresh);
+//                }
             }
         });
     }

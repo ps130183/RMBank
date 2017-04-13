@@ -20,6 +20,7 @@ import com.km.rmbank.dto.UserInfoDto;
 import com.km.rmbank.entity.PersonalFunctionEntity;
 import com.km.rmbank.dto.UserDto;
 import com.km.rmbank.module.personal.account.UserAccountActivity;
+import com.km.rmbank.module.personal.attention.AttentionGoodsActivity;
 import com.km.rmbank.module.personal.goodsmanager.GoodsManagerActivity;
 import com.km.rmbank.module.personal.integral.MyIntegralActivity;
 import com.km.rmbank.module.personal.order.MyOrderActivity;
@@ -217,7 +218,8 @@ public class PersonalFragment extends BaseFragment<PersonalPresenter> implements
                     MToast.showToast(getContext(), "在线客服");
                     break;
                 case R.id.tv_attention:
-                    MToast.showToast(getContext(), "我的关注");
+//                    MToast.showToast(getContext(), "我的关注");
+                    toNextActivity(AttentionGoodsActivity.class);
                     break;
             }
         }

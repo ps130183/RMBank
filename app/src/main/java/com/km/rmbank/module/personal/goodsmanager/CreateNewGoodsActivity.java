@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
-import android.support.annotation.StringDef;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -23,8 +22,6 @@ import com.km.rmbank.dto.GoodsTypeDto;
 import com.km.rmbank.entity.ImageEntity;
 import com.km.rmbank.ui.CircleProgressView;
 import com.km.rmbank.utils.InputFilterUtils;
-import com.km.rmbank.utils.retrofit.SecretConstant;
-import com.orhanobut.logger.Logger;
 import com.ps.androidlib.utils.DialogUtils;
 import com.ps.androidlib.utils.GlideUtils;
 import com.ps.androidlib.utils.imageselector.ImageUtils;
@@ -34,10 +31,8 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import ch.halcyon.squareprogressbar.SquareProgressBar;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.BiConsumer;
 import io.reactivex.functions.BiFunction;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
@@ -300,7 +295,7 @@ public class CreateNewGoodsActivity extends BaseActivity<CreateNewGoodsPresenter
         if (resultCode == 1000) {//商品类型
             goodsTypeDto = data.getParcelableExtra("goodsTypeDto");
             if (goodsTypeDto != null) {
-                etGoodsType.setText(goodsTypeDto.getTypeName());
+                etGoodsType.setText(goodsTypeDto.getProductType());
             }
         }
     }
@@ -383,7 +378,7 @@ public class CreateNewGoodsActivity extends BaseActivity<CreateNewGoodsPresenter
         goodsDetailsDto.setFreightInEveryAdd(etFrieghtAdd.getText().toString());
         goodsDetailsDto.setProductBannerUrl(getImageUrl(bannerPathList));
         goodsDetailsDto.setProductDetail(getImageUrl(goodsDetailPathList));
-        goodsDetailsDto.setIsInIndexActivity("1");
+        goodsDetailsDto.setIsInIndexActivity(goodsTypeDto.getTypeId());
         if (TextUtils.isEmpty(actionUrl1) || TextUtils.isEmpty(actionUrl2) || TextUtils.isEmpty(actionUrl3)) {
             showToast("请上传活动图片");
             return;

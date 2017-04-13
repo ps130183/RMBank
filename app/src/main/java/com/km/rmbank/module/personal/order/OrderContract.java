@@ -2,8 +2,7 @@ package com.km.rmbank.module.personal.order;
 
 import com.km.rmbank.basic.BasePresenter;
 import com.km.rmbank.basic.BaseView;
-import com.km.rmbank.entity.OrderEntity;
-import com.km.rv_libs.base.ICell;
+import com.km.rmbank.dto.OrderDto;
 
 import java.util.List;
 
@@ -13,7 +12,7 @@ import java.util.List;
 
 public interface OrderContract {
     interface View extends BaseView{
-        void showOrderList(List<OrderEntity> orderEntities, int page);
+        void showOrderList(List<OrderDto> orderEntities, int page);
     }
     interface Presenter extends BasePresenter{
         void loadOrder(int page,String finishOrder);

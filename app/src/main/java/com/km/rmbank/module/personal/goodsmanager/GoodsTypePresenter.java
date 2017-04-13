@@ -8,6 +8,9 @@ import com.km.rmbank.utils.retrofit.PresenterWrapper;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
+
 /**
  * Created by kamangkeji on 17/4/6.
  */
@@ -21,14 +24,21 @@ public class GoodsTypePresenter extends PresenterWrapper<GoodsTypeContract.View>
 
     @Override
     public void getGoodsType() {
-        List<GoodsTypeDto> goodsTypeDtos = new ArrayList<>();
-        goodsTypeDtos.add(new GoodsTypeDto("武器"));
-        goodsTypeDtos.add(new GoodsTypeDto("渔业"));
-        goodsTypeDtos.add(new GoodsTypeDto("海产品"));
-        goodsTypeDtos.add(new GoodsTypeDto("煤炭"));
-        goodsTypeDtos.add(new GoodsTypeDto("互联网"));
-        goodsTypeDtos.add(new GoodsTypeDto("林木"));
-        mView.showGoodsType(goodsTypeDtos);
+//        List<GoodsTypeDto> goodsTypeDtos = new ArrayList<>();
+//        goodsTypeDtos.add(new GoodsTypeDto("武器"));
+//        goodsTypeDtos.add(new GoodsTypeDto("渔业"));
+//        goodsTypeDtos.add(new GoodsTypeDto("海产品"));
+//        goodsTypeDtos.add(new GoodsTypeDto("煤炭"));
+//        goodsTypeDtos.add(new GoodsTypeDto("互联网"));
+//        goodsTypeDtos.add(new GoodsTypeDto("林木"));
+        mApiwrapper.getGoodsTypes()
+                .subscribe(newSubscriber(new Consumer<List<GoodsTypeDto>>() {
+                    @Override
+                    public void accept(@NonNull List<GoodsTypeDto> goodsTypeDtos) throws Exception {
+                        mView.showGoodsType(goodsTypeDtos);
+                    }
+                }));
+
     }
 
     @Override

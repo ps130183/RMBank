@@ -24,7 +24,7 @@
         app:pressedTranslationZ="10dp"
         />
 
-        <include layout="@layout/recyclerview_pull_refresh"/>
+        <include layout="@layout/recyclerview"/>
 
 
     </RelativeLayout>

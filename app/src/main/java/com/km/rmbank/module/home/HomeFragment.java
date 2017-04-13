@@ -8,6 +8,7 @@ import com.km.rmbank.R;
 import com.km.rmbank.adapter.HomeAdapter;
 import com.km.rmbank.basic.BaseFragment;
 import com.km.rmbank.basic.RVUtils;
+import com.km.rmbank.dto.HomeRecommendDto;
 import com.km.rmbank.entity.HomeEntity;
 import com.ps.androidlib.utils.BannerUtils;
 import com.ps.androidlib.utils.MToast;
@@ -23,7 +24,7 @@ import butterknife.BindView;
  * Created by kamangkeji on 17/3/14.
  */
 
-public class HomeFragment extends BaseFragment {
+public class HomeFragment extends BaseFragment<HomePresenter> implements HomeContract.View {
 
     @BindView(R.id.banner)
     Banner banner;
@@ -40,6 +41,11 @@ public class HomeFragment extends BaseFragment {
     @Override
     protected int getContentView() {
         return R.layout.fragment_home;
+    }
+
+    @Override
+    public HomePresenter getmPresenter() {
+        return new HomePresenter(this);
     }
 
     @Override
@@ -66,13 +72,13 @@ public class HomeFragment extends BaseFragment {
     private void initrcContentView(){
         RVUtils.setLinearLayoutManage(rcContent, LinearLayoutManager.VERTICAL);
         RVUtils.addDivideItemForRv(rcContent);
-        HomeAdapter adapter = new HomeAdapter(getContext(),R.layout.item_rc_home);
+        HomeAdapter adapter = new HomeAdapter(getContext());
         rcContent.setAdapter(adapter);
+    }
 
-        List<HomeEntity> homeModels = new ArrayList<>();
-        for (int i = 0; i < 5; i++){
-            homeModels.add(new HomeEntity());
-        }
-        adapter.addData(homeModels);
+    @Override
+    public void getRecommendSuccess(List<HomeRecommendDto> homeRecommendDtos) {
+        HomeAdapter adapter = (HomeAdapter) rcContent.getAdapter();
+        adapter.addData(homeRecommendDtos);
     }
 }

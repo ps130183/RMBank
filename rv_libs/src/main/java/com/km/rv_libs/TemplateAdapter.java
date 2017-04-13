@@ -20,8 +20,10 @@ import java.util.List;
 
 public class TemplateAdapter extends BaseAdapter {
 
-    public TemplateAdapter() {
+    private List<ICell> headerCells;
 
+    public TemplateAdapter() {
+        headerCells = new ArrayList<>();
     }
 
     @Override
@@ -37,5 +39,13 @@ public class TemplateAdapter extends BaseAdapter {
         emptyCell.setEmptyLayoutRes(emptyLayoutRes);
     }
 
+    public void addHeader(ICell iCell){
+        headerCells.add(iCell);
+        add(iCell);
+    }
+
+    public List<ICell> getHeaderCells(){
+        return headerCells;
+    }
 
 }

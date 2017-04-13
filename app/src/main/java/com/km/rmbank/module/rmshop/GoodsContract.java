@@ -16,6 +16,6 @@ public interface GoodsContract {
         void showGoodsList(List<GoodsDto> goodsDtos,int pageNo);
     }
     interface Presenter extends BasePresenter{
-        void loadGoodsList(int pageNo);
+        void loadGoodsList(int pageNo,String typeId);
     }
 }

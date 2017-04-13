@@ -2,9 +2,12 @@ package com.km.rmbank.api;
 
 
 import com.google.gson.Gson;
+import com.km.rmbank.dto.ActionDto;
 import com.km.rmbank.dto.DefaultDto;
 import com.km.rmbank.dto.GoodsDetailsDto;
 import com.km.rmbank.dto.GoodsDto;
+import com.km.rmbank.dto.GoodsTypeDto;
+import com.km.rmbank.dto.HomeRecommendDto;
 import com.km.rmbank.dto.MemberTypeDto;
 import com.km.rmbank.dto.PayOrderDto;
 import com.km.rmbank.dto.ReceiverAddressDto;
@@ -17,7 +20,7 @@ import com.km.rmbank.dto.UserInfoDto;
 import com.km.rmbank.dto.IndustryDto;
 import com.km.rmbank.dto.WeiCharParamsDto;
 import com.km.rmbank.dto.WithDrawAccountDto;
-import com.km.rmbank.entity.OrderEntity;
+import com.km.rmbank.dto.OrderDto;
 import com.km.rmbank.utils.Constant;
 import com.km.rmbank.utils.fileupload.FileUploadingListener;
 import com.km.rmbank.utils.fileupload.UploadFileRequestBody;
@@ -260,8 +263,8 @@ public class ApiWrapper extends RetrofitUtil {
      * @param pageNo
      * @return
      */
-    public Flowable<List<GoodsDto>> getGoodsListOfShopping(int pageNo){
-        return getService().getGoodsListOfShopping(pageNo,"")
+    public Flowable<List<GoodsDto>> getGoodsListOfShopping(int pageNo,String typeId){
+        return getService().getGoodsListOfShopping(pageNo,typeId)
                 .compose(this.<List<GoodsDto>>applySchedulers());
     }
 
@@ -469,9 +472,48 @@ public class ApiWrapper extends RetrofitUtil {
      * @param pageNo
      * @return
      */
-    public Flowable<List<OrderEntity>> getOrderList(String type, int pageNo){
+    public Flowable<List<OrderDto>> getOrderList(String type, int pageNo){
         return getService().getOrderList(Constant.user.getToken(),type,pageNo)
-                .compose(this.<List<OrderEntity>>applySchedulers());
+                .compose(this.<List<OrderDto>>applySchedulers());
+    }
+
+    /**
+     * 获取商品分类
+     * @return
+     */
+    public Flowable<List<GoodsTypeDto>> getGoodsTypes(){
+        return getService().getGoodsTypes(Constant.user.getToken())
+                .compose(this.<List<GoodsTypeDto>>applySchedulers());
+    }
+
+    /**
+     * 获取关注商品列表
+     * @param pageNo
+     * @return
+     */
+    public Flowable<List<GoodsDto>> getAttentionGoodsList(int pageNo){
+        return getService()
+                .getAttentionGoodsList(Constant.user.getToken(),pageNo)
+                .compose(this.<List<GoodsDto>>applySchedulers());
+    }
+
+    /**
+     * 获取活动列表
+     * @param pageNo
+     * @return
+     */
+    public Flowable<List<ActionDto>> getActionList(int pageNo){
+        return getService().getActionList(pageNo)
+                .compose(this.<List<ActionDto>>applySchedulers());
+    }
+
+    /**
+     * 获取首页活动 商品推荐
+     * @return
+     */
+    public Flowable<List<HomeRecommendDto>> getHomeRecommend(){
+        return getService().getHomeActionRecommend(1)
+                .compose(this.<List<HomeRecommendDto>>applySchedulers());
     }
 
 }

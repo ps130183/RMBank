@@ -19,6 +19,7 @@
             android:background="@drawable/shape_member_type_selected"
             />
         <TextView
+            android:id="@+id/tv_shop_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="海参大礼包 1.3kg 超值狂送"
@@ -57,6 +58,7 @@
             />
 
         <TextView
+            android:id="@+id/tv_goods_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="海参大礼包 产自新西昌平区 3只＊150g促销大保健）速度围观啦～"
@@ -123,7 +125,7 @@
         android:paddingRight="@dimen/view_space_8">
         <Button
             android:layout_width="80dp"
-            android:layout_height="40dp"
+            android:layout_height="30dp"
             android:text="去支付"
             style="@style/Personal.User.Order.Button"
             android:layout_margin="@dimen/view_space_8"

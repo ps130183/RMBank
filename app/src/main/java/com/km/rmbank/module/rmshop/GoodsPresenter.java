@@ -22,10 +22,10 @@ public class GoodsPresenter extends PresenterWrapper<GoodsContract.View> impleme
     }
 
     @Override
-    public void loadGoodsList(final int pageNo) {
+    public void loadGoodsList(final int pageNo,String typeId) {
 //        Logger.d("当前View == " + view.toString() + "  pageNo == " + pageNo);
         mView.showLoading();
-        mApiwrapper.getGoodsListOfShopping(pageNo)
+        mApiwrapper.getGoodsListOfShopping(pageNo,typeId)
                 .subscribe(newSubscriber(new Consumer<List<GoodsDto>>() {
                     @Override
                     public void accept(@NonNull List<GoodsDto> goodsDtos) throws Exception {

@@ -9,7 +9,7 @@ import com.km.rmbank.adapter.MyOrderAdapter;
 import com.km.rmbank.basic.BaseAdapter;
 import com.km.rmbank.basic.BaseFragment;
 import com.km.rmbank.basic.RVUtils;
-import com.km.rmbank.entity.OrderEntity;
+import com.km.rmbank.dto.OrderDto;
 
 import java.util.List;
 
@@ -58,7 +58,7 @@ public class MyOrderFragment extends BaseFragment<OrderPresenter> implements Ord
     }
 
     @Override
-    public void showOrderList(List<OrderEntity> orderEntities, int page) {
+    public void showOrderList(List<OrderDto> orderEntities, int page) {
         MyOrderAdapter adapter = (MyOrderAdapter) mRecyclerView.getAdapter();
         adapter.addData(orderEntities,page);
     }

@@ -7,6 +7,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.km.rmbank.R;
@@ -31,6 +32,7 @@ import butterknife.OnTouch;
 public class ShoppingCartParentListAdapter extends BaseAdapter<ShoppingCartDto> implements BaseAdapter.IAdapter<ShoppingCartParentListAdapter.ViewHolder>, BaseAdapter.ItemClickListener<GoodsDetailsDto> {
 
     private boolean isShoppingCart;
+    private boolean isShowFreight;//是否显示运费  默认不显示
 
     private boolean isParentCheckChange;
     private onCheckedAllListener checkedAllListener;
@@ -118,11 +120,14 @@ public class ShoppingCartParentListAdapter extends BaseAdapter<ShoppingCartDto> 
         RecyclerView rvGoods;
         ShoppingCartSubListAdapter subListAdapter;
 
+        @BindView(R.id.rl_freight)
+        RelativeLayout rlFreight;
+
         public ViewHolder(View itemView) {
             super(itemView);
             initRvGoods();
-
             mCheckBox.setVisibility(isShoppingCart ? View.VISIBLE : View.GONE);
+            rlFreight.setVisibility(isShowFreight ? View.VISIBLE : View.GONE);
         }
 
         private void initRvGoods() {
@@ -244,6 +249,10 @@ public class ShoppingCartParentListAdapter extends BaseAdapter<ShoppingCartDto> 
 
     public void setCheckedAllListener(onCheckedAllListener checkedAllListener) {
         this.checkedAllListener = checkedAllListener;
+    }
+
+    public void setShowFreight(boolean showFreight) {
+        isShowFreight = showFreight;
     }
 
     /**

@@ -11,19 +11,21 @@ import com.km.rmbank.basic.BaseEntity;
  */
 
 public class GoodsTypeDto extends BaseEntity implements Parcelable {
-    private String typeName;
+    private String typeId;
+    private String productType;
 
     private boolean isChecked;
     public GoodsTypeDto(String typeName) {
-        this.typeName = typeName;
+        this.productType = typeName;
+        typeId = "";
     }
 
-    public String getTypeName() {
-        return typeName;
+    public String getProductType() {
+        return productType;
     }
 
-    public void setTypeName(String typeName) {
-        this.typeName = typeName;
+    public void setProductType(String productType) {
+        this.productType = productType;
     }
 
     public boolean isChecked() {
@@ -34,9 +36,17 @@ public class GoodsTypeDto extends BaseEntity implements Parcelable {
         isChecked = checked;
     }
 
+    public String getTypeId() {
+        return typeId;
+    }
+
+    public void setTypeId(String typeId) {
+        this.typeId = typeId;
+    }
+
     @Override
     public boolean isEmpty() {
-        if (!TextUtils.isEmpty(typeName)){
+        if (!TextUtils.isEmpty(productType)){
             return false;
         }
         return true;
@@ -49,16 +59,18 @@ public class GoodsTypeDto extends BaseEntity implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.typeName);
+        dest.writeString(this.typeId);
+        dest.writeString(this.productType);
         dest.writeByte(this.isChecked ? (byte) 1 : (byte) 0);
     }
 
     protected GoodsTypeDto(Parcel in) {
-        this.typeName = in.readString();
+        this.typeId = in.readString();
+        this.productType = in.readString();
         this.isChecked = in.readByte() != 0;
     }
 
-    public static final Parcelable.Creator<GoodsTypeDto> CREATOR = new Parcelable.Creator<GoodsTypeDto>() {
+    public static final Creator<GoodsTypeDto> CREATOR = new Creator<GoodsTypeDto>() {
         @Override
         public GoodsTypeDto createFromParcel(Parcel source) {
             return new GoodsTypeDto(source);

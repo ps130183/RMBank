@@ -10,6 +10,7 @@ import com.km.rmbank.R;
 import com.km.rmbank.adapter.ViewPagerTabLayoutAdapter;
 import com.km.rmbank.basic.BaseFragment;
 import com.km.rmbank.basic.BasePresenter;
+import com.km.rmbank.dto.GoodsTypeDto;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +21,7 @@ import butterknife.BindView;
  * Created by kamangkeji on 17/3/14.
  */
 
-public class RmShopFragment extends BaseFragment {
+public class RmShopFragment extends BaseFragment<RmShopPresenter> implements RmShopContract.View {
 
     @BindView(R.id.title)
     TextView title;
@@ -48,9 +49,14 @@ public class RmShopFragment extends BaseFragment {
     }
 
     @Override
+    public RmShopPresenter getmPresenter() {
+        return new RmShopPresenter(this);
+    }
+
+    @Override
     protected void createView() {
         title.setText("人脉商城");
-        initViewPager();
+//        initViewPager();
     }
 
 
@@ -67,6 +73,24 @@ public class RmShopFragment extends BaseFragment {
             Bundle bundle  = new Bundle();
             bundle.putString("tabname", mTitle[i]);
             bundle.putInt("tabid",i);
+            fragments.add(GoodsFragment.newInstance(bundle));
+        }
+        ViewPagerTabLayoutAdapter viewPagerAdapter = new ViewPagerTabLayoutAdapter(this.getFragmentManager(),fragments,titleList);
+        viewPager.setAdapter(viewPagerAdapter);
+
+        mStabLayout.setViewPager(viewPager);
+    }
+
+    @Override
+    public void getGoodsTypeSuccess(List<GoodsTypeDto> goodsTypeDtos) {
+        GoodsTypeDto allGoods = new GoodsTypeDto("全部分类");
+        goodsTypeDtos.add(0,allGoods);
+        List<Fragment> fragments = new ArrayList<>();
+        List<String> titleList = new ArrayList<>();
+        for (GoodsTypeDto goodsTypeDto : goodsTypeDtos){
+            titleList.add(goodsTypeDto.getProductType());
+            Bundle bundle = new Bundle();
+            bundle.putParcelable("goodsTypeDto",goodsTypeDto);
             fragments.add(GoodsFragment.newInstance(bundle));
         }
         ViewPagerTabLayoutAdapter viewPagerAdapter = new ViewPagerTabLayoutAdapter(this.getFragmentManager(),fragments,titleList);
