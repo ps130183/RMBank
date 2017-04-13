@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="@dimen/view_space_16"
+    android:paddingRight="@dimen/view_space_16"
+    android:paddingTop="@dimen/view_space_8"
+    android:paddingBottom="@dimen/view_space_8"
+    android:background="@color/color_white"
+    >
+
+    <TextView
+        android:id="@+id/tv_protrait"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:background="@drawable/shape_member_type_selected"
+        />
+
+    <TextView
+        android:id="@+id/tv_shop_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="小宝哥"
+        android:layout_toRightOf="@+id/tv_protrait"
+        android:layout_marginLeft="@dimen/view_space_8"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:text="2017-02-11"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_protrait"
+        android:layout_marginTop="@dimen/view_space_4"
+        android:text="看到商品后我的心凌乱了，这他妈是什么东西，吃一次我就上瘾了，你说海参长得跟他妈大象似的有意思吗？"
+        />
+</RelativeLayout>
