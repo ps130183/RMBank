@@ -6,9 +6,12 @@ import android.os.Bundle;
 
 import com.hss01248.dialog.MyActyManager;
 import com.hss01248.dialog.StyledDialog;
+import com.km.rmbank.utils.UmengShareUtils;
 import com.orhanobut.logger.LogLevel;
 import com.orhanobut.logger.Logger;
 import com.ps.androidlib.utils.Utils;
+import com.umeng.socialize.PlatformConfig;
+import com.umeng.socialize.UMShareAPI;
 
 /**
  * Created by kamangkeji on 17/2/11.
@@ -24,6 +27,7 @@ public class BaseApplication extends Application {
         initLogUtils();
         registCallback();
         initUtils();
+        UmengShareUtils.initUmengShare(this);
     }
 
     public static BaseApplication getInstance(){
@@ -89,4 +93,5 @@ public class BaseApplication extends Application {
         Utils.init(this);
 //        SPUtils spUtils = new SPUtils("RMbank");
     }
+
 }

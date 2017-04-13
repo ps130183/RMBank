@@ -32,10 +32,14 @@ import com.km.rmbank.module.personal.userinfo.EditUserCardActivity;
 import com.km.rmbank.module.personal.userinfo.UserInfoActivity;
 import com.km.rmbank.module.personal.vip.BecomeVIPActivity;
 import com.km.rmbank.utils.Constant;
+import com.km.rmbank.utils.UmengShareUtils;
 import com.km.rv_libs.TemplateAdapter;
 import com.km.rv_libs.base.ICell;
+import com.orhanobut.logger.Logger;
 import com.ps.androidlib.utils.DialogUtils;
 import com.ps.androidlib.utils.MToast;
+import com.umeng.socialize.UMShareListener;
+import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.xys.libzxing.zxing.activity.CaptureActivity;
 
 import java.util.ArrayList;
@@ -53,6 +57,7 @@ import kr.co.namee.permissiongen.PermissionSuccess;
 public class PersonalFragment extends BaseFragment<PersonalPresenter> implements PersonalContract.View {
 
     public final static int REQUEST_PERMISSION_CAMERA = 1;
+    public final static int REQUEST_PERMISSION_SHARE = 2;
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -119,6 +124,16 @@ public class PersonalFragment extends BaseFragment<PersonalPresenter> implements
     }
 
 
+    @PermissionSuccess(requestCode = REQUEST_PERMISSION_SHARE)
+    public void requesShare(){
+
+    }
+    @PermissionFail(requestCode = REQUEST_PERMISSION_SHARE)
+    public void failShare(){
+        showToast("获取权限失败");
+    }
+
+
     /**
      * 初始化toolbar
      */
@@ -133,13 +148,41 @@ public class PersonalFragment extends BaseFragment<PersonalPresenter> implements
                     PermissionGen.needPermission(PersonalFragment.this,
                             REQUEST_PERMISSION_CAMERA, Manifest.permission.CAMERA);
                 } else if (item.getItemId() == R.id.share) {
-                    MToast.showToast(getContext(), "分享");
+//                    PermissionGen.needPermission(PersonalFragment.this,REQUEST_PERMISSION_SHARE,mPermissionList);
+                    openShare();
                 }
                 return false;
             }
         });
 
     }
+
+    private void openShare(){
+        UmengShareUtils.openShare(getActivity(), new UMShareListener() {
+            @Override
+            public void onStart(SHARE_MEDIA share_media) {
+
+            }
+
+            @Override
+            public void onResult(SHARE_MEDIA share_media) {
+                showToast("分享成功");
+            }
+
+            @Override
+            public void onError(SHARE_MEDIA share_media, Throwable throwable) {
+                Logger.d(throwable.getMessage());
+
+                showToast("分享失败");
+            }
+
+            @Override
+            public void onCancel(SHARE_MEDIA share_media) {
+                showToast("取消分享");
+            }
+        });
+    }
+
 
     private void initRvContent() {
 

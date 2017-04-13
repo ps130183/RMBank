@@ -1,5 +1,6 @@
 package com.km.rmbank.module;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
@@ -20,6 +21,7 @@ import com.km.rmbank.module.rmshop.RmShopFragment;
 import com.km.rmbank.utils.Constant;
 import com.ps.androidlib.entity.TabEntity;
 import com.ps.androidlib.utils.SPUtils;
+import com.umeng.socialize.UMShareAPI;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,8 +73,6 @@ public class HomeActivity extends BaseActivity {
     }
 
 
-    Random mRandom = new Random();
-
     private void initTabLayout() {
 
         List<Fragment> fragmentList = new ArrayList<>();
@@ -105,5 +105,18 @@ public class HomeActivity extends BaseActivity {
 //                }
             }
         });
+    }
+
+
+    /**
+     * 分享回调
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
     }
 }

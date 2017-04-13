@@ -1,30 +1,12 @@
 package com.km.rmbank.wxapi;
 
 
-//import com.umeng.socialize.weixin.view.WXCallbackActivity;
+//import com.umeng.weixin.callback.WXCallbackActivity;
 
-import android.support.annotation.NonNull;
+import com.umeng.socialize.weixin.view.WXCallbackActivity;
 
-import com.km.rmbank.basic.BaseActivity;
+public class WXEntryActivity extends WXCallbackActivity {
 
-/**
- * Created by ntop on 15/9/4.
- */
-public class WXEntryActivity extends BaseActivity {
 
-    @Override
-    protected int getContentView() {
-        return 0;
-    }
 
-    @NonNull
-    @Override
-    protected String getTitleName() {
-        return null;
-    }
-
-    @Override
-    protected void onCreate() {
-
-    }
 }
