@@ -275,6 +275,17 @@ public interface ApiService {
                                                               @Field("isInIndexActivity") String isInIndexActivity);
 
     /**
+     * 获取商品列表  搜索
+     *
+     * @param pageNo
+     * @returnr
+     */
+    @FormUrlEncoded
+    @POST(SecretConstant.API_HOST_PATH + "/product/normal/search")
+    Flowable<Response<List<GoodsDto>>> getGoodsListOfSearch(@Field("pageNo") int pageNo,
+                                                              @Field("name") String name);
+
+    /**
      * 商家列表的商品列表
      *
      * @param pageNo
@@ -284,6 +295,7 @@ public interface ApiService {
     @POST(SecretConstant.API_HOST_PATH + "/auth/product/normal/shop/list")
     Flowable<Response<List<GoodsDto>>> getGoodsListOfShop(@Field("token") String token,
                                                           @Field("pageNo") int pageNo);
+
 
     /**
      * 获取商品详情

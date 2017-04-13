@@ -16,7 +16,7 @@
     <!--标题栏背景色-->
     <color name="color_toolbar_background">#d50000</color>
 
-    <color name="color_search_background">#36000000</color>
+    <color name="color_search_background">#88000000</color>
 
     <color name="color_text_gray">#d4d2d2</color>
     <color name="color_text_gray1">#636363</color>

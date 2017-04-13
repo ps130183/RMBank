@@ -130,7 +130,8 @@
         <activity android:name=".module.personal.receiveraddress.CreateReceiverAddressActivity" />
         <activity android:name=".module.register.RegisterUserActivity" />
         <activity android:name=".module.personal.goodsmanager.GoodsTypeActivity" />
-        <activity android:name=".module.personal.attention.AttentionGoodsActivity"></activity>
+        <activity android:name=".module.personal.attention.AttentionGoodsActivity" />
+        <activity android:name=".module.home.SearchActivity"></activity>
     </application>
 
 </manifest>

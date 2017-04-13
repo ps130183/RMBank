@@ -53,4 +53,5 @@ public class GoodsListShoppingAdapter extends BaseAdapter<GoodsDto> implements B
             super(itemView);
         }
     }
+
 }

@@ -4,20 +4,50 @@
     android:layout_height="wrap_content"
     android:gravity="center_vertical">
 
-    <EditText
-        android:id="@+id/et_search"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="@dimen/view_space_8"
+        android:background="@drawable/shape_et_search"
+        android:layout_margin="@dimen/view_space_8"
         android:layout_toLeftOf="@+id/btn_search"
-        android:hint="请输入客户号或客户名搜索"
-        android:textSize="@dimen/text_size_14" />
+        >
+
+        <ImageView
+            android:id="@+id/iv_search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/ic_search_32"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/view_space_8"
+            />
+
+        <EditText
+            android:id="@+id/et_search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/view_space_8"
+            android:hint="请输入搜索的商品名称"
+            android:layout_toRightOf="@id/iv_search"
+            android:background="@color/color_white"
+            android:textSize="@dimen/text_size_12"
+            android:layout_marginTop="@dimen/view_space_8"
+            android:layout_marginBottom="@dimen/view_space_8"
+            android:layout_marginRight="@dimen/view_space_8"/>
+    </RelativeLayout>
 
     <Button
         android:id="@+id/btn_search"
         android:layout_width="60dp"
         android:layout_height="30dp"
+        android:text="搜索"
+        android:background="@drawable/shape_btn_bg_red"
+        android:textColor="@color/color_white"
+        android:textStyle="bold"
+        android:textSize="@dimen/text_size_14"
         android:layout_alignParentRight="true"
-        android:text="搜索" />
+        android:layout_centerVertical="true"
+        android:layout_marginRight="@dimen/view_space_16"
+        />
+
 </RelativeLayout>

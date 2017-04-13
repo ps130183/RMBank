@@ -269,6 +269,16 @@ public class ApiWrapper extends RetrofitUtil {
     }
 
     /**
+     * 获取商城的 搜索
+     * @param pageNo
+     * @return
+     */
+    public Flowable<List<GoodsDto>> getGoodsListOfSearch(int pageNo,String name){
+        return getService().getGoodsListOfSearch(pageNo,name)
+                .compose(this.<List<GoodsDto>>applySchedulers());
+    }
+
+    /**
      * 获取商家发布的商品列表
      * @param pageNo
      * @return

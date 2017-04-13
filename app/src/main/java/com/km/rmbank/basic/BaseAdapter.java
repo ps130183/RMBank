@@ -48,7 +48,7 @@ public class BaseAdapter<T> extends RecyclerView.Adapter<BaseAdapter.BaseViewHol
     private IAdapter iAdapter;
 
     private ItemClickListener<T> itemClickListener;
-    private int curPage = 0;
+    protected int curPage = 0;
 
     private MoreDataListener moreDataListener;
 
@@ -259,6 +259,7 @@ public class BaseAdapter<T> extends RecyclerView.Adapter<BaseAdapter.BaseViewHol
     public void clearAllData() {
         if (listContents != null) {
             listContents.clear();
+            curPage = 0;
             notifyDataSetChanged();
         }
     }

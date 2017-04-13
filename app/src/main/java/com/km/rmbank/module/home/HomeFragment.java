@@ -3,6 +3,8 @@ package com.km.rmbank.module.home;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.EditText;
 
 import com.km.rmbank.R;
 import com.km.rmbank.adapter.HomeAdapter;
@@ -19,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 /**
  * Created by kamangkeji on 17/3/14.
@@ -31,6 +34,9 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
 
     @BindView(R.id.rc_content)
     RecyclerView rcContent;
+
+    @BindView(R.id.et_search)
+    EditText etSearch;
 
     public static HomeFragment newInstance(Bundle bundle) {
         HomeFragment fragment = new HomeFragment();
@@ -80,5 +86,10 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
     public void getRecommendSuccess(List<HomeRecommendDto> homeRecommendDtos) {
         HomeAdapter adapter = (HomeAdapter) rcContent.getAdapter();
         adapter.addData(homeRecommendDtos);
+    }
+
+    @OnClick(R.id.et_search)
+    public void etSearch(View view){
+        toNextActivity(SearchActivity.class);
     }
 }
