@@ -131,7 +131,8 @@
         <activity android:name=".module.register.RegisterUserActivity" />
         <activity android:name=".module.personal.goodsmanager.GoodsTypeActivity" />
         <activity android:name=".module.personal.attention.AttentionGoodsActivity" />
-        <activity android:name=".module.home.SearchActivity"></activity>
+        <activity android:name=".module.home.SearchActivity" />
+        <activity android:name=".module.home.message.MessageActivity"></activity>
     </application>
 
 </manifest>

@@ -7,6 +7,7 @@ import com.km.rmbank.dto.GoodsDto;
 import com.km.rmbank.dto.GoodsTypeDto;
 import com.km.rmbank.dto.HomeRecommendDto;
 import com.km.rmbank.dto.MemberTypeDto;
+import com.km.rmbank.dto.MessageDto;
 import com.km.rmbank.dto.PayOrderDto;
 import com.km.rmbank.dto.ReceiverAddressDto;
 import com.km.rmbank.dto.Response;
@@ -584,5 +585,15 @@ public interface ApiService {
     @POST(SecretConstant.API_HOST_PATH + "/product/recommend/list")
     Flowable<Response<List<HomeRecommendDto>>> getHomeActionRecommend(@Field("pageNo") int pageNo);
 
+    /**
+     * 获取首页消息
+     *
+     * @param pageNo
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(SecretConstant.API_HOST_PATH + "/auth/notice/list")
+    Flowable<Response<List<MessageDto>>> getMessage(@Field("token") String token,
+                                                    @Field("pageNo") int pageNo);
 
 }

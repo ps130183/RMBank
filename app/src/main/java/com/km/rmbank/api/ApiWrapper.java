@@ -9,6 +9,7 @@ import com.km.rmbank.dto.GoodsDto;
 import com.km.rmbank.dto.GoodsTypeDto;
 import com.km.rmbank.dto.HomeRecommendDto;
 import com.km.rmbank.dto.MemberTypeDto;
+import com.km.rmbank.dto.MessageDto;
 import com.km.rmbank.dto.PayOrderDto;
 import com.km.rmbank.dto.ReceiverAddressDto;
 import com.km.rmbank.dto.ShoppingCartDto;
@@ -524,6 +525,16 @@ public class ApiWrapper extends RetrofitUtil {
     public Flowable<List<HomeRecommendDto>> getHomeRecommend(){
         return getService().getHomeActionRecommend(1)
                 .compose(this.<List<HomeRecommendDto>>applySchedulers());
+    }
+
+    /**
+     * 获取首页消息
+     * @param pageNo
+     * @return
+     */
+    public Flowable<List<MessageDto>> getMessage(int pageNo){
+        return getService().getMessage(Constant.user.getToken(),pageNo)
+                .compose(this.<List<MessageDto>>applySchedulers());
     }
 
 }

@@ -12,6 +12,7 @@ import com.km.rmbank.basic.BaseFragment;
 import com.km.rmbank.basic.RVUtils;
 import com.km.rmbank.dto.HomeRecommendDto;
 import com.km.rmbank.entity.HomeEntity;
+import com.km.rmbank.module.home.message.MessageActivity;
 import com.ps.androidlib.utils.BannerUtils;
 import com.ps.androidlib.utils.MToast;
 import com.youth.banner.Banner;
@@ -91,5 +92,10 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
     @OnClick(R.id.et_search)
     public void etSearch(View view){
         toNextActivity(SearchActivity.class);
+    }
+
+    @OnClick(R.id.tv_message)
+    public void message(View view){
+        toNextActivity(MessageActivity.class);
     }
 }
