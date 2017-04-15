@@ -10,7 +10,8 @@ import com.km.rmbank.R;
 import com.km.rmbank.basic.BaseAdapter;
 import com.km.rmbank.entity.ImageEntity;
 import com.km.rmbank.ui.CircleProgressView;
-import com.ps.androidlib.utils.GlideUtils;
+import com.ps.androidlib.utils.DialogUtils;
+import com.ps.androidlib.utils.glide.GlideUtils;
 import com.ps.androidlib.utils.ViewUtils;
 
 import butterknife.BindView;
@@ -24,6 +25,7 @@ public class AddImageAdapter extends BaseAdapter<ImageEntity> implements BaseAda
 
 
     private onClickAddImageListener addImageListener;
+    private OnclickDeleteImageListener onclickDeleteImageListener;
 
     public AddImageAdapter(Context mContext) {
         super(mContext, R.layout.item_rv_image);
@@ -36,10 +38,23 @@ public class AddImageAdapter extends BaseAdapter<ImageEntity> implements BaseAda
     }
 
     @Override
-    public void createView(ViewHolder holder, int position) {
-        ImageEntity entity = getItemData(position);
+    public void createView(ViewHolder holder, final int position) {
+        final ImageEntity entity = getItemData(position);
         GlideUtils.loadImage(holder.ivImage,entity.getImagePath());
         holder.circleProgress.setProgress(entity.getProgress());
+
+        holder.ivDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogUtils.showDefaultAlertDialog("是否要删除该图片？", new DialogUtils.ClickListener() {
+                    @Override
+                    public void clickConfirm() {
+                        removeData(entity);
+                        onclickDeleteImageListener.clickDelete(position);
+                    }
+                });
+            }
+        });
     }
 
     @Override
@@ -50,6 +65,8 @@ public class AddImageAdapter extends BaseAdapter<ImageEntity> implements BaseAda
     class ViewHolder extends BaseViewHolder{
         @BindView(R.id.iv_image)
         ImageView ivImage;
+        @BindView(R.id.iv_delete)
+        ImageView ivDelete;
         @BindView(R.id.circleProgress)
         CircleProgressView circleProgress;
 
@@ -79,6 +96,18 @@ public class AddImageAdapter extends BaseAdapter<ImageEntity> implements BaseAda
 
     public void setAddImageListener(onClickAddImageListener addImageListener) {
         this.addImageListener = addImageListener;
+    }
+
+    public interface OnclickDeleteImageListener{
+        void clickDelete(int position);
+    }
+
+    public OnclickDeleteImageListener getOnclickDeleteImageListener() {
+        return onclickDeleteImageListener;
+    }
+
+    public void setOnclickDeleteImageListener(OnclickDeleteImageListener onclickDeleteImageListener) {
+        this.onclickDeleteImageListener = onclickDeleteImageListener;
     }
 
     /**

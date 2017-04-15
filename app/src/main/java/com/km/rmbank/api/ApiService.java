@@ -2,6 +2,7 @@ package com.km.rmbank.api;
 
 import com.km.rmbank.dto.ActionDto;
 import com.km.rmbank.dto.DefaultDto;
+import com.km.rmbank.dto.EvaluateDto;
 import com.km.rmbank.dto.GoodsDetailsDto;
 import com.km.rmbank.dto.GoodsDto;
 import com.km.rmbank.dto.GoodsTypeDto;
@@ -45,13 +46,13 @@ public interface ApiService {
      * 登录
      *
      * @param mobilePhone
-     * @param loginPwd
+     * @param smsCode
      * @return
      */
     @FormUrlEncoded
-    @POST(SecretConstant.API_HOST_PATH + "/user/login")
+    @POST(SecretConstant.API_HOST_PATH + "/user/registerAndLogin")
     Flowable<Response<UserDto>> login(@Field("mobilePhone") String mobilePhone,
-                                      @Field("loginPwd") String loginPwd);
+                                      @Field("smsCode") String smsCode);
 
     /**
      * 注册
@@ -284,7 +285,7 @@ public interface ApiService {
     @FormUrlEncoded
     @POST(SecretConstant.API_HOST_PATH + "/product/normal/search")
     Flowable<Response<List<GoodsDto>>> getGoodsListOfSearch(@Field("pageNo") int pageNo,
-                                                              @Field("name") String name);
+                                                            @Field("name") String name);
 
     /**
      * 商家列表的商品列表
@@ -347,6 +348,71 @@ public interface ApiService {
                                               @Field("bannerUrl") String bannerUrl,
                                               @Field("isInIndexActivity") String isInIndexActivity);
 
+    /**
+     * 商品修改
+     *
+     * @param token
+     * @param productNo
+     * @param productName
+     * @param subtitle
+     * @param price
+     * @param productBanner
+     * @param freightInMaxCount
+     * @param freightInEveryAdd
+     * @param productDetail
+     * @param bannerUrl
+     * @param isInIndexActivity
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(SecretConstant.API_HOST_PATH + "/auth/product/normal/edit")
+    Flowable<Response<String>> updateGoods(@Field("token") String token,
+                                           @Field("productNo") String productNo,
+                                           @Field("name") String productName,
+                                           @Field("subtitle") String subtitle,
+                                           @Field("price") String price,
+                                           @Field("productBanner") String productBanner,
+                                           @Field("freightInMaxCount") String freightInMaxCount,
+                                           @Field("freightInEveryAdd") String freightInEveryAdd,
+                                           @Field("productDetail") String productDetail,
+                                           @Field("bannerUrl") String bannerUrl,
+                                           @Field("isInIndexActivity") String isInIndexActivity);
+
+    /**
+     * 商品 管理  修改商品前 获取商品信息
+     *
+     * @param token
+     * @returnr
+     */
+    @FormUrlEncoded
+    @POST(SecretConstant.API_HOST_PATH + "/auth/product/normal/editView")
+    Flowable<Response<GoodsDetailsDto>> getGoodsInfo(@Field("token") String token,
+                                                     @Field("productNo") String productNo);
+
+    /**
+     * 商品 管理  下架
+     *
+     * @param token
+     * @returnr
+     */
+    @FormUrlEncoded
+    @POST(SecretConstant.API_HOST_PATH + "/auth/product/normal/soldOut")
+    Flowable<Response<String>> goodsSoldOut(@Field("token") String token,
+                                            @Field("productNo") String productNo);
+
+
+    ///auth/order/buy/shop/list
+
+    /**
+     * 商品 管理  已售出
+     *
+     * @param token
+     * @returnr
+     */
+    @FormUrlEncoded
+    @POST(SecretConstant.API_HOST_PATH + "/auth/order/buy/shop/list")
+    Flowable<Response<List<OrderDto>>> getSellGoodsList(@Field("token") String token,
+                                                        @Field("pageNo") int pageNo);
 
     /**
      * 获取会员对应类型的金额
@@ -456,7 +522,7 @@ public interface ApiService {
     @FormUrlEncoded
     @POST(SecretConstant.API_HOST_PATH + "/auth/receive/address/delete")
     Flowable<Response<String>> deleteReceiverAddress(@Field("token") String token,
-                                                         @Field("id") String id);
+                                                     @Field("id") String id);
 
     /**
      * 获取默认收货地址
@@ -478,8 +544,8 @@ public interface ApiService {
     @FormUrlEncoded
     @POST(SecretConstant.API_HOST_PATH + "/auth/shop/car/add")
     Flowable<Response<String>> addShoppingCart(@Field("token") String token,
-                                                           @Field("productNo") String productNo,
-                                                           @Field("count") String count);
+                                               @Field("productNo") String productNo,
+                                               @Field("count") String count);
 
     /**
      * 获取购物车列表
@@ -490,6 +556,17 @@ public interface ApiService {
     @FormUrlEncoded
     @POST(SecretConstant.API_HOST_PATH + "/auth/shop/car/list")
     Flowable<Response<List<ShoppingCartDto>>> getShoppingCartList(@Field("token") String token);
+
+    /**
+     * 删除购物车 商品
+     *
+     * @param token
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(SecretConstant.API_HOST_PATH + "/auth/shop/car/delete")
+    Flowable<Response<String>> deleteShoppingCartGoods(@Field("token") String token,
+                                                       @Field("productNos") String productNos);
 
     /**
      * 购物车 去结算 创建订单
@@ -506,6 +583,7 @@ public interface ApiService {
      * 更新购物车商品的数量
      * productNo 订单编号
      * optionType 请求类型1增加2减少
+     *
      * @param token
      * @return
      */
@@ -525,10 +603,10 @@ public interface ApiService {
     @FormUrlEncoded
     @POST(SecretConstant.API_HOST_PATH + "/auth/order/buy/create")
     Flowable<Response<PayOrderDto>> submitOrder(@Field("token") String token,
-                                                          @Field("productNos") String productNos,
-                                                          @Field("productCounts") String productCounts,
-                                                          @Field("receiveAddressId") String receiveAddressId,
-                                                          @Field("freight") String freight,
+                                                @Field("productNos") String productNos,
+                                                @Field("productCounts") String productCounts,
+                                                @Field("receiveAddressId") String receiveAddressId,
+                                                @Field("freight") String freight,
                                                 @Field("exchange") String exchange);
 
     /**
@@ -596,4 +674,90 @@ public interface ApiService {
     Flowable<Response<List<MessageDto>>> getMessage(@Field("token") String token,
                                                     @Field("pageNo") int pageNo);
 
+    /**
+     * 余额支付
+     *
+     * @param payNumber
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(SecretConstant.API_HOST_PATH + "/auth/balance/pay")
+    Flowable<Response<String>> payBalance(@Field("token") String token,
+                                          @Field("payNumber") String payNumber);
+
+    /**
+     * 我的订单  去支付
+     *
+     * @param orderNo
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(SecretConstant.API_HOST_PATH + "/auth/buy/order/not/pay/go/to/pay")
+    Flowable<Response<PayOrderDto>> toPayOnMyOrder(@Field("token") String token,
+                                                   @Field("orderNo") String orderNo);
+
+    /**
+     * 商家 发货
+     *
+     * @param token
+     * @param orderNo
+     * @param expressCompany
+     * @param courierNumber
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(SecretConstant.API_HOST_PATH + "/auth/order/buy/delivery")
+    Flowable<Response<String>> sendGoods(@Field("token") String token,
+                                         @Field("orderNo") String orderNo,
+                                         @Field("expressCompany") String expressCompany,
+                                         @Field("courierNumber") String courierNumber);
+
+    /**
+     * 获取订单详情
+     *
+     * @param token
+     * @param orderNo
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(SecretConstant.API_HOST_PATH + "/auth/order/buy/detail")
+    Flowable<Response<OrderDto>> getOrderDetails(@Field("token") String token,
+                                                 @Field("orderNo") String orderNo);
+
+    /**
+     * 确认收货
+     *
+     * @param token
+     * @param orderNo
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(SecretConstant.API_HOST_PATH + "/auth/order/buy/receipt")
+    Flowable<Response<String>> confirmReceiverGoods(@Field("token") String token,
+                                                    @Field("orderNo") String orderNo);
+
+    /**
+     * 发表评论
+     *
+     * @param token
+     * @param orderNo
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(SecretConstant.API_HOST_PATH + "/auth/comment/buy/order")
+    Flowable<Response<String>> evaluateGoods(@Field("token") String token,
+                                             @Field("orderNo") String orderNo,
+                                             @Field("content") String content);
+    /**
+     * 获取评论列表
+     *
+     * @param token
+     * @param pageNo
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(SecretConstant.API_HOST_PATH + "/list/commet/by/productNo")
+    Flowable<Response<List<EvaluateDto>>> getEvaluateList(@Field("token") String token,
+                                                          @Field("productNo") String productNo,
+                                                          @Field("pageNo") int pageNo);
 }

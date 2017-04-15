@@ -26,7 +26,7 @@ import butterknife.BindView;
 
 public class GoodsManagerActivity extends BaseActivity {
 
-    private String[] mTitles = {"发布商品", "订单管理"};
+    private String[] mTitles = {"已发布", "已售出"};
 
     @BindView(R.id.stl_title)
     SegmentTabLayout stlTitle;

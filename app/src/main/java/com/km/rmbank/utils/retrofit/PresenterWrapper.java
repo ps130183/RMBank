@@ -5,6 +5,9 @@ import android.content.Context;
 import com.km.rmbank.api.ApiWrapper;
 import com.km.rmbank.basic.BasePresenter;
 import com.km.rmbank.basic.BaseView;
+import com.km.rmbank.dto.RetCode;
+import com.km.rmbank.event.UserNoLoginEvent;
+import com.ps.androidlib.utils.EventBusUtils;
 import com.ps.androidlib.utils.MToast;
 
 import java.net.ConnectException;
@@ -52,6 +55,9 @@ public abstract class PresenterWrapper<V extends BaseView> implements BasePresen
                 if (e instanceof RetrofitUtil.APIException) {
                     RetrofitUtil.APIException exception = (RetrofitUtil.APIException) e;
                     MToast.showToast(mContext,exception.message);
+                    if (RetCode.USER_IS_NOT_LOGIN.getStatus().equals(exception.code)){
+                        EventBusUtils.post(new UserNoLoginEvent());
+                    }
                 } else if (e instanceof SocketTimeoutException) {
                     MToast.showToast(mContext,e.getMessage());
                 } else if (e instanceof ConnectException) {

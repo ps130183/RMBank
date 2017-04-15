@@ -1,15 +1,12 @@
 package com.km.rmbank.cell;
 
-import android.text.TextUtils;
 import android.view.View;
 
 import com.km.rmbank.R;
-import com.km.rmbank.dto.UserDto;
 import com.km.rmbank.dto.UserInfoDto;
-import com.km.rmbank.utils.Constant;
 import com.km.rv_libs.base.BaseCell;
 import com.km.rv_libs.base.BaseViewHolder;
-import com.ps.androidlib.utils.GlideUtils;
+import com.ps.androidlib.utils.glide.GlideUtils;
 
 /**
  * Created by kamangkeji on 17/3/17.
@@ -30,7 +27,7 @@ public class PersonalUserInfoCell extends BaseCell<UserInfoDto> implements View.
         super.onBindViewHolder(holder, position);
 
         if (mData !=null){
-            GlideUtils.loadImage(holder.getImageView(R.id.iv_user_portrait), mData.getPortraitUrl());
+            GlideUtils.loadCircleImage(holder.getImageView(R.id.iv_user_portrait), mData.getPortraitUrl());
             holder.getTextView(R.id.tv_user_nick_name).setText(mData.getNickName());
         }
 

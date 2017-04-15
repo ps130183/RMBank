@@ -3,6 +3,7 @@ package com.km.rmbank.dto;
 import android.text.TextUtils;
 
 import com.km.rmbank.basic.BaseEntity;
+import com.km.rmbank.utils.Constant;
 import com.ps.androidlib.utils.SPUtils;
 
 /**
@@ -21,6 +22,8 @@ public class UserDto extends BaseEntity {
     private String mobilePhone;
     private String hxPwd;
     private String token;
+
+    private String roleId;
 
     public String getMobilePhone() {
         return mobilePhone;
@@ -46,6 +49,13 @@ public class UserDto extends BaseEntity {
         this.token = token;
     }
 
+    public String getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(String roleId) {
+        this.roleId = roleId;
+    }
 
     /**
      * 将登录信息保存到 sharePreference
@@ -53,8 +63,9 @@ public class UserDto extends BaseEntity {
     public void saveToSp(){
         SPUtils spUtils = SPUtils.getInstance();
         spUtils.put("mobilePhone",TextUtils.isEmpty(mobilePhone)?"":mobilePhone);
-        spUtils.put("hxPwd",TextUtils.isEmpty(hxPwd)?"":hxPwd);
+//        spUtils.put("hxPwd",TextUtils.isEmpty(hxPwd)?"":hxPwd);
         spUtils.put("token",TextUtils.isEmpty(token)?"":token);
+        spUtils.put("roleId",TextUtils.isEmpty(roleId)?"":roleId);
     }
 
     /**
@@ -63,9 +74,9 @@ public class UserDto extends BaseEntity {
     public void clear(){
         SPUtils spUtils = SPUtils.getInstance();
         spUtils.remove("mobilePhone");
-        spUtils.remove("hxPwd");
+//        spUtils.remove("hxPwd");
         spUtils.remove("token");
-        spUtils.remove("type");
+        spUtils.remove("roleId");
         getDataFromSp();
     }
 
@@ -75,8 +86,9 @@ public class UserDto extends BaseEntity {
     public void getDataFromSp(){
         SPUtils spUtils = SPUtils.getInstance();
         mobilePhone = spUtils.getString("mobilePhone","");
-        hxPwd = spUtils.getString("hxPwd","");
+//        hxPwd = spUtils.getString("hxPwd","");
         token = spUtils.getString("token","");
+        roleId = spUtils.getString("roleId","");
     }
 
     /**

@@ -1,7 +1,6 @@
 package com.km.rmbank.module.personal.vip;
 
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -9,7 +8,7 @@ import android.widget.TextView;
 import com.km.rmbank.R;
 import com.km.rmbank.basic.BaseActivity;
 import com.km.rmbank.dto.MemberTypeDto;
-import com.km.rmbank.module.personal.shopcart.payment.PaymentActivity;
+import com.km.rmbank.module.payment.PaymentActivity;
 
 import java.util.List;
 

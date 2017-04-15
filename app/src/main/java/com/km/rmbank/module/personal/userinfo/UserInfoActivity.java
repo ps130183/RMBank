@@ -15,7 +15,7 @@ import com.km.rmbank.utils.PickerUtils;
 import com.km.rmbank.utils.retrofit.SecretConstant;
 import com.lvfq.pickerview.TimePickerView;
 import com.ps.androidlib.utils.DialogUtils;
-import com.ps.androidlib.utils.GlideUtils;
+import com.ps.androidlib.utils.glide.GlideUtils;
 import com.ps.androidlib.utils.imageselector.ImageUtils;
 
 import java.util.List;
@@ -133,12 +133,13 @@ public class UserInfoActivity extends BaseActivity<UserInfoPresenter> implements
 
     @Override
     public void uploadProtraitSuccess(String imageUri) {
-        GlideUtils.loadImage(ivProtrait, SecretConstant.API_HOST_IMAGE_PATH+imageUri);
+        GlideUtils.loadImage(ivProtrait, imageUri);
         userInfoDto.setPortraitUrl(imageUri);
     }
 
     @Override
     public void saveUserInfoSuccess() {
         showToast("保存成功");
+        finish();
     }
 }

@@ -1,5 +1,6 @@
 package com.km.rmbank.module.personal.goodsmanager;
 
+import com.daimajia.swipe.SwipeLayout;
 import com.km.rmbank.api.ApiWrapper;
 import com.km.rmbank.basic.BaseActivity;
 import com.km.rmbank.dto.GoodsDto;
@@ -31,6 +32,17 @@ public class RepleaseGoodsListPresenter extends PresenterWrapper<RepleaseGoodsLi
                         mView.showRepleaseGoods(goodsDtos,page);
                     }
 
+                }));
+    }
+
+    @Override
+    public void goodsSoldOut(final GoodsDto goodsDto, final SwipeLayout swipeLayout) {
+        mApiwrapper.goodsSlodOut(goodsDto.getProductNo())
+                .subscribe(newSubscriber(new Consumer<String>() {
+                    @Override
+                    public void accept(@NonNull String s) throws Exception {
+                        mView.goodsSoldOutSuccess(goodsDto,swipeLayout);
+                    }
                 }));
     }
 

@@ -13,6 +13,7 @@ import com.km.rmbank.basic.RVUtils;
 import com.km.rmbank.dto.HomeRecommendDto;
 import com.km.rmbank.entity.HomeEntity;
 import com.km.rmbank.module.home.message.MessageActivity;
+import com.km.rmbank.module.rmshop.goods.GoodsActivity;
 import com.ps.androidlib.utils.BannerUtils;
 import com.ps.androidlib.utils.MToast;
 import com.youth.banner.Banner;
@@ -81,6 +82,14 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
         RVUtils.addDivideItemForRv(rcContent);
         HomeAdapter adapter = new HomeAdapter(getContext());
         rcContent.setAdapter(adapter);
+        adapter.setOnClickGoodsListener(new HomeAdapter.OnClickGoodsListener() {
+            @Override
+            public void clickGoods(HomeRecommendDto.ProductReconmmendListBean bean) {
+                Bundle bundle = new Bundle();
+                bundle.putString("productNo",bean.getProductNo());
+                toNextActivity(GoodsActivity.class,bundle);
+            }
+        });
     }
 
     @Override

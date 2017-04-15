@@ -58,6 +58,7 @@ public class GoodsFragment extends BaseFragment<GoodsPresenter> implements Goods
     @Override
     public void onResume() {
         super.onResume();
+        mPresenter.loadGoodsList(1,goodsTypeDto.getTypeId());
 //        Logger.d("goodsFragment   onResume \n" + " tabname = " + tabname + " tabid = " + tabid);
     }
 

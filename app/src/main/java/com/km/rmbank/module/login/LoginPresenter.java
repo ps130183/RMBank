@@ -1,6 +1,7 @@
 package com.km.rmbank.module.login;
 
 import com.km.rmbank.dto.UserDto;
+import com.km.rmbank.utils.Constant;
 import com.km.rmbank.utils.retrofit.PresenterWrapper;
 
 import io.reactivex.annotations.NonNull;
@@ -25,6 +26,7 @@ public class LoginPresenter extends PresenterWrapper<LoginContract.View> impleme
                     @Override
                     public void accept(@NonNull UserDto userDto) throws Exception {
                         userDto.saveToSp();
+                        Constant.user.getDataFromSp();
                         mView.loginSuccess();
                     }
 

@@ -9,9 +9,7 @@ import com.daimajia.swipe.SwipeLayout;
 import com.km.rmbank.R;
 import com.km.rmbank.basic.BaseSwipeRvAdapter;
 import com.km.rmbank.dto.GoodsDto;
-import com.ps.androidlib.utils.GlideUtils;
-
-import java.util.ArrayList;
+import com.ps.androidlib.utils.glide.GlideUtils;
 
 import butterknife.BindView;
 
@@ -52,6 +50,31 @@ public class RepleaseGoodsListAdapter extends BaseSwipeRvAdapter<GoodsDto> imple
                 }
             }
         });
+
+        //'状态0审核中1审核通过2已下架3审核拒绝',
+        int status = entity.getStatus();
+        switch (status){
+            case 0://审核中
+                holder.tvGoodsStatus.setText("审核中");
+                holder.getmSwiperLayout().setSwipeEnabled(false);
+                break;
+            case 1://审核通过
+                holder.tvGoodsStatus.setText("审核通过");
+                holder.getmSwiperLayout().setSwipeEnabled(true);
+                break;
+            case 2://已下架
+                holder.tvGoodsStatus.setText("已下架");
+                holder.getmSwiperLayout().setSwipeEnabled(false);
+                break;
+            case 3://审核拒绝
+                holder.tvGoodsStatus.setText("审核拒绝");
+                holder.getmSwiperLayout().setSwipeEnabled(false);
+                break;
+
+            default:
+                holder.tvGoodsStatus.setText("");
+                break;
+        }
     }
 
     class ViewHolder extends BaseSwipeViewHolder{
@@ -64,6 +87,9 @@ public class RepleaseGoodsListAdapter extends BaseSwipeRvAdapter<GoodsDto> imple
         TextView tvGoodsPrice;
         @BindView(R.id.tv_goods_sub_title)
         TextView tvGoodsSubTitle;
+
+        @BindView(R.id.tv_goods_status)
+        TextView tvGoodsStatus;
 
         //下架
         @BindView(R.id.tv_sold_out)

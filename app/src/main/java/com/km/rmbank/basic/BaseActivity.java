@@ -188,9 +188,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
      *
      * @return
      */
-    protected abstract
-    @NonNull
-    String getTitleName();
+    protected abstract String getTitleName();
 
     public P getmPresenter(){
         return null;

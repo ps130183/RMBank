@@ -10,11 +10,10 @@
     android:background="@color/color_white"
     >
 
-    <TextView
-        android:id="@+id/tv_protrait"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:background="@drawable/shape_member_type_selected"
+    <ImageView
+        android:id="@+id/iv_protrait"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         />
 
     <TextView
@@ -22,21 +21,26 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="小宝哥"
-        android:layout_toRightOf="@+id/tv_protrait"
+        android:layout_toRightOf="@+id/iv_protrait"
         android:layout_marginLeft="@dimen/view_space_8"
+        android:layout_alignBottom="@+id/iv_protrait"
+        android:layout_marginBottom="@dimen/view_space_8"
         />
 
     <TextView
+        android:id="@+id/tv_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:text="2017-02-11"
+        android:layout_alignBottom="@id/tv_shop_name"
         />
 
     <TextView
+        android:id="@+id/tv_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tv_protrait"
+        android:layout_below="@id/iv_protrait"
         android:layout_marginTop="@dimen/view_space_4"
         android:text="看到商品后我的心凌乱了，这他妈是什么东西，吃一次我就上瘾了，你说海参长得跟他妈大象似的有意思吗？"
         />

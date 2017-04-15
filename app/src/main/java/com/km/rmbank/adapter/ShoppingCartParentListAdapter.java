@@ -14,9 +14,9 @@ import com.km.rmbank.R;
 import com.km.rmbank.basic.BaseAdapter;
 import com.km.rmbank.basic.RVUtils;
 import com.km.rmbank.dto.GoodsDetailsDto;
-import com.km.rmbank.dto.GoodsDto;
 import com.km.rmbank.dto.ShoppingCartDto;
 import com.ps.androidlib.utils.AppUtils;
+import com.ps.androidlib.utils.DialogUtils;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -34,10 +34,13 @@ public class ShoppingCartParentListAdapter extends BaseAdapter<ShoppingCartDto> 
     private boolean isShoppingCart;
     private boolean isShowFreight;//是否显示运费  默认不显示
 
+    private TextView totalMoney;
+
     private boolean isParentCheckChange;
     private onCheckedAllListener checkedAllListener;
     private OnSubItemClcikListener onSubItemClcikListener;
     private onUpdateGoodsCount onUpdateGoodsCount;
+    private OnSubDeleteGoodsListener onSubDeleteGoodsListener;
 
     public ShoppingCartParentListAdapter(Context mContext) {
         super(mContext, R.layout.item_rv_shopping_cart_list);
@@ -63,6 +66,7 @@ public class ShoppingCartParentListAdapter extends BaseAdapter<ShoppingCartDto> 
             @Override
             public void onSubChecked(boolean isChecked) {
                 checkParentBySub(position);
+                setTotalMoney();
             }
         });
         holder.subListAdapter.setItemClickListener(this);
@@ -76,6 +80,7 @@ public class ShoppingCartParentListAdapter extends BaseAdapter<ShoppingCartDto> 
                 checkAllSubByParent(cartEntity.getProductList(), isChecked, holder);
                 //检测是否全选
                 checkAll();
+                setTotalMoney();
             }
         });
 
@@ -88,6 +93,19 @@ public class ShoppingCartParentListAdapter extends BaseAdapter<ShoppingCartDto> 
             }
         });
 
+        holder.subListAdapter.setOnDeleteGoodsListener(new ShoppingCartSubListAdapter.OnDeleteGoodsListener() {
+            @Override
+            public void deleteGoods(final GoodsDetailsDto goodsDetailsDto, final int positionOnSub) {
+                if (onSubDeleteGoodsListener != null){
+                    DialogUtils.showDefaultAlertDialog("是否要删除该商品？", new DialogUtils.ClickListener() {
+                        @Override
+                        public void clickConfirm() {
+                            onSubDeleteGoodsListener.deleteGoods(goodsDetailsDto,position,positionOnSub);
+                        }
+                    });
+                }
+            }
+        });
     }
 
     @Override
@@ -95,6 +113,33 @@ public class ShoppingCartParentListAdapter extends BaseAdapter<ShoppingCartDto> 
         if (onSubItemClcikListener != null) {
             onSubItemClcikListener.onSubItemClick(itemData, position);
         }
+    }
+
+    public void setTotalMoney(TextView totalMoney) {
+        this.totalMoney = totalMoney;
+    }
+
+    public void setTotalMoney(){
+        if (totalMoney != null){
+            totalMoney.setText(getTotalMoneyOnCheckChange());
+        }
+    }
+
+    /**
+     * 删除购物车商品 成功后
+     * @param positionOnParent
+     * @param positionOnSub
+     */
+    public void deleteGoodsSuccess(int positionOnParent, int positionOnSub){
+        ShoppingCartDto shoppingCartDto = getItemData(positionOnParent);
+        List<GoodsDetailsDto> goodsDetailsDtos = shoppingCartDto.getProductList();
+        if (goodsDetailsDtos.size() > positionOnSub){
+            goodsDetailsDtos.remove(positionOnSub);
+        }
+        if (goodsDetailsDtos.size() == 0){
+            removeData(shoppingCartDto);
+        }
+        notifyDataSetChanged();
     }
 
     /**
@@ -220,6 +265,7 @@ public class ShoppingCartParentListAdapter extends BaseAdapter<ShoppingCartDto> 
 //            Logger.d("isParentAllChecked = " + isParentAllChecked());
             checkedAllListener.onCheckedAll(isParentAllChecked());
         }
+
     }
 
     /**
@@ -274,6 +320,14 @@ public class ShoppingCartParentListAdapter extends BaseAdapter<ShoppingCartDto> 
         this.onUpdateGoodsCount = onUpdateGoodsCount;
     }
 
+    public interface OnSubDeleteGoodsListener{
+        void deleteGoods(GoodsDetailsDto goodsDetailsDto,int positionOnParent,int positionOnSub);
+    }
+
+    public void setOnSubDeleteGoodsListener(OnSubDeleteGoodsListener onSubDeleteGoodsListener) {
+        this.onSubDeleteGoodsListener = onSubDeleteGoodsListener;
+    }
+
     /**
      * 获取选中的商品
      *
@@ -312,7 +366,9 @@ public class ShoppingCartParentListAdapter extends BaseAdapter<ShoppingCartDto> 
                 }
             }
         }
-        productNos.replace(productNos.length() - 1, productNos.length(), "");
+        if (productNos.length() > 1){
+            productNos.replace(productNos.length() - 1, productNos.length(), "");
+        }
         return productNos.toString();
     }
 
@@ -321,14 +377,33 @@ public class ShoppingCartParentListAdapter extends BaseAdapter<ShoppingCartDto> 
      *
      * @return
      */
-    public String getTotalMoneyCheckedGoods() {
+    public String getTotalMoneyOnCreateOrder() {
         BigDecimal amount = new BigDecimal("0");
         for (ShoppingCartDto entity : getAllData()) {
             for (GoodsDetailsDto GoodsDetailsDto : entity.getProductList()) {
                 BigDecimal price = new BigDecimal(GoodsDetailsDto.getPrice());
                 amount = amount.add(price.multiply(new BigDecimal(GoodsDetailsDto.getProductInShopCarCount())));
             }
+            amount = amount.add(new BigDecimal(entity.getFreight()));
         }
         return String.valueOf(amount.doubleValue());
     }
+
+    /**
+     * 获取所有选中商品的总金额
+     * @return
+     */
+    private String getTotalMoneyOnCheckChange() {
+        BigDecimal amount = new BigDecimal("0");
+        for (ShoppingCartDto entity : getAllData()) {
+            for (GoodsDetailsDto GoodsDetailsDto : entity.getProductList()) {
+                if (GoodsDetailsDto.isChecked()){
+                    BigDecimal price = new BigDecimal(GoodsDetailsDto.getPrice());
+                    amount = amount.add(price.multiply(new BigDecimal(GoodsDetailsDto.getProductInShopCarCount())));
+                }
+            }
+        }
+        return String.valueOf(amount.doubleValue());
+    }
+
 }

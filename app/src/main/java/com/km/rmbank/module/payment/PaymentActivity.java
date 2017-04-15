@@ -1,33 +1,30 @@
-package com.km.rmbank.module.personal.shopcart.payment;
+package com.km.rmbank.module.payment;
 
-import android.Manifest;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.km.rmbank.R;
 import com.km.rmbank.alipay.AlipayUtils;
+import com.km.rmbank.alipay.AuthResult;
+import com.km.rmbank.alipay.PayResult;
 import com.km.rmbank.basic.BaseActivity;
-import com.km.rmbank.dto.AlipayParamsDto;
 import com.km.rmbank.dto.PayOrderDto;
 import com.km.rmbank.dto.WeiCharParamsDto;
+import com.km.rmbank.event.PaySuccessEvent;
+import com.km.rmbank.module.HomeActivity;
 import com.km.rmbank.wxpay.WxUtil;
 import com.orhanobut.logger.Logger;
+import com.ps.androidlib.utils.EventBusUtils;
 
 import butterknife.BindView;
 import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
+import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
-import kr.co.namee.permissiongen.PermissionGen;
-import kr.co.namee.permissiongen.PermissionSuccess;
 
 public class PaymentActivity extends BaseActivity<PayPresenter> implements PayContract.View {
 
@@ -44,8 +41,6 @@ public class PaymentActivity extends BaseActivity<PayPresenter> implements PayCo
 
     @BindView(R.id.ll_pay_balance)
     RelativeLayout llPayBalance;
-    @BindView(R.id.ll_intergal)
-    LinearLayout llIntergal;
 
     @BindView(R.id.tv_amount)
     TextView tvAmount;
@@ -60,7 +55,6 @@ public class PaymentActivity extends BaseActivity<PayPresenter> implements PayCo
         return R.layout.activity_payment;
     }
 
-    @NonNull
     @Override
     protected String getTitleName() {
         return "收银台";
@@ -84,7 +78,6 @@ public class PaymentActivity extends BaseActivity<PayPresenter> implements PayCo
 
         if (paymentForObj == 1){//认证会员支付时，隐藏余额支付 和 积分
             llPayBalance.setVisibility(View.GONE);
-            llIntergal.setVisibility(View.GONE);
             mPresenter.createPayOrder(mAmount);
         } else { //商品支付
             createPayOrderSuccess(mPayOrderDto);
@@ -135,6 +128,7 @@ public class PaymentActivity extends BaseActivity<PayPresenter> implements PayCo
         }
         switch (position){
             case 0://余额
+                mPresenter.payBalance(mPayOrderDto.getPayNumber());
                 break;
             case 1://微信
                 mPresenter.getWeiChatParams(mPayOrderDto.getPayNumber());
@@ -156,15 +150,39 @@ public class PaymentActivity extends BaseActivity<PayPresenter> implements PayCo
     public void createPayOrderSuccess(PayOrderDto payOrderDto) {
         mPayOrderDto = payOrderDto;
         tvAmount.setText(payOrderDto.getSumPrice() + "元");
+        if ("0".equals(mPayOrderDto.getSumPrice())){ //积分抵扣以后 0元 直接跳到成功页面
+            EventBusUtils.post(new PaySuccessEvent());
+        }
     }
 
     @Override
     public void getAlipayParamsSuccess(String alipayParamsDto) {
         AlipayUtils.toPay(PaymentActivity.this,alipayParamsDto)
-                .subscribe(new Consumer() {
+                .subscribe(new Consumer<PayResult>() {
                     @Override
-                    public void accept(@io.reactivex.annotations.NonNull Object o) throws Exception {
+                    public void accept(@NonNull PayResult authResult) throws Exception {
+                        switch (authResult.getResultStatus()){
+                            case "9000"://支付成功
+                                EventBusUtils.post(new PaySuccessEvent());
+                                finish();
+                                break;
+                            case "8000"://支付结果未知（可能成功）
+                            case "6004":
+                                break;
+                            case "4000"://支付成功
+                                showToast("支付失败");
+                                break;
+                            case "5000"://支付成功
+                                showToast("重复请求");
+                                break;
+                            case "6001"://支付成功
+                                break;
+                            case "6002"://支付成功
+                                showToast("网络连接出错");
+                                break;
 
+
+                        }
                     }
                 });
     }
@@ -176,4 +194,11 @@ public class PaymentActivity extends BaseActivity<PayPresenter> implements PayCo
             WxUtil.toPayByWXAPI(weicharParams);
         }
     }
+
+    @Override
+    public void payBalanceSuccess() {
+        EventBusUtils.post(new PaySuccessEvent());
+        finish();
+    }
+
 }

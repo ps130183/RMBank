@@ -1,18 +1,15 @@
 package com.ps.androidlib.utils;
 
 import android.content.Context;
-import android.net.Uri;
 import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
+import com.ps.androidlib.utils.glide.GlideUtils;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
-import com.youth.banner.listener.OnBannerClickListener;
 import com.youth.banner.listener.OnBannerListener;
 import com.youth.banner.loader.ImageLoader;
 
-import java.util.Arrays;
 import java.util.List;
 
 /**

@@ -144,7 +144,10 @@ public class GoodsActivity extends BaseActivity<GoodsDetailsPresenter> implement
         bundle = new Bundle();
         bundle.putStringArrayList("goodsDetails", (ArrayList<String>) goodsDetailsDto.getProductDetailList());
         fragments.add(GoodsDetailsFragment.newInstance(bundle));//商品详情
-        fragments.add(GoodsEvaluateFragment.newInstance(null));//评价信息
+
+        bundle = new Bundle();
+        bundle.putParcelable("goodsDetailsDto", goodsDetailsDto);
+        fragments.add(GoodsEvaluateFragment.newInstance(bundle));//评价信息
         ViewPagerTabLayoutAdapter adapter = new ViewPagerTabLayoutAdapter(getSupportFragmentManager(), fragments, mTitleList);
         mViewPager.setAdapter(adapter);
         mTabLayout.setViewPager(mViewPager);

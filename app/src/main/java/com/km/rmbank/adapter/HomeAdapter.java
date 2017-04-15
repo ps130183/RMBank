@@ -8,9 +8,8 @@ import android.widget.TextView;
 import com.km.rmbank.R;
 import com.km.rmbank.basic.BaseAdapter;
 import com.km.rmbank.dto.HomeRecommendDto;
-import com.km.rmbank.entity.HomeEntity;
 import com.ps.androidlib.utils.AppUtils;
-import com.ps.androidlib.utils.GlideUtils;
+import com.ps.androidlib.utils.glide.GlideUtils;
 
 import butterknife.BindView;
 
@@ -19,6 +18,8 @@ import butterknife.BindView;
  */
 
 public class HomeAdapter extends BaseAdapter<HomeRecommendDto> implements BaseAdapter.IAdapter<HomeAdapter.ViewHolder> {
+
+    private OnClickGoodsListener onClickGoodsListener;
 
     public HomeAdapter(Context mContext) {
         super(mContext, R.layout.item_rc_home);
@@ -32,11 +33,35 @@ public class HomeAdapter extends BaseAdapter<HomeRecommendDto> implements BaseAd
 
     @Override
     public void createView(ViewHolder holder, int position) {
-        HomeRecommendDto homeRecommendDto = getItemData(position);
+        final HomeRecommendDto homeRecommendDto = getItemData(position);
         holder.tvTitle.setText(homeRecommendDto.getRecommendName());
         GlideUtils.loadImage(holder.imageHome1,homeRecommendDto.getProductReconmmendList().get(0).getThumbnailUrl());
         GlideUtils.loadImage(holder.imageHome2,homeRecommendDto.getProductReconmmendList().get(1).getThumbnailUrl());
         GlideUtils.loadImage(holder.imageHome3,homeRecommendDto.getProductReconmmendList().get(2).getThumbnailUrl());
+        holder.imageHome1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onClickGoodsListener != null){
+                    onClickGoodsListener.clickGoods(homeRecommendDto.getProductReconmmendList().get(0));
+                }
+            }
+        });
+        holder.imageHome2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onClickGoodsListener != null){
+                    onClickGoodsListener.clickGoods(homeRecommendDto.getProductReconmmendList().get(1));
+                }
+            }
+        });
+        holder.imageHome3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onClickGoodsListener != null){
+                    onClickGoodsListener.clickGoods(homeRecommendDto.getProductReconmmendList().get(2));
+                }
+            }
+        });
     }
 
     class ViewHolder extends BaseViewHolder{
@@ -64,5 +89,13 @@ public class HomeAdapter extends BaseAdapter<HomeRecommendDto> implements BaseAd
             imageHome2.getLayoutParams().height = realHeight / 2;
             imageHome3.getLayoutParams().height = realHeight / 2;
         }
+    }
+
+    public interface OnClickGoodsListener{
+        void clickGoods(HomeRecommendDto.ProductReconmmendListBean bean);
+    }
+
+    public void setOnClickGoodsListener(OnClickGoodsListener onClickGoodsListener) {
+        this.onClickGoodsListener = onClickGoodsListener;
     }
 }

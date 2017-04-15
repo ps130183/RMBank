@@ -49,6 +49,12 @@ public class RepleaseGoodsListFragment extends BaseFragment<RepleaseGoodsListPre
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        mPresenter.loadRepleaseGoods(1);
+    }
+
+    @Override
     public void initRecyclerView() {
         Logger.d("initRecyclerView");
         RVUtils.setLinearLayoutManage(mRecyclerview, LinearLayoutManager.VERTICAL);
@@ -61,7 +67,18 @@ public class RepleaseGoodsListFragment extends BaseFragment<RepleaseGoodsListPre
         adapter.addLoadMore(mRecyclerview, new BaseAdapter.MoreDataListener() {
             @Override
             public void loadMoreData() {
-                mPresenter.loadRepleaseGoods(adapter.getNextPage());
+                if (adapter.getNextPage() > 1){
+                    mPresenter.loadRepleaseGoods(adapter.getNextPage());
+                }
+            }
+        });
+        adapter.setItemClickListener(new BaseAdapter.ItemClickListener<GoodsDto>() {
+
+            @Override
+            public void onItemClick(GoodsDto itemData, int position) {
+                Bundle bundle = new Bundle();
+                bundle.putString("productNo",itemData.getProductNo());
+                toNextActivity(CreateNewGoodsActivity.class,bundle);
             }
         });
     }
@@ -73,12 +90,23 @@ public class RepleaseGoodsListFragment extends BaseFragment<RepleaseGoodsListPre
     }
 
     @Override
-    public void clickSoldOut(GoodsDto entity, final int position, final SwipeLayout mSwipeLayout) {
+    public void goodsSoldOutSuccess(GoodsDto goodsDto,SwipeLayout swipeLayout) {
+//        swipeLayout.close(true);
+        mPresenter.loadRepleaseGoods(1);
+//        swipeLayout.setSwipeEnabled(false);
+//        showToast("下架");
+//        goodsDto.setStatus(2);
+//        mRecyclerview.getAdapter().notifyDataSetChanged();
+    }
+
+    @Override
+    public void clickSoldOut(final GoodsDto entity, final int position, final SwipeLayout mSwipeLayout) {
         DialogUtils.showDefaultAlertDialog("是否要下架该产品？", new DialogUtils.ClickListener() {
             @Override
             public void clickConfirm() {
-                showToast("下架");
+//                showToast("下架");
                 mSwipeLayout.close(true);
+                mPresenter.goodsSoldOut(entity,mSwipeLayout);
             }
         });
     }

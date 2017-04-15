@@ -396,7 +396,7 @@ public class BaseAdapter<T> extends RecyclerView.Adapter<BaseAdapter.BaseViewHol
                     lastVisiableItemPosition = llm.findLastVisibleItemPosition();
 
                     if (!loadMoreFinish && !isLoadMore && totalItemCount <= (lastVisiableItemPosition + visibleThreshold)
-                            && !(curPage == 1 && totalItemCount < 20)) {
+                            && !(curPage <= 1 && totalItemCount < 20)) {
                         moreDataListener.loadMoreData();
                         isLoadMore = true;
                     }

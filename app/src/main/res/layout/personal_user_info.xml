@@ -43,7 +43,7 @@
             android:id="@+id/iv_shop_cart"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/ic_shopping_cart_black_24dp"
+            android:src="@mipmap/ic_shopping_cart_solid_red"
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="@dimen/view_space_8"

@@ -13,15 +13,21 @@ import com.km.rmbank.R;
 import com.km.rmbank.basic.BaseActivity;
 import com.km.rmbank.basic.BasePresenter;
 import com.km.rmbank.dto.UserDto;
+import com.km.rmbank.event.PaySuccessEvent;
+import com.km.rmbank.event.UserNoLoginEvent;
 import com.km.rmbank.module.actionarea.ActionAreaFragment;
 import com.km.rmbank.module.home.HomeFragment;
 import com.km.rmbank.module.login.LoginActivity;
 import com.km.rmbank.module.personal.PersonalFragment;
+import com.km.rmbank.module.personal.order.MyOrderActivity;
 import com.km.rmbank.module.rmshop.RmShopFragment;
 import com.km.rmbank.utils.Constant;
 import com.ps.androidlib.entity.TabEntity;
 import com.ps.androidlib.utils.SPUtils;
 import com.umeng.socialize.UMShareAPI;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,7 +68,9 @@ public class HomeActivity extends BaseActivity {
     @Override
     protected void onCreate() {
         mTabEntities = new ArrayList<>();
-        Constant.user.getDataFromSp();
+        if (Constant.user.isEmpty()){
+            Constant.user.getDataFromSp();
+        }
 //        AppUtils.initSystemBar(this,0x00000000);
         initTabLayout();
     }
@@ -119,4 +127,18 @@ public class HomeActivity extends BaseActivity {
         super.onActivityResult(requestCode, resultCode, data);
         UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
     }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void paySuccess(PaySuccessEvent event){
+        toNextActivity(HomeActivity.class);
+        toNextActivity(MyOrderActivity.class);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void userNoLogin(UserNoLoginEvent event){
+        Constant.user.clear();
+        toNextActivity(LoginActivity.class);
+    }
+
+
 }

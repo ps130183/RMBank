@@ -3,7 +3,7 @@ package com.km.rmbank.cell;
 import com.km.rmbank.R;
 import com.km.rv_libs.base.BaseCell;
 import com.km.rv_libs.base.BaseViewHolder;
-import com.ps.androidlib.utils.GlideUtils;
+import com.ps.androidlib.utils.glide.GlideUtils;
 
 /**
  * Created by kamangkeji on 17/3/18.

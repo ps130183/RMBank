@@ -6,6 +6,9 @@ import com.km.rmbank.utils.retrofit.PresenterWrapper;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
+
 /**
  * Created by kamangkeji on 17/4/13.
  */
@@ -17,18 +20,24 @@ public class GoodsEvaluatePresenter extends PresenterWrapper<GoodsEvaluateContra
     }
 
     @Override
-    public void getUserEvaluate(int pageNo) {
-        List<EvaluateDto> evaluateDtos = new ArrayList<>();
-        for (int i = 0; i < 10;i++){
-            evaluateDtos.add(new EvaluateDto("昵称"+i,"2017-2-11","看到商品后我的心凌乱了，这他妈是什么东西，吃一次我就上瘾了，\n" +
-                    "你说海参长得跟他妈大象似的有意思吗？"));
-        }
-        mView.showUserEvaluate(evaluateDtos,pageNo);
+    public void getUserEvaluate(String productNo, final int pageNo) {
+//        List<EvaluateDto> evaluateDtos = new ArrayList<>();
+//        for (int i = 0; i < 10;i++){
+//            evaluateDtos.add(new EvaluateDto("昵称"+i,"2017-2-11","看到商品后我的心凌乱了，这他妈是什么东西，吃一次我就上瘾了，\n" +
+//                    "你说海参长得跟他妈大象似的有意思吗？"));
+//        }
+//        mView.showUserEvaluate(evaluateDtos,pageNo);
+        mApiwrapper.getEvaluateList(productNo,pageNo)
+                .subscribe(newSubscriber(new Consumer<List<EvaluateDto>>() {
+                    @Override
+                    public void accept(@NonNull List<EvaluateDto> evaluateDtos) throws Exception {
+                        mView.showUserEvaluate(evaluateDtos,pageNo);
+                    }
+                }));
     }
 
     @Override
     public void onCreateView() {
         mView.initRecyclerview();
-        getUserEvaluate(1);
     }
 }

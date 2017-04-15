@@ -1,8 +1,5 @@
 package com.km.rmbank.cell;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -11,10 +8,7 @@ import com.km.rmbank.dto.ActionDto;
 import com.km.rv_libs.base.BaseCell;
 import com.km.rv_libs.base.BaseViewHolder;
 import com.orhanobut.logger.Logger;
-import com.ps.androidlib.utils.GlideUtils;
-import com.ps.androidlib.utils.ViewUtils;
-
-import java.util.List;
+import com.ps.androidlib.utils.glide.GlideUtils;
 
 /**
  * Created by kamangkeji on 17/3/15.

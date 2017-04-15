@@ -1,11 +1,15 @@
-package com.ps.androidlib.utils;
+package com.ps.androidlib.utils.glide;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.bumptech.glide.request.target.Target;
 import com.nineoldandroids.animation.ObjectAnimator;
 import com.orhanobut.logger.Logger;
@@ -40,9 +44,6 @@ public class GlideUtils {
             Logger.e("imageview is null");
             return;
         }
-
-//        ImageView placeHolder = (ImageView) ViewUtils.getView(imageView.getContext(),R.layout.placeholder_image).findViewById(R.id.placeholder);
-
         final ObjectAnimator anim = ObjectAnimator.ofInt(imageView, "ImageLevel", 0, 10000);
         anim.setDuration(800);
         anim.setRepeatCount(ObjectAnimator.INFINITE);
@@ -53,20 +54,34 @@ public class GlideUtils {
                 .placeholder(R.drawable.glide_placeholder_rotate)
                 .error(R.drawable.glide_placeholder_rotate)
                 .crossFade(1000)
-//                .listener(new RequestListener<String, GlideDrawable>() {
-//                    @Override
-//                    public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
-////                        anim.cancel();
-//                        return false;
-//                    }
-//
-//                    @Override
-//                    public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
-////                        anim.cancel();
-//                        return false;
-//                    }
-//                })
                 .into(imageView);
+    }
+
+    public static void loadCircleImage(final ImageView imageView, String imagePath){
+        if (imageView == null){
+            Logger.e("imageview is null");
+            return;
+        }
+        final Context context = imageView.getContext();
+        final ObjectAnimator anim = ObjectAnimator.ofInt(imageView, "ImageLevel", 0, 10000);
+        anim.setDuration(800);
+        anim.setRepeatCount(ObjectAnimator.INFINITE);
+        anim.start();
+
+        Glide.with(imageView.getContext())
+                .load(imagePath)
+                .asBitmap()
+                .placeholder(R.drawable.glide_placeholder_rotate)
+                .error(R.drawable.glide_placeholder_rotate)
+                .into(new BitmapImageViewTarget(imageView){
+                    @Override
+                    protected void setResource(Bitmap resource) {
+                        RoundedBitmapDrawable circularBitmapDrawable =
+                                RoundedBitmapDrawableFactory.create(context.getResources(), resource);
+                        circularBitmapDrawable.setCircular(true);
+                        imageView.setImageDrawable(circularBitmapDrawable);
+                    }
+                });
     }
 
 

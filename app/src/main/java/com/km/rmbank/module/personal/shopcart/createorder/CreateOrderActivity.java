@@ -17,7 +17,8 @@ import com.km.rmbank.dto.ReceiverAddressDto;
 import com.km.rmbank.dto.ShoppingCartDto;
 import com.km.rmbank.event.OtherAddressEvent;
 import com.km.rmbank.module.personal.receiveraddress.ReceiverAddressActivity;
-import com.km.rmbank.module.personal.shopcart.payment.PaymentActivity;
+import com.km.rmbank.module.payment.PaymentActivity;
+import com.rey.material.widget.Switch;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -44,6 +45,15 @@ public class CreateOrderActivity extends BaseActivity<CreateOrderPresenter> impl
     @BindView(R.id.tv_total_money)
     TextView tvTotalMoney;
 
+    @BindView(R.id.swich)
+    Switch aSwitch;
+    @BindView(R.id.tv_integral)
+    TextView tvIntegral;
+
+    //当前可用积分
+    private String curIntegral = "0";
+    private String totalMoney = "0";
+
     private List<ShoppingCartDto> shoppingCartDtos;
     private ReceiverAddressDto receiverAddressDto;
 
@@ -66,8 +76,31 @@ public class CreateOrderActivity extends BaseActivity<CreateOrderPresenter> impl
     @Override
     protected void onCreate() {
         shoppingCartDtos = getIntent().getParcelableArrayListExtra("checkedGoods");
+        if (shoppingCartDtos != null && shoppingCartDtos.size() > 0){
+            curIntegral = shoppingCartDtos.get(0).getProductList().get(0).getTotal();
+            tvIntegral.setText("选择可用积分："+curIntegral);
+        }
         initRv();
         showOrderDatas(shoppingCartDtos);
+
+        aSwitch.setOnCheckedChangeListener(new Switch.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(Switch view, boolean checked) {
+                BigDecimal btm = new BigDecimal(totalMoney);//总金额
+                BigDecimal bint = new BigDecimal(curIntegral);//可用积分
+                BigDecimal result;
+                if (checked){
+                    btm = btm.setScale(0,BigDecimal.ROUND_UP);
+                    result = btm.subtract(bint);
+                    if (result.doubleValue() < 0){
+                        result = new BigDecimal("0.00");
+                    }
+                } else {
+                    result = btm;
+                }
+                tvTotalMoney.setText(String.valueOf(result.doubleValue()));
+            }
+        });
     }
 
     private void initRv(){
@@ -90,7 +123,8 @@ public class CreateOrderActivity extends BaseActivity<CreateOrderPresenter> impl
     @Override
     public void showOrderDatas(List<ShoppingCartDto> cartEntities) {
         adapter.addData(cartEntities);
-        tvTotalMoney.setText(adapter.getTotalMoneyCheckedGoods());
+        totalMoney = adapter.getTotalMoneyOnCreateOrder();
+        tvTotalMoney.setText(totalMoney);
     }
 
     @Override
@@ -141,7 +175,11 @@ public class CreateOrderActivity extends BaseActivity<CreateOrderPresenter> impl
         params[0] = productNos.toString();
         params[1] = productCounts.toString();
         params[2] = String.valueOf(freight.doubleValue());
-        params[3] = "0";
+        if (aSwitch.isChecked()){
+            params[3] = curIntegral;
+        } else {
+            params[3] = "0";
+        }
         return params;
     }
 }

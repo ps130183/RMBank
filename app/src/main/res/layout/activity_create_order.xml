@@ -82,13 +82,15 @@
         android:layout_above="@+id/rl_bottom">
 
         <TextView
+            android:id="@+id/tv_integral"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="积分抵现：50"
+            android:text="选择可用积分：50"
             android:layout_centerVertical="true"
             />
 
         <com.rey.material.widget.Switch
+            android:id="@+id/swich"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"

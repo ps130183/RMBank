@@ -17,11 +17,13 @@ public interface ShoppingCartContact {
         void showShoppingCartDatas(List<ShoppingCartDto> shoppingCartEntities);
         void updateGoodsCountSuccess(GoodsDetailsDto goodsDto,String optiontType);
         void createOrderSuccess(List<ShoppingCartDto> shoppingCartDtos);
+        void deleteSuccess(int positionOnParent, int positionOnSub);
     }
 
     interface Presenter extends BasePresenter{
         void loadShoppingCartDatas();
         void updateGoodsCount(GoodsDetailsDto productNo, String optionType);
         void createOrder(String productNos);
+        void deleteGoods(GoodsDetailsDto goodsDetailsDto,int positionOnParent, int positionOnSub);
     }
 }

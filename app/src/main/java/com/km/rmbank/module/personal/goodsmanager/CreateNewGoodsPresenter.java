@@ -1,14 +1,20 @@
 package com.km.rmbank.module.personal.goodsmanager;
 
 import com.km.rmbank.dto.GoodsDetailsDto;
+import com.km.rmbank.dto.GoodsTypeDto;
 import com.km.rmbank.utils.fileupload.FileUploadingListener;
 import com.km.rmbank.utils.retrofit.PresenterWrapper;
 import com.orhanobut.logger.Logger;
 
+import java.util.List;
+
+import io.reactivex.Flowable;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.BiFunction;
 import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 import okhttp3.ResponseBody;
 
 /**
@@ -55,6 +61,44 @@ public class CreateNewGoodsPresenter extends PresenterWrapper<CreateNewGoodsCont
                         mView.createNewGoodsSuccess();
                     }
 
+                }));
+    }
+
+    @Override
+    public void getGoodsInfo(String productNo) {
+        mView.showLoading();
+        Flowable<GoodsDetailsDto> goodsInfo = mApiwrapper.getGoodsInfo(productNo).subscribeOn(Schedulers.io());
+        final Flowable<List<GoodsTypeDto>> goodsType = mApiwrapper.getGoodsTypes().subscribeOn(Schedulers.io());
+
+        Flowable.zip(goodsInfo, goodsType, new BiFunction<GoodsDetailsDto, List<GoodsTypeDto>, GoodsDetailsDto>() {
+            @Override
+            public GoodsDetailsDto apply(@NonNull GoodsDetailsDto goodsDetailsDto, @NonNull List<GoodsTypeDto> goodsTypeDtos) throws Exception {
+                String typeId = goodsDetailsDto.getIsInIndexActivity();
+                for (GoodsTypeDto typeDto : goodsTypeDtos){
+                    if (typeId.equals(typeDto.getTypeId())){
+                        goodsDetailsDto.setGoodsTypeDto(typeDto);
+                        break;
+                    }
+                }
+                return goodsDetailsDto;
+            }
+        }).observeOn(AndroidSchedulers.mainThread()).subscribe(newSubscriber(new Consumer<GoodsDetailsDto>() {
+            @Override
+            public void accept(@NonNull GoodsDetailsDto goodsDetailsDto) throws Exception {
+                mView.showGoodsInfo(goodsDetailsDto);
+            }
+        }));
+    }
+
+    @Override
+    public void updateGoodsInfo(GoodsDetailsDto goodsDetailsDto) {
+        mView.showLoading();
+        mApiwrapper.updateGoods(goodsDetailsDto)
+                .subscribe(newSubscriber(new Consumer<String>() {
+                    @Override
+                    public void accept(@NonNull String s) throws Exception {
+                        mView.createNewGoodsSuccess();
+                    }
                 }));
     }
 

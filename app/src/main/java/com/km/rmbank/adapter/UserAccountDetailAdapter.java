@@ -2,11 +2,14 @@ package com.km.rmbank.adapter;
 
 import android.content.Context;
 import android.view.View;
+import android.widget.TextView;
 
 import com.km.rmbank.R;
 import com.km.rmbank.basic.BaseAdapter;
 import com.km.rmbank.basic.BaseView;
 import com.km.rmbank.dto.UserAccountDetailDto;
+
+import butterknife.BindView;
 
 /**
  * Created by kamangkeji on 17/4/1.
@@ -26,10 +29,20 @@ public class UserAccountDetailAdapter extends BaseAdapter<UserAccountDetailDto> 
 
     @Override
     public void createView(ViewHolder holder, int position) {
-
+        UserAccountDetailDto userAccountDetailDto = getItemData(position);
+        holder.tvExplain.setText(userAccountDetailDto.getExplain());
+        holder.tvMoney.setText(userAccountDetailDto.getAmount());
+        holder.tvTime.setText(userAccountDetailDto.getCreateDate());
     }
 
     class ViewHolder extends BaseViewHolder{
+
+        @BindView(R.id.tv_explain)
+        TextView tvExplain;
+        @BindView(R.id.tv_money)
+        TextView tvMoney;
+        @BindView(R.id.tv_time)
+        TextView tvTime;
 
         public ViewHolder(View itemView) {
             super(itemView);

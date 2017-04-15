@@ -9,9 +9,11 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.TextView;
 
 import com.km.rmbank.R;
 import com.km.rmbank.adapter.ShoppingCartParentListAdapter;
+import com.km.rmbank.adapter.ShoppingCartSubListAdapter;
 import com.km.rmbank.basic.BaseActivity;
 import com.km.rmbank.basic.RVUtils;
 import com.km.rmbank.dto.GoodsDetailsDto;
@@ -28,7 +30,7 @@ import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 import butterknife.OnTouch;
 
-public class ShoppingCartActivity extends BaseActivity<ShoppingCartPresenter> implements ShoppingCartContact.View, ShoppingCartParentListAdapter.onCheckedAllListener, ShoppingCartParentListAdapter.OnSubItemClcikListener, ShoppingCartParentListAdapter.onUpdateGoodsCount {
+public class ShoppingCartActivity extends BaseActivity<ShoppingCartPresenter> implements ShoppingCartContact.View, ShoppingCartParentListAdapter.onCheckedAllListener, ShoppingCartParentListAdapter.OnSubItemClcikListener, ShoppingCartParentListAdapter.onUpdateGoodsCount, ShoppingCartParentListAdapter.OnSubDeleteGoodsListener {
 
     @BindView(R.id.recyclerview)
     RecyclerView mRecyclerView;
@@ -37,6 +39,9 @@ public class ShoppingCartActivity extends BaseActivity<ShoppingCartPresenter> im
     @BindView(R.id.cb_check_all)
     CheckBox cbCheckAll;
     private boolean isCheckAllTouch = false;
+
+    @BindView(R.id.tv_total_money)
+    TextView tvTotalMoney;
 
     @Override
     protected int getContentView() {
@@ -60,12 +65,19 @@ public class ShoppingCartActivity extends BaseActivity<ShoppingCartPresenter> im
         RVUtils.addDivideItemForRv(mRecyclerView);
         adapter = new ShoppingCartParentListAdapter(this);
         adapter.setShoppingCart(true);
+        adapter.setTotalMoney(tvTotalMoney);
         mRecyclerView.setAdapter(adapter);
         adapter.setCheckedAllListener(this);
         adapter.setOnSubItemClcikListener(this);
         adapter.setOnUpdateGoodsCount(this);
+        adapter.setOnSubDeleteGoodsListener(this);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mPresenter.loadShoppingCartDatas();
+    }
 
     @Override
     public void showShoppingCartDatas(List<ShoppingCartDto> shoppingCartEntities) {
@@ -80,7 +92,9 @@ public class ShoppingCartActivity extends BaseActivity<ShoppingCartPresenter> im
         } else {
             goodsDto.setProductInShopCarCount(goodsDto.getProductInShopCarCount()-1);
         }
+        adapter.setTotalMoney();
         adapter.notifyDataSetChanged();
+
     }
 
     @Override
@@ -88,6 +102,12 @@ public class ShoppingCartActivity extends BaseActivity<ShoppingCartPresenter> im
         Bundle bundle = new Bundle();
         bundle.putParcelableArrayList("checkedGoods", (ArrayList<? extends Parcelable>) shoppingCartDtos);
         toNextActivity(CreateOrderActivity.class,bundle);
+    }
+
+    @Override
+    public void deleteSuccess(int positionOnParent, int positionOnSub) {
+//        mPresenter.loadShoppingCartDatas();
+        adapter.deleteGoodsSuccess(positionOnParent,positionOnSub);
     }
 
 
@@ -125,5 +145,10 @@ public class ShoppingCartActivity extends BaseActivity<ShoppingCartPresenter> im
     @Override
     public void updateGoodsCount(GoodsDetailsDto productNo, String optionType) {
         mPresenter.updateGoodsCount(productNo,optionType);
+    }
+
+    @Override
+    public void deleteGoods(GoodsDetailsDto goodsDetailsDto,int positionOnParent, int positionOnSub) {
+        mPresenter.deleteGoods(goodsDetailsDto,positionOnParent,positionOnSub);
     }
 }

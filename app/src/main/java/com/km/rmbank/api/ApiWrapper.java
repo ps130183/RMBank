@@ -4,6 +4,7 @@ package com.km.rmbank.api;
 import com.google.gson.Gson;
 import com.km.rmbank.dto.ActionDto;
 import com.km.rmbank.dto.DefaultDto;
+import com.km.rmbank.dto.EvaluateDto;
 import com.km.rmbank.dto.GoodsDetailsDto;
 import com.km.rmbank.dto.GoodsDto;
 import com.km.rmbank.dto.GoodsTypeDto;
@@ -65,11 +66,11 @@ public class ApiWrapper extends RetrofitUtil {
     /**
      * 登录
      * @param mobilePhone
-     * @param loginPwd
+     * @param smsCode
      * @return
      */
-    public Flowable<UserDto> login(String mobilePhone, String loginPwd){
-        return getService().login(mobilePhone,loginPwd).compose(this.<UserDto>applySchedulers());
+    public Flowable<UserDto> login(String mobilePhone, String smsCode){
+        return getService().login(mobilePhone,smsCode).compose(this.<UserDto>applySchedulers());
     }
 
     /**
@@ -323,6 +324,48 @@ public class ApiWrapper extends RetrofitUtil {
     }
 
     /**
+     * 修改商品
+     * @param goodsDetailsDto
+     * @return
+     */
+    public Flowable<String> updateGoods(GoodsDetailsDto goodsDetailsDto){
+        return getService().updateGoods(Constant.user.getToken(),goodsDetailsDto.getProductNo(),goodsDetailsDto.getName(),goodsDetailsDto.getSubtitle(),
+                goodsDetailsDto.getPrice(),goodsDetailsDto.getProductBannerUrl(),
+                goodsDetailsDto.getFreightInMaxCount(),goodsDetailsDto.getFreightInEveryAdd(),
+                goodsDetailsDto.getProductDetail(),goodsDetailsDto.getBannerUrl(),goodsDetailsDto.getIsInIndexActivity())
+                .compose(this.<String>applySchedulers());
+    }
+
+    /**
+     * 商品管理 修改商品前 获取商品信息
+     * @param productNo
+     * @return
+     */
+    public Flowable<GoodsDetailsDto> getGoodsInfo(String productNo){
+        return getService().getGoodsInfo(Constant.user.getToken(),productNo)
+                .compose(this.<GoodsDetailsDto>applySchedulers());
+    }
+
+    /**
+     * 商品下架
+     * @param productNo
+     * @return
+     */
+    public Flowable<String> goodsSlodOut(String productNo){
+        return getService().goodsSoldOut(Constant.user.getToken(),productNo)
+                .compose(this.<String>applySchedulers());
+    }
+
+    /**
+     * 获取已售出 商品列表
+     * @param pageNo
+     * @return
+     */
+    public Flowable<List<OrderDto>> getSellGoodsList(int pageNo){
+        return getService().getSellGoodsList(Constant.user.getToken(),pageNo)
+                .compose(this.<List<OrderDto>>applySchedulers());
+    }
+    /**
      * 获取会员信息
      * @return
      */
@@ -443,6 +486,16 @@ public class ApiWrapper extends RetrofitUtil {
     }
 
     /**
+     * 删除购物车商品
+     * @param goodsDetailsDto
+     * @return
+     */
+    public Flowable<String> deleteShoppingCartGoods(GoodsDetailsDto goodsDetailsDto){
+        return getService().deleteShoppingCartGoods(Constant.user.getToken(),goodsDetailsDto.getProductNo())
+                .compose(this.<String>applySchedulers());
+    }
+
+    /**
      * 购物车 去结算 创建订单
      * @param productNo
      * @return
@@ -535,6 +588,80 @@ public class ApiWrapper extends RetrofitUtil {
     public Flowable<List<MessageDto>> getMessage(int pageNo){
         return getService().getMessage(Constant.user.getToken(),pageNo)
                 .compose(this.<List<MessageDto>>applySchedulers());
+    }
+
+    /**
+     * 余额支付
+     * @param payNumber
+     * @return
+     */
+    public Flowable<String> payBalance(String payNumber){
+        return getService().payBalance(Constant.user.getToken(),payNumber)
+                .compose(this.<String>applySchedulers());
+    }
+
+    /**
+     * 我的订单 去支付
+     * @param orderNo
+     * @return
+     */
+    public Flowable<PayOrderDto> toPayOnMyOrder(String orderNo){
+        return getService().toPayOnMyOrder(Constant.user.getToken(),orderNo)
+                .compose(this.<PayOrderDto>applySchedulers());
+    }
+
+    /**
+     * 商家发货
+     * @param orderNo
+     * @param expressCompany
+     * @param expressNumber
+     * @return
+     */
+    public Flowable<String> sendGoods(String orderNo,String expressCompany,String expressNumber){
+        return getService().sendGoods(Constant.user.getToken(),orderNo,expressCompany,expressNumber)
+                .compose(this.<String>applySchedulers());
+    }
+
+    /**
+     * 获取订单详情
+     * @param orderDto
+     * @return
+     */
+    public Flowable<OrderDto> getOrderDetails(OrderDto orderDto){
+        return getService().getOrderDetails(Constant.user.getToken(),orderDto.getOrderNo())
+                .compose(this.<OrderDto>applySchedulers());
+    }
+
+    /**
+     * 确认收货
+     * @param orderDto
+     * @return
+     */
+    public Flowable<String> confirmReceiverGoods(OrderDto orderDto){
+        return getService().confirmReceiverGoods(Constant.user.getToken(),orderDto.getOrderNo())
+                .compose(this.<String>applySchedulers());
+    }
+
+    /**
+     * 发表评论
+     * @param orderNo
+     * @param content
+     * @return
+     */
+    public Flowable<String> evaluateGoods(String orderNo,String content){
+        return getService().evaluateGoods(Constant.user.getToken(),orderNo,content)
+                .compose(this.<String>applySchedulers());
+    }
+
+    /**
+     * 获取评论列表
+     * @param productNo
+     * @param pageNo
+     * @return
+     */
+    public Flowable<List<EvaluateDto>> getEvaluateList(String productNo,int pageNo){
+        return getService().getEvaluateList(Constant.user.getToken(),productNo,pageNo)
+                .compose(this.<List<EvaluateDto>>applySchedulers());
     }
 
 }

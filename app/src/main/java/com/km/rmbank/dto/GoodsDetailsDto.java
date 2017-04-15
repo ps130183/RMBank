@@ -80,6 +80,9 @@ public class GoodsDetailsDto extends BaseEntity implements Parcelable {
     private String updateDate;
     private List<String> productBannerList;
     private List<String> productDetailList;
+    private String total;
+
+    private GoodsTypeDto goodsTypeDto;
 
     private ReceiverAddressDto receiverAddressDto;
 
@@ -357,6 +360,22 @@ public class GoodsDetailsDto extends BaseEntity implements Parcelable {
         isChecked = checked;
     }
 
+    public String getTotal() {
+        return total;
+    }
+
+    public void setTotal(String total) {
+        this.total = total;
+    }
+
+    public GoodsTypeDto getGoodsTypeDto() {
+        return goodsTypeDto;
+    }
+
+    public void setGoodsTypeDto(GoodsTypeDto goodsTypeDto) {
+        this.goodsTypeDto = goodsTypeDto;
+    }
+
     public GoodsDetailsDto() {
     }
 
@@ -367,6 +386,7 @@ public class GoodsDetailsDto extends BaseEntity implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeByte(this.isChecked ? (byte) 1 : (byte) 0);
         dest.writeString(this.alreadySoldCount);
         dest.writeString(this.bannerType);
         dest.writeString(this.bannerUrl);
@@ -398,10 +418,13 @@ public class GoodsDetailsDto extends BaseEntity implements Parcelable {
         dest.writeString(this.updateDate);
         dest.writeStringList(this.productBannerList);
         dest.writeStringList(this.productDetailList);
+        dest.writeString(this.total);
+        dest.writeParcelable(this.goodsTypeDto, flags);
         dest.writeParcelable(this.receiverAddressDto, flags);
     }
 
     protected GoodsDetailsDto(Parcel in) {
+        this.isChecked = in.readByte() != 0;
         this.alreadySoldCount = in.readString();
         this.bannerType = in.readString();
         this.bannerUrl = in.readString();
@@ -433,6 +456,8 @@ public class GoodsDetailsDto extends BaseEntity implements Parcelable {
         this.updateDate = in.readString();
         this.productBannerList = in.createStringArrayList();
         this.productDetailList = in.createStringArrayList();
+        this.total = in.readString();
+        this.goodsTypeDto = in.readParcelable(GoodsTypeDto.class.getClassLoader());
         this.receiverAddressDto = in.readParcelable(ReceiverAddressDto.class.getClassLoader());
     }
 

@@ -12,9 +12,11 @@ import android.view.ViewGroup;
 
 import com.km.rmbank.R;
 import com.km.rmbank.adapter.GoodsEvluateAdapter;
+import com.km.rmbank.basic.BaseAdapter;
 import com.km.rmbank.basic.BaseFragment;
 import com.km.rmbank.basic.RVUtils;
 import com.km.rmbank.dto.EvaluateDto;
+import com.km.rmbank.dto.GoodsDetailsDto;
 
 import java.util.List;
 
@@ -25,6 +27,7 @@ public class GoodsEvaluateFragment extends BaseFragment<GoodsEvaluatePresenter> 
     @BindView(R.id.recyclerview)
     RecyclerView mRecyclerview;
 
+    private GoodsDetailsDto goodsDetailsDto;
     public static GoodsEvaluateFragment newInstance(Bundle bundle) {
         GoodsEvaluateFragment fragment = new GoodsEvaluateFragment();
         fragment.setArguments(bundle);
@@ -43,15 +46,24 @@ public class GoodsEvaluateFragment extends BaseFragment<GoodsEvaluatePresenter> 
 
     @Override
     protected void createView() {
-
+        goodsDetailsDto = getArguments().getParcelable("goodsDetailsDto");
     }
+
+
 
     @Override
     public void initRecyclerview() {
         RVUtils.setLinearLayoutManage(mRecyclerview, LinearLayoutManager.VERTICAL);
         RVUtils.addDivideItemForRv(mRecyclerview);
-        GoodsEvluateAdapter adapter = new GoodsEvluateAdapter(getContext());
+        final GoodsEvluateAdapter adapter = new GoodsEvluateAdapter(getContext());
         mRecyclerview.setAdapter(adapter);
+        adapter.addLoadMore(mRecyclerview, new BaseAdapter.MoreDataListener() {
+            @Override
+            public void loadMoreData() {
+                mPresenter.getUserEvaluate(goodsDetailsDto.getProductNo(),adapter.getNextPage());
+            }
+        });
+        mPresenter.getUserEvaluate(goodsDetailsDto.getProductNo(),adapter.getNextPage());
     }
 
     @Override

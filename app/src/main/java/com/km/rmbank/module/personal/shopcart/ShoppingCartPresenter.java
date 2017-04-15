@@ -64,7 +64,18 @@ public class ShoppingCartPresenter extends PresenterWrapper<ShoppingCartContact.
     }
 
     @Override
+    public void deleteGoods(GoodsDetailsDto goodsDetailsDto, final int positionOnParent, final int positionOnSub) {
+        mApiwrapper.deleteShoppingCartGoods(goodsDetailsDto)
+                .subscribe(newSubscriber(new Consumer<String>() {
+                    @Override
+                    public void accept(@NonNull String s) throws Exception {
+                        mView.deleteSuccess(positionOnParent,positionOnSub);
+                    }
+                }));
+    }
+
+    @Override
     public void onCreateView() {
-        loadShoppingCartDatas();
+
     }
 }

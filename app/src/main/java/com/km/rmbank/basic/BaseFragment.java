@@ -143,12 +143,17 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment imp
 
     @Override
     public void showLoading() {
-
+        if (loading == null){
+            loading= new DialogLoading(getContext());
+        }
+        loading.show();
     }
 
     @Override
     public void hideLoading() {
-
+        if (loading != null){
+            loading.hide();
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

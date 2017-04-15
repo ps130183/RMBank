@@ -11,10 +11,10 @@ public class SecretConstant {
 //    public final static String API_HOST = "http://122.114.162.140/";
 //    public final static String API_HOST = "http://128.1.253.143:8080/";
 //    public final static String API_HOST = "http://192.168.31.220:8080/";//超哥
-//    public final static String API_HOST = "http://192.168.31.136:8080/";//凯哥
-    public final static String API_HOST = "http://192.168.31.216:8088/";
-//    public final static String API_HOST_PATH = "Aiyg";//Aiyg
-    public final static String API_HOST_PATH = "";//Aiyg
+    public final static String API_HOST = "http://192.168.31.136:8080/";//凯哥
+//    public final static String API_HOST = "http://192.168.31.216:8088/";
+    public final static String API_HOST_PATH = "Aiyg";//Aiyg
+//    public final static String API_HOST_PATH = "";//Aiyg
     public final static String API_HOST_IMAGE_PATH = API_HOST + API_HOST_PATH + "img";
 
 //    public final static String API_HOST = "http://192.168.1.102:8080/";

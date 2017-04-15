@@ -8,7 +8,7 @@ import android.widget.TextView;
 import com.km.rmbank.R;
 import com.km.rmbank.basic.BaseAdapter;
 import com.km.rmbank.dto.GoodsDto;
-import com.ps.androidlib.utils.GlideUtils;
+import com.ps.androidlib.utils.glide.GlideUtils;
 
 import butterknife.BindView;
 

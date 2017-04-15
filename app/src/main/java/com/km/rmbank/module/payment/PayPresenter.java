@@ -1,8 +1,5 @@
-package com.km.rmbank.module.personal.shopcart.payment;
+package com.km.rmbank.module.payment;
 
-import com.km.rmbank.api.ApiWrapper;
-import com.km.rmbank.basic.BaseActivity;
-import com.km.rmbank.dto.AlipayParamsDto;
 import com.km.rmbank.dto.PayOrderDto;
 import com.km.rmbank.dto.WeiCharParamsDto;
 import com.km.rmbank.utils.retrofit.PresenterWrapper;
@@ -54,6 +51,18 @@ public class PayPresenter extends PresenterWrapper<PayContract.View> implements 
                     @Override
                     public void accept(@NonNull WeiCharParamsDto weiCharParamsDto) throws Exception {
                         mView.getWeiCharParamsSuccess(weiCharParamsDto);
+                    }
+                }));
+    }
+
+    @Override
+    public void payBalance(String payNumber) {
+        mView.showLoading();
+        mApiwrapper.payBalance(payNumber)
+                .subscribe(newSubscriber(new Consumer<String>() {
+                    @Override
+                    public void accept(@NonNull String s) throws Exception {
+                        mView.payBalanceSuccess();
                     }
                 }));
     }

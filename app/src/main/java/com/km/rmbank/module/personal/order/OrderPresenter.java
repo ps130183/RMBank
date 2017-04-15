@@ -1,6 +1,7 @@
 package com.km.rmbank.module.personal.order;
 
 import com.km.rmbank.dto.OrderDto;
+import com.km.rmbank.dto.PayOrderDto;
 import com.km.rmbank.utils.retrofit.PresenterWrapper;
 
 import java.util.List;
@@ -21,10 +22,6 @@ public class OrderPresenter extends PresenterWrapper<OrderContract.View> impleme
 
     @Override
     public void loadOrder(final int page, String finishOrder) {
-//        List<OrderDto> orderEntities = new ArrayList<>();
-//        for (int i = 0; i < 10; i++){
-//            orderEntities.add(new OrderDto());
-//        }
         mView.showLoading();
         mApiwrapper.getOrderList(finishOrder,page)
                 .subscribe(newSubscriber(new Consumer<List<OrderDto>>() {
@@ -33,7 +30,18 @@ public class OrderPresenter extends PresenterWrapper<OrderContract.View> impleme
                         mView.showOrderList(orderEntities,page);
                     }
                 }));
-//        mView.showOrderList(orderEntities,page);
+    }
+
+    @Override
+    public void getPayOrder(OrderDto orderDto) {
+        mView.showLoading();
+        mApiwrapper.toPayOnMyOrder(orderDto.getOrderNo())
+                .subscribe(newSubscriber(new Consumer<PayOrderDto>() {
+                    @Override
+                    public void accept(@NonNull PayOrderDto payOrderDto) throws Exception {
+                        mView.getPayOrderSuccess(payOrderDto);
+                    }
+                }));
     }
 
     @Override

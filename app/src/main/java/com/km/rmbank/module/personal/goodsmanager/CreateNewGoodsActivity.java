@@ -9,6 +9,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
@@ -23,7 +24,7 @@ import com.km.rmbank.entity.ImageEntity;
 import com.km.rmbank.ui.CircleProgressView;
 import com.km.rmbank.utils.InputFilterUtils;
 import com.ps.androidlib.utils.DialogUtils;
-import com.ps.androidlib.utils.GlideUtils;
+import com.ps.androidlib.utils.glide.GlideUtils;
 import com.ps.androidlib.utils.imageselector.ImageUtils;
 
 import java.util.ArrayList;
@@ -95,6 +96,10 @@ public class CreateNewGoodsActivity extends BaseActivity<CreateNewGoodsPresenter
     @BindView(R.id.et_sub_title)
     EditText etSubTitle;
 
+    @BindView(R.id.btn_create_new_goods)
+    Button btnCreateNewGoods;
+
+    private String mProductNo;
 
     @Override
     protected int getContentView() {
@@ -114,12 +119,17 @@ public class CreateNewGoodsActivity extends BaseActivity<CreateNewGoodsPresenter
 
     @Override
     protected void onCreate() {
+        mProductNo = getIntent().getStringExtra("productNo");
         bannerPathList = new ArrayList<>();
         goodsDetailPathList = new ArrayList<>();
         bannerPathBuf = new StringBuffer();
         goodsDetailPathBuf = new StringBuffer();
         initImageWidget();
         initPriceFrieght();
+        if (!TextUtils.isEmpty(mProductNo)){
+            mPresenter.getGoodsInfo(mProductNo);
+            btnCreateNewGoods.setText("保存修改");
+        }
     }
 
     private void initImageWidget() {
@@ -144,6 +154,12 @@ public class CreateNewGoodsActivity extends BaseActivity<CreateNewGoodsPresenter
                 selectImage(mrvBanner.getId());
             }
         });
+        addImageAdapter.setOnclickDeleteImageListener(new AddImageAdapter.OnclickDeleteImageListener() {
+            @Override
+            public void clickDelete(int position) {
+                bannerPathList.remove(position);
+            }
+        });
     }
 
     /**
@@ -161,6 +177,12 @@ public class CreateNewGoodsActivity extends BaseActivity<CreateNewGoodsPresenter
             @Override
             public void addImage() {
                 selectImage(mrvGoodsDetail.getId());
+            }
+        });
+        addImageAdapter.setOnclickDeleteImageListener(new AddImageAdapter.OnclickDeleteImageListener() {
+            @Override
+            public void clickDelete(int position) {
+                goodsDetailPathList.remove(position);
             }
         });
     }
@@ -323,6 +345,11 @@ public class CreateNewGoodsActivity extends BaseActivity<CreateNewGoodsPresenter
 
     @Override
     public void createNewGoodsSuccess() {
+        if (TextUtils.isEmpty(mProductNo)){
+            showToast("发布成功，请等待后台审核");
+        } else {
+            showToast("保存成功");
+        }
         finish();
     }
 
@@ -349,6 +376,44 @@ public class CreateNewGoodsActivity extends BaseActivity<CreateNewGoodsPresenter
         }
     }
 
+    @Override
+    public void showGoodsInfo(GoodsDetailsDto goodsDetailsDto) {
+        goodsTypeDto = goodsDetailsDto.getGoodsTypeDto();
+        etGoodsType.setText(goodsTypeDto.getProductType());
+        etName.setText(goodsDetailsDto.getName());
+        etSubTitle.setText(goodsDetailsDto.getSubtitle());
+        etGoodsPrice.setText(goodsDetailsDto.getPrice());
+
+        etFrieght.setText(goodsDetailsDto.getFreightInMaxCount());
+        etFrieghtAdd.setText(goodsDetailsDto.getFreightInEveryAdd());
+
+        bannerPathList.addAll(goodsDetailsDto.getProductBannerList());
+        goodsDetailPathList.addAll(goodsDetailsDto.getProductDetailList());
+
+        List<ImageEntity> bannerEntity = new ArrayList<>();
+        for (String path : bannerPathList){
+            bannerEntity.add(new ImageEntity(path));
+        }
+        AddImageAdapter bannerAdapter = (AddImageAdapter) mrvBanner.getAdapter();
+        bannerAdapter.addData(bannerEntity);
+
+        List<ImageEntity> detailEntity = new ArrayList<>();
+        for (String path : goodsDetailPathList){
+            detailEntity.add(new ImageEntity(path));
+        }
+        AddImageAdapter detailAdapter = (AddImageAdapter) mrvGoodsDetail.getAdapter();
+        detailAdapter.addData(detailEntity);
+
+        String[] actionUrls = goodsDetailsDto.getBannerUrl().split("#");
+        actionUrl1 = actionUrls[0];
+        actionUrl2 = actionUrls[1];
+        actionUrl3 = actionUrls[2];
+
+        GlideUtils.loadImage(ivAction1, actionUrl1);
+        GlideUtils.loadImage(ivAction2, actionUrl2);
+        GlideUtils.loadImage(ivAction3, actionUrl3);
+    }
+
     /**
      * 将多张图片地址 转换成 字符串 并用#号分割
      *
@@ -361,8 +426,8 @@ public class CreateNewGoodsActivity extends BaseActivity<CreateNewGoodsPresenter
         for (String photo : photoList) {
             buffer.append(photo).append("#");
         }
-        if (photoList.size() > 1) {
-            buffer.replace(photoList.size() - 1, photoList.size(), "");
+        if (buffer.length() > 1) {
+            buffer.replace(buffer.length() - 1, buffer.length(), "");
         }
 
         return buffer.toString();
@@ -388,6 +453,12 @@ public class CreateNewGoodsActivity extends BaseActivity<CreateNewGoodsPresenter
             showToast("请将商品的信息补充完整");
             return;
         }
-        mPresenter.createNewGoods(goodsDetailsDto);
+        if (TextUtils.isEmpty(mProductNo)){
+            mPresenter.createNewGoods(goodsDetailsDto);
+        } else {
+            goodsDetailsDto.setProductNo(mProductNo);
+            mPresenter.updateGoodsInfo(goodsDetailsDto);
+        }
+
     }
 }

@@ -16,6 +16,6 @@ public interface GoodsEvaluateContract {
         void showUserEvaluate(List<EvaluateDto> evaluateDtos,int pageNo);
     }
     interface Presenter extends BasePresenter{
-        void getUserEvaluate(int pageNo);
+        void getUserEvaluate(String productNo,int pageNo);
     }
 }

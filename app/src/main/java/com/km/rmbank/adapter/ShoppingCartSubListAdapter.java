@@ -12,27 +12,21 @@ import android.widget.TextView;
 
 import com.km.rmbank.R;
 import com.km.rmbank.basic.BaseAdapter;
+import com.km.rmbank.basic.BaseSwipeRvAdapter;
 import com.km.rmbank.dto.GoodsDetailsDto;
-import com.km.rmbank.dto.GoodsDto;
-import com.km.rmbank.event.ConfirmGoodsNumberEvent;
-import com.km.rmbank.event.GoodsDetailNumberEvent;
-import com.ps.androidlib.animator.ShowViewAnimator;
-import com.ps.androidlib.utils.EventBusUtils;
-import com.ps.androidlib.utils.GlideUtils;
-
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
+import com.ps.androidlib.utils.glide.GlideUtils;
 
 import java.math.BigDecimal;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import retrofit2.http.POST;
 
 /**
  * Created by kamangkeji on 17/3/20.
  */
 
-public class ShoppingCartSubListAdapter extends BaseAdapter<GoodsDetailsDto> implements BaseAdapter.IAdapter<ShoppingCartSubListAdapter.ViewHolder> {
+public class ShoppingCartSubListAdapter extends BaseSwipeRvAdapter<GoodsDetailsDto> implements BaseSwipeRvAdapter.IAdapter<ShoppingCartSubListAdapter.ViewHolder> {
 
     private boolean isShoppingCart;
 
@@ -40,6 +34,7 @@ public class ShoppingCartSubListAdapter extends BaseAdapter<GoodsDetailsDto> imp
     private int positionOnParent;
     private OnSubCheckedListener onSubCheckedListener;
     private onUpdateCountForGoods onUpdateCountForGoods;
+    private OnDeleteGoodsListener onDeleteGoodsListener;
 
     public ShoppingCartSubListAdapter(Context mContext) {
         super(mContext, R.layout.item_rv_shopping_cart_sub_list);
@@ -52,7 +47,7 @@ public class ShoppingCartSubListAdapter extends BaseAdapter<GoodsDetailsDto> imp
     }
 
     @Override
-    public void createView(ViewHolder holder, int position) {
+    public void createView(ViewHolder holder, final int position) {
         final GoodsDetailsDto entity = getItemData(position);
 
         GlideUtils.loadImage(holder.ivGoodsImage,entity.getThumbnailUrl());
@@ -91,10 +86,18 @@ public class ShoppingCartSubListAdapter extends BaseAdapter<GoodsDetailsDto> imp
                 }
             }
         });
+        holder.tvDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onDeleteGoodsListener != null){
+                    onDeleteGoodsListener.deleteGoods(entity,position);
+                }
+            }
+        });
 
     }
 
-    class ViewHolder extends BaseViewHolder{
+    class ViewHolder extends BaseSwipeViewHolder{
 
         @BindView(R.id.checkbox)
         CheckBox mCheckBox;
@@ -117,6 +120,9 @@ public class ShoppingCartSubListAdapter extends BaseAdapter<GoodsDetailsDto> imp
         Button btnAdd;
         @BindView(R.id.btn_cut)
         Button btnCut;
+
+        @BindView(R.id.tv_delete)
+        TextView tvDelete;
         public ViewHolder(View itemView) {
             super(itemView);
 
@@ -156,5 +162,13 @@ public class ShoppingCartSubListAdapter extends BaseAdapter<GoodsDetailsDto> imp
 
     public void setOnUpdateCountForGoods(ShoppingCartSubListAdapter.onUpdateCountForGoods onUpdateCountForGoods) {
         this.onUpdateCountForGoods = onUpdateCountForGoods;
+    }
+
+    public interface OnDeleteGoodsListener{
+        void deleteGoods(GoodsDetailsDto goodsDetailsDto, int positionOnSub);
+    }
+
+    public void setOnDeleteGoodsListener(OnDeleteGoodsListener onDeleteGoodsListener) {
+        this.onDeleteGoodsListener = onDeleteGoodsListener;
     }
 }

@@ -13,6 +13,7 @@ import com.km.rmbank.module.login.LoginActivity;
 import com.km.rmbank.utils.Constant;
 import com.ps.androidlib.utils.AppUtils;
 import com.ps.androidlib.utils.DialogUtils;
+import com.ps.androidlib.utils.SPUtils;
 
 import butterknife.OnClick;
 
@@ -36,6 +37,7 @@ public class SettingActivity extends BaseActivity {
 
     @OnClick(R.id.tv_clear_cache)
     public void clearCache(View view){
+        SPUtils.getInstance().clear();
         AppUtils.executeOnUIThread(3000, new AppUtils.UIThread() {
             @Override
             public void onUIThread() {

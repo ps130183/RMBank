@@ -1,10 +1,15 @@
 package com.km.rmbank.dto;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by kamangkeji on 17/3/24.
  */
 
-public class OrderDto {
+public class OrderDto implements Parcelable {
 
     /**
      * createDate : 1491969851000
@@ -59,6 +64,21 @@ public class OrderDto {
     private int tradeChannel;
     private String updateDate;
     private String userId;
+    /**
+     * isComment : 0
+     * totalPrice : 0
+     * freight : 0
+     * productUnitPrice : 0.01
+     * commentStartLevel : 0
+     * courierNumber : 123456799
+     * expressCompany : 卡忙快递
+     */
+
+    private int isComment;
+    private String productUnitPriceX;
+    private int commentStartLevel;
+    private String courierNumber;
+    private String expressCompany;
 
     public String getCreateDate() {
         return createDate;
@@ -259,4 +279,130 @@ public class OrderDto {
     public void setUserId(String userId) {
         this.userId = userId;
     }
+
+    public OrderDto() {
+    }
+
+    public int getIsComment() {
+        return isComment;
+    }
+
+    public void setIsComment(int isComment) {
+        this.isComment = isComment;
+    }
+    public String getProductUnitPriceX() {
+        return productUnitPriceX;
+    }
+
+    public void setProductUnitPriceX(String productUnitPriceX) {
+        this.productUnitPriceX = productUnitPriceX;
+    }
+
+    public int getCommentStartLevel() {
+        return commentStartLevel;
+    }
+
+    public void setCommentStartLevel(int commentStartLevel) {
+        this.commentStartLevel = commentStartLevel;
+    }
+
+    public String getCourierNumber() {
+        return courierNumber;
+    }
+
+    public void setCourierNumber(String courierNumber) {
+        this.courierNumber = courierNumber;
+    }
+
+    public String getExpressCompany() {
+        return expressCompany;
+    }
+
+    public void setExpressCompany(String expressCompany) {
+        this.expressCompany = expressCompany;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.createDate);
+        dest.writeString(this.exchange);
+        dest.writeString(this.freight);
+        dest.writeString(this.id);
+        dest.writeInt(this.isDel);
+        dest.writeInt(this.isNeedInvoice);
+        dest.writeInt(this.isUserselfPick);
+        dest.writeString(this.orderNo);
+        dest.writeInt(this.productCount);
+        dest.writeString(this.productName);
+        dest.writeString(this.productNo);
+        dest.writeString(this.productTotalPrice);
+        dest.writeInt(this.productType);
+        dest.writeString(this.productUnitPrice);
+        dest.writeString(this.receiveAddress);
+        dest.writeString(this.receivePerson);
+        dest.writeString(this.receivePersonPhone);
+        dest.writeString(this.shopName);
+        dest.writeString(this.shopUserId);
+        dest.writeInt(this.status);
+        dest.writeString(this.thumbnailUrl);
+        dest.writeString(this.totalPrice);
+        dest.writeInt(this.tradeChannel);
+        dest.writeString(this.updateDate);
+        dest.writeString(this.userId);
+        dest.writeInt(this.isComment);
+        dest.writeString(this.productUnitPriceX);
+        dest.writeInt(this.commentStartLevel);
+        dest.writeString(this.courierNumber);
+        dest.writeString(this.expressCompany);
+    }
+
+    protected OrderDto(Parcel in) {
+        this.createDate = in.readString();
+        this.exchange = in.readString();
+        this.freight = in.readString();
+        this.id = in.readString();
+        this.isDel = in.readInt();
+        this.isNeedInvoice = in.readInt();
+        this.isUserselfPick = in.readInt();
+        this.orderNo = in.readString();
+        this.productCount = in.readInt();
+        this.productName = in.readString();
+        this.productNo = in.readString();
+        this.productTotalPrice = in.readString();
+        this.productType = in.readInt();
+        this.productUnitPrice = in.readString();
+        this.receiveAddress = in.readString();
+        this.receivePerson = in.readString();
+        this.receivePersonPhone = in.readString();
+        this.shopName = in.readString();
+        this.shopUserId = in.readString();
+        this.status = in.readInt();
+        this.thumbnailUrl = in.readString();
+        this.totalPrice = in.readString();
+        this.tradeChannel = in.readInt();
+        this.updateDate = in.readString();
+        this.userId = in.readString();
+        this.isComment = in.readInt();
+        this.productUnitPriceX = in.readString();
+        this.commentStartLevel = in.readInt();
+        this.courierNumber = in.readString();
+        this.expressCompany = in.readString();
+    }
+
+    public static final Creator<OrderDto> CREATOR = new Creator<OrderDto>() {
+        @Override
+        public OrderDto createFromParcel(Parcel source) {
+            return new OrderDto(source);
+        }
+
+        @Override
+        public OrderDto[] newArray(int size) {
+            return new OrderDto[size];
+        }
+    };
 }

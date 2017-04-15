@@ -20,8 +20,8 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
 
     @BindView(R.id.et_phone)
     EditText etPhone;
-    @BindView(R.id.et_password)
-    EditText etPassword;
+    @BindView(R.id.et_code)
+    EditText etCode;
 
     private String mobilePhone;
     @Override
@@ -53,12 +53,12 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     @OnClick(R.id.btn_login)
     public void login(View view){
         String phone = etPhone.getText().toString();
-        String pwd = etPassword.getText().toString();
-        if (TextUtils.isEmpty(phone) || TextUtils.isEmpty(pwd)){
-            showToast("请填写手机号或密码");
+        String smsCode = etCode.getText().toString();
+        if (TextUtils.isEmpty(phone) || TextUtils.isEmpty(smsCode)){
+            showToast("请填写手机号或验证码");
             return;
         }
-        mPresenter.login(phone,pwd);
+        mPresenter.login(phone,smsCode);
     }
 
     @Override
@@ -67,26 +67,26 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
         toNextActivity(HomeActivity.class);
     }
 
-    /**
-     * 注册
-     * @param view
-     */
-    @OnClick(R.id.tv_register)
-    public void register(View view){
-        Bundle bundle = new Bundle();
-        bundle.putInt("smsCodeType",1);
-        toNextActivity(RegisterPhoneActivity.class,bundle);
-    }
-
-    /**
-     * 忘记密码
-     * @param view
-     */
-    @OnClick(R.id.tv_forget_loginpwd)
-    public void forgetLoginPwd(View view){
-        Bundle bundle = new Bundle();
-        bundle.putInt("smsCodeType",2);
-        toNextActivity(RegisterPhoneActivity.class,bundle);
-    }
+//    /**
+//     * 注册
+//     * @param view
+//     */
+//    @OnClick(R.id.tv_register)
+//    public void register(View view){
+//        Bundle bundle = new Bundle();
+//        bundle.putInt("smsCodeType",1);
+//        toNextActivity(RegisterPhoneActivity.class,bundle);
+//    }
+//
+//    /**
+//     * 忘记密码
+//     * @param view
+//     */
+//    @OnClick(R.id.tv_forget_loginpwd)
+//    public void forgetLoginPwd(View view){
+//        Bundle bundle = new Bundle();
+//        bundle.putInt("smsCodeType",2);
+//        toNextActivity(RegisterPhoneActivity.class,bundle);
+//    }
 
 }
