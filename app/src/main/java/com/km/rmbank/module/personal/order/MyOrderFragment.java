@@ -84,9 +84,6 @@ public class MyOrderFragment extends BaseFragment<OrderPresenter> implements Ord
                         mPresenter.getPayOrder(orderDto);
                         break;
                     case 2:
-                    case 3://确认收货
-
-                        break;
                 }
             }
         });

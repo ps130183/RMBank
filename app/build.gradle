@@ -9,6 +9,29 @@ android {
             storePassword 'rmbank2017'
         }
     }
+
+    //PK打包重新命名
+    applicationVariants.all { variant ->
+        variant.outputs.each { output ->
+            def oldFile = output.outputFile
+            def newName = '';
+            if(variant.buildType.name.equals('release')){
+                // println(variant.productFlavors[0].name)
+                // def releaseApkName = 'study-' + defaultConfig.versionName + '-luckpan.apk'
+                def releaseApkName = "WZDQ-" + buildType.name + "-${releaseTime() }-" + defaultConfig.versionName + '.apk'
+                output.outputFile = new File(oldFile.parent, releaseApkName)
+            }
+            if(variant.buildType.name.equals('beta')){
+                newName = oldFile.name.replace(".apk", "-v" + getVersionNameFromManifest() + "-build" + getDate() + ".apk")
+                output.outputFile = new File(oldFile.parent, newName)
+            }
+            if(variant.buildType.name.equals('debug')){
+
+            }
+        }
+
+
+    }
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
     defaultConfig {
@@ -42,9 +65,13 @@ allprojects {
         maven { url "https://jitpack.io" }
     }
 }
+def releaseTime() {
+    return new Date().format("yyyyMMddHHmmss", TimeZone.getTimeZone("UTC"))
+}
 
-
-
+android {
+    useLibrary 'org.apache.http.legacy'
+}
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
@@ -70,4 +97,8 @@ dependencies {
     compile files('libs/umeng_social_tool.jar')
     compile files('libs/wechat-sdk-android-with-mta-1.1.6.jar')
     compile files('libs/umeng_shareboard_widget.jar')
+    compile project(':guideShowLib')
+
+    compile 'org.apache.httpcomponents:httpcore:4.4.1'
+    compile 'org.apache.httpcomponents:httpclient:4.5'
 }

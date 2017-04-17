@@ -1,5 +1,7 @@
 package com.km.rmbank.module.personal;
 
+import com.km.rmbank.dto.ShareDto;
+import com.km.rmbank.dto.UserCardDto;
 import com.km.rmbank.dto.UserInfoDto;
 import com.km.rmbank.utils.retrofit.PresenterWrapper;
 
@@ -23,6 +25,30 @@ public class PersonalPresenter extends PresenterWrapper<PersonalContract.View> i
                     @Override
                     public void accept(@NonNull UserInfoDto userInfoDto) throws Exception {
                         mView.showUserInfo(userInfoDto);
+                    }
+                }));
+    }
+
+    @Override
+    public void getUserInfoByQRCode(final String url) {
+        mView.showLoading();
+        mApiwrapper.getUserCardOnQRCode(url)
+                .subscribe(newSubscriber(new Consumer<UserCardDto>() {
+                    @Override
+                    public void accept(@NonNull UserCardDto userCardDto) throws Exception {
+                        String phone = url.split("[?]")[1].split("=")[1];
+                        mView.getUserInfoByQRCodeSuccess(userCardDto,phone);
+                    }
+                }));
+    }
+
+    @Override
+    public void getShareContent() {
+        mApiwrapper.getShareContent()
+                .subscribe(newSubscriber(new Consumer<ShareDto>() {
+                    @Override
+                    public void accept(@NonNull ShareDto shareDto) throws Exception {
+                        mView.showShareContent(shareDto);
                     }
                 }));
     }

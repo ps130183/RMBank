@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.widget.FrameLayout;
 
 import com.flyco.tablayout.CommonTabLayout;
@@ -32,14 +33,16 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
+import io.reactivex.Observable;
+import io.reactivex.functions.Consumer;
 
 public class HomeActivity extends BaseActivity {
 
-//    @BindView(R.id.viewpage)
-//    ViewPager viewPager;
-//    private ViewPagerTabLayoutAdapter viewPagerAdapter;
+    private static boolean isExsit = false;
+
     @BindView(R.id.fl_content_view)
     FrameLayout flContent;
 
@@ -138,6 +141,39 @@ public class HomeActivity extends BaseActivity {
     public void userNoLogin(UserNoLoginEvent event){
         Constant.user.clear();
         toNextActivity(LoginActivity.class);
+    }
+
+
+    /**
+     * 双击退出程序
+     * @param keyCode
+     * @param event
+     * @return
+     */
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK){
+            exsit();
+            return false;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    private void exsit(){
+        if (isExsit){
+            finish();
+            System.exit(0);
+        } else {
+            isExsit = true;
+            showToast("再按一次退出程序");
+            Observable.timer(2, TimeUnit.SECONDS)
+                    .subscribe(new Consumer<Long>() {
+                        @Override
+                        public void accept(@io.reactivex.annotations.NonNull Long aLong) throws Exception {
+                            isExsit = false;
+                        }
+                    });
+        }
     }
 
 

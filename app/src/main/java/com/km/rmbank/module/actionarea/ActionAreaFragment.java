@@ -15,9 +15,11 @@ import com.km.rmbank.basic.RVUtils;
 import com.km.rmbank.cell.ActionCell;
 import com.km.rmbank.cell.BannerCell;
 import com.km.rmbank.dto.ActionDto;
+import com.km.rmbank.module.actionarea.apply.ApplyActionActivity;
 import com.km.rv_libs.TemplateAdapter;
 import com.km.rv_libs.base.BaseAdapter;
 import com.km.rv_libs.base.ICell;
+import com.orhanobut.logger.Logger;
 import com.ps.androidlib.utils.MToast;
 
 import java.util.ArrayList;
@@ -67,30 +69,11 @@ public class ActionAreaFragment extends BaseFragment<ActionPresenter> implements
 
     @OnClick(R.id.fab_apply)
     public void apply(View view){
-        MToast.showToast(getContext(),"报名");
+        toNextActivity(ApplyActionActivity.class);
     }
 
     @Override
     public void initAction() {
-
-//        RVUtils.addSwipRefresh(mSwipeRefresh, new RVUtils.OnSwipeRefresh() {
-//            @Override
-//            public void onRefresh(final SwipeRefreshLayout mSwipeRefresh) {
-////                new Handler().postDelayed(new Runnable() {
-////                    @Override
-////                    public void run() {
-////                        mSwipeRefresh.setRefreshing(false);
-////                    }
-////                },3000);
-//                TemplateAdapter adapter = (TemplateAdapter) rvActionArea.getAdapter();
-//                if (adapter != null){
-//                    adapter.clear();
-//                    adapter.addData(adapter.getHeaderCells());
-//                    mPresenter.getActionList(adapter.getNextPage());
-//                }
-//
-//            }
-//        });
 
         List<Integer> images = new ArrayList<>();
         images.add(R.mipmap.timg);

@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.km.rmbank.R;
 import com.km.rmbank.basic.BaseActivity;
@@ -24,6 +25,7 @@ import com.km.rmbank.utils.Constant;
 import com.km.rmbank.utils.PickerUtils;
 import com.km.rmbank.utils.QRCodeUtils;
 import com.km.rmbank.utils.retrofit.SecretConstant;
+import com.ps.androidlib.utils.DialogUtils;
 
 import java.util.List;
 
@@ -42,6 +44,12 @@ public class EditUserCardActivity extends BaseActivity<EditUserCardPresenter> im
     public static final int REQUEST_CODE_ET_LOCATION = 1008;
     public static final int REQUEST_CODE_ET_ADDRESS = 1009;
     public static final int REQUEST_CODE_ET_EMAIL = 1010;
+
+    //二维码 路径
+    private static final String QRCODE_URL = SecretConstant.API_HOST + SecretConstant.API_HOST_PATH + "/user/saoUserCard/info?mobilePhone=" + Constant.user.getMobilePhone();
+
+    @BindView(R.id.title)
+    TextView title;
 
     @BindView(R.id.et_name)
     EditText etName;
@@ -82,6 +90,8 @@ public class EditUserCardActivity extends BaseActivity<EditUserCardPresenter> im
     Button btnCreateCode;
 
     private UserCardDto userCardDto;
+    private String friendPhone;
+    private boolean fromQRCode = false;
 
     @Override
     protected int getContentView() {
@@ -101,9 +111,20 @@ public class EditUserCardActivity extends BaseActivity<EditUserCardPresenter> im
 
     @Override
     protected void onCreate() {
+        userCardDto = getIntent().getParcelableExtra("userCardDto");
+        friendPhone = getIntent().getStringExtra("friendPhone");
+//        PickerUtils.showOptions(this,etLocation,vMasker);
+        if (userCardDto != null){ //来源 ： 扫一扫  其他人的名片
+            showUserCard(userCardDto);
+            btnCreateCode.setText("加为好友");
+            title.setText("好友信息");
+            ivQRCode.setVisibility(View.GONE);
+            fromQRCode = true;
+        } else {
+            PickerUtils.showOptions(this,etLocation,vMasker);
+            mPresenter.getUserCard();
+        }
 
-        PickerUtils.showOptions(this,etLocation,vMasker);
-//        CityPickData.initData(this);
     }
 
     @Override
@@ -174,6 +195,7 @@ public class EditUserCardActivity extends BaseActivity<EditUserCardPresenter> im
      */
     @OnClick(R.id.et_name)
     public void editName(View view){
+        if (fromQRCode) return;
         String name = etName.getText().toString();
         Bundle bundle = new Bundle();
         bundle.putString("name",name);
@@ -186,6 +208,7 @@ public class EditUserCardActivity extends BaseActivity<EditUserCardPresenter> im
      */
     @OnClick(R.id.et_phone)
     public void editPhone(View view){
+        if (fromQRCode) return;
         String phone = etPhone.getText().toString();
         Bundle bundle = new Bundle();
         bundle.putString("phone",phone);
@@ -198,6 +221,7 @@ public class EditUserCardActivity extends BaseActivity<EditUserCardPresenter> im
      */
     @OnClick(R.id.et_company)
     public void editCompany(View view){
+        if (fromQRCode) return;
         String company = etCompany.getText().toString();
         Bundle bundle = new Bundle();
         bundle.putString("company",company);
@@ -210,6 +234,7 @@ public class EditUserCardActivity extends BaseActivity<EditUserCardPresenter> im
      */
     @OnClick(R.id.et_job)
     public void editJob(View view){
+        if (fromQRCode) return;
         String job = etJob.getText().toString();
         Bundle bundle = new Bundle();
         bundle.putString("job",job);
@@ -222,6 +247,7 @@ public class EditUserCardActivity extends BaseActivity<EditUserCardPresenter> im
      */
     @OnClick(R.id.et_company_intro)
     public void editCompanyIntro(View view){
+        if (fromQRCode) return;
         String companyIntro = etCompanyIntro.getText().toString();
         Bundle bundle = new Bundle();
         bundle.putString("companyIntro",companyIntro);
@@ -234,6 +260,7 @@ public class EditUserCardActivity extends BaseActivity<EditUserCardPresenter> im
      */
     @OnClick(R.id.et_provider_resource)
     public void editProviderResource(View view){
+        if (fromQRCode) return;
         Bundle bundle = new Bundle();
         bundle.putInt("requestcode",REQUEST_CODE_ET_PROVIDER_RESOURCE);
         toNextActivityForResult(REQUEST_CODE_ET_PROVIDER_RESOURCE,bundle);
@@ -245,6 +272,7 @@ public class EditUserCardActivity extends BaseActivity<EditUserCardPresenter> im
      */
     @OnClick(R.id.et_need_resource)
     public void editNeedResource(View view){
+        if (fromQRCode) return;
         Bundle bundle = new Bundle();
         bundle.putInt("requestcode",REQUEST_CODE_ET_NEED_RESOURCE);
         toNextActivityForResult(REQUEST_CODE_ET_NEED_RESOURCE,bundle);
@@ -257,6 +285,7 @@ public class EditUserCardActivity extends BaseActivity<EditUserCardPresenter> im
      */
     @OnClick(R.id.et_address)
     public void editAddress(View view){
+        if (fromQRCode) return;
         String address = etAddress.getText().toString();
         Bundle bundle = new Bundle();
         bundle.putString("address",address);
@@ -270,6 +299,7 @@ public class EditUserCardActivity extends BaseActivity<EditUserCardPresenter> im
      */
     @OnClick(R.id.et_email)
     public void editEmail(View view){
+        if (fromQRCode) return;
         String email = etEmail.getText().toString();
         Bundle bundle = new Bundle();
         bundle.putString("email",email);
@@ -280,15 +310,25 @@ public class EditUserCardActivity extends BaseActivity<EditUserCardPresenter> im
     @OnClick(R.id.btn_create_code)
     public void createQRCode(View view){
 
-        String location = etLocation.getText().toString();
-        userCardDto.setLocation(location);
+        if (fromQRCode){
+            DialogUtils.showDefaultAlertDialog("是否要加 " + userCardDto.getName() + " 为好友?", new DialogUtils.ClickListener() {
+                @Override
+                public void clickConfirm() {
+                    showToast(friendPhone);
+                    mPresenter.applyBecomeFriend(friendPhone);
+                }
+            });
+        } else {
+            String location = etLocation.getText().toString();
+            userCardDto.setLocation(location);
+            if (userCardDto.isEmpty()){
+                showToast("请将您的信息补充完整");
+                return;
+            }
 
-        if (userCardDto.isEmpty()){
-            showToast("请将您的信息补充完整");
-            return;
+            mPresenter.createUserCard(userCardDto);
         }
 
-        mPresenter.createUserCard(userCardDto);
     }
 
 
@@ -332,7 +372,7 @@ public class EditUserCardActivity extends BaseActivity<EditUserCardPresenter> im
             this.userCardDto = new UserCardDto();
         } else {
 //            ivQRCode.setImageBitmap(QRCodeUtils.createQRCode(EditUserCardActivity.this, Constant.user.getMobilePhone()));
-            ivQRCode.setImageBitmap(QRCodeUtils.createQRCode(EditUserCardActivity.this, "http://192.168.31.220:8080/Aiyg/member/sao/test?phone=15678i283"));
+            ivQRCode.setImageBitmap(QRCodeUtils.createQRCode(EditUserCardActivity.this, QRCODE_URL));
             ivQRCode.setVisibility(View.VISIBLE);
             btnCreateCode.setText("更新名片");
         }
@@ -352,7 +392,12 @@ public class EditUserCardActivity extends BaseActivity<EditUserCardPresenter> im
     ///membero/test
     @Override
     public void createUserCardSuccess(UserCardDto userCardDto) {
-        ivQRCode.setImageBitmap(QRCodeUtils.createQRCode(EditUserCardActivity.this, SecretConstant.API_HOST + SecretConstant.API_HOST_PATH + "/membero/test"));
+        ivQRCode.setImageBitmap(QRCodeUtils.createQRCode(EditUserCardActivity.this, QRCODE_URL));
         ivQRCode.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void applyBecomeFriendSuccess() {
+        showToast("已发送申请，请等待对方同意");
     }
 }

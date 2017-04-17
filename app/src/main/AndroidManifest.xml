@@ -166,7 +166,10 @@
         <activity android:name=".module.home.SearchActivity" />
         <activity android:name=".module.home.message.MessageActivity" />
         <activity android:name=".module.personal.order.detail.OrderDetailsActivity" />
-        <activity android:name=".module.personal.order.detail.evaluate.GoodsEvaluateActivity"></activity>
+        <activity android:name=".module.personal.order.detail.evaluate.GoodsEvaluateActivity" />
+        <activity android:name=".module.actionarea.apply.ApplyActionActivity" />
+        <activity android:name=".module.guide.GuideActivity" />
+        <activity android:name=".module.guide.LaunchActivity"></activity>
     </application>
 
 </manifest>

@@ -65,7 +65,7 @@
             android:id="@+id/tv_edit_card"
             style="@style/Personal.UserInfo"
             android:layout_height="wrap_content"
-            android:text="编辑名片" />
+            android:text="名片" />
 
         <View
             android:layout_width="1dp"
@@ -92,7 +92,7 @@
             android:id="@+id/tv_setting"
             style="@style/Personal.UserInfo"
             android:layout_height="wrap_content"
-            android:text="隐私设置" />
+            android:text="设置" />
     </LinearLayout>
 
 </LinearLayout>

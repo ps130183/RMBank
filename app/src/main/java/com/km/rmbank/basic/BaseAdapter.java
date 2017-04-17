@@ -16,6 +16,7 @@ import com.ps.androidlib.utils.ViewUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.zip.Inflater;
 
 import butterknife.ButterKnife;
 import io.reactivex.Observable;
@@ -73,7 +74,7 @@ public class BaseAdapter<T> extends RecyclerView.Adapter<BaseAdapter.BaseViewHol
         if (iAdapter == null) {
             throw new IllegalArgumentException(this.toString() + "  iAdapter is not null,请实现iadapter接口");
         } else if (viewType == viewtype_item_empty) {//没有数据
-            return new EmptyViewHolder(ViewUtils.getView(inflater, parent, R.layout.rc_item_empty));
+            return getEmptyViewHolder(inflater,parent);
         } else if (viewType == viewtype_header) {
             return getHeaderViewHolder(inflater, parent);
         } else if (viewType == viewtype_footer) {//footer
@@ -303,11 +304,21 @@ public class BaseAdapter<T> extends RecyclerView.Adapter<BaseAdapter.BaseViewHol
     /**
      * 空数据
      */
-    class EmptyViewHolder extends BaseViewHolder {
+    public class EmptyViewHolder extends BaseViewHolder {
 
         public EmptyViewHolder(View itemView) {
             super(itemView);
         }
+    }
+
+    /**
+     * 返回空数据
+     * @param inflater
+     * @param parent
+     * @return
+     */
+    protected EmptyViewHolder getEmptyViewHolder(LayoutInflater inflater,ViewGroup parent){
+        return new EmptyViewHolder(ViewUtils.getView(inflater, parent, R.layout.rc_item_empty));
     }
 
     public void setmExistEmptyView(boolean mExistEmptyView) {

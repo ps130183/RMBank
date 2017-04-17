@@ -8,6 +8,7 @@
         <!--<item name="colorAccent">@color/colorAccent</item>-->
         <item name="colorAccent">@color/color_red</item>
         <!--<item name="android:windowDrawsSystemBarBackgrounds">true</item>-->
+        <item name="android:actionOverflowButtonStyle">@style/OverFlowButtonStyle</item>
     </style>
 
     <style name="HomeBottomRadioButton">
@@ -17,9 +18,8 @@
         <item name="android:layout_weight">1</item>
         <item name="android:gravity">center</item>
     </style>
-
+    <!--  Toolbar style 配置 Start -->
     <style name="ToolbarPopupTheme" parent="@style/ThemeOverlay.AppCompat.Light">
-        <!--<item name="android:colorBackground">#7b000000</item> &lt;!&ndash;也可以设置背景色以及menu中的其他属性&ndash;&gt;-->
         <item name="android:gravity">center</item>
         <item name="actionOverflowMenuStyle">@style/OverflowMenuStyle</item>
 
@@ -30,9 +30,14 @@
     <style name="OverflowMenuStyle" parent="Widget.AppCompat.Light.PopupMenu.Overflow">
         <item name="overlapAnchor">false</item>  <!--设置不覆盖锚点-->
         <!--弹出菜单与标题栏的垂直间距-->
-        <item name="android:dropDownVerticalOffset">0dip</item>
+        <item name="android:dropDownVerticalOffset">10dip</item>
     </style>
 
+    <style name="OverFlowButtonStyle" parent="@android:style/Widget.ActionButton.Overflow">
+        <item name="android:src">@mipmap/ic_add_white_48px</item>
+    </style>
+
+    <!--  Toolbar style 配置 End -->
     <style name="Switch_theme" parent="Material.Widget.Switch">
         <item name="sw_trackSize">19dp</item>
         <item name="sw_trackCap">round</item>

@@ -62,7 +62,7 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
      */
     @Override
     public void onResp(BaseResp resp) {
-        Logger.d("onPayFinish, errCode = " + resp.errCode);
+        Logger.d("onPayFinish, errCode = " + resp.errCode + "  errStr = " + resp.errStr);
         if (resp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
 //            EventBusUtils.post(new EventParam.WXPAYResultEvent(resp));
             finish();

@@ -59,22 +59,17 @@ public abstract class PresenterWrapper<V extends BaseView> implements BasePresen
                         EventBusUtils.post(new UserNoLoginEvent());
                     }
                 } else if (e instanceof SocketTimeoutException) {
-                    MToast.showToast(mContext,e.getMessage());
-                } else if (e instanceof ConnectException) {
-                    MToast.showToast(mContext,e.getMessage());
-                }
-                if ("timeout".equals(e.getMessage()) || "connect timed out".equals(e.getMessage())){
                     MToast.showToast(mContext,"请求超时，请稍后再试");
-                } else {
-//                    LogUtils.e(String.valueOf(e.getMessage()));
-//                    Logger.e(e.getMessage());
-                    e.printStackTrace();
+                } else if (e instanceof ConnectException) {
+                    MToast.showToast(mContext,"连接服务器失败，请稍后再试");
                 }
+                e.printStackTrace();
                 mView.hideLoading();
             }
 
             @Override
             public void onNext(T t) {
+                mView.hideLoading();
                 if (!mCompositeSubscription.isDisposed()) {
                     try {
                         onNext.accept(t);

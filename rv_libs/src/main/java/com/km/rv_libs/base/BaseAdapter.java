@@ -92,7 +92,6 @@ public abstract class BaseAdapter<C extends ICell> extends RecyclerView.Adapter<
     }
 
     public int getNextPage() {
-        Logger.d("curpageNo = " + curPageNo);
         return ++curPageNo;
     }
 

@@ -9,10 +9,13 @@ import com.km.rmbank.dto.GoodsDetailsDto;
 import com.km.rmbank.dto.GoodsDto;
 import com.km.rmbank.dto.GoodsTypeDto;
 import com.km.rmbank.dto.HomeRecommendDto;
+import com.km.rmbank.dto.IntegralDetailsDto;
+import com.km.rmbank.dto.IntegralDto;
 import com.km.rmbank.dto.MemberTypeDto;
 import com.km.rmbank.dto.MessageDto;
 import com.km.rmbank.dto.PayOrderDto;
 import com.km.rmbank.dto.ReceiverAddressDto;
+import com.km.rmbank.dto.ShareDto;
 import com.km.rmbank.dto.ShoppingCartDto;
 import com.km.rmbank.dto.UserAccountDetailDto;
 import com.km.rmbank.dto.UserBalanceDto;
@@ -662,6 +665,54 @@ public class ApiWrapper extends RetrofitUtil {
     public Flowable<List<EvaluateDto>> getEvaluateList(String productNo,int pageNo){
         return getService().getEvaluateList(Constant.user.getToken(),productNo,pageNo)
                 .compose(this.<List<EvaluateDto>>applySchedulers());
+    }
+
+    /**
+     * 获取我的积分
+     * @return
+     */
+    public Flowable<IntegralDto> getIntegralInfo(){
+        return getService().getIntegralInfo(Constant.user.getToken())
+                .compose(this.<IntegralDto>applySchedulers());
+    }
+
+    /**
+     * 获取积分明细列表
+     * @param pageNo
+     * @return
+     */
+    public Flowable<List<IntegralDetailsDto>> getIntegralDetailsList(int pageNo){
+        return getService().getIntegralDetailsList(Constant.user.getToken(),pageNo)
+                .compose(this.<List<IntegralDetailsDto>>applySchedulers());
+    }
+
+    /**
+     * 扫一扫 二维码
+     * @param url
+     * @return
+     */
+    public Flowable<UserCardDto> getUserCardOnQRCode(String url){
+        return getService().getUserInfoOnQRCode(url,Constant.user.getToken())
+                .compose(this.<UserCardDto>applySchedulers());
+    }
+
+    /**
+     * 申请成为好友
+     * @param friendPhone
+     * @return
+     */
+    public Flowable<String> applyBecomeFriend(String friendPhone){
+        return getService().applyBecomeFriend(Constant.user.getToken(),friendPhone)
+                .compose(this.<String>applySchedulers());
+    }
+
+    /**
+     * 获取分享的内容
+     * @return
+     */
+    public Flowable<ShareDto> getShareContent(){
+        return getService().getShareContent(Constant.user.getToken())
+                .compose(this.<ShareDto>applySchedulers());
     }
 
 }

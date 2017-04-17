@@ -6,6 +6,8 @@ import android.view.View;
 
 import com.km.rmbank.basic.BaseActivity;
 import com.km.rmbank.module.HomeActivity;
+import com.km.rmbank.module.guide.GuideActivity;
+import com.km.rmbank.module.guide.LaunchActivity;
 import com.km.rmbank.utils.selectcity.CityPickData;
 
 import butterknife.OnClick;
@@ -36,8 +38,8 @@ public class MainActivity extends BaseActivity {
 
 
     private void initPcaData(final Context context){
-        CityPickData.initData(context);
-        toNextActivity(HomeActivity.class);
+        toNextActivity(LaunchActivity.class);
+        finish();
     }
 
 }

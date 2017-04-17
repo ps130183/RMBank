@@ -16,6 +16,8 @@ import com.km.rmbank.basic.BaseFragment;
 import com.km.rmbank.basic.RVUtils;
 import com.km.rmbank.cell.PersonalFunctionCell;
 import com.km.rmbank.cell.PersonalUserInfoCell;
+import com.km.rmbank.dto.ShareDto;
+import com.km.rmbank.dto.UserCardDto;
 import com.km.rmbank.dto.UserInfoDto;
 import com.km.rmbank.entity.PersonalFunctionEntity;
 import com.km.rmbank.dto.UserDto;
@@ -65,6 +67,8 @@ public class PersonalFragment extends BaseFragment<PersonalPresenter> implements
     @BindView(R.id.title)
     TextView title;
 
+    private ShareDto shareDto;
+
     //页面内容
 //    @BindView(R.id.swiper_refresh)
 //    SwipeRefreshLayout mSwipeRefresh;
@@ -101,6 +105,7 @@ public class PersonalFragment extends BaseFragment<PersonalPresenter> implements
     public void onResume() {
         super.onResume();
         mPresenter.loadUserInfo();
+        mPresenter.getShareContent();
     }
 
     @Override
@@ -109,7 +114,7 @@ public class PersonalFragment extends BaseFragment<PersonalPresenter> implements
         if (resultCode == Activity.RESULT_OK) {//扫描二维码 成功  接收结果
             Bundle bundle = data.getExtras();
             String result = bundle.getString("result");
-            addFriend(result);
+            mPresenter.getUserInfoByQRCode(result);
         }
     }
 
@@ -157,8 +162,11 @@ public class PersonalFragment extends BaseFragment<PersonalPresenter> implements
 
     }
 
+    /**
+     * 打开分享面板
+     */
     private void openShare(){
-        UmengShareUtils.openShare(getActivity(), new UMShareListener() {
+        UmengShareUtils.openShare(getActivity(), shareDto, new UMShareListener() {
             @Override
             public void onStart(SHARE_MEDIA share_media) {
 
@@ -273,19 +281,23 @@ public class PersonalFragment extends BaseFragment<PersonalPresenter> implements
         startActivityForResult(new Intent(getActivity(), CaptureActivity.class), 0);
     }
 
-    private void addFriend(final String phone){
-        DialogUtils.showDefaultAlertDialog("是否要和 " + phone + " 成为好友？", new DialogUtils.ClickListener() {
-            @Override
-            public void clickConfirm() {
-                showToast("与" + phone + "成为好友");
-            }
-        });
-    }
-
     @Override
     public void showUserInfo(UserInfoDto userInfoDto) {
         mUserInfo = userInfoDto;
         userInfoCell.setmData(userInfoDto);
         mRecyclerView.getAdapter().notifyDataSetChanged();
+    }
+
+    @Override
+    public void getUserInfoByQRCodeSuccess(UserCardDto userCardDto,String friendPhone) {
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("userCardDto",userCardDto);
+        bundle.putString("friendPhone",friendPhone);
+        toNextActivity(EditUserCardActivity.class,bundle);
+    }
+
+    @Override
+    public void showShareContent(ShareDto shareDto) {
+        this.shareDto = shareDto;
     }
 }

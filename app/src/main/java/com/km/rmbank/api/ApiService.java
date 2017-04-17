@@ -7,11 +7,14 @@ import com.km.rmbank.dto.GoodsDetailsDto;
 import com.km.rmbank.dto.GoodsDto;
 import com.km.rmbank.dto.GoodsTypeDto;
 import com.km.rmbank.dto.HomeRecommendDto;
+import com.km.rmbank.dto.IntegralDetailsDto;
+import com.km.rmbank.dto.IntegralDto;
 import com.km.rmbank.dto.MemberTypeDto;
 import com.km.rmbank.dto.MessageDto;
 import com.km.rmbank.dto.PayOrderDto;
 import com.km.rmbank.dto.ReceiverAddressDto;
 import com.km.rmbank.dto.Response;
+import com.km.rmbank.dto.ShareDto;
 import com.km.rmbank.dto.ShoppingCartDto;
 import com.km.rmbank.dto.UserAccountDetailDto;
 import com.km.rmbank.dto.UserBalanceDto;
@@ -34,6 +37,7 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
+import retrofit2.http.Url;
 //import rx.Observable;
 
 /**
@@ -748,6 +752,7 @@ public interface ApiService {
     Flowable<Response<String>> evaluateGoods(@Field("token") String token,
                                              @Field("orderNo") String orderNo,
                                              @Field("content") String content);
+
     /**
      * 获取评论列表
      *
@@ -760,4 +765,61 @@ public interface ApiService {
     Flowable<Response<List<EvaluateDto>>> getEvaluateList(@Field("token") String token,
                                                           @Field("productNo") String productNo,
                                                           @Field("pageNo") int pageNo);
+
+    /**
+     * 获取我的积分
+     *
+     * @param token
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(SecretConstant.API_HOST_PATH + "/auth/user/integral")
+    Flowable<Response<IntegralDto>> getIntegralInfo(@Field("token") String token);
+
+    /**
+     * 获取积分明细列表
+     *
+     * @param token
+     * @param pageNo
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(SecretConstant.API_HOST_PATH + "/auth/user/integralDetail")
+    Flowable<Response<List<IntegralDetailsDto>>> getIntegralDetailsList(@Field("token") String token,
+                                                                        @Field("pageNo") int pageNo);
+
+    /**
+     * 扫一扫 二维码
+     *
+     * @param url
+     * @param token
+     * @return
+     */
+    @FormUrlEncoded
+    @POST()
+    Flowable<Response<UserCardDto>> getUserInfoOnQRCode(@Url String url,
+                                                        @Field("token") String token);
+
+    /**
+     * 申请成为好友
+     *
+     * @param token
+     * @param friendPhone
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(SecretConstant.API_HOST_PATH + "/auth/member/send/add/friend/apply")
+    Flowable<Response<String>> applyBecomeFriend(@Field("token") String token,
+                                                 @Field("mobilePhone") String friendPhone);
+
+    /**
+     * 获取分享的内容
+     *
+     * @param token
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(SecretConstant.API_HOST_PATH + "/auth/member/share")
+    Flowable<Response<ShareDto>> getShareContent(@Field("token") String token);
+
 }

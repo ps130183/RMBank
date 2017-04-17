@@ -15,6 +15,8 @@ import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
 import org.xmlpull.v1.XmlPullParser;
 
 import java.io.StringReader;
@@ -97,15 +99,21 @@ public class WxUtil {
      * @param params
      * @return
      */
-    public static String genAppSign(NameValueUtils params) {
+    public static String genAppSign(List<NameValuePair> params) {
         StringBuilder sb = new StringBuilder();
-
-        Logger.d(params.toString());
-        sb.append(params.toString());
+//        ,StringBuilder stringBuilder
+        for (int i = 0; i < params.size(); i++) {
+            sb.append(params.get(i).getName());
+            sb.append('=');
+            sb.append(params.get(i).getValue());
+            sb.append('&');
+        }
+//        sb.append(params.toString());
         sb.append("key=");
         sb.append(Constants.PRIVATE_KEY);
         Log.e("sb----", sb.toString());
-        String appSign = MD5.MD5Encode(sb.toString(),"UTF-8").toUpperCase();
+        String appSign = MD5.getMessageDigest(sb.toString().getBytes()).toUpperCase();
+                //MD5.MD5Encode(sb.toString(),"UTF-8").toUpperCase();
         Log.e("orion5", appSign);
         return appSign;
     }
@@ -134,14 +142,15 @@ public class WxUtil {
         payReq.nonceStr = weiCharParamsDto.getNoncestr();
         payReq.timeStamp = String.valueOf(genTimeStamp());
 
-        NameValueUtils nameValueUtils = new NameValueUtils();
-        nameValueUtils.put("appid", payReq.appId);
-        nameValueUtils.put("noncestr", payReq.nonceStr);
-        nameValueUtils.put("package", payReq.packageValue);
-        nameValueUtils.put("partnerid", payReq.partnerId);
-        nameValueUtils.put("prepayid", payReq.prepayId);
-        nameValueUtils.put("timestamp", payReq.timeStamp);
-        payReq.sign = genAppSign(nameValueUtils);
+        List<NameValuePair> signParams = new LinkedList<NameValuePair>();
+        signParams.add(new BasicNameValuePair("appid", payReq.appId));
+        signParams.add(new BasicNameValuePair("noncestr", payReq.nonceStr));
+        signParams.add(new BasicNameValuePair("package", payReq.packageValue));
+        signParams.add(new BasicNameValuePair("partnerid", payReq.partnerId));
+        signParams.add(new BasicNameValuePair("prepayid", payReq.prepayId));
+        signParams.add(new BasicNameValuePair("timestamp", payReq.timeStamp));
+
+        payReq.sign = genAppSign(signParams);
         if (iwxapi != null) {
             sendPayReq(iwxapi, payReq);
         } else {

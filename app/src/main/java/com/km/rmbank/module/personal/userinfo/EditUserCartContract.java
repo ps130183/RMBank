@@ -12,9 +12,11 @@ public interface EditUserCartContract {
     interface View extends BaseView{
         void showUserCard(UserCardDto userCardDto);
         void createUserCardSuccess(UserCardDto userCardDto);
+        void applyBecomeFriendSuccess();
     }
     interface Presenter extends BasePresenter{
         void getUserCard();
         void createUserCard(UserCardDto userCardDto);
+        void applyBecomeFriend(String friendPhone);
     }
 }

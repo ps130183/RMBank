@@ -20,7 +20,7 @@ public class ActionPresenter extends PresenterWrapper<ActionContract.View> imple
 
     @Override
     public void getActionList(final int pageNo) {
-        mView.showLoading();
+//        mView.showLoading();
         mApiwrapper.getActionList(pageNo)
                 .subscribe(newSubscriber(new Consumer<List<ActionDto>>() {
                     @Override

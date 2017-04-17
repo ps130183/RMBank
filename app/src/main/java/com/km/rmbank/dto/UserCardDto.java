@@ -1,5 +1,7 @@
 package com.km.rmbank.dto;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.text.TextUtils;
 
 import com.km.rmbank.basic.BaseEntity;
@@ -10,7 +12,7 @@ import java.util.List;
  * Created by kamangkeji on 17/3/31.
  */
 
-public class UserCardDto extends BaseEntity {
+public class UserCardDto extends BaseEntity implements Parcelable {
     private String name;//真实姓名
 
     private String cardPhone;//名片手机号
@@ -162,4 +164,55 @@ public class UserCardDto extends BaseEntity {
         }
         return false;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.name);
+        dest.writeString(this.cardPhone);
+        dest.writeString(this.position);
+        dest.writeString(this.company);
+        dest.writeString(this.companyProfile);
+        dest.writeTypedList(this.provideResourcesMap);
+        dest.writeTypedList(this.demandResourcesMap);
+        dest.writeString(this.provideResourcesId);
+        dest.writeString(this.demandResourcesId);
+        dest.writeString(this.location);
+        dest.writeString(this.detailedAddress);
+        dest.writeString(this.emailAddress);
+    }
+
+    public UserCardDto() {
+    }
+
+    protected UserCardDto(Parcel in) {
+        this.name = in.readString();
+        this.cardPhone = in.readString();
+        this.position = in.readString();
+        this.company = in.readString();
+        this.companyProfile = in.readString();
+        this.provideResourcesMap = in.createTypedArrayList(IndustryDto.CREATOR);
+        this.demandResourcesMap = in.createTypedArrayList(IndustryDto.CREATOR);
+        this.provideResourcesId = in.readString();
+        this.demandResourcesId = in.readString();
+        this.location = in.readString();
+        this.detailedAddress = in.readString();
+        this.emailAddress = in.readString();
+    }
+
+    public static final Parcelable.Creator<UserCardDto> CREATOR = new Parcelable.Creator<UserCardDto>() {
+        @Override
+        public UserCardDto createFromParcel(Parcel source) {
+            return new UserCardDto(source);
+        }
+
+        @Override
+        public UserCardDto[] newArray(int size) {
+            return new UserCardDto[size];
+        }
+    };
 }

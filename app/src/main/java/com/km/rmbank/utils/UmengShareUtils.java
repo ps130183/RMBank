@@ -3,9 +3,10 @@ package com.km.rmbank.utils;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Bitmap;
 
 import com.km.rmbank.R;
+import com.km.rmbank.dto.ShareDto;
+import com.ps.androidlib.utils.MToast;
 import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareAPI;
@@ -68,5 +69,28 @@ public class UmengShareUtils {
      */
     public static void openShare(Activity activity, UMShareListener listener){
         openShare(activity,"这是umeng的分享",listener);
+    }
+
+    /**
+     * 开启分享
+     * @param activity
+     * @param listener
+     */
+    public static void openShare(Activity activity, ShareDto shareDto, UMShareListener listener){
+        if (shareDto == null){
+            MToast.showToast(activity,"暂未获取到分享内容");
+            return;
+        }
+        UMWeb web = new UMWeb(shareDto.getPageUrl());
+        web.setTitle(shareDto.getTitle());
+        web.setThumb(new UMImage(activity, shareDto.getSharePicUrl()));
+        web.setDescription(shareDto.getContent());
+
+        new ShareAction(activity).withText(shareDto.getContent())
+                .setDisplayList(SHARE_MEDIA.WEIXIN,SHARE_MEDIA.WEIXIN_CIRCLE,SHARE_MEDIA.QQ,SHARE_MEDIA.QZONE)
+
+                .withText(shareDto.getContent())
+                .withMedia(web)
+                .setCallback(listener).open();
     }
 }

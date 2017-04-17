@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.orhanobut.logger.Logger;
 import com.ps.androidlib.utils.DialogLoading;
 import com.ps.androidlib.utils.EventBusUtils;
 import com.ps.androidlib.utils.ViewUtils;
@@ -81,6 +82,9 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment imp
     public void onDestroy() {
         super.onDestroy();
         EventBusUtils.unregister(this);
+        if (loading != null && loading.isShowing()){
+            loading.dismiss();
+        }
     }
 
     /**
@@ -132,14 +136,6 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment imp
         toNextActivityForResult(nextActivity,requestCode,null);
     }
 
-//    public void setResult(int resultCode,Bundle bundle){
-//        Intent intent = new Intent();
-//        if (bundle != null){
-//            intent.putExtras(bundle);
-//        }
-//        setResult(resultCode,intent);
-//        finish();
-//    }
 
     @Override
     public void showLoading() {
@@ -152,7 +148,7 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment imp
     @Override
     public void hideLoading() {
         if (loading != null){
-            loading.hide();
+            loading.dismiss();
         }
     }
 
