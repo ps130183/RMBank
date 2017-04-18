@@ -19,19 +19,18 @@ public class HomePresenter extends PresenterWrapper<HomeContract.View> implement
     }
 
     @Override
-    public void getRecommend() {
+    public void getRecommend(final int pageNo) {
         mView.showLoading();
-        mApiwrapper.getHomeRecommend()
+        mApiwrapper.getHomeRecommend(pageNo)
                 .subscribe(newSubscriber(new Consumer<List<HomeRecommendDto>>() {
                     @Override
                     public void accept(@NonNull List<HomeRecommendDto> homeRecommendDtos) throws Exception {
-                        mView.getRecommendSuccess(homeRecommendDtos);
+                        mView.getRecommendSuccess(homeRecommendDtos,pageNo);
                     }
                 }));
     }
 
     @Override
     public void onCreateView() {
-        getRecommend();
     }
 }

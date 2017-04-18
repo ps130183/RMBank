@@ -12,9 +12,9 @@ import java.util.List;
 
 public interface HomeContract {
     interface View extends BaseView{
-        void getRecommendSuccess(List<HomeRecommendDto> homeRecommendDtos);
+        void getRecommendSuccess(List<HomeRecommendDto> homeRecommendDtos,int pageNo);
     }
     interface Presenter extends BasePresenter{
-        void getRecommend();
+        void getRecommend(int pageNo);
     }
 }

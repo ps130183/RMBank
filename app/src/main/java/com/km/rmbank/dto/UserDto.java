@@ -97,7 +97,7 @@ public class UserDto extends BaseEntity {
      */
     @Override
     public boolean isEmpty(){
-        if (TextUtils.isEmpty(mobilePhone) || TextUtils.isEmpty(token)){
+        if (TextUtils.isEmpty(token)){
             return true;
         }
         return false;

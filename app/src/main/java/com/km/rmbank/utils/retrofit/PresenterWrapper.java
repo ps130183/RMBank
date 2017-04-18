@@ -6,7 +6,7 @@ import com.km.rmbank.api.ApiWrapper;
 import com.km.rmbank.basic.BasePresenter;
 import com.km.rmbank.basic.BaseView;
 import com.km.rmbank.dto.RetCode;
-import com.km.rmbank.event.UserNoLoginEvent;
+import com.km.rmbank.event.UserIsEmptyEvent;
 import com.ps.androidlib.utils.EventBusUtils;
 import com.ps.androidlib.utils.MToast;
 
@@ -56,7 +56,7 @@ public abstract class PresenterWrapper<V extends BaseView> implements BasePresen
                     RetrofitUtil.APIException exception = (RetrofitUtil.APIException) e;
                     MToast.showToast(mContext,exception.message);
                     if (RetCode.USER_IS_NOT_LOGIN.getStatus().equals(exception.code)){
-                        EventBusUtils.post(new UserNoLoginEvent());
+                        EventBusUtils.post(new UserIsEmptyEvent());
                     }
                 } else if (e instanceof SocketTimeoutException) {
                     MToast.showToast(mContext,"请求超时，请稍后再试");

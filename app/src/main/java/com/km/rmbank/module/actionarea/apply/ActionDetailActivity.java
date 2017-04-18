@@ -2,6 +2,7 @@ package com.km.rmbank.module.actionarea.apply;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.WindowManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -10,6 +11,7 @@ import com.km.rmbank.R;
 import com.km.rmbank.basic.BaseActivity;
 import com.km.rmbank.dto.ActionDto;
 import com.km.rmbank.utils.retrofit.SecretConstant;
+import com.ps.androidlib.utils.StatusBarUtil;
 
 import butterknife.BindView;
 
@@ -31,7 +33,11 @@ public class ActionDetailActivity extends BaseActivity {
 
     @Override
     protected void onCreate() {
+        StatusBarUtil.cancelFullScreen(this);
         actionDto = getIntent().getParcelableExtra("actionDto");
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE |
+                WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+
         init();
     }
 

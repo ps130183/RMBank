@@ -1,20 +1,29 @@
 package com.km.rmbank.module.login;
 
+import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.km.rmbank.R;
 import com.km.rmbank.basic.BaseActivity;
 import com.km.rmbank.basic.BasePresenter;
+import com.km.rmbank.event.UserNotLoginEvent;
 import com.km.rmbank.module.HomeActivity;
 import com.km.rmbank.module.register.RegisterPhoneActivity;
+import com.orhanobut.logger.Logger;
+import com.ps.androidlib.utils.EventBusUtils;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import butterknife.OnTextChanged;
 
 public class LoginActivity extends BaseActivity<LoginPresenter> implements LoginContract.View {
 
@@ -23,6 +32,9 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     @BindView(R.id.et_code)
     EditText etCode;
 
+    @BindView(R.id.tv_send_code)
+    TextView tvSendCode;
+    private boolean isSendCode;
     private String mobilePhone;
     @Override
     protected int getContentView() {
@@ -44,6 +56,28 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     protected void onCreate() {
         mobilePhone = getIntent().getStringExtra("mobilePhone");
         etPhone.setText(TextUtils.isEmpty(mobilePhone) ? "" : mobilePhone);
+        setClickKeyCodeBackLisenter(new OnClickKeyCodeBackLisenter() {
+            @Override
+            public boolean onClickKeyCodeBack() {
+                returnHome();
+                return false;
+            }
+        });
+        setLeftIconClick(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                returnHome();
+            }
+        });
+    }
+
+    /**
+     * 在登录页不去登录的 情况下 返回首页
+     */
+    private void returnHome(){
+        Bundle bundle = new Bundle();
+        bundle.putInt("position",0);
+        toNextActivity(HomeActivity.class,bundle);
     }
 
     /**
@@ -67,26 +101,22 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
         toNextActivity(HomeActivity.class);
     }
 
-//    /**
-//     * 注册
-//     * @param view
-//     */
-//    @OnClick(R.id.tv_register)
-//    public void register(View view){
-//        Bundle bundle = new Bundle();
-//        bundle.putInt("smsCodeType",1);
-//        toNextActivity(RegisterPhoneActivity.class,bundle);
-//    }
-//
-//    /**
-//     * 忘记密码
-//     * @param view
-//     */
-//    @OnClick(R.id.tv_forget_loginpwd)
-//    public void forgetLoginPwd(View view){
-//        Bundle bundle = new Bundle();
-//        bundle.putInt("smsCodeType",2);
-//        toNextActivity(RegisterPhoneActivity.class,bundle);
-//    }
+    @OnTextChanged(value = R.id.et_phone,callback = OnTextChanged.Callback.AFTER_TEXT_CHANGED)
+    public void onPhoneLengthChange(Editable s){
+        if (s.length() >= 11){
+            isSendCode = true;
+            tvSendCode.setTextColor(ContextCompat.getColor(LoginActivity.this,R.color.color_red));
+        } else {
+            isSendCode = false;
+            tvSendCode.setTextColor(ContextCompat.getColor(LoginActivity.this,R.color.color_text_gray2));
+        }
+    }
+
+    @OnClick(R.id.tv_send_code)
+    public void sendCode(View view){
+        if (isSendCode){
+            showToast("发送验证码");
+        }
+    }
 
 }

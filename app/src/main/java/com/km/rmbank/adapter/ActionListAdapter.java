@@ -8,7 +8,10 @@ import android.widget.TextView;
 import com.km.rmbank.R;
 import com.km.rmbank.basic.BaseAdapter;
 import com.km.rmbank.dto.ActionDto;
+import com.ps.androidlib.utils.DateUtils;
 import com.ps.androidlib.utils.glide.GlideUtils;
+
+import java.util.Date;
 
 import butterknife.BindView;
 
@@ -32,10 +35,13 @@ public class ActionListAdapter extends BaseAdapter<ActionDto> implements BaseAda
         ActionDto actionDto = getItemData(position);
         holder.tvActionTitle.setText(actionDto.getTitle());
         GlideUtils.loadImage(holder.ivAction,actionDto.getActivityPictureUrl());
+        holder.tvStartDate.setText("活动时间：" + DateUtils.getInstance().getDate(actionDto.getStartDate()));
     }
 
     class ViewHolder extends BaseViewHolder{
 
+        @BindView(R.id.tv_start_date)
+        TextView tvStartDate;
         @BindView(R.id.tv_action_title)
         TextView tvActionTitle;
         @BindView(R.id.iv_action)

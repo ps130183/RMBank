@@ -3,6 +3,7 @@ package com.km.rmbank.module.personal;
 import com.km.rmbank.dto.ShareDto;
 import com.km.rmbank.dto.UserCardDto;
 import com.km.rmbank.dto.UserInfoDto;
+import com.km.rmbank.utils.Constant;
 import com.km.rmbank.utils.retrofit.PresenterWrapper;
 
 import io.reactivex.annotations.NonNull;
@@ -20,6 +21,9 @@ public class PersonalPresenter extends PresenterWrapper<PersonalContract.View> i
 
     @Override
     public void loadUserInfo() {
+        if (Constant.user.isEmpty()){
+            return;
+        }
         mApiwrapper.getUserInfo()
                 .subscribe(newSubscriber(new Consumer<UserInfoDto>() {
                     @Override
@@ -32,6 +36,9 @@ public class PersonalPresenter extends PresenterWrapper<PersonalContract.View> i
     @Override
     public void getUserInfoByQRCode(final String url) {
         mView.showLoading();
+        if (Constant.user.isEmpty()){
+            return;
+        }
         mApiwrapper.getUserCardOnQRCode(url)
                 .subscribe(newSubscriber(new Consumer<UserCardDto>() {
                     @Override
@@ -44,6 +51,9 @@ public class PersonalPresenter extends PresenterWrapper<PersonalContract.View> i
 
     @Override
     public void getShareContent() {
+        if (Constant.user.isEmpty()){
+            return;
+        }
         mApiwrapper.getShareContent()
                 .subscribe(newSubscriber(new Consumer<ShareDto>() {
                     @Override

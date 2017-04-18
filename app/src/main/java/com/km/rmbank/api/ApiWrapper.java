@@ -578,8 +578,8 @@ public class ApiWrapper extends RetrofitUtil {
      * 获取首页活动 商品推荐
      * @return
      */
-    public Flowable<List<HomeRecommendDto>> getHomeRecommend(){
-        return getService().getHomeActionRecommend(1)
+    public Flowable<List<HomeRecommendDto>> getHomeRecommend(int pageNo){
+        return getService().getHomeActionRecommend(pageNo)
                 .compose(this.<List<HomeRecommendDto>>applySchedulers());
     }
 

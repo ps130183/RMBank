@@ -8,6 +8,7 @@ import android.widget.EditText;
 
 import com.km.rmbank.R;
 import com.km.rmbank.adapter.HomeAdapter;
+import com.km.rmbank.basic.BaseAdapter;
 import com.km.rmbank.basic.BaseFragment;
 import com.km.rmbank.basic.RVUtils;
 import com.km.rmbank.dto.HomeRecommendDto;
@@ -80,7 +81,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
     private void initrcContentView(){
         RVUtils.setLinearLayoutManage(rcContent, LinearLayoutManager.VERTICAL);
         RVUtils.addDivideItemForRv(rcContent);
-        HomeAdapter adapter = new HomeAdapter(getContext());
+        final HomeAdapter adapter = new HomeAdapter(getContext());
         rcContent.setAdapter(adapter);
         adapter.setOnClickGoodsListener(new HomeAdapter.OnClickGoodsListener() {
             @Override
@@ -90,12 +91,20 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
                 toNextActivity(GoodsActivity.class,bundle);
             }
         });
+
+        adapter.addLoadMore(rcContent, new BaseAdapter.MoreDataListener() {
+            @Override
+            public void loadMoreData() {
+                mPresenter.getRecommend(adapter.getNextPage());
+            }
+        });
+        mPresenter.getRecommend(adapter.getNextPage());
     }
 
     @Override
-    public void getRecommendSuccess(List<HomeRecommendDto> homeRecommendDtos) {
+    public void getRecommendSuccess(List<HomeRecommendDto> homeRecommendDtos,int pageNo) {
         HomeAdapter adapter = (HomeAdapter) rcContent.getAdapter();
-        adapter.addData(homeRecommendDtos);
+        adapter.addData(homeRecommendDtos,pageNo);
     }
 
     @OnClick(R.id.et_search)

@@ -3,15 +3,18 @@ package com.km.rmbank.module;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.widget.FrameLayout;
 
 import com.flyco.tablayout.CommonTabLayout;
 import com.flyco.tablayout.listener.CustomTabEntity;
 import com.flyco.tablayout.listener.OnTabSelectListener;
+import com.flyco.tablayout.utils.FragmentChangeManager;
 import com.km.rmbank.R;
 import com.km.rmbank.basic.BaseActivity;
 import com.km.rmbank.event.PaySuccessEvent;
-import com.km.rmbank.event.UserNoLoginEvent;
+import com.km.rmbank.event.UserIsEmptyEvent;
+import com.km.rmbank.event.UserNotLoginEvent;
 import com.km.rmbank.module.actionarea.ConsultantsNewsFragment;
 import com.km.rmbank.module.home.HomeFragment;
 import com.km.rmbank.module.login.LoginActivity;
@@ -47,9 +50,11 @@ public class HomeActivity extends BaseActivity {
     private String[] mTitle = {"首页","商城","咨询","个人中心"};
     private int[] mSelectedIcon = {R.mipmap.icon_home_rbtn1_pressed,R.mipmap.icon_home_rbtn2_pressed,R.mipmap.icon_home_rbtn3_pressed,R.mipmap.icon_home_rbtn4_pressed};
     private int[] mUnSelectedIcon = {R.mipmap.icon_home_rbtn1_unpress,R.mipmap.icon_home_rbtn2_unpress,R.mipmap.icon_home_rbtn3_unpress,R.mipmap.icon_home_rbtn4_unpress};
-
+    private List<Fragment> fragmentList;
 //    @BindView(R.id.radiogroup)
 //    RadioGroup radioGroup;
+
+    private int currentPosition = -1;
 
     @Override
     protected int getContentView() {
@@ -81,6 +86,15 @@ public class HomeActivity extends BaseActivity {
     }
 
     @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        currentPosition = intent.getIntExtra("position",-1);
+        if (currentPosition >= 0){
+            mTabLayout.setCurrentTab(currentPosition);
+        }
+    }
+
+    @Override
     protected int getToolBarType() {
         return TOOLBAR_TYPE_HOME;
     }
@@ -88,7 +102,7 @@ public class HomeActivity extends BaseActivity {
 
     private void initTabLayout() {
 
-        List<Fragment> fragmentList = new ArrayList<>();
+        fragmentList = new ArrayList<>();
         fragmentList.add(HomeFragment.newInstance(null));
         fragmentList.add(RmShopFragment.newInstance(null));
         fragmentList.add(ConsultantsNewsFragment.newInstance(null));
@@ -118,6 +132,7 @@ public class HomeActivity extends BaseActivity {
 //                }
             }
         });
+
     }
 
 
@@ -140,11 +155,16 @@ public class HomeActivity extends BaseActivity {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void userNoLogin(UserNoLoginEvent event){
+    public void userNoLogin(UserIsEmptyEvent event){
         Constant.user.clear();
         toNextActivity(LoginActivity.class);
     }
 
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void userNotLogin(UserNotLoginEvent event){
+        mTabLayout.setCurrentTab(0);
+    }
 
 
     private void exsit(){

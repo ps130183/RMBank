@@ -71,6 +71,7 @@
                 android:background="@color/color_white"
                 android:textSize="@dimen/text_size_14"
                 android:inputType="number"
+                android:maxLength="6"
                 android:layout_toRightOf="@id/tv_code"
                 android:layout_toLeftOf="@+id/v_code"
                 />
@@ -89,6 +90,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="发送验证码"
+                android:textColor="@color/color_text_gray2"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/view_space_16"
@@ -121,7 +123,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="玩转地球服务协议"
+            android:text="玩转地球注册协议"
             android:textColor="@color/color_red"
             android:layout_toRightOf="@id/cb_agree"
             android:layout_centerVertical="true"
