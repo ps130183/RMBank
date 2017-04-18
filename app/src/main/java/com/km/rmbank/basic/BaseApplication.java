@@ -10,8 +10,9 @@ import com.km.rmbank.utils.UmengShareUtils;
 import com.orhanobut.logger.LogLevel;
 import com.orhanobut.logger.Logger;
 import com.ps.androidlib.utils.Utils;
-import com.umeng.socialize.PlatformConfig;
-import com.umeng.socialize.UMShareAPI;
+import com.threshold.rxbus2.RxBus;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
 
 /**
  * Created by kamangkeji on 17/2/11.
@@ -28,6 +29,7 @@ public class BaseApplication extends Application {
         registCallback();
         initUtils();
         UmengShareUtils.initUmengShare(this);
+//        RxBus.config(AndroidSchedulers.mainThread());
     }
 
     public static BaseApplication getInstance(){

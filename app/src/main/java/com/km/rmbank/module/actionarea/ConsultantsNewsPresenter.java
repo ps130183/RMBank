@@ -12,9 +12,9 @@ import io.reactivex.functions.Consumer;
  * Created by kamangkeji on 17/4/12.
  */
 
-public class ActionPresenter extends PresenterWrapper<ActionContract.View> implements ActionContract.Presenter {
+public class ConsultantsNewsPresenter extends PresenterWrapper<ConsultantsNewsContract.View> implements ConsultantsNewsContract.Presenter {
 
-    public ActionPresenter(ActionContract.View mView) {
+    public ConsultantsNewsPresenter(ConsultantsNewsContract.View mView) {
         super(mView);
     }
 

@@ -28,6 +28,7 @@ public class MessageAdapter extends BaseAdapter<MessageDto> implements BaseAdapt
     @Override
     public void createView(ViewHolder holder, int position) {
         MessageDto messageDto = getItemData(position);
+        holder.tvMessageTitle.setText(messageDto.getHeader());
         holder.tvMessageTime.setText(messageDto.getFormatCreateDate());
         holder.tvMessageContent.setText(messageDto.getContent());
     }

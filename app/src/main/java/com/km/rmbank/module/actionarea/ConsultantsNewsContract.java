@@ -10,7 +10,7 @@ import java.util.List;
  * Created by kamangkeji on 17/4/12.
  */
 
-public interface ActionContract {
+public interface ConsultantsNewsContract {
     interface View extends BaseView{
         void initAction();
         void getActionListSuccess(List<ActionDto> actionDtos,int pageNo);

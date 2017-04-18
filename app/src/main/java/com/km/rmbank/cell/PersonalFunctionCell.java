@@ -32,18 +32,20 @@ public class PersonalFunctionCell extends BaseCell<UserDto> implements View.OnCl
         LinearLayout llIntegralGoods = holder.findView(R.id.ll_integral_goods);
         TextView tvMyIntegral = holder.getTextView(R.id.tv_my_integral);
         TextView tvGoodsManager = holder.getTextView(R.id.tv_goods_manager);
-        String usertype = "2";//mData.getType();
+        String usertype = mData.getRoleId();
         switch (usertype){
-            case "1"://普通用户
+            case "3"://体验式会员
+                tvMyTeam.setVisibility(View.GONE);
+                lineTeamContact.setVisibility(View.GONE);
+                break;
+            case "2"://合伙人会员
+                break;
+
+            case "4"://普通用户
+            default://普通用户
                 tvMyTeam.setVisibility(View.GONE);
                 lineTeamContact.setVisibility(View.GONE);
                 llIntegralGoods.setVisibility(View.GONE);
-                break;
-            case "2"://体验式会员
-                tvMyTeam.setVisibility(View.GONE);
-                lineTeamContact.setVisibility(View.GONE);
-                break;
-            case "3"://合伙人会员
                 break;
         }
 

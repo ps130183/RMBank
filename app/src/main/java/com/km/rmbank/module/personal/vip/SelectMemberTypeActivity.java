@@ -3,12 +3,14 @@ package com.km.rmbank.module.personal.vip;
 import android.support.annotation.NonNull;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.km.rmbank.R;
 import com.km.rmbank.basic.BaseActivity;
 import com.km.rmbank.dto.MemberTypeDto;
 import com.km.rmbank.module.payment.PaymentActivity;
+import com.km.rmbank.utils.Constant;
 
 import java.util.List;
 
@@ -16,6 +18,9 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 public class SelectMemberTypeActivity extends BaseActivity<SelectMemberTypePresenter> implements SelectMemberTypeContract.View {
+
+    @BindView(R.id.rl_vip1)
+    RelativeLayout rlVip1;
 
     @BindView(R.id.tv_member1)
     TextView tvMember1;
@@ -105,6 +110,9 @@ public class SelectMemberTypeActivity extends BaseActivity<SelectMemberTypePrese
 
         memberTypeIntros[0] = memberTypeDto1.getExperience();
         memberTypeIntros[1] = memberTypeDto2.getPartner();
+        if ("3".equals(Constant.user.getRoleId())){
+            rlVip1.setVisibility(View.GONE);
+        }
         selectMember(2);
     }
 }

@@ -25,6 +25,12 @@ public class MessageDto {
     private int status;
     private int type;
     private String userId;
+    /**
+     * createDate : 1492050548000
+     * header : 推送消息
+     */
+
+    private String header;
 
     public String getContent() {
         return content;
@@ -88,5 +94,13 @@ public class MessageDto {
 
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    public String getHeader() {
+        return header;
+    }
+
+    public void setHeader(String header) {
+        this.header = header;
     }
 }

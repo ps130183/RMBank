@@ -1,4 +1,4 @@
-package com.blankj.utilcode.util;
+package com.ps.androidlib.utils;
 
 import android.annotation.TargetApi;
 import android.os.Build;
@@ -76,7 +76,6 @@ public final class SDCardUtils {
         if (!isSDCardEnable()) return null;
         return Environment.getExternalStorageDirectory().getPath() + File.separator + "data" + File.separator;
     }
-
 
     /**
      * 获取SD卡剩余空间

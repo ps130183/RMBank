@@ -4,6 +4,9 @@
         <external-path
             name="external"
             path="" />
+        <external-path
+            name="apps"
+            path="wzdq/app" />
         <files-path
             name="files"
             path="" />

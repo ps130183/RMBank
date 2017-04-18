@@ -4,12 +4,7 @@
     android:id="@+id/activity_apply_action"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.km.rmbank.module.actionarea.apply.ApplyActionActivity">
-    <WebView
-        android:id="@+id/webView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-    </WebView>
+    tools:context="com.km.rmbank.module.actionarea.apply.ActionListActivity">
+    <include layout="@layout/recyclerview"/>
 
 </RelativeLayout>

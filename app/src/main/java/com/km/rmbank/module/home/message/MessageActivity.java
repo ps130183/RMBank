@@ -55,6 +55,7 @@ public class MessageActivity extends BaseActivity<MessagePresenter> implements M
                 mPresenter.getMessage(adapter.getNextPage());
             }
         });
+        mPresenter.getMessage(adapter.getNextPage());
     }
 
     @Override

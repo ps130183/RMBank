@@ -4,6 +4,7 @@ import android.view.View;
 
 import com.km.rmbank.R;
 import com.km.rmbank.dto.UserInfoDto;
+import com.km.rmbank.utils.Constant;
 import com.km.rv_libs.base.BaseCell;
 import com.km.rv_libs.base.BaseViewHolder;
 import com.ps.androidlib.utils.glide.GlideUtils;
@@ -29,6 +30,13 @@ public class PersonalUserInfoCell extends BaseCell<UserInfoDto> implements View.
         if (mData !=null){
             GlideUtils.loadCircleImage(holder.getImageView(R.id.iv_user_portrait), mData.getPortraitUrl());
             holder.getTextView(R.id.tv_user_nick_name).setText(mData.getNickName());
+            String vipType = "";
+            if ("2".equals(Constant.user.getRoleId())){
+                vipType = "合伙人会员";
+            } else if ("3".equals(Constant.user.getRoleId())){
+                vipType = "体验式会员";
+            }
+            holder.getTextView(R.id.tv_vip_type).setText(vipType);
         }
 
         holder.getImageView(R.id.iv_user_portrait).setOnClickListener(this);

@@ -2,6 +2,8 @@ package com.ps.androidlib.utils;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
@@ -182,5 +184,47 @@ public class DialogUtils {
     public interface ClickListener{
         void clickConfirm();
 //        void clickCancel();
+    }
+
+
+    /**
+     * 带进度条的提示
+     * @param message
+     */
+    public static ProgressDialog pd = null;
+    public static ProgressDialog showDownloadDialog(Context context, String message, boolean isDismissOnTouchOut){
+        if (pd == null){
+            pd = new ProgressDialog(context);
+        }
+        pd.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        pd.setOnDismissListener(null);
+        pd.setCancelable(isDismissOnTouchOut);
+        pd.setCanceledOnTouchOutside(isDismissOnTouchOut);
+        pd.setMessage(message);
+        pd.setMax(100);
+        pd.show();
+        return pd;
+    }
+
+
+    public static void setDownloadPrompt(String message){
+        if (pd != null){
+            pd.setMessage(message);
+        }
+    }
+    /**
+     * 设置条形进度条值，，和showDownloadDialog一起用
+     * @param count
+     */
+    public static void setProgressValue(int count){
+        if (pd != null) {
+            pd.setProgress(count);
+        }
+    }
+    public static void DismissLoadDialog() {
+        if (pd != null && pd.isShowing()) {
+            pd.dismiss();
+            pd.cancel();
+        }
     }
 }

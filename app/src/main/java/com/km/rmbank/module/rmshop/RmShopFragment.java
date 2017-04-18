@@ -55,7 +55,7 @@ public class RmShopFragment extends BaseFragment<RmShopPresenter> implements RmS
 
     @Override
     protected void createView() {
-        title.setText("人脉商城");
+        title.setText("商城");
 //        initViewPager();
     }
 

@@ -3,10 +3,14 @@ package com.km.rmbank.basic;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -15,17 +19,26 @@ import android.widget.Toast;
 
 import com.km.rmbank.R;
 import com.km.rmbank.api.ApiWrapper;
+import com.km.rmbank.event.DownloadAppEvent;
 import com.km.rmbank.titlebar.ToolBarTitle;
 import com.km.rmbank.utils.retrofit.RetrofitUtil;
+import com.km.rmbank.utils.retrofit.SecretConstant;
+import com.laojiang.retrofithttp.weight.downfilesutils.FinalDownFiles;
+import com.laojiang.retrofithttp.weight.downfilesutils.action.FinalDownFileResult;
+import com.laojiang.retrofithttp.weight.downfilesutils.downfiles.DownInfo;
 import com.orhanobut.logger.Logger;
+import com.ps.androidlib.utils.AppUtils;
 import com.ps.androidlib.utils.DialogLoading;
+import com.ps.androidlib.utils.DialogUtils;
 import com.ps.androidlib.utils.EventBusUtils;
+import com.ps.androidlib.utils.SDCardUtils;
 import com.ps.androidlib.utils.StatusBarUtil;
 import com.ps.androidlib.utils.ViewUtils;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.io.File;
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
 import java.util.ArrayList;
@@ -406,111 +419,6 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
         }
     };
 
-    /**
-     * 创建观察者
-     *
-     * @param onNext
-     * @param <T>
-     * @return
-     */
-    public  <T> ResourceSubscriber<T> newSubscriber(final Consumer<? super T> onNext) {
-        return new ResourceSubscriber<T>() {
-
-            @Override
-            public void onComplete() {
-                hideLoadingDialog();
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                if (e instanceof RetrofitUtil.APIException) {
-                    RetrofitUtil.APIException exception = (RetrofitUtil.APIException) e;
-                    showToast(exception.message);
-                } else if (e instanceof SocketTimeoutException) {
-                    showToast(e.getMessage());
-                } else if (e instanceof ConnectException) {
-                    showToast(e.getMessage());
-                }
-                if ("timeout".equals(e.getMessage()) || "connect timed out".equals(e.getMessage())){
-                    showToast("请求超时，请稍后再试");
-                } else {
-//                    LogUtils.e(String.valueOf(e.getMessage()));
-//                    Logger.e(e.getMessage());
-                    e.printStackTrace();
-                }
-                hideLoadingDialog();
-            }
-
-            @Override
-            public void onNext(T t) {
-                if (!mCompositeSubscription.isDisposed()) {
-                    try {
-                        onNext.accept(t);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-
-        };
-    }
-
-    /**
-     * 创建观察者
-     *
-     * @param onNext
-     * @param onCompleted
-     * @param <T>
-     * @return
-     */
-    public  <T> Observer<T> newSubscriber(final Consumer<? super T> onNext, final Action onCompleted) {
-        return new Observer<T>() {
-
-            @Override
-            public void onError(Throwable e) {
-                if (e instanceof RetrofitUtil.APIException) {
-                    RetrofitUtil.APIException exception = (RetrofitUtil.APIException) e;
-                    showToast(exception.message);
-                } else if (e instanceof SocketTimeoutException) {
-                    showToast(e.getMessage());
-                } else if (e instanceof ConnectException) {
-                    showToast(e.getMessage());
-                }
-//                LogUtils.e(String.valueOf(e.getMessage()));
-                Logger.e(e.getMessage());
-//                Log.e(TAG, String.valueOf(e.getMessage()));
-//                e.printStackTrace();
-                hideLoadingDialog();
-            }
-
-            @Override
-            public void onComplete() {
-                hideLoadingDialog();
-                try {
-                    onCompleted.run();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onSubscribe(Disposable d) {
-                mCompositeSubscription.add(d);
-            }
-
-            @Override
-            public void onNext(T t) {
-                if (!mCompositeSubscription.isDisposed()) {
-                    try {
-                        onNext.accept(t);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        };
-    }
-
     protected void showLoadingDialog() {
         if (loading == null) {
             loading = new DialogLoading(this);
@@ -527,7 +435,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
 
 
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
+    public final boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK && clickKeyCodeBackLisenter != null){//物理返回键
             return clickKeyCodeBackLisenter.onClickKeyCodeBack();
         }
@@ -547,4 +455,93 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
     public void defaultMethod(String s){
 
     }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void downloadApp(DownloadAppEvent event){
+        if (!this.equals(event.getActivity())){
+            return;
+        }
+//        Logger.d(AppUtils.getDownloadAppPath("wzdq-replease-"+ System.currentTimeMillis() + "-" +AppUtils.getAppVersion(context)+".apk"));
+        DialogUtils.showDefaultAlertDialog("当前版本号 " + AppUtils.getAppVersion(this) + "，是否更新？", new DialogUtils.ClickListener() {
+            @Override
+            public void clickConfirm() {
+                String path = AppUtils.getDownloadAppPath("wzdq-resplease-"+ System.currentTimeMillis() + "-" +AppUtils.getAppVersion(context)+".apk");
+                String url = SecretConstant.API_HOST + SecretConstant.API_HOST_PATH + "/down/WZDQ1.0.apk";
+                new FinalDownFiles(false,context,url,
+                        path,
+                        new FinalDownFileResult(){
+
+                            @Override
+                            public void onSuccess(DownInfo downInfo) {
+                                super.onSuccess(downInfo);
+//                                Logger.i("成功==",downInfo.toString());
+                                installApp(downInfo.getSavePath());
+                            }
+
+                            @Override
+                            public void onCompleted() {
+                                super.onCompleted();
+                                DialogUtils.DismissLoadDialog();
+                            }
+
+                            @Override
+                            public void onStart() {
+                                super.onStart();
+                                DialogUtils.showDownloadDialog(context,"因为我们努力，所以不断提高",false);
+                            }
+
+                            @Override
+                            public void onPause() {
+                                super.onPause();
+                            }
+
+                            @Override
+                            public void onStop(){
+                                super.onStop();
+                                DialogUtils.DismissLoadDialog();
+                            }
+                            @Override
+                            public void onLoading(long readLength, long countLength) {
+                                super.onLoading(readLength, countLength);
+//                                Logger.i("下载过程=="," countLength = "+countLength+"    readLength = " +readLength);
+                                DialogUtils.setProgressValue((int) ((readLength * 100)/countLength));
+                            }
+
+                            @Override
+                            public void onErroe(Throwable e) {
+                                super.onErroe(e);
+                                DialogUtils.DismissLoadDialog();
+                            }
+                        });
+            }
+
+        });
+    }
+
+    /**
+     * 安装app文件
+     * @param path
+     */
+    private void installApp(String path) {
+        if (TextUtils.isEmpty(path)){
+            return;
+        }
+        File apk = new File(path);
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setFlags(intent.FLAG_ACTIVITY_NEW_TASK);
+        //判读版本是否在7.0以上
+        if (Build.VERSION.SDK_INT >= 24) {
+            //provider authorities
+            Uri apkUri = FileProvider.getUriForFile(context, "com.km.rmbank.fileprovider", apk);
+            //Granting Temporary Permissions to a URI
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            intent.setDataAndType(apkUri, "application/vnd.android.package-archive");
+        } else {
+            intent.setDataAndType(Uri.fromFile(apk), "application/vnd.android.package-archive");
+        }
+
+        startActivity(intent);
+        android.os.Process.killProcess(android.os.Process.myPid());
+    }
+
 }

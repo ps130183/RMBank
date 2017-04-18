@@ -1,9 +1,7 @@
 package com.km.rmbank.module.actionarea;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -15,12 +13,10 @@ import com.km.rmbank.basic.RVUtils;
 import com.km.rmbank.cell.ActionCell;
 import com.km.rmbank.cell.BannerCell;
 import com.km.rmbank.dto.ActionDto;
-import com.km.rmbank.module.actionarea.apply.ApplyActionActivity;
+import com.km.rmbank.module.actionarea.apply.ActionListActivity;
 import com.km.rv_libs.TemplateAdapter;
 import com.km.rv_libs.base.BaseAdapter;
 import com.km.rv_libs.base.ICell;
-import com.orhanobut.logger.Logger;
-import com.ps.androidlib.utils.MToast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +28,7 @@ import butterknife.OnClick;
  * Created by kamangkeji on 17/3/14.
  */
 
-public class ActionAreaFragment extends BaseFragment<ActionPresenter> implements ActionContract.View {
+public class ConsultantsNewsFragment extends BaseFragment<ConsultantsNewsPresenter> implements ConsultantsNewsContract.View {
 
     @BindView(R.id.title)
     TextView title;
@@ -45,8 +41,8 @@ public class ActionAreaFragment extends BaseFragment<ActionPresenter> implements
     @BindView(R.id.fab_apply)
     FloatingActionButton fabApply;
 
-    public static ActionAreaFragment newInstance(Bundle bundle) {
-        ActionAreaFragment fragment = new ActionAreaFragment();
+    public static ConsultantsNewsFragment newInstance(Bundle bundle) {
+        ConsultantsNewsFragment fragment = new ConsultantsNewsFragment();
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -57,19 +53,19 @@ public class ActionAreaFragment extends BaseFragment<ActionPresenter> implements
     }
 
     @Override
-    public ActionPresenter getmPresenter() {
-        return new ActionPresenter(this);
+    public ConsultantsNewsPresenter getmPresenter() {
+        return new ConsultantsNewsPresenter(this);
     }
 
     @Override
     protected void createView() {
-        title.setText("活动专区");
+        title.setText("咨询");
     }
 
 
     @OnClick(R.id.fab_apply)
     public void apply(View view){
-        toNextActivity(ApplyActionActivity.class);
+        toNextActivity(ActionListActivity.class);
     }
 
     @Override

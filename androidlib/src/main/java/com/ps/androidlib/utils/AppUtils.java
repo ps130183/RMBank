@@ -23,6 +23,8 @@ import android.view.WindowManager;
 import com.ps.androidlib.R;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
+import java.io.File;
+
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
@@ -201,5 +203,15 @@ public class AppUtils {
             e.printStackTrace();
             return "";
         }
+    }
+
+    /**
+     * 获取下载app存放的路径
+     * @param appName
+     * @return
+     */
+    public static String getDownloadAppPath(String appName){
+        if (!SDCardUtils.isSDCardEnable()) return "";
+        return Environment.getExternalStorageDirectory().getPath() + File.separator + "wzdq" + File.separator + "app" + File.separator + appName;
     }
 }

@@ -9,10 +9,12 @@ import android.view.View;
 import com.km.rmbank.R;
 import com.km.rmbank.basic.BaseActivity;
 import com.km.rmbank.dto.UserDto;
+import com.km.rmbank.event.DownloadAppEvent;
 import com.km.rmbank.module.login.LoginActivity;
 import com.km.rmbank.utils.Constant;
 import com.ps.androidlib.utils.AppUtils;
 import com.ps.androidlib.utils.DialogUtils;
+import com.ps.androidlib.utils.EventBusUtils;
 import com.ps.androidlib.utils.SPUtils;
 
 import butterknife.OnClick;
@@ -72,5 +74,10 @@ public class SettingActivity extends BaseActivity {
                 toNextActivity(LoginActivity.class);
             }
         });
+    }
+
+    @OnClick(R.id.tv_update)
+    public void updateApp(View view){
+        EventBusUtils.post(new DownloadAppEvent(this));
     }
 }

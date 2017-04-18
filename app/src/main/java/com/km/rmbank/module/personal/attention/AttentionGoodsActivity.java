@@ -66,6 +66,7 @@ public class AttentionGoodsActivity extends BaseActivity<AttentionGoodsPresenter
             }
 
         });
+        mPresenter.getAttentionGoods(adapter.getNextPage());
     }
 
     @Override

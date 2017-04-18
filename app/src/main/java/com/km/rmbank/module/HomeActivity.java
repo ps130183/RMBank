@@ -3,8 +3,6 @@ package com.km.rmbank.module;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.text.TextUtils;
-import android.view.KeyEvent;
 import android.widget.FrameLayout;
 
 import com.flyco.tablayout.CommonTabLayout;
@@ -12,11 +10,9 @@ import com.flyco.tablayout.listener.CustomTabEntity;
 import com.flyco.tablayout.listener.OnTabSelectListener;
 import com.km.rmbank.R;
 import com.km.rmbank.basic.BaseActivity;
-import com.km.rmbank.basic.BasePresenter;
-import com.km.rmbank.dto.UserDto;
 import com.km.rmbank.event.PaySuccessEvent;
 import com.km.rmbank.event.UserNoLoginEvent;
-import com.km.rmbank.module.actionarea.ActionAreaFragment;
+import com.km.rmbank.module.actionarea.ConsultantsNewsFragment;
 import com.km.rmbank.module.home.HomeFragment;
 import com.km.rmbank.module.login.LoginActivity;
 import com.km.rmbank.module.personal.PersonalFragment;
@@ -24,7 +20,6 @@ import com.km.rmbank.module.personal.order.MyOrderActivity;
 import com.km.rmbank.module.rmshop.RmShopFragment;
 import com.km.rmbank.utils.Constant;
 import com.ps.androidlib.entity.TabEntity;
-import com.ps.androidlib.utils.SPUtils;
 import com.umeng.socialize.UMShareAPI;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -32,7 +27,6 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
@@ -50,7 +44,7 @@ public class HomeActivity extends BaseActivity {
     CommonTabLayout mTabLayout;
     private List<CustomTabEntity> mTabEntities;
 
-    private String[] mTitle = {"首页","人脉商城","活动专区","个人中心"};
+    private String[] mTitle = {"首页","商城","咨询","个人中心"};
     private int[] mSelectedIcon = {R.mipmap.icon_home_rbtn1_pressed,R.mipmap.icon_home_rbtn2_pressed,R.mipmap.icon_home_rbtn3_pressed,R.mipmap.icon_home_rbtn4_pressed};
     private int[] mUnSelectedIcon = {R.mipmap.icon_home_rbtn1_unpress,R.mipmap.icon_home_rbtn2_unpress,R.mipmap.icon_home_rbtn3_unpress,R.mipmap.icon_home_rbtn4_unpress};
 
@@ -76,6 +70,14 @@ public class HomeActivity extends BaseActivity {
         }
 //        AppUtils.initSystemBar(this,0x00000000);
         initTabLayout();
+        //退出程序
+        setClickKeyCodeBackLisenter(new OnClickKeyCodeBackLisenter() {
+            @Override
+            public boolean onClickKeyCodeBack() {
+                exsit();
+                return false;
+            }
+        });
     }
 
     @Override
@@ -89,7 +91,7 @@ public class HomeActivity extends BaseActivity {
         List<Fragment> fragmentList = new ArrayList<>();
         fragmentList.add(HomeFragment.newInstance(null));
         fragmentList.add(RmShopFragment.newInstance(null));
-        fragmentList.add(ActionAreaFragment.newInstance(null));
+        fragmentList.add(ConsultantsNewsFragment.newInstance(null));
         fragmentList.add(PersonalFragment.newInstance(null));
 
         for (int i = 0;i < mTitle.length; i++){
@@ -144,20 +146,6 @@ public class HomeActivity extends BaseActivity {
     }
 
 
-    /**
-     * 双击退出程序
-     * @param keyCode
-     * @param event
-     * @return
-     */
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK){
-            exsit();
-            return false;
-        }
-        return super.onKeyDown(keyCode, event);
-    }
 
     private void exsit(){
         if (isExsit){
