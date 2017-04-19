@@ -2,6 +2,7 @@ package com.km.rmbank.module.personal.team;
 
 import com.km.rmbank.basic.BasePresenter;
 import com.km.rmbank.basic.BaseView;
+import com.km.rmbank.dto.MyTeamDto;
 import com.km.rmbank.entity.TeamEntity;
 
 import java.util.List;
@@ -13,7 +14,7 @@ import java.util.List;
 public interface MyTeamConteact {
     interface View extends BaseView{
         void initRecycler();
-        void showMyTeam(List<TeamEntity> teamEntities);
+        void showMyTeam(List<MyTeamDto> teamEntities);
     }
     interface Presenter extends BasePresenter{
         void getMyTeamData();

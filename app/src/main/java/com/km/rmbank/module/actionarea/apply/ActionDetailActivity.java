@@ -1,8 +1,10 @@
 package com.km.rmbank.module.actionarea.apply;
 
+import android.graphics.Bitmap;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.WindowManager;
+import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -33,7 +35,7 @@ public class ActionDetailActivity extends BaseActivity {
 
     @Override
     protected void onCreate() {
-        StatusBarUtil.cancelFullScreen(this);
+//        StatusBarUtil.setFullScreen(this);
         actionDto = getIntent().getParcelableExtra("actionDto");
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE |
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
@@ -50,7 +52,20 @@ public class ActionDetailActivity extends BaseActivity {
                 webView.loadUrl(url);
                 return true;
             }
+
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
+                hideLoading();
+            }
+
+            @Override
+            public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                super.onPageStarted(view, url, favicon);
+                showLoading();
+            }
         });
+
         webView.loadUrl(SecretConstant.API_HOST + SecretConstant.API_HOST_PATH + "/app/html/activityDetail?id=" + actionDto.getId());
     }
 }

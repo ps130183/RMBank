@@ -12,9 +12,9 @@ import com.flyco.tablayout.listener.OnTabSelectListener;
 import com.flyco.tablayout.utils.FragmentChangeManager;
 import com.km.rmbank.R;
 import com.km.rmbank.basic.BaseActivity;
+import com.km.rmbank.event.DownloadAppEvent;
 import com.km.rmbank.event.PaySuccessEvent;
 import com.km.rmbank.event.UserIsEmptyEvent;
-import com.km.rmbank.event.UserNotLoginEvent;
 import com.km.rmbank.module.actionarea.ConsultantsNewsFragment;
 import com.km.rmbank.module.home.HomeFragment;
 import com.km.rmbank.module.login.LoginActivity;
@@ -23,6 +23,7 @@ import com.km.rmbank.module.personal.order.MyOrderActivity;
 import com.km.rmbank.module.rmshop.RmShopFragment;
 import com.km.rmbank.utils.Constant;
 import com.ps.androidlib.entity.TabEntity;
+import com.ps.androidlib.utils.EventBusUtils;
 import com.umeng.socialize.UMShareAPI;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -47,7 +48,7 @@ public class HomeActivity extends BaseActivity {
     CommonTabLayout mTabLayout;
     private List<CustomTabEntity> mTabEntities;
 
-    private String[] mTitle = {"首页","商城","咨询","个人中心"};
+    private String[] mTitle = {"首页","商城","咨讯","个人中心"};
     private int[] mSelectedIcon = {R.mipmap.icon_home_rbtn1_pressed,R.mipmap.icon_home_rbtn2_pressed,R.mipmap.icon_home_rbtn3_pressed,R.mipmap.icon_home_rbtn4_pressed};
     private int[] mUnSelectedIcon = {R.mipmap.icon_home_rbtn1_unpress,R.mipmap.icon_home_rbtn2_unpress,R.mipmap.icon_home_rbtn3_unpress,R.mipmap.icon_home_rbtn4_unpress};
     private List<Fragment> fragmentList;
@@ -83,6 +84,8 @@ public class HomeActivity extends BaseActivity {
                 return false;
             }
         });
+        //检测app版本
+        EventBusUtils.post(new DownloadAppEvent(this));
     }
 
     @Override
@@ -148,6 +151,10 @@ public class HomeActivity extends BaseActivity {
         UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
     }
 
+    /**
+     * 支付成功
+     * @param event
+     */
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void paySuccess(PaySuccessEvent event){
         toNextActivity(HomeActivity.class);
@@ -158,12 +165,6 @@ public class HomeActivity extends BaseActivity {
     public void userNoLogin(UserIsEmptyEvent event){
         Constant.user.clear();
         toNextActivity(LoginActivity.class);
-    }
-
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void userNotLogin(UserNotLoginEvent event){
-        mTabLayout.setCurrentTab(0);
     }
 
 

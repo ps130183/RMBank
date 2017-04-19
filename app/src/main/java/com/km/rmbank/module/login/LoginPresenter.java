@@ -1,5 +1,6 @@
 package com.km.rmbank.module.login;
 
+import com.km.rmbank.dto.DefaultDto;
 import com.km.rmbank.dto.UserDto;
 import com.km.rmbank.utils.Constant;
 import com.km.rmbank.utils.retrofit.PresenterWrapper;
@@ -30,6 +31,18 @@ public class LoginPresenter extends PresenterWrapper<LoginContract.View> impleme
                         mView.loginSuccess();
                     }
 
+                }));
+    }
+
+    @Override
+    public void getPhoneCode(String phone) {
+        mView.showLoading();
+        mApiwrapper.getPhoneCode(phone)
+                .subscribe(newSubscriber(new Consumer<String>() {
+                    @Override
+                    public void accept(@NonNull String defaultDto) throws Exception {
+                        mView.getPhoneCodeSuccess();
+                    }
                 }));
     }
 

@@ -189,11 +189,11 @@ public class AppUtils {
 
 
     /**
-     * 获取版本号
+     * 获取版本号 名称
      * @param mContext
      * @return 当前应用的版本号
      */
-    public static String getAppVersion(Context mContext) {
+    public static String getAppVersionName(Context mContext) {
         try {
             PackageManager manager = mContext.getPackageManager();
             PackageInfo info = manager.getPackageInfo(mContext.getPackageName(), 0);
@@ -202,6 +202,23 @@ public class AppUtils {
         } catch (Exception e) {
             e.printStackTrace();
             return "";
+        }
+    }
+
+    /**
+     * 获取版本号
+     * @param mContext
+     * @return 当前应用的版本号
+     */
+    public static int getAppVersionCode(Context mContext) {
+        try {
+            PackageManager manager = mContext.getPackageManager();
+            PackageInfo info = manager.getPackageInfo(mContext.getPackageName(), 0);
+            int version = info.versionCode;
+            return version;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
         }
     }
 

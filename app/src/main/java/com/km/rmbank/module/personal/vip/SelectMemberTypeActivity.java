@@ -3,6 +3,7 @@ package com.km.rmbank.module.personal.vip;
 import android.support.annotation.NonNull;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -33,6 +34,9 @@ public class SelectMemberTypeActivity extends BaseActivity<SelectMemberTypePrese
     @BindView(R.id.tv_member_intro)
     TextView tvMemberIntro;
 
+    @BindView(R.id.btn_become_member)
+    Button btnBecomeMember;
+
     private String amount;//支付金额
     private String[] memberNames = {"体验式会员","合伙人会员"};
     private String[] memberTypeIntros = {"体验式会员 介绍，体验式会员 介绍，体验式会员 介绍，体验式会员 介绍，体验式会员 介绍，体验式会员 介绍，体验式会员 介绍，",
@@ -56,6 +60,7 @@ public class SelectMemberTypeActivity extends BaseActivity<SelectMemberTypePrese
 
     @Override
     protected void onCreate() {
+
     }
 
     @OnClick({R.id.tv_member1,R.id.iv_member1})
@@ -69,7 +74,10 @@ public class SelectMemberTypeActivity extends BaseActivity<SelectMemberTypePrese
     }
 
     private void selectMember(int memberType){
-        if (memberType == 1){
+        if (memberType == 1){//体验式
+            if ("3".equals(Constant.user.getRoleId()) || "2".equals(Constant.user.getRoleId())){
+                btnBecomeMember.setVisibility(View.GONE);
+            }
             tvMember1.setBackgroundResource(R.drawable.shape_member_type_selected);
             tvMember1.setTextColor(getResources().getColor(R.color.color_white));
 
@@ -79,7 +87,10 @@ public class SelectMemberTypeActivity extends BaseActivity<SelectMemberTypePrese
             tvMemberName.setText(memberNames[0]);
             tvMemberIntro.setText(memberTypeIntros[0]);
             amount = memberTypeDtos.get(0).getMemberMoney();
-        } else {
+        } else {//合伙人
+            if ("2".equals(Constant.user.getRoleId())){
+                btnBecomeMember.setVisibility(View.GONE);
+            }
             tvMember1.setBackgroundResource(R.drawable.shape_member_type_unselected);
             tvMember1.setTextColor(getResources().getColor(R.color.color_red));
 
@@ -110,9 +121,9 @@ public class SelectMemberTypeActivity extends BaseActivity<SelectMemberTypePrese
 
         memberTypeIntros[0] = memberTypeDto1.getExperience();
         memberTypeIntros[1] = memberTypeDto2.getPartner();
-        if ("3".equals(Constant.user.getRoleId())){
-            rlVip1.setVisibility(View.GONE);
-        }
+//        if ("3".equals(Constant.user.getRoleId())){
+//            rlVip1.setVisibility(View.GONE);
+//        }
         selectMember(2);
     }
 }

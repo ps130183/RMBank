@@ -97,6 +97,7 @@ dependencies {
     compile files('libs/umeng_social_tool.jar')
     compile files('libs/wechat-sdk-android-with-mta-1.1.6.jar')
     compile files('libs/umeng_shareboard_widget.jar')
+    compile files('libs/umeng_social_shareboard.jar')
     compile project(':guideShowLib')
     //文件上传、下载
     compile 'com.github.JiangAndroidwork:RetrofitOfRxJava:v2.3'

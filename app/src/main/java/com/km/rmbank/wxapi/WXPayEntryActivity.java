@@ -7,8 +7,10 @@ import android.support.annotation.NonNull;
 
 import com.km.rmbank.R;
 import com.km.rmbank.basic.BaseActivity;
+import com.km.rmbank.event.WXPayResult;
 import com.km.rmbank.wxpay.WxUtil;
 import com.orhanobut.logger.Logger;
+import com.ps.androidlib.utils.EventBusUtils;
 import com.tencent.mm.opensdk.constants.ConstantsAPI;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
 import com.tencent.mm.opensdk.modelbase.BaseResp;
@@ -64,7 +66,7 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
     public void onResp(BaseResp resp) {
         Logger.d("onPayFinish, errCode = " + resp.errCode + "  errStr = " + resp.errStr);
         if (resp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
-//            EventBusUtils.post(new EventParam.WXPAYResultEvent(resp));
+            EventBusUtils.post(new WXPayResult(resp));
             finish();
         }
     }

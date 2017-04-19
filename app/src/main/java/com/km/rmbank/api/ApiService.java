@@ -1,6 +1,7 @@
 package com.km.rmbank.api;
 
 import com.km.rmbank.dto.ActionDto;
+import com.km.rmbank.dto.AppVersionDto;
 import com.km.rmbank.dto.DefaultDto;
 import com.km.rmbank.dto.EvaluateDto;
 import com.km.rmbank.dto.GoodsDetailsDto;
@@ -11,6 +12,7 @@ import com.km.rmbank.dto.IntegralDetailsDto;
 import com.km.rmbank.dto.IntegralDto;
 import com.km.rmbank.dto.MemberTypeDto;
 import com.km.rmbank.dto.MessageDto;
+import com.km.rmbank.dto.MyTeamDto;
 import com.km.rmbank.dto.PayOrderDto;
 import com.km.rmbank.dto.ReceiverAddressDto;
 import com.km.rmbank.dto.Response;
@@ -86,7 +88,7 @@ public interface ApiService {
      */
     @FormUrlEncoded
     @POST(SecretConstant.API_HOST_PATH + "/sms/send/code")
-    Flowable<Response<DefaultDto>> getPhoneCode(@Field("mobilePhone") String mobilePhone);
+    Flowable<Response<String>> getPhoneCode(@Field("mobilePhone") String mobilePhone);
 
     /**
      * 忘记密码
@@ -827,5 +829,33 @@ public interface ApiService {
     @FormUrlEncoded
     @POST(SecretConstant.API_HOST_PATH + "/auth/member/share")
     Flowable<Response<ShareDto>> getShareContent(@Field("token") String token);
+
+    /**
+     * 获取我的团队数据
+     *
+     * @param token
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(SecretConstant.API_HOST_PATH + "/auth/list/getMyTeams")
+    Flowable<Response<List<MyTeamDto>>> getMyTeam(@Field("token") String token);
+
+    /**
+     * 通过用户的id查看名片信息
+     *
+     * @param token
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(SecretConstant.API_HOST_PATH + "/auth/user/userCard/info")
+    Flowable<Response<UserCardDto>> getUserCardById(@Field("token") String token,
+                                                        @Field("id") String id);
+
+
+    @FormUrlEncoded
+    @POST(SecretConstant.API_HOST_PATH + "/get/app/version")
+    Flowable<Response<AppVersionDto>> checkAppVersion(@Field("version") int version);
+
+
 
 }

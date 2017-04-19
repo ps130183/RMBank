@@ -1,15 +1,19 @@
 package com.km.rmbank.module.personal.team;
 
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.TextView;
 
 import com.km.rmbank.R;
 import com.km.rmbank.adapter.MyTeamParentAdapter;
 import com.km.rmbank.basic.BaseActivity;
 import com.km.rmbank.basic.RVUtils;
+import com.km.rmbank.dto.MyTeamDto;
 import com.km.rmbank.entity.TeamEntity;
 import com.km.rmbank.dto.UserDto;
+import com.km.rmbank.module.personal.userinfo.EditUserCardActivity;
 
 import java.util.List;
 
@@ -19,6 +23,8 @@ public class MyTeamActivity extends BaseActivity<MyTeamPresenter> implements MyT
 
     @BindView(R.id.recyclerview)
     RecyclerView mRecyclerView;
+    @BindView(R.id.tv_team_number)
+    TextView tvTeamNumber;
 
     @Override
     protected int getContentView() {
@@ -52,14 +58,18 @@ public class MyTeamActivity extends BaseActivity<MyTeamPresenter> implements MyT
     }
 
     @Override
-    public void showMyTeam(List<TeamEntity> teamEntities) {
+    public void showMyTeam(List<MyTeamDto> teamEntities) {
         MyTeamParentAdapter adapter = (MyTeamParentAdapter) mRecyclerView.getAdapter();
         adapter.addData(teamEntities);
+        tvTeamNumber.setText(adapter.getMemberCount()+"");
     }
 
 
     @Override
-    public void clickUser(UserDto itemData, int position) {
-        showToast(itemData.toString());
+    public void clickUser(MyTeamDto.MemberDtoListBean itemData, int position) {
+//        showToast(itemData.toString());
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("memberDto",itemData);
+        toNextActivity(EditUserCardActivity.class,bundle);
     }
 }

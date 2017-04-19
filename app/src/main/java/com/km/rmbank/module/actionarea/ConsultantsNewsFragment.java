@@ -59,7 +59,7 @@ public class ConsultantsNewsFragment extends BaseFragment<ConsultantsNewsPresent
 
     @Override
     protected void createView() {
-        title.setText("咨询");
+        title.setText("资讯");
     }
 
 

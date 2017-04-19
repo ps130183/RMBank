@@ -87,13 +87,14 @@
 
             <TextView
                 android:id="@+id/tv_send_code"
-                android:layout_width="wrap_content"
+                android:layout_width="80dp"
                 android:layout_height="wrap_content"
                 android:text="发送验证码"
                 android:textColor="@color/color_text_gray2"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/view_space_16"
+                android:gravity="center"
                 />
         </RelativeLayout>
 
@@ -121,6 +122,7 @@
             android:text="我已阅读并同意"
             />
         <TextView
+            android:id="@+id/tv_register_agreement"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="玩转地球注册协议"

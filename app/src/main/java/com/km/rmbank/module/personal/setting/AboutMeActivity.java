@@ -1,8 +1,6 @@
 package com.km.rmbank.module.personal.setting;
 
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -34,6 +32,6 @@ public class AboutMeActivity extends BaseActivity {
     @Override
     protected void onCreate() {
         rlLogo.getLayoutParams().height = AppUtils.getCurWindowWidth(this) - 200;
-        tvCurAPPVersion.setText("当前版本  " + AppUtils.getAppVersion(this));
+        tvCurAPPVersion.setText("当前版本  " + AppUtils.getAppVersionName(this));
     }
 }

@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.km.rmbank.R;
 import com.km.rmbank.basic.BaseActivity;
 import com.km.rmbank.dto.IndustryDto;
+import com.km.rmbank.dto.MyTeamDto;
 import com.km.rmbank.dto.UserCardDto;
 import com.km.rmbank.module.personal.userinfo.editcart.EditUserAddressActivity;
 import com.km.rmbank.module.personal.userinfo.editcart.EditUserCompanyActivity;
@@ -93,6 +94,8 @@ public class EditUserCardActivity extends BaseActivity<EditUserCardPresenter> im
     private String friendPhone;
     private boolean fromQRCode = false;
 
+    private MyTeamDto.MemberDtoListBean memberDtoListBean;
+
     @Override
     protected int getContentView() {
         return R.layout.activity_edit_user_card;
@@ -113,6 +116,7 @@ public class EditUserCardActivity extends BaseActivity<EditUserCardPresenter> im
     protected void onCreate() {
         userCardDto = getIntent().getParcelableExtra("userCardDto");
         friendPhone = getIntent().getStringExtra("friendPhone");
+        memberDtoListBean = getIntent().getParcelableExtra("memberDto");
 //        PickerUtils.showOptions(this,etLocation,vMasker);
         if (userCardDto != null){ //来源 ： 扫一扫  其他人的名片
             showUserCard(userCardDto);
@@ -120,6 +124,12 @@ public class EditUserCardActivity extends BaseActivity<EditUserCardPresenter> im
             title.setText("好友信息");
             ivQRCode.setVisibility(View.GONE);
             fromQRCode = true;
+        } else if (memberDtoListBean != null){
+            title.setText("好友信息");
+            btnCreateCode.setVisibility(View.GONE);
+            ivQRCode.setVisibility(View.GONE);
+            fromQRCode = true;
+            mPresenter.getUserCardById(memberDtoListBean.getId());
         } else {
             PickerUtils.showOptions(this,etLocation,vMasker);
             mPresenter.getUserCard();
@@ -367,10 +377,15 @@ public class EditUserCardActivity extends BaseActivity<EditUserCardPresenter> im
 
     @Override
     public void showUserCard(UserCardDto userCardDto) {
+        if (userCardDto.isEmpty()){
+            showToast("该用户尚未编辑名片");
+            finish();
+            return;
+        }
         this.userCardDto = userCardDto;
         if (this.userCardDto == null){
             this.userCardDto = new UserCardDto();
-        } else {
+        } else if (memberDtoListBean == null){
 //            ivQRCode.setImageBitmap(QRCodeUtils.createQRCode(EditUserCardActivity.this, Constant.user.getMobilePhone()));
             ivQRCode.setImageBitmap(QRCodeUtils.createQRCode(EditUserCardActivity.this, QRCODE_URL));
             ivQRCode.setVisibility(View.VISIBLE);

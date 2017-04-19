@@ -18,5 +18,6 @@ public interface EditUserCartContract {
         void getUserCard();
         void createUserCard(UserCardDto userCardDto);
         void applyBecomeFriend(String friendPhone);
+        void getUserCardById(String userId);
     }
 }

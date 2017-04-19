@@ -52,7 +52,7 @@ public class GlideUtils {
         Glide.with(imageView.getContext())
                 .load(imagePath)
                 .placeholder(R.drawable.glide_placeholder_rotate)
-                .error(R.drawable.glide_placeholder_rotate)
+                .error(R.drawable.ic_load_fail)
                 .crossFade(1000)
                 .into(imageView);
     }
@@ -72,7 +72,7 @@ public class GlideUtils {
                 .load(imagePath)
                 .asBitmap()
                 .placeholder(R.drawable.glide_placeholder_rotate)
-                .error(R.drawable.glide_placeholder_rotate)
+                .error(R.drawable.ic_load_fail)
                 .into(new BitmapImageViewTarget(imageView){
                     @Override
                     protected void setResource(Bitmap resource) {

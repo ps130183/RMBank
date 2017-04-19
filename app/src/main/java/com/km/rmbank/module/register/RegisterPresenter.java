@@ -21,9 +21,9 @@ public class RegisterPresenter extends PresenterWrapper<RegisterContract.View> i
     public void getCode(String mobilePhone) {
         mView.showLoading();
         mApiwrapper.getPhoneCode(mobilePhone)
-                .subscribe(newSubscriber(new Consumer<DefaultDto>() {
+                .subscribe(newSubscriber(new Consumer<String>() {
                     @Override
-                    public void accept(@NonNull DefaultDto defaultDto) throws Exception {
+                    public void accept(@NonNull String defaultDto) throws Exception {
                         mView.getCodeSuccess();
                     }
                 }));

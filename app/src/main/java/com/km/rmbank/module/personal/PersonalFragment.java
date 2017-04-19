@@ -225,10 +225,10 @@ public class PersonalFragment extends BaseFragment<PersonalPresenter> implements
                     toNextActivity(EditUserCardActivity.class);
                     break;
                 case R.id.tv_vip:
-                    if ("2".equals(Constant.user.getRoleId())){
-                        showToast("您已经是合伙人会员");
-                        return;
-                    }
+//                    if ("2".equals(Constant.user.getRoleId())){
+//                        showToast("您已经是合伙人会员");
+//                        return;
+//                    }
                     toNextActivity(BecomeVIPActivity.class);
                     break;
                 case R.id.tv_setting:

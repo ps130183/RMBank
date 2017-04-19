@@ -11,6 +11,7 @@ import com.km.rmbank.basic.BaseActivity;
 import com.km.rmbank.dto.UserDto;
 import com.km.rmbank.event.DownloadAppEvent;
 import com.km.rmbank.module.login.LoginActivity;
+import com.km.rmbank.module.personal.AgreementActivity;
 import com.km.rmbank.utils.Constant;
 import com.ps.androidlib.utils.AppUtils;
 import com.ps.androidlib.utils.DialogUtils;
@@ -61,7 +62,10 @@ public class SettingActivity extends BaseActivity {
 
     @OnClick(R.id.tv_user_agreement)
     public void userAgreement(View view){
-        showToast("用户协议");
+        Bundle bundle = new Bundle();
+        bundle.putString("titleName","用户协议");
+        bundle.putString("agreementUrl","/member/agreement/view");
+        toNextActivity(AgreementActivity.class,bundle);
     }
 
     @OnClick(R.id.tv_logout)
@@ -76,6 +80,10 @@ public class SettingActivity extends BaseActivity {
         });
     }
 
+    /**
+     * 检测app版本
+     * @param view
+     */
     @OnClick(R.id.tv_update)
     public void updateApp(View view){
         EventBusUtils.post(new DownloadAppEvent(this));

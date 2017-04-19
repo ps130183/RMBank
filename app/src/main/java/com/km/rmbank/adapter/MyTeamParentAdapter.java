@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.km.rmbank.R;
 import com.km.rmbank.basic.BaseAdapter;
 import com.km.rmbank.basic.RVUtils;
+import com.km.rmbank.dto.MyTeamDto;
 import com.km.rmbank.entity.TeamEntity;
 import com.km.rmbank.dto.UserDto;
 import com.ps.androidlib.animator.ShowViewAnimator;
@@ -21,7 +22,7 @@ import butterknife.OnClick;
  * Created by kamangkeji on 17/3/30.
  */
 
-public class MyTeamParentAdapter extends BaseAdapter<TeamEntity> implements BaseAdapter.IAdapter<MyTeamParentAdapter.ViewHolder> {
+public class MyTeamParentAdapter extends BaseAdapter<MyTeamDto> implements BaseAdapter.IAdapter<MyTeamParentAdapter.ViewHolder> {
 
     private onClickUserListener onClickUserListener;
 
@@ -37,20 +38,20 @@ public class MyTeamParentAdapter extends BaseAdapter<TeamEntity> implements Base
 
     @Override
     public void createView(ViewHolder holder, int position) {
-        TeamEntity teamEntity = getItemData(position);
-        holder.tvTeamName.setText(teamEntity.getTeamName());
+        MyTeamDto teamEntity = getItemData(position);
+        holder.tvTeamName.setText(teamEntity.getRoleName());
 
-        holder.teamMemberAdapter.addData(teamEntity.getUserEntities());
-        holder.teamMemberAdapter.setItemClickListener(new ItemClickListener<UserDto>() {
+        holder.teamMemberAdapter.addData(teamEntity.getMemberDtoList());
+        holder.teamMemberAdapter.setItemClickListener(new ItemClickListener<MyTeamDto.MemberDtoListBean>() {
 
             @Override
-            public void onItemClick(UserDto itemData, int position) {
+            public void onItemClick(MyTeamDto.MemberDtoListBean itemData, int position) {
                 if (onClickUserListener != null){
                     onClickUserListener.clickUser(itemData,position);
                 }
             }
         });
-        holder.tvMemberNumber.setText(teamEntity.getUserEntities().size()+"人");
+        holder.tvMemberNumber.setText(teamEntity.getNum()+"人");
     }
 
     class ViewHolder extends BaseViewHolder {
@@ -90,11 +91,23 @@ public class MyTeamParentAdapter extends BaseAdapter<TeamEntity> implements Base
     }
 
     public interface onClickUserListener{
-        void clickUser(UserDto itemData, int position);
+        void clickUser(MyTeamDto.MemberDtoListBean itemData, int position);
     }
 
     public void setOnClickUserListener(MyTeamParentAdapter.onClickUserListener onClickUserListener) {
         this.onClickUserListener = onClickUserListener;
+    }
+
+    /**
+     * 返回团队 人数 规模
+     * @return
+     */
+    public int getMemberCount(){
+        int count  = 0;
+        for (MyTeamDto myTeamDto : getAllData()){
+            count+=myTeamDto.getNum();
+        }
+        return count;
     }
 
 }

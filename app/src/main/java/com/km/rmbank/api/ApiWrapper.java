@@ -3,6 +3,7 @@ package com.km.rmbank.api;
 
 import com.google.gson.Gson;
 import com.km.rmbank.dto.ActionDto;
+import com.km.rmbank.dto.AppVersionDto;
 import com.km.rmbank.dto.DefaultDto;
 import com.km.rmbank.dto.EvaluateDto;
 import com.km.rmbank.dto.GoodsDetailsDto;
@@ -13,6 +14,7 @@ import com.km.rmbank.dto.IntegralDetailsDto;
 import com.km.rmbank.dto.IntegralDto;
 import com.km.rmbank.dto.MemberTypeDto;
 import com.km.rmbank.dto.MessageDto;
+import com.km.rmbank.dto.MyTeamDto;
 import com.km.rmbank.dto.PayOrderDto;
 import com.km.rmbank.dto.ReceiverAddressDto;
 import com.km.rmbank.dto.ShareDto;
@@ -93,8 +95,8 @@ public class ApiWrapper extends RetrofitUtil {
      * @param mobilePhone
      * @return
      */
-    public Flowable<DefaultDto> getPhoneCode(String mobilePhone){
-        return getService().getPhoneCode(mobilePhone).compose(this.<DefaultDto>applySchedulers());
+    public Flowable<String> getPhoneCode(String mobilePhone){
+        return getService().getPhoneCode(mobilePhone).compose(this.<String>applySchedulers());
     }
 
     /**
@@ -713,6 +715,35 @@ public class ApiWrapper extends RetrofitUtil {
     public Flowable<ShareDto> getShareContent(){
         return getService().getShareContent(Constant.user.getToken())
                 .compose(this.<ShareDto>applySchedulers());
+    }
+
+    /**
+     * 获取我的团队数据
+     * @return
+     */
+    public Flowable<List<MyTeamDto>> getMyTeam(){
+        return getService().getMyTeam(Constant.user.getToken())
+                .compose(this.<List<MyTeamDto>>applySchedulers());
+    }
+
+    /**
+     * 通过id获取用户的名片信息
+     * @param id
+     * @return
+     */
+    public Flowable<UserCardDto> getUserCardById(String id){
+        return getService().getUserCardById(Constant.user.getToken(),id)
+                .compose(this.<UserCardDto>applySchedulers());
+    }
+
+    /**
+     * 检测是否有新版本
+     * @param appVersion
+     * @return
+     */
+    public Flowable<AppVersionDto> checkAppVersion(int appVersion){
+        return getService().checkAppVersion(appVersion)
+                .compose(this.<AppVersionDto>applySchedulers());
     }
 
 }

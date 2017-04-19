@@ -60,6 +60,18 @@ public class EditUserCardPresenter extends PresenterWrapper<EditUserCartContract
     }
 
     @Override
+    public void getUserCardById(String userId) {
+        mView.showLoading();
+        mApiwrapper.getUserCardById(userId)
+                .subscribe(newSubscriber(new Consumer<UserCardDto>() {
+                    @Override
+                    public void accept(@NonNull UserCardDto userCardDto) throws Exception {
+                        mView.showUserCard(userCardDto);
+                    }
+                }));
+    }
+
+    @Override
     public void onCreateView() {
 
     }

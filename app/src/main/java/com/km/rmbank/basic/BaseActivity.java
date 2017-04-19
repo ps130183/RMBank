@@ -19,19 +19,17 @@ import android.widget.Toast;
 
 import com.km.rmbank.R;
 import com.km.rmbank.api.ApiWrapper;
+import com.km.rmbank.dto.AppVersionDto;
 import com.km.rmbank.event.DownloadAppEvent;
 import com.km.rmbank.titlebar.ToolBarTitle;
-import com.km.rmbank.utils.retrofit.RetrofitUtil;
 import com.km.rmbank.utils.retrofit.SecretConstant;
 import com.laojiang.retrofithttp.weight.downfilesutils.FinalDownFiles;
 import com.laojiang.retrofithttp.weight.downfilesutils.action.FinalDownFileResult;
 import com.laojiang.retrofithttp.weight.downfilesutils.downfiles.DownInfo;
-import com.orhanobut.logger.Logger;
 import com.ps.androidlib.utils.AppUtils;
 import com.ps.androidlib.utils.DialogLoading;
 import com.ps.androidlib.utils.DialogUtils;
 import com.ps.androidlib.utils.EventBusUtils;
-import com.ps.androidlib.utils.SDCardUtils;
 import com.ps.androidlib.utils.StatusBarUtil;
 import com.ps.androidlib.utils.ViewUtils;
 
@@ -39,18 +37,12 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.File;
-import java.net.ConnectException;
-import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.ButterKnife;
-import io.reactivex.Observer;
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
-import io.reactivex.subscribers.ResourceSubscriber;
 import kr.co.namee.permissiongen.PermissionGen;
 //import rx.Subscriber;
 //import rx.functions.Action0;
@@ -95,11 +87,11 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
         mCompositeSubscription = new CompositeDisposable();
         apiWrapper = ApiWrapper.getInstance();
         mPresenter = getmPresenter();//mPresenter
-        if (toolbarType == TOOLBAR_TYPE_DEFAULT){
+        if (toolbarType == TOOLBAR_TYPE_DEFAULT) {
             setContentView(R.layout.baseview);
             initDefaultView();
             StatusBarUtil.StatusBarLightMode(context);//设置状态栏 字体颜色为深色
-        } else if(toolbarType == TOOLBAR_TYPE_HOME){
+        } else if (toolbarType == TOOLBAR_TYPE_HOME) {
             setContentView(R.layout.activity_base_home);
         }
 
@@ -115,10 +107,11 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
             mPresenter.onCreateView();
         }
     }
+
     /**
      * 初始化默认的view
      */
-    private void initDefaultView(){
+    private void initDefaultView() {
         titleBar = getTitleBar();//标题栏
         setViewContent();
 
@@ -132,7 +125,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
         /**
          * 设置为竖屏 强制
          */
-        if(getRequestedOrientation()!=ActivityInfo.SCREEN_ORIENTATION_PORTRAIT){
+        if (getRequestedOrientation() != ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         }
         super.onResume();
@@ -163,9 +156,10 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
 
     /**
      * toolbar 类型
+     *
      * @return
      */
-    protected int getToolBarType(){
+    protected int getToolBarType() {
         return TOOLBAR_TYPE_DEFAULT;
     }
 
@@ -203,9 +197,11 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
      */
     protected abstract String getTitleName();
 
-    public P getmPresenter(){
+    public P getmPresenter() {
         return null;
-    };
+    }
+
+    ;
 
     protected abstract void onCreate();
 
@@ -261,7 +257,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
         return R.mipmap.ic_chevron_left_black_36dp;
     }
 
-    protected int getRightIconRes(){
+    protected int getRightIconRes() {
         return 0;
     }
 
@@ -286,21 +282,22 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
         }
     }
 
-    public void setRightIconClick(int iconRes,View.OnClickListener rightIconOnClick){
-        if (titleBar != null){
-            titleBar.setRightButton(iconRes,rightIconOnClick);
+    public void setRightIconClick(int iconRes, View.OnClickListener rightIconOnClick) {
+        if (titleBar != null) {
+            titleBar.setRightButton(iconRes, rightIconOnClick);
         }
     }
 
-    public void setRightIconClick(View.OnClickListener rightIconOnClick){
-        setRightIconClick(getRightIconRes(),rightIconOnClick);
+    public void setRightIconClick(View.OnClickListener rightIconOnClick) {
+        setRightIconClick(getRightIconRes(), rightIconOnClick);
     }
 
-    public void setRightBtnClick(String btnName, View.OnClickListener btnClick){
-        if (titleBar != null){
-            titleBar.setRightButton(btnName,btnClick);
+    public void setRightBtnClick(String btnName, View.OnClickListener btnClick) {
+        if (titleBar != null) {
+            titleBar.setRightButton(btnName, btnClick);
         }
     }
+
     /**
      * 初始化toolBar中间的内容
      */
@@ -364,24 +361,24 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
     }
 
 
-    public void toNextActivityForResult(Class nextActivity,int requestCode,Bundle bundle){
-        Intent intent = new Intent(context,nextActivity);
-        if (bundle != null){
+    public void toNextActivityForResult(Class nextActivity, int requestCode, Bundle bundle) {
+        Intent intent = new Intent(context, nextActivity);
+        if (bundle != null) {
             intent.putExtras(bundle);
         }
-        startActivityForResult(intent,requestCode);
+        startActivityForResult(intent, requestCode);
     }
 
-    public void toNextActivityForResult(Class nextActivity,int requestCode){
-        toNextActivityForResult(nextActivity,requestCode,null);
+    public void toNextActivityForResult(Class nextActivity, int requestCode) {
+        toNextActivityForResult(nextActivity, requestCode, null);
     }
 
-    public void setResult(int resultCode,Bundle bundle){
+    public void setResult(int resultCode, Bundle bundle) {
         Intent intent = getIntent();
-        if (bundle != null){
+        if (bundle != null) {
             intent.putExtras(bundle);
         }
-        setResult(resultCode,intent);
+        setResult(resultCode, intent);
         finish();
     }
 
@@ -401,6 +398,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
         void setCenterView(CenterViewInterface centerView);
 
         void setRightButton(int iconRes, View.OnClickListener rightClick);
+
         void setRightButton(String rightBtnText, View.OnClickListener rightClick);
 
         boolean isSetTitle();
@@ -436,7 +434,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
 
     @Override
     public final boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK && clickKeyCodeBackLisenter != null){//物理返回键
+        if (keyCode == KeyEvent.KEYCODE_BACK && clickKeyCodeBackLisenter != null) {//物理返回键
             return clickKeyCodeBackLisenter.onClickKeyCodeBack();
         }
         return super.onKeyDown(keyCode, event);
@@ -446,30 +444,48 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
         this.clickKeyCodeBackLisenter = clickKeyCodeBackLisenter;
     }
 
-    public interface OnClickKeyCodeBackLisenter{
+    public interface OnClickKeyCodeBackLisenter {
         boolean onClickKeyCodeBack();
     }
 
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void defaultMethod(String s){
+    public void defaultMethod(String s) {
 
     }
 
+    /**
+     * 检测是否有新版本的app
+     * @param event
+     */
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void downloadApp(DownloadAppEvent event){
-        if (!this.equals(event.getActivity())){
+    public void downloadApp(DownloadAppEvent event) {
+        if (!this.equals(event.getActivity())) {
             return;
         }
-//        Logger.d(AppUtils.getDownloadAppPath("wzdq-replease-"+ System.currentTimeMillis() + "-" +AppUtils.getAppVersion(context)+".apk"));
-        DialogUtils.showDefaultAlertDialog("当前版本号 " + AppUtils.getAppVersion(this) + "，是否更新？", new DialogUtils.ClickListener() {
+        apiWrapper.checkAppVersion(AppUtils.getAppVersionCode(this))
+                .subscribe(new Consumer<AppVersionDto>() {
+                    @Override
+                    public void accept(@io.reactivex.annotations.NonNull AppVersionDto appVersionDto) throws Exception {
+                        updateApp(appVersionDto);
+                    }
+                });
+
+    }
+
+    /**
+     * 更新app
+     * @param appVersionDto
+     */
+    private void updateApp(final AppVersionDto appVersionDto) {
+        DialogUtils.showDefaultAlertDialog("检测到新版本 " + appVersionDto.getVersion() + "，是否更新？", new DialogUtils.ClickListener() {
             @Override
             public void clickConfirm() {
-                String path = AppUtils.getDownloadAppPath("wzdq-resplease-"+ System.currentTimeMillis() + "-" +AppUtils.getAppVersion(context)+".apk");
-                String url = SecretConstant.API_HOST + SecretConstant.API_HOST_PATH + "/down/WZDQ1.0.apk";
-                new FinalDownFiles(false,context,url,
+                String path = AppUtils.getDownloadAppPath("wzdq-resplease-" + System.currentTimeMillis() + "-" + appVersionDto.getVersion() + ".apk");
+                String url = appVersionDto.getAppUrl();
+                new FinalDownFiles(false, context, url,
                         path,
-                        new FinalDownFileResult(){
+                        new FinalDownFileResult() {
 
                             @Override
                             public void onSuccess(DownInfo downInfo) {
@@ -487,7 +503,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
                             @Override
                             public void onStart() {
                                 super.onStart();
-                                DialogUtils.showDownloadDialog(context,"因为我们努力，所以不断提高",false);
+                                DialogUtils.showDownloadDialog(context, "因为我们努力，所以不断提高", false);
                             }
 
                             @Override
@@ -496,15 +512,16 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
                             }
 
                             @Override
-                            public void onStop(){
+                            public void onStop() {
                                 super.onStop();
                                 DialogUtils.DismissLoadDialog();
                             }
+
                             @Override
                             public void onLoading(long readLength, long countLength) {
                                 super.onLoading(readLength, countLength);
 //                                Logger.i("下载过程=="," countLength = "+countLength+"    readLength = " +readLength);
-                                DialogUtils.setProgressValue((int) ((readLength * 100)/countLength));
+                                DialogUtils.setProgressValue((int) ((readLength * 100) / countLength));
                             }
 
                             @Override
@@ -520,10 +537,11 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
 
     /**
      * 安装app文件
+     *
      * @param path
      */
     private void installApp(String path) {
-        if (TextUtils.isEmpty(path)){
+        if (TextUtils.isEmpty(path)) {
             return;
         }
         File apk = new File(path);

@@ -15,10 +15,15 @@ import com.km.rmbank.basic.BaseActivity;
 import com.km.rmbank.dto.PayOrderDto;
 import com.km.rmbank.dto.WeiCharParamsDto;
 import com.km.rmbank.event.PaySuccessEvent;
+import com.km.rmbank.event.WXPayResult;
 import com.km.rmbank.module.HomeActivity;
+import com.km.rmbank.utils.Constant;
 import com.km.rmbank.wxpay.WxUtil;
 import com.orhanobut.logger.Logger;
 import com.ps.androidlib.utils.EventBusUtils;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
 import butterknife.OnCheckedChanged;
@@ -81,6 +86,13 @@ public class PaymentActivity extends BaseActivity<PayPresenter> implements PayCo
             mPresenter.createPayOrder(mAmount);
         } else { //商品支付
             createPayOrderSuccess(mPayOrderDto);
+        }
+
+        //普通用户隐藏 余额支付
+        if ("4".equals(Constant.user.getRoleId())){
+            llPayBalance.setVisibility(View.GONE);
+        } else {
+            llPayBalance.setVisibility(View.VISIBLE);
         }
     }
 
@@ -163,8 +175,7 @@ public class PaymentActivity extends BaseActivity<PayPresenter> implements PayCo
                     public void accept(@NonNull PayResult authResult) throws Exception {
                         switch (authResult.getResultStatus()){
                             case "9000"://支付成功
-                                EventBusUtils.post(new PaySuccessEvent());
-                                finish();
+                                paySuccess();
                                 break;
                             case "8000"://支付结果未知（可能成功）
                             case "6004":
@@ -197,8 +208,27 @@ public class PaymentActivity extends BaseActivity<PayPresenter> implements PayCo
 
     @Override
     public void payBalanceSuccess() {
-        EventBusUtils.post(new PaySuccessEvent());
-        finish();
+        paySuccess();
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void wxpayResult(WXPayResult result){
+        if (result.getBaseResp().errCode == 0){//支付成功
+            paySuccess();
+        } else {
+            showToast("支付失败");
+        }
+    }
+
+    /**
+     * 支付成功
+     */
+    private void paySuccess(){
+        if (paymentForObj == 1){
+            toNextActivity(HomeActivity.class);
+        } else {
+            EventBusUtils.post(new PaySuccessEvent());
+            finish();
+        }
+    }
 }
