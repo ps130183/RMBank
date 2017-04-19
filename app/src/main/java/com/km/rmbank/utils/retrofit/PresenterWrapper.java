@@ -63,7 +63,7 @@ public abstract class PresenterWrapper<V extends BaseView> implements BasePresen
                 } else if (e instanceof ConnectException) {
                     MToast.showToast(mContext,"连接服务器失败，请稍后再试");
                 }
-                e.printStackTrace();
+//                e.printStackTrace();
                 mView.hideLoading();
             }
 

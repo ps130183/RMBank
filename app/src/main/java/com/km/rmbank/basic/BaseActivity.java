@@ -21,7 +21,9 @@ import com.km.rmbank.R;
 import com.km.rmbank.api.ApiWrapper;
 import com.km.rmbank.dto.AppVersionDto;
 import com.km.rmbank.event.DownloadAppEvent;
+import com.km.rmbank.module.HomeActivity;
 import com.km.rmbank.titlebar.ToolBarTitle;
+import com.km.rmbank.utils.retrofit.RetrofitUtil;
 import com.km.rmbank.utils.retrofit.SecretConstant;
 import com.laojiang.retrofithttp.weight.downfilesutils.FinalDownFiles;
 import com.laojiang.retrofithttp.weight.downfilesutils.action.FinalDownFileResult;
@@ -43,6 +45,7 @@ import java.util.List;
 import butterknife.ButterKnife;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
+import io.reactivex.subscribers.DisposableSubscriber;
 import kr.co.namee.permissiongen.PermissionGen;
 //import rx.Subscriber;
 //import rx.functions.Action0;
@@ -459,15 +462,30 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
      * @param event
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void downloadApp(DownloadAppEvent event) {
+    public void downloadApp(final DownloadAppEvent event) {
         if (!this.equals(event.getActivity())) {
             return;
         }
         apiWrapper.checkAppVersion(AppUtils.getAppVersionCode(this))
-                .subscribe(new Consumer<AppVersionDto>() {
+                .subscribe(new DisposableSubscriber<AppVersionDto>() {
                     @Override
-                    public void accept(@io.reactivex.annotations.NonNull AppVersionDto appVersionDto) throws Exception {
+                    public void onNext(AppVersionDto appVersionDto) {
                         updateApp(appVersionDto);
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        if (t instanceof RetrofitUtil.APIException){
+                            RetrofitUtil.APIException exception = (RetrofitUtil.APIException) t;
+                            if (!event.getActivity().getClass().equals(HomeActivity.class)){
+                                showToast(exception.message);
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onComplete() {
+
                     }
                 });
 

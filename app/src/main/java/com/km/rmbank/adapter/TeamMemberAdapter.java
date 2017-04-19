@@ -33,7 +33,7 @@ public class TeamMemberAdapter extends BaseAdapter<MyTeamDto.MemberDtoListBean> 
     public void createView(ViewHolder holder, int position) {
         MyTeamDto.MemberDtoListBean userEntity = getItemData(position);
         holder.tvUserNickName.setText(userEntity.getNickName());
-        GlideUtils.loadImage(holder.ivUserPortrait,userEntity.getPortraitUrl());
+        GlideUtils.loadCircleImage(holder.ivUserPortrait,userEntity.getPortraitUrl());
     }
 
     class ViewHolder extends BaseViewHolder{

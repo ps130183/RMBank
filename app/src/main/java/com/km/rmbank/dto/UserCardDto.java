@@ -158,7 +158,9 @@ public class UserCardDto extends BaseEntity implements Parcelable {
     @Override
     public boolean isEmpty(){
         if (TextUtils.isEmpty(name) || TextUtils.isEmpty(cardPhone) || TextUtils.isEmpty(company) || TextUtils.isEmpty(position)
-                || TextUtils.isEmpty(companyProfile) || TextUtils.isEmpty(provideResourcesId) || TextUtils.isEmpty(demandResourcesId)
+                || TextUtils.isEmpty(companyProfile)
+                || (TextUtils.isEmpty(provideResourcesId) && provideResourcesMap == null)
+                || (TextUtils.isEmpty(demandResourcesId) && demandResourcesMap == null)
                 || TextUtils.isEmpty(location) || TextUtils.isEmpty(detailedAddress) || TextUtils.isEmpty(emailAddress)){
             return true;
         }

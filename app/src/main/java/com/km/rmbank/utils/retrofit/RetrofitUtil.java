@@ -143,7 +143,6 @@ public class RetrofitUtil {
                     if (!e.isCancelled()) {
                         e.onError(new APIException(response.status, response.message));
                     }
-                    return;
                 }
                 if (!e.isCancelled()) {
                     e.onComplete();
@@ -156,7 +155,7 @@ public class RetrofitUtil {
      * 自定义异常，当接口返回的{@link Response#status}不为{@link com.km.rmbank.dto.RetCode#SUCCESS}时，需要跑出此异常
      * eg：登陆时验证码错误；参数为传递等
      */
-    public static class APIException extends Exception {
+    public static class APIException extends Throwable {
         public String code;
         public String message;
 
