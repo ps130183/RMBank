@@ -37,6 +37,7 @@ public class SelectMemberTypeActivity extends BaseActivity<SelectMemberTypePrese
     @BindView(R.id.btn_become_member)
     Button btnBecomeMember;
 
+    private int memberType = 0;
     private String amount;//支付金额
     private String[] memberNames = {"体验式会员","合伙人会员"};
     private String[] memberTypeIntros = {"体验式会员 介绍，体验式会员 介绍，体验式会员 介绍，体验式会员 介绍，体验式会员 介绍，体验式会员 介绍，体验式会员 介绍，",
@@ -74,6 +75,7 @@ public class SelectMemberTypeActivity extends BaseActivity<SelectMemberTypePrese
     }
 
     private void selectMember(int memberType){
+        this.memberType = memberType;
         if (memberType == 1){//体验式
             if ("3".equals(Constant.user.getRoleId()) || "2".equals(Constant.user.getRoleId())){
                 btnBecomeMember.setVisibility(View.GONE);
@@ -106,7 +108,7 @@ public class SelectMemberTypeActivity extends BaseActivity<SelectMemberTypePrese
     @OnClick(R.id.btn_become_member)
     public void becomeMember(View view){
         Bundle bundle = new Bundle();
-        bundle.putInt("paymentForObj",1);
+        bundle.putInt("paymentForObj",memberType);
         bundle.putString("amount",amount);
         toNextActivity(PaymentActivity.class,bundle);
     }

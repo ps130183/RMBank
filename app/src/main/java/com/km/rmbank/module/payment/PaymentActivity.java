@@ -51,7 +51,7 @@ public class PaymentActivity extends BaseActivity<PayPresenter> implements PayCo
     TextView tvAmount;
 
     private PayOrderDto mPayOrderDto;
-    //为0：商品 支付  1：认证会员支付
+    //为0：商品 支付  1：体验会员，2：合伙人会员
     private int paymentForObj;
     private String mAmount;//支付金额
 
@@ -81,7 +81,7 @@ public class PaymentActivity extends BaseActivity<PayPresenter> implements PayCo
         mAmount = getIntent().getStringExtra("amount");
         mPayOrderDto = getIntent().getParcelableExtra("payOrderDto");
 
-        if (paymentForObj == 1){//认证会员支付时，隐藏余额支付 和 积分
+        if (paymentForObj > 0){//认证会员支付时，隐藏余额支付 和 积分
             llPayBalance.setVisibility(View.GONE);
             mPresenter.createPayOrder(mAmount);
         } else { //商品支付
@@ -224,7 +224,9 @@ public class PaymentActivity extends BaseActivity<PayPresenter> implements PayCo
      * 支付成功
      */
     private void paySuccess(){
-        if (paymentForObj == 1){
+        if (paymentForObj > 0){//会员充值
+            Constant.user.setRoleId(paymentForObj == 1 ? "3" : "2");
+            Constant.user.saveToSp();
             toNextActivity(HomeActivity.class);
         } else {
             EventBusUtils.post(new PaySuccessEvent());

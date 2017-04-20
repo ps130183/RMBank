@@ -12,10 +12,7 @@ import com.km.rmbank.adapter.WithDrawAccountAdapter;
 import com.km.rmbank.basic.BaseActivity;
 import com.km.rmbank.basic.BaseAdapter;
 import com.km.rmbank.basic.RVUtils;
-import com.km.rmbank.cell.WithDrawAccountListCell;
 import com.km.rmbank.dto.WithDrawAccountDto;
-import com.km.rv_libs.TemplateAdapter;
-import com.km.rv_libs.base.ICell;
 import com.ps.androidlib.utils.DialogUtils;
 
 import java.util.ArrayList;

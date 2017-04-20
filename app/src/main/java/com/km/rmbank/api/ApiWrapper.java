@@ -10,6 +10,7 @@ import com.km.rmbank.dto.GoodsDetailsDto;
 import com.km.rmbank.dto.GoodsDto;
 import com.km.rmbank.dto.GoodsTypeDto;
 import com.km.rmbank.dto.HomeRecommendDto;
+import com.km.rmbank.dto.InformationDto;
 import com.km.rmbank.dto.IntegralDetailsDto;
 import com.km.rmbank.dto.IntegralDto;
 import com.km.rmbank.dto.MemberTypeDto;
@@ -576,6 +577,25 @@ public class ApiWrapper extends RetrofitUtil {
                 .compose(this.<List<ActionDto>>applySchedulers());
     }
 
+    /**
+     * 获取资讯列表
+     * @param pageNo
+     * @return
+     */
+    public Flowable<List<InformationDto>> getInformationList(int pageNo){
+        return getService().getInformationList(pageNo)
+                .compose(this.<List<InformationDto>>applySchedulers());
+    }
+
+    /**
+     * 获取资讯详情
+     * @param id
+     * @return
+     */
+    public Flowable<String> getInformationDetail(String id){
+        return getService().getInformationDetail(id)
+                .compose(this.<String>applySchedulers());
+    }
     /**
      * 获取首页活动 商品推荐
      * @return

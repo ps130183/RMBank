@@ -14,6 +14,7 @@ import com.km.rmbank.dto.UserInfoDto;
 import com.km.rmbank.utils.PickerUtils;
 import com.km.rmbank.utils.retrofit.SecretConstant;
 import com.lvfq.pickerview.TimePickerView;
+import com.orhanobut.logger.Logger;
 import com.ps.androidlib.utils.DialogUtils;
 import com.ps.androidlib.utils.glide.GlideUtils;
 import com.ps.androidlib.utils.imageselector.ImageUtils;
@@ -133,6 +134,7 @@ public class UserInfoActivity extends BaseActivity<UserInfoPresenter> implements
 
     @Override
     public void uploadProtraitSuccess(String imageUri) {
+        Logger.d("上传头像 ==  " + imageUri);
         GlideUtils.loadImage(ivProtrait, imageUri);
         userInfoDto.setPortraitUrl(imageUri);
     }

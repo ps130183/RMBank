@@ -8,6 +8,7 @@ import com.km.rmbank.dto.GoodsDetailsDto;
 import com.km.rmbank.dto.GoodsDto;
 import com.km.rmbank.dto.GoodsTypeDto;
 import com.km.rmbank.dto.HomeRecommendDto;
+import com.km.rmbank.dto.InformationDto;
 import com.km.rmbank.dto.IntegralDetailsDto;
 import com.km.rmbank.dto.IntegralDto;
 import com.km.rmbank.dto.MemberTypeDto;
@@ -664,6 +665,26 @@ public interface ApiService {
     @FormUrlEncoded
     @POST(SecretConstant.API_HOST_PATH + "/activity/list")
     Flowable<Response<List<ActionDto>>> getActionList(@Field("pageNo") int pageNo);
+
+    /**
+     * 获取资讯列表
+     *
+     * @param pageNo
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(SecretConstant.API_HOST_PATH + "/information/list")
+    Flowable<Response<List<InformationDto>>> getInformationList(@Field("pageNo") int pageNo);
+
+    /**
+     * 获取资讯列表
+     *
+     * @param id
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(SecretConstant.API_HOST_PATH + "/information/detail")
+    Flowable<Response<String>> getInformationDetail(@Field("id") String id);
 
     /**
      * 获取活动列表

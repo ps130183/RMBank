@@ -10,9 +10,9 @@ import android.widget.TextView;
 import com.km.rmbank.R;
 import com.km.rmbank.basic.BaseFragment;
 import com.km.rmbank.basic.RVUtils;
-import com.km.rmbank.cell.ActionCell;
 import com.km.rmbank.cell.BannerCell;
-import com.km.rmbank.dto.ActionDto;
+import com.km.rmbank.cell.InformationCell;
+import com.km.rmbank.dto.InformationDto;
 import com.km.rmbank.module.actionarea.apply.ActionListActivity;
 import com.km.rv_libs.TemplateAdapter;
 import com.km.rv_libs.base.BaseAdapter;
@@ -28,7 +28,7 @@ import butterknife.OnClick;
  * Created by kamangkeji on 17/3/14.
  */
 
-public class ConsultantsNewsFragment extends BaseFragment<ConsultantsNewsPresenter> implements ConsultantsNewsContract.View {
+public class InformationFragment extends BaseFragment<InformationPresenter> implements InformationContract.View {
 
     @BindView(R.id.title)
     TextView title;
@@ -41,20 +41,20 @@ public class ConsultantsNewsFragment extends BaseFragment<ConsultantsNewsPresent
     @BindView(R.id.fab_apply)
     FloatingActionButton fabApply;
 
-    public static ConsultantsNewsFragment newInstance(Bundle bundle) {
-        ConsultantsNewsFragment fragment = new ConsultantsNewsFragment();
+    public static InformationFragment newInstance(Bundle bundle) {
+        InformationFragment fragment = new InformationFragment();
         fragment.setArguments(bundle);
         return fragment;
     }
 
     @Override
     protected int getContentView() {
-        return R.layout.fragment_home_action_area;
+        return R.layout.fragment_home_information;
     }
 
     @Override
-    public ConsultantsNewsPresenter getmPresenter() {
-        return new ConsultantsNewsPresenter(this);
+    public InformationPresenter getmPresenter() {
+        return new InformationPresenter(this);
     }
 
     @Override
@@ -92,16 +92,25 @@ public class ConsultantsNewsFragment extends BaseFragment<ConsultantsNewsPresent
     }
 
     @Override
-    public void getActionListSuccess(List<ActionDto> actionDtos, int pageNo) {
+    public void getActionListSuccess(List<InformationDto> informationDtos, int pageNo) {
         TemplateAdapter adapter = (TemplateAdapter) rvActionArea.getAdapter();
-        adapter.addData(getActionListCell(actionDtos));
+        adapter.addData(getActionListCell(informationDtos));
     }
 
-    private List<ICell> getActionListCell(List<ActionDto> actionDtos){
+    private List<ICell> getActionListCell(List<InformationDto> actionDtos){
         List<ICell> mICells = new ArrayList<>();
-        for(ActionDto name : actionDtos){
-            mICells.add(new ActionCell(name));
+        for(InformationDto name : actionDtos){
+            mICells.add(new InformationCell(name,cellClickListener));
         }
         return mICells;
     }
+
+    private ICell.OnCellClickListener<InformationDto> cellClickListener = new ICell.OnCellClickListener<InformationDto>() {
+        @Override
+        public void cellClick(InformationDto mData, int position) {
+            Bundle bundle = new Bundle();
+            bundle.putParcelable("informationDto",mData);
+            toNextActivity(InformationDetailActivity.class,bundle);
+        }
+    };
 }

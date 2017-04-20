@@ -6,6 +6,7 @@ import com.km.rmbank.utils.retrofit.PresenterWrapper;
 
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
+import io.reactivex.subscribers.DisposableSubscriber;
 
 /**
  * Created by kamangkeji on 17/4/6.
@@ -26,9 +27,9 @@ public class PayPresenter extends PresenterWrapper<PayContract.View> implements 
                     public void accept(@NonNull PayOrderDto payOrderDto) throws Exception {
                         mView.createPayOrderSuccess(payOrderDto);
                     }
-
                 }));
     }
+
 
     @Override
     public void getAliPayOrder(String payNumber) {

@@ -172,8 +172,9 @@
         <activity android:name=".module.guide.LaunchActivity" />
         <activity
             android:name=".module.actionarea.apply.ActionDetailActivity"
-            android:windowSoftInputMode="stateHidden|adjustResize"></activity>
-        <activity android:name=".module.personal.AgreementActivity"></activity>
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity android:name=".module.personal.AgreementActivity" />
+        <activity android:name=".module.actionarea.InformationDetailActivity"></activity>
     </application>
 
 </manifest>

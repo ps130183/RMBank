@@ -3,19 +3,17 @@ package com.km.rmbank.module;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.widget.FrameLayout;
 
 import com.flyco.tablayout.CommonTabLayout;
 import com.flyco.tablayout.listener.CustomTabEntity;
 import com.flyco.tablayout.listener.OnTabSelectListener;
-import com.flyco.tablayout.utils.FragmentChangeManager;
 import com.km.rmbank.R;
 import com.km.rmbank.basic.BaseActivity;
 import com.km.rmbank.event.DownloadAppEvent;
 import com.km.rmbank.event.PaySuccessEvent;
 import com.km.rmbank.event.UserIsEmptyEvent;
-import com.km.rmbank.module.actionarea.ConsultantsNewsFragment;
+import com.km.rmbank.module.actionarea.InformationFragment;
 import com.km.rmbank.module.home.HomeFragment;
 import com.km.rmbank.module.login.LoginActivity;
 import com.km.rmbank.module.personal.PersonalFragment;
@@ -108,7 +106,7 @@ public class HomeActivity extends BaseActivity {
         fragmentList = new ArrayList<>();
         fragmentList.add(HomeFragment.newInstance(null));
         fragmentList.add(RmShopFragment.newInstance(null));
-        fragmentList.add(ConsultantsNewsFragment.newInstance(null));
+        fragmentList.add(InformationFragment.newInstance(null));
         fragmentList.add(PersonalFragment.newInstance(null));
 
         for (int i = 0;i < mTitle.length; i++){

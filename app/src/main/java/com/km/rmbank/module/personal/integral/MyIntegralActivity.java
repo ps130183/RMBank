@@ -11,14 +11,8 @@ import com.km.rmbank.adapter.UserIntegralAdapter;
 import com.km.rmbank.basic.BaseActivity;
 import com.km.rmbank.basic.BaseAdapter;
 import com.km.rmbank.basic.RVUtils;
-import com.km.rmbank.cell.MyIntegralCell;
 import com.km.rmbank.dto.IntegralDetailsDto;
 import com.km.rmbank.dto.IntegralDto;
-import com.km.rmbank.module.personal.account.withdraw.WithDrawListActivity;
-import com.km.rv_libs.TemplateAdapter;
-import com.km.rv_libs.base.ICell;
-
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;

@@ -37,8 +37,12 @@ public class PersonalFunctionCell extends BaseCell<UserDto> implements View.OnCl
             case "3"://体验式会员
                 tvMyTeam.setVisibility(View.GONE);
                 lineTeamContact.setVisibility(View.GONE);
+                llIntegralGoods.setVisibility(View.VISIBLE);
                 break;
             case "2"://合伙人会员
+                tvMyTeam.setVisibility(View.VISIBLE);
+                lineTeamContact.setVisibility(View.VISIBLE);
+                llIntegralGoods.setVisibility(View.VISIBLE);
                 break;
 
             case "4"://普通用户
