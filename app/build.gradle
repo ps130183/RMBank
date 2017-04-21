@@ -58,6 +58,9 @@ android {
             jniLibs.srcDirs = ['libs']
         }
     }
+    dexOptions{
+        jumboMode = true
+    }
 }
 
 allprojects {

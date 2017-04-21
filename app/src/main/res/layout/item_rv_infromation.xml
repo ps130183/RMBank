@@ -20,7 +20,7 @@
         android:id="@+id/tv_page_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="15分钟前32评价"
+        android:text=""
         android:textColor="@color/color_text_gray"
         android:layout_toLeftOf="@+id/iv_information"
         android:layout_alignBottom="@+id/iv_information"

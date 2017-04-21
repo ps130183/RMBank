@@ -175,7 +175,7 @@ public class PaymentActivity extends BaseActivity<PayPresenter> implements PayCo
                     public void accept(@NonNull PayResult authResult) throws Exception {
                         switch (authResult.getResultStatus()){
                             case "9000"://支付成功
-                                paySuccess();
+                                paySuccess(true);
                                 break;
                             case "8000"://支付结果未知（可能成功）
                             case "6004":
@@ -208,13 +208,18 @@ public class PaymentActivity extends BaseActivity<PayPresenter> implements PayCo
 
     @Override
     public void payBalanceSuccess() {
-        paySuccess();
+        paySuccess(false);
+    }
+
+    @Override
+    public void checkSuccess() {
+        paySuccess(false);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void wxpayResult(WXPayResult result){
         if (result.getBaseResp().errCode == 0){//支付成功
-            paySuccess();
+            paySuccess(true);
         } else {
             showToast("支付失败");
         }
@@ -223,14 +228,18 @@ public class PaymentActivity extends BaseActivity<PayPresenter> implements PayCo
     /**
      * 支付成功
      */
-    private void paySuccess(){
-        if (paymentForObj > 0){//会员充值
-            Constant.user.setRoleId(paymentForObj == 1 ? "3" : "2");
-            Constant.user.saveToSp();
-            toNextActivity(HomeActivity.class);
+    private void paySuccess(boolean isCheck){
+        if (isCheck){
+            mPresenter.checkPayResult(mPayOrderDto.getPayNumber());
         } else {
-            EventBusUtils.post(new PaySuccessEvent());
-            finish();
+            if (paymentForObj > 0){//会员充值
+                Constant.user.setRoleId(paymentForObj == 1 ? "3" : "2");
+                Constant.user.saveToSp();
+                toNextActivity(HomeActivity.class);
+            } else {
+                EventBusUtils.post(new PaySuccessEvent());
+                finish();
+            }
         }
     }
 }

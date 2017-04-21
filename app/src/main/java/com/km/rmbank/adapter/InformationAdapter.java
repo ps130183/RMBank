@@ -26,7 +26,7 @@ import butterknife.BindView;
 public class InformationAdapter extends BaseAdapter<InformationDto> implements BaseAdapter.IAdapter<InformationAdapter.ViewHolder>,
         BaseAdapter.IHeaderAdapter<InformationAdapter.HeaderViewHolder>{
 
-    private List<Integer> bannerImages;
+    private List<String> bannerImages;
     private OnBannerCliclListener onBannerCliclListener;
 
     public InformationAdapter(Context mContext) {
@@ -47,6 +47,7 @@ public class InformationAdapter extends BaseAdapter<InformationDto> implements B
         InformationDto informationDto = getItemData(position);
         holder.tvInformationTitle.setText(informationDto.getTitle());
         GlideUtils.loadImage(holder.ivInformation,informationDto.getAvatarUrl());
+        holder.tvPageView.setText("浏览量："+informationDto.getViewCount());
     }
 
     @Override
@@ -56,7 +57,7 @@ public class InformationAdapter extends BaseAdapter<InformationDto> implements B
 
     @Override
     public void createHeaderView(HeaderViewHolder holder, int position) {
-        BannerUtils.initBannerFromRes(holder.banner, bannerImages, new OnBannerListener() {
+        BannerUtils.initBannerFromUrl(holder.banner, bannerImages, new OnBannerListener() {
             @Override
             public void OnBannerClick(int position) {
                 if (onBannerCliclListener != null){
@@ -86,8 +87,9 @@ public class InformationAdapter extends BaseAdapter<InformationDto> implements B
         }
     }
 
-    public void setBannerImages(List<Integer> bannerImages) {
+    public void setBannerImages(List<String> bannerImages) {
         this.bannerImages = bannerImages;
+        notifyDataSetChanged();
     }
 
     public interface OnBannerCliclListener{

@@ -46,13 +46,6 @@ public class InformationFragment extends BaseFragment<InformationPresenter> impl
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        InformationAdapter adapter = (InformationAdapter) rvActionArea.getAdapter();
-        adapter.notifyDataSetChanged();
-    }
-
-    @Override
     protected int getContentView() {
         return R.layout.fragment_home_information;
     }
@@ -74,18 +67,12 @@ public class InformationFragment extends BaseFragment<InformationPresenter> impl
     }
 
     @Override
-    public void initAction() {
-
-        List<Integer> images = new ArrayList<>();
-        images.add(R.mipmap.timg);
-        images.add(R.mipmap.timg);
-        images.add(R.mipmap.timg);
-        images.add(R.mipmap.timg);
+    public void initAction(List<String> bannerImages) {
 
         RVUtils.setLinearLayoutManage(rvActionArea, LinearLayoutManager.VERTICAL);
         RVUtils.addDivideItemForRv(rvActionArea);
         final InformationAdapter adapter = new InformationAdapter(getContext());
-        adapter.setBannerImages(images);
+        adapter.setBannerImages(bannerImages);
         rvActionArea.setAdapter(adapter);
         adapter.setItemClickListener(new BaseAdapter.ItemClickListener<InformationDto>() {
             @Override
@@ -115,6 +102,25 @@ public class InformationFragment extends BaseFragment<InformationPresenter> impl
     public void getActionListSuccess(List<InformationDto> informationDtos, int pageNo) {
         InformationAdapter adapter = (InformationAdapter) rvActionArea.getAdapter();
         adapter.addData(informationDtos,pageNo);
+    }
+
+    @Override
+    public void showInformationBanner(final List<InformationDto> informationDtos) {
+
+        List<String> bannerImage = new ArrayList<>();
+        for (InformationDto informationDto : informationDtos){
+            bannerImage.add(informationDto.getAvatarUrl());
+        }
+        initAction(bannerImage);
+        InformationAdapter adapter = (InformationAdapter) rvActionArea.getAdapter();
+        adapter.setOnBannerCliclListener(new InformationAdapter.OnBannerCliclListener() {
+            @Override
+            public void clickBanner(int position) {
+                Bundle bundle = new Bundle();
+                bundle.putParcelable("informationDto",informationDtos.get(position));
+                toNextActivity(InformationDetailActivity.class,bundle);
+            }
+        });
     }
 
 }

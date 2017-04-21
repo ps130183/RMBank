@@ -69,6 +69,18 @@ public class PayPresenter extends PresenterWrapper<PayContract.View> implements 
     }
 
     @Override
+    public void checkPayResult(String payNumber) {
+        mView.showLoading();
+        mApiwrapper.checkPayResult(payNumber)
+                .subscribe(newSubscriber(new Consumer<String>() {
+                    @Override
+                    public void accept(@NonNull String s) throws Exception {
+                        mView.checkSuccess();
+                    }
+                }));
+    }
+
+    @Override
     public void onCreateView() {
 
     }

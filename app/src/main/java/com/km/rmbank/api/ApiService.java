@@ -2,6 +2,7 @@ package com.km.rmbank.api;
 
 import com.km.rmbank.dto.ActionDto;
 import com.km.rmbank.dto.AppVersionDto;
+import com.km.rmbank.dto.BannerDto;
 import com.km.rmbank.dto.EvaluateDto;
 import com.km.rmbank.dto.GoodsDetailsDto;
 import com.km.rmbank.dto.GoodsDto;
@@ -872,10 +873,42 @@ public interface ApiService {
                                                         @Field("id") String id);
 
 
+    /**
+     * 检测新版本
+     * @param version
+     * @return
+     */
     @FormUrlEncoded
     @POST(SecretConstant.API_HOST_PATH + "/get/app/version")
     Flowable<Response<AppVersionDto>> checkAppVersion(@Field("version") int version);
 
+    /**
+     * 支付回调验证
+     * @param token
+     * @param payNumber
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(SecretConstant.API_HOST_PATH + "/auth/show/pay/result")
+    Flowable<Response<String>> checkPayResult(@Field("token") String token,
+                                                     @Field("payNumber") String payNumber);
 
+    /**
+     * 获取首页banner
+     * @param str
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(SecretConstant.API_HOST_PATH + "/product/normal/bannerList")
+    Flowable<Response<List<BannerDto>>> getHomeBanner(@Field("str") String str);
+
+    /**
+     * 获取咨询页banner
+     * @param str
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(SecretConstant.API_HOST_PATH + "/information/bannerList")
+    Flowable<Response<List<InformationDto>>> getInformationBanner(@Field("str") String str);
 
 }

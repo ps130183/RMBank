@@ -11,6 +11,7 @@ public class InformationDto implements Parcelable {
     private String avatarUrl;
     private String id;
     private String title;
+    private String viewCount;
 
     public String getAvatarUrl() {
         return avatarUrl;
@@ -36,6 +37,17 @@ public class InformationDto implements Parcelable {
         this.title = title;
     }
 
+    public String getViewCount() {
+        return viewCount;
+    }
+
+    public void setViewCount(String viewCount) {
+        this.viewCount = viewCount;
+    }
+
+    public InformationDto() {
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -46,18 +58,17 @@ public class InformationDto implements Parcelable {
         dest.writeString(this.avatarUrl);
         dest.writeString(this.id);
         dest.writeString(this.title);
-    }
-
-    public InformationDto() {
+        dest.writeString(this.viewCount);
     }
 
     protected InformationDto(Parcel in) {
         this.avatarUrl = in.readString();
         this.id = in.readString();
         this.title = in.readString();
+        this.viewCount = in.readString();
     }
 
-    public static final Parcelable.Creator<InformationDto> CREATOR = new Parcelable.Creator<InformationDto>() {
+    public static final Creator<InformationDto> CREATOR = new Creator<InformationDto>() {
         @Override
         public InformationDto createFromParcel(Parcel source) {
             return new InformationDto(source);

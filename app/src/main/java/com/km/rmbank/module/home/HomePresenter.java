@@ -1,5 +1,6 @@
 package com.km.rmbank.module.home;
 
+import com.km.rmbank.dto.BannerDto;
 import com.km.rmbank.dto.HomeRecommendDto;
 import com.km.rmbank.utils.retrofit.PresenterWrapper;
 
@@ -31,6 +32,19 @@ public class HomePresenter extends PresenterWrapper<HomeContract.View> implement
     }
 
     @Override
+    public void getHomeBanner() {
+        mView.showLoading();
+        mApiwrapper.getHomeBanner()
+                .subscribe(newSubscriber(new Consumer<List<BannerDto>>() {
+                    @Override
+                    public void accept(@NonNull List<BannerDto> bannerDtos) throws Exception {
+                        mView.showHomeBanner(bannerDtos);
+                    }
+                }));
+    }
+
+    @Override
     public void onCreateView() {
+        getHomeBanner();
     }
 }

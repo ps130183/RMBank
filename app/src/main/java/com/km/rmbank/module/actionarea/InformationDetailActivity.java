@@ -2,6 +2,7 @@ package com.km.rmbank.module.actionarea;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.webkit.WebView;
 import android.widget.TextView;
 
@@ -19,6 +20,8 @@ public class InformationDetailActivity extends BaseActivity<InformationDetailPre
     @BindView(R.id.webView)
     WebView webView;
     private InformationDto informationDto;
+
+    private String informationId;
     @Override
     protected int getContentView() {
         return R.layout.activity_information_detail;
@@ -37,13 +40,20 @@ public class InformationDetailActivity extends BaseActivity<InformationDetailPre
     @Override
     protected void onCreate() {
         informationDto = getIntent().getParcelableExtra("informationDto");
-        tvTitle.setText(informationDto.getTitle());
+        informationId = getIntent().getStringExtra("informationId");
+        String title = getIntent().getStringExtra("informationTitle");
+        tvTitle.setText(informationDto == null ? title : informationDto.getTitle());
     }
 
     @Override
     public void initWebView() {
 
-        mPresenter.getInformationDetail(informationDto.getId());
+        if (!TextUtils.isEmpty(informationId)){
+            mPresenter.getInformationDetail(informationId);
+        } else {
+            mPresenter.getInformationDetail(informationDto.getId());
+        }
+
     }
 
     @Override

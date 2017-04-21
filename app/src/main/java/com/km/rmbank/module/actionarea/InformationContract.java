@@ -13,10 +13,12 @@ import java.util.List;
 
 public interface InformationContract {
     interface View extends BaseView{
-        void initAction();
+        void initAction(List<String> bannerImage);
         void getActionListSuccess(List<InformationDto> actionDtos, int pageNo);
+        void showInformationBanner(List<InformationDto> informationDtos);
     }
     interface Presenter extends BasePresenter{
         void getActionList(int pageNo);
+        void getInformationBanner();
     }
 }

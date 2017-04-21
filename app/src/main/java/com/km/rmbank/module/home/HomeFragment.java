@@ -11,8 +11,10 @@ import com.km.rmbank.adapter.HomeAdapter;
 import com.km.rmbank.basic.BaseAdapter;
 import com.km.rmbank.basic.BaseFragment;
 import com.km.rmbank.basic.RVUtils;
+import com.km.rmbank.dto.BannerDto;
 import com.km.rmbank.dto.HomeRecommendDto;
 import com.km.rmbank.entity.HomeEntity;
+import com.km.rmbank.module.actionarea.InformationDetailActivity;
 import com.km.rmbank.module.home.message.MessageActivity;
 import com.km.rmbank.module.rmshop.goods.GoodsActivity;
 import com.ps.androidlib.utils.BannerUtils;
@@ -59,7 +61,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
 
     @Override
     protected void createView() {
-        initBanner();
+//        initBanner();
         initrcContentView();
     }
 
@@ -105,6 +107,31 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
     public void getRecommendSuccess(List<HomeRecommendDto> homeRecommendDtos,int pageNo) {
         HomeAdapter adapter = (HomeAdapter) rcContent.getAdapter();
         adapter.addData(homeRecommendDtos,pageNo);
+    }
+
+    @Override
+    public void showHomeBanner(final List<BannerDto> bannerDtos) {
+        List<String> bannerImages = new ArrayList<>();
+        for (BannerDto bannerDto : bannerDtos){
+            bannerImages.add(bannerDto.getAvatarUrl());
+        }
+        BannerUtils.initBannerFromUrl(banner, bannerImages, new OnBannerListener() {
+            @Override
+            public void OnBannerClick(int position) {
+                BannerDto bannerDto = bannerDtos.get(position);
+                String type = bannerDto.getType();
+                Bundle bundle = new Bundle();
+                if ("1".equals(type)){
+                    bundle.putString("informationId",bannerDto.getId());
+                    bundle.putString("informationTitle",bannerDto.getTitle());
+                    toNextActivity(InformationDetailActivity.class,bundle);
+                } else if ("2".equals(type)){
+                    bundle.putString("productNo",bannerDto.getId());
+                    toNextActivity(GoodsActivity.class,bundle);
+                }
+//                showToast("banner type " + bannerDto.getType());
+            }
+        });
     }
 
     @OnClick(R.id.et_search)

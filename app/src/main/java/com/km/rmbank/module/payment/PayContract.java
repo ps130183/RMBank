@@ -15,11 +15,13 @@ public interface PayContract {
         void getAlipayParamsSuccess(String alipayParamsDto);
         void getWeiCharParamsSuccess(WeiCharParamsDto weicharParams);
         void payBalanceSuccess();
+        void checkSuccess();
     }
     interface Presenter extends BasePresenter{
         void createPayOrder(String amount);
         void getAliPayOrder(String payNumber);
         void getWeiChatParams(String payNumber);
         void payBalance(String payNumber);
+        void checkPayResult(String payNumber);
     }
 }

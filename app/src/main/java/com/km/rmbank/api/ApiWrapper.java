@@ -4,6 +4,7 @@ package com.km.rmbank.api;
 import com.google.gson.Gson;
 import com.km.rmbank.dto.ActionDto;
 import com.km.rmbank.dto.AppVersionDto;
+import com.km.rmbank.dto.BannerDto;
 import com.km.rmbank.dto.DefaultDto;
 import com.km.rmbank.dto.EvaluateDto;
 import com.km.rmbank.dto.GoodsDetailsDto;
@@ -764,6 +765,33 @@ public class ApiWrapper extends RetrofitUtil {
     public Flowable<AppVersionDto> checkAppVersion(int appVersion){
         return getService().checkAppVersion(appVersion)
                 .compose(this.<AppVersionDto>applySchedulers());
+    }
+
+    /**
+     * 支付回调验证
+     * @param payNumber
+     * @return
+     */
+    public Flowable<String> checkPayResult(String payNumber){
+        return getService().checkPayResult(Constant.user.getToken(),payNumber)
+                .compose(this.<String>applySchedulers());
+    }
+
+    /**
+     * 获取首页banner
+     * @return
+     */
+    public Flowable<List<BannerDto>> getHomeBanner(){
+        return getService().getHomeBanner("")
+                .compose(this.<List<BannerDto>>applySchedulers());
+    }
+    /**
+     * 获取资讯页banner
+     * @return
+     */
+    public Flowable<List<InformationDto>> getInformationBanner(){
+        return getService().getInformationBanner("")
+                .compose(this.<List<InformationDto>>applySchedulers());
     }
 
 }

@@ -32,7 +32,18 @@ public class InformationPresenter extends PresenterWrapper<InformationContract.V
     }
 
     @Override
+    public void getInformationBanner() {
+        mApiwrapper.getInformationBanner()
+                .subscribe(newSubscriber(new Consumer<List<InformationDto>>() {
+                    @Override
+                    public void accept(@NonNull List<InformationDto> informationDtos) throws Exception {
+                        mView.showInformationBanner(informationDtos);
+                    }
+                }));
+    }
+
+    @Override
     public void onCreateView() {
-        mView.initAction();
+        getInformationBanner();
     }
 }
