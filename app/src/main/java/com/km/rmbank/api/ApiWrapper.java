@@ -86,8 +86,8 @@ public class ApiWrapper extends RetrofitUtil {
      * @param smsCode
      * @return
      */
-    public Flowable<DefaultDto> userRegister(String mobilePhone,String loginPwd,String smsCode){
-        return getService().userRegister(mobilePhone,loginPwd,smsCode).compose(this.<DefaultDto>applySchedulers());
+    public Flowable<String> userRegister(String mobilePhone,String loginPwd,String smsCode){
+        return getService().userRegister(mobilePhone,loginPwd,smsCode).compose(this.<String>applySchedulers());
     }
 
 
@@ -107,8 +107,8 @@ public class ApiWrapper extends RetrofitUtil {
      * @param smsCode
      * @return
      */
-    public Flowable<DefaultDto> forgetLoginPwd(String mobilePhone,String loginPwd,String smsCode){
-        return getService().forgetLoginPwd(mobilePhone,loginPwd,smsCode).compose(this.<DefaultDto>applySchedulers());
+    public Flowable<String> forgetLoginPwd(String mobilePhone,String loginPwd,String smsCode){
+        return getService().forgetLoginPwd(mobilePhone,loginPwd,smsCode).compose(this.<String>applySchedulers());
     }
 
     /**

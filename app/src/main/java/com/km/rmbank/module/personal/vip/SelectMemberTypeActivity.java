@@ -79,6 +79,8 @@ public class SelectMemberTypeActivity extends BaseActivity<SelectMemberTypePrese
         if (memberType == 1){//体验式
             if ("3".equals(Constant.user.getRoleId()) || "2".equals(Constant.user.getRoleId())){
                 btnBecomeMember.setVisibility(View.GONE);
+            } else {
+                btnBecomeMember.setVisibility(View.VISIBLE);
             }
             tvMember1.setBackgroundResource(R.drawable.shape_member_type_selected);
             tvMember1.setTextColor(getResources().getColor(R.color.color_white));
@@ -92,6 +94,8 @@ public class SelectMemberTypeActivity extends BaseActivity<SelectMemberTypePrese
         } else {//合伙人
             if ("2".equals(Constant.user.getRoleId())){
                 btnBecomeMember.setVisibility(View.GONE);
+            } else {
+                btnBecomeMember.setVisibility(View.VISIBLE);
             }
             tvMember1.setBackgroundResource(R.drawable.shape_member_type_unselected);
             tvMember1.setTextColor(getResources().getColor(R.color.color_red));

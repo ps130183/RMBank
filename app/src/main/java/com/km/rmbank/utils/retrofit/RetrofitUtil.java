@@ -133,11 +133,12 @@ public class RetrofitUtil {
                 long request = e.requested();
                 if (response.isSuccess()) {
                     if (!e.isCancelled() && request > 0) {
-                        if (response.result == null){
-                            e.onNext((T) "");
-                        } else {
+//                        if (response.result == null){
+//                            e.onError(new APIException("0001","isnull"));
+////                            e.onNext((T) "");
+//                        } else {
                             e.onNext(response.result);
-                        }
+//                        }
                     }
                 } else {
                     if (!e.isCancelled()) {

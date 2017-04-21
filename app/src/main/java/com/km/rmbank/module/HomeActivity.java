@@ -46,10 +46,10 @@ public class HomeActivity extends BaseActivity {
     CommonTabLayout mTabLayout;
     private List<CustomTabEntity> mTabEntities;
 
-    private String[] mTitle = {"首页","商城","咨讯","个人中心"};
-    private int[] mSelectedIcon = {R.mipmap.icon_home_rbtn1_pressed,R.mipmap.icon_home_rbtn2_pressed,R.mipmap.icon_home_rbtn3_pressed,R.mipmap.icon_home_rbtn4_pressed};
-    private int[] mUnSelectedIcon = {R.mipmap.icon_home_rbtn1_unpress,R.mipmap.icon_home_rbtn2_unpress,R.mipmap.icon_home_rbtn3_unpress,R.mipmap.icon_home_rbtn4_unpress};
-    private List<Fragment> fragmentList;
+    private String[] mTitle = {"首页", "商城", "咨讯", "个人中心"};
+    private int[] mSelectedIcon = {R.mipmap.icon_home_rbtn1_pressed, R.mipmap.icon_home_rbtn2_pressed, R.mipmap.icon_home_rbtn3_pressed, R.mipmap.icon_home_rbtn4_pressed};
+    private int[] mUnSelectedIcon = {R.mipmap.icon_home_rbtn1_unpress, R.mipmap.icon_home_rbtn2_unpress, R.mipmap.icon_home_rbtn3_unpress, R.mipmap.icon_home_rbtn4_unpress};
+    private static List<Fragment> fragmentList;
 //    @BindView(R.id.radiogroup)
 //    RadioGroup radioGroup;
 
@@ -69,7 +69,7 @@ public class HomeActivity extends BaseActivity {
     @Override
     protected void onCreate() {
         mTabEntities = new ArrayList<>();
-        if (Constant.user.isEmpty()){
+        if (Constant.user.isEmpty()) {
             Constant.user.getDataFromSp();
         }
 //        AppUtils.initSystemBar(this,0x00000000);
@@ -89,8 +89,8 @@ public class HomeActivity extends BaseActivity {
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        currentPosition = intent.getIntExtra("position",-1);
-        if (currentPosition >= 0){
+        currentPosition = intent.getIntExtra("position", -1);
+        if (currentPosition >= 0) {
             mTabLayout.setCurrentTab(currentPosition);
         }
     }
@@ -103,42 +103,42 @@ public class HomeActivity extends BaseActivity {
 
     private void initTabLayout() {
 
-        fragmentList = new ArrayList<>();
-        fragmentList.add(HomeFragment.newInstance(null));
-        fragmentList.add(RmShopFragment.newInstance(null));
-        fragmentList.add(InformationFragment.newInstance(null));
-        fragmentList.add(PersonalFragment.newInstance(null));
+        if (fragmentList == null){
+            fragmentList = new ArrayList<>();
+            fragmentList.add(HomeFragment.newInstance(null));
+            fragmentList.add(RmShopFragment.newInstance(null));
+            fragmentList.add(InformationFragment.newInstance(null));
+            fragmentList.add(PersonalFragment.newInstance(null));
 
-        for (int i = 0;i < mTitle.length; i++){
-            mTabEntities.add(new TabEntity(mTitle[i],mSelectedIcon[i],mUnSelectedIcon[i]));
-        }
+            for (int i = 0; i < mTitle.length; i++) {
+                mTabEntities.add(new TabEntity(mTitle[i], mSelectedIcon[i], mUnSelectedIcon[i]));
+            }
 
-        mTabLayout.setTabData((ArrayList<CustomTabEntity>) mTabEntities,this,R.id.fl_content_view, (ArrayList<Fragment>) fragmentList);
-        mTabLayout.setOnTabSelectListener(new OnTabSelectListener() {
-            @Override
-            public void onTabSelect(int position) {
+            mTabLayout.setTabData((ArrayList<CustomTabEntity>) mTabEntities, this, R.id.fl_content_view, (ArrayList<Fragment>) fragmentList);
+            mTabLayout.setOnTabSelectListener(new OnTabSelectListener() {
+                @Override
+                public void onTabSelect(int position) {
 //                viewPager.setCurrentItem(position);
-                if (position == 3){
-                    if (Constant.user.isEmpty()){
+                    if (position == 3 && Constant.user.isEmpty()) {
                         toNextActivity(LoginActivity.class);
                     }
                 }
-            }
 
-            @Override
-            public void onTabReselect(int position) {
+                @Override
+                public void onTabReselect(int position) {
 //                if (position == 0) {
 //                    mTabLayout.showMsg(0, mRandom.nextInt(100) + 1);
 ////                    UnreadMsgUtils.show(mTabLayout.getMsgView(0), mRandom.nextInt(100) + 1);
 //                }
-            }
-        });
-
+                }
+            });
+        }
     }
 
 
     /**
      * 分享回调
+     *
      * @param requestCode
      * @param resultCode
      * @param data
@@ -151,23 +151,24 @@ public class HomeActivity extends BaseActivity {
 
     /**
      * 支付成功
+     *
      * @param event
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void paySuccess(PaySuccessEvent event){
+    public void paySuccess(PaySuccessEvent event) {
         toNextActivity(HomeActivity.class);
         toNextActivity(MyOrderActivity.class);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void userNoLogin(UserIsEmptyEvent event){
+    public void userNoLogin(UserIsEmptyEvent event) {
         Constant.user.clear();
         toNextActivity(LoginActivity.class);
     }
 
 
-    private void exsit(){
-        if (isExsit){
+    private void exsit() {
+        if (isExsit) {
             finish();
             System.exit(0);
         } else {

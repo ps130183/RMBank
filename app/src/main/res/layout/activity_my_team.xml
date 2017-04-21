@@ -16,7 +16,7 @@
             android:id="@+id/tv_team_number"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="1500"
+            android:text="0"
             android:textSize="@dimen/text_size_20"
             android:textColor="@color/color_white"
             android:textStyle="bold"

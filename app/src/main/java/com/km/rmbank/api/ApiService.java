@@ -2,7 +2,6 @@ package com.km.rmbank.api;
 
 import com.km.rmbank.dto.ActionDto;
 import com.km.rmbank.dto.AppVersionDto;
-import com.km.rmbank.dto.DefaultDto;
 import com.km.rmbank.dto.EvaluateDto;
 import com.km.rmbank.dto.GoodsDetailsDto;
 import com.km.rmbank.dto.GoodsDto;
@@ -77,7 +76,7 @@ public interface ApiService {
      */
     @FormUrlEncoded
     @POST(SecretConstant.API_HOST_PATH + "/user/register")
-    Flowable<Response<DefaultDto>> userRegister(@Field("mobilePhone") String mobilePhone,
+    Flowable<Response<String>> userRegister(@Field("mobilePhone") String mobilePhone,
                                                 @Field("loginPwd") String password,
                                                 @Field("smsCode") String smsCode);
 
@@ -101,7 +100,7 @@ public interface ApiService {
      */
     @FormUrlEncoded
     @POST(SecretConstant.API_HOST_PATH + "/user/forgetLoginPwd")
-    Flowable<Response<DefaultDto>> forgetLoginPwd(@Field("mobilePhone") String mobilePhone,
+    Flowable<Response<String>> forgetLoginPwd(@Field("mobilePhone") String mobilePhone,
                                                   @Field("pwd") String password,
                                                   @Field("smsCode") String smsCode);
 

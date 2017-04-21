@@ -377,15 +377,18 @@ public class EditUserCardActivity extends BaseActivity<EditUserCardPresenter> im
 
     @Override
     public void showUserCard(UserCardDto userCardDto) {
-        if (userCardDto.isEmpty()){
+        if (memberDtoListBean != null && userCardDto.isEmpty()){
             showToast("该用户尚未编辑名片");
             finish();
             return;
         }
         this.userCardDto = userCardDto;
-        if (this.userCardDto == null){
+        if (this.userCardDto == null || userCardDto.isEmpty()){
             this.userCardDto = new UserCardDto();
-        } else if (memberDtoListBean == null){
+            return;
+        } else if (memberDtoListBean != null){
+
+        } else {
 //            ivQRCode.setImageBitmap(QRCodeUtils.createQRCode(EditUserCardActivity.this, Constant.user.getMobilePhone()));
             ivQRCode.setImageBitmap(QRCodeUtils.createQRCode(EditUserCardActivity.this, QRCODE_URL));
             ivQRCode.setVisibility(View.VISIBLE);
