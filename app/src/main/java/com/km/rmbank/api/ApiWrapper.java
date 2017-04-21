@@ -134,12 +134,12 @@ public class ApiWrapper extends RetrofitUtil {
      * @param userCardDto
      * @return
      */
-    public Flowable<UserCardDto> createUserCart(UserCardDto userCardDto){
+    public Flowable<String> createUserCart(UserCardDto userCardDto){
         return getService().createUserCard(Constant.user.getToken(),userCardDto.getName(),userCardDto.getCardPhone(),
                 userCardDto.getCompany(),userCardDto.getPosition(),userCardDto.getCompanyProfile(),
                 userCardDto.getProvideResourcesId(),userCardDto.getDemandResourcesId(),
                 userCardDto.getLocation(),userCardDto.getDetailedAddress(),userCardDto.getEmailAddress())
-                .compose(this.<UserCardDto>applySchedulers());
+                .compose(this.<String>applySchedulers());
     }
 
     /**

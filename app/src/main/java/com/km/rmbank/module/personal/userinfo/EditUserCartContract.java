@@ -11,7 +11,7 @@ import com.km.rmbank.dto.UserCardDto;
 public interface EditUserCartContract {
     interface View extends BaseView{
         void showUserCard(UserCardDto userCardDto);
-        void createUserCardSuccess(UserCardDto userCardDto);
+        void createUserCardSuccess();
         void applyBecomeFriendSuccess();
     }
     interface Presenter extends BasePresenter{

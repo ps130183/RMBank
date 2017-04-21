@@ -38,10 +38,10 @@ public class EditUserCardPresenter extends PresenterWrapper<EditUserCartContract
     public void createUserCard(UserCardDto userCardDto) {
         mView.showLoading();
         mApiwrapper.createUserCart(userCardDto)
-                .subscribe(newSubscriber(new Consumer<UserCardDto>() {
+                .subscribe(newSubscriber(new Consumer<String>() {
                     @Override
-                    public void accept(@NonNull UserCardDto userCardDto) throws Exception {
-                        mView.createUserCardSuccess(userCardDto);
+                    public void accept(@NonNull String userCardDto) throws Exception {
+                        mView.createUserCardSuccess();
                     }
 
                 }));

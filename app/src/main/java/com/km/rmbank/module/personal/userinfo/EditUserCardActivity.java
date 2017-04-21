@@ -3,6 +3,7 @@ package com.km.rmbank.module.personal.userinfo;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -94,7 +95,9 @@ public class EditUserCardActivity extends BaseActivity<EditUserCardPresenter> im
     private String friendPhone;
     private boolean fromQRCode = false;
 
-    private MyTeamDto.MemberDtoListBean memberDtoListBean;
+    private MyTeamDto.MemberDtoListBean memberDtoListBean;//团队成员  来自我的团队
+
+    private String shopId;// 商户的id，表明 来自商品详情页
 
     @Override
     protected int getContentView() {
@@ -117,6 +120,7 @@ public class EditUserCardActivity extends BaseActivity<EditUserCardPresenter> im
         userCardDto = getIntent().getParcelableExtra("userCardDto");
         friendPhone = getIntent().getStringExtra("friendPhone");
         memberDtoListBean = getIntent().getParcelableExtra("memberDto");
+        shopId = getIntent().getStringExtra("shopId");
 //        PickerUtils.showOptions(this,etLocation,vMasker);
         if (userCardDto != null){ //来源 ： 扫一扫  其他人的名片
             showUserCard(userCardDto);
@@ -130,6 +134,13 @@ public class EditUserCardActivity extends BaseActivity<EditUserCardPresenter> im
             ivQRCode.setVisibility(View.GONE);
             fromQRCode = true;
             mPresenter.getUserCardById(memberDtoListBean.getId());
+        } else if (!TextUtils.isEmpty(shopId)){
+            title.setText("商家信息");
+            btnCreateCode.setVisibility(View.VISIBLE);
+            btnCreateCode.setText("联系商家");
+            ivQRCode.setVisibility(View.GONE);
+            fromQRCode = true;
+            mPresenter.getUserCardById(shopId);
         } else {
             PickerUtils.showOptions(this,etLocation,vMasker);
             mPresenter.getUserCard();
@@ -321,13 +332,18 @@ public class EditUserCardActivity extends BaseActivity<EditUserCardPresenter> im
     public void createQRCode(View view){
 
         if (fromQRCode){
-            DialogUtils.showDefaultAlertDialog("是否要加 " + userCardDto.getName() + " 为好友?", new DialogUtils.ClickListener() {
-                @Override
-                public void clickConfirm() {
-                    showToast(friendPhone);
-                    mPresenter.applyBecomeFriend(friendPhone);
-                }
-            });
+            if (TextUtils.isEmpty(shopId)){
+                DialogUtils.showDefaultAlertDialog("是否要加 " + userCardDto.getName() + " 为好友?", new DialogUtils.ClickListener() {
+                    @Override
+                    public void clickConfirm() {
+                        showToast(friendPhone);
+                        mPresenter.applyBecomeFriend(friendPhone);
+                    }
+                });
+            } else {
+                showToast("联系商家");
+            }
+
         } else {
             String location = etLocation.getText().toString();
             userCardDto.setLocation(location);
@@ -382,11 +398,16 @@ public class EditUserCardActivity extends BaseActivity<EditUserCardPresenter> im
             finish();
             return;
         }
+        if (!TextUtils.isEmpty(shopId) && userCardDto.isEmpty()){
+            showToast("该商家尚未编辑名片");
+//            finish();
+            return;
+        }
         this.userCardDto = userCardDto;
         if (this.userCardDto == null || userCardDto.isEmpty()){
             this.userCardDto = new UserCardDto();
             return;
-        } else if (memberDtoListBean != null){
+        } else if (memberDtoListBean != null || !TextUtils.isEmpty(shopId)){
 
         } else {
 //            ivQRCode.setImageBitmap(QRCodeUtils.createQRCode(EditUserCardActivity.this, Constant.user.getMobilePhone()));
@@ -409,9 +430,12 @@ public class EditUserCardActivity extends BaseActivity<EditUserCardPresenter> im
 
     ///membero/test
     @Override
-    public void createUserCardSuccess(UserCardDto userCardDto) {
+    public void createUserCardSuccess() {
         ivQRCode.setImageBitmap(QRCodeUtils.createQRCode(EditUserCardActivity.this, QRCODE_URL));
         ivQRCode.setVisibility(View.VISIBLE);
+        if ("更新名片".equals(btnCreateCode.getText().toString())){
+            showToast("更新成功");
+        }
     }
 
     @Override

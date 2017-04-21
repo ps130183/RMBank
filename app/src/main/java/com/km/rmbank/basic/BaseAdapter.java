@@ -1,62 +1,72 @@
 package com.km.rmbank.basic;
 
 import android.content.Context;
-import android.os.Handler;
+import android.support.annotation.LayoutRes;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.km.rmbank.R;
-import com.km.rmbank.api.ApiWrapper;
 import com.orhanobut.logger.Logger;
 import com.ps.androidlib.utils.AppUtils;
 import com.ps.androidlib.utils.ViewUtils;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.zip.Inflater;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.reactivex.Observable;
+import io.reactivex.Flowable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Predicate;
 
 /**
  * Created by kamangkeji on 17/1/19.
  */
 
-public class BaseAdapter<T> extends RecyclerView.Adapter<BaseAdapter.BaseViewHolder> {
+public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseAdapter.BaseViewHolder> {
 
     protected static final int viewtype_item = 0;
-    protected static final int viewtype_header = Integer.MAX_VALUE - 3;
-    protected static final int viewtype_footer = Integer.MAX_VALUE - 4;
-    protected static final int viewtype_load_more = Integer.MAX_VALUE - 2;
-    protected static final int viewtype_item_empty = Integer.MAX_VALUE - 1;
+    protected static final int viewtype_header = 1000;
+    protected static final int viewtype_footer = 2000;
+    protected static final int viewtype_load_more = 1;
+    protected static final int viewtype_item_empty = 2;
 
-    //    private boolean loadMore = false;
-    private boolean loadMoreFinish = false;
+    private int pageNumber = 20;
+    private int mHeaderLayoutRes = -1;//头部
+    private int mFooterLayoutRes = -1;//底部
+    private boolean mExistHeader = false;
+    private boolean mExistFooter = false;//底部
 
-    private boolean mExistFooterView = false;//底部
-    private boolean mExistEmptyView = true;//数据为空时提示
+    private boolean mExistLoadMore = false;//是否有加载更多
+    private boolean loadMoreFinish = false;//是否已加载完 所有数据
+    private LoadMoreViewHolder loadMoreHolder;
+
+    private boolean mExistEmptyView = true;//数据为空时提示  默认为空时 显示 提示
 
     protected Context mContext;
-    private List<T> listContents;
-    private int itemLayoutRes;
+    private List<T> mListDatas;
+    private int mItemLayoutRes;
 
     private IAdapter iAdapter;
+    private IHeaderAdapter iHeaderAdapter;
+    private IFooterAdapter iFooterAdapter;
 
     private ItemClickListener<T> itemClickListener;
     protected int curPage = 0;
 
     private MoreDataListener moreDataListener;
 
-    public BaseAdapter(Context mContext, List<T> listContents, int itemLayoutRes) {
+    public BaseAdapter(Context mContext, List<T> listContents, @LayoutRes int itemLayoutRes) {
         this.mContext = mContext;
-        this.listContents = listContents;
-        this.itemLayoutRes = itemLayoutRes;
+        this.mListDatas = listContents;
+        this.mItemLayoutRes = itemLayoutRes;
         if (listContents.size() > 0) {
             curPage = 1;
         } else {
@@ -64,9 +74,10 @@ public class BaseAdapter<T> extends RecyclerView.Adapter<BaseAdapter.BaseViewHol
         }
     }
 
-    public BaseAdapter(Context mContext, int itemLayoutRes) {
+    public BaseAdapter(Context mContext, @LayoutRes int itemLayoutRes) {
         this(mContext, new ArrayList<T>(), itemLayoutRes);
     }
+
 
     @Override
     public BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -74,77 +85,89 @@ public class BaseAdapter<T> extends RecyclerView.Adapter<BaseAdapter.BaseViewHol
         if (iAdapter == null) {
             throw new IllegalArgumentException(this.toString() + "  iAdapter is not null,请实现iadapter接口");
         } else if (viewType == viewtype_item_empty) {//没有数据
-            return getEmptyViewHolder(inflater,parent);
-        } else if (viewType == viewtype_header) {
-            return getHeaderViewHolder(inflater, parent);
-        } else if (viewType == viewtype_footer) {//footer
-            return getFooterViewHolder(inflater, parent);
-        } else if (viewType == viewtype_load_more) {//加载更多
-            if (loadMoreFinish) {
-                return new LoadMoreViewHolder(ViewUtils.getView(inflater, parent, R.layout.rc_footer_load_more_finish));
-            } else {
-                return new LoadMoreViewHolder(ViewUtils.getView(inflater, parent, R.layout.rc_footer_load_more));
+            return getEmptyViewHolder(inflater, parent);
+        } else if (viewType == viewtype_header) { //头部 Header
+            if (iHeaderAdapter == null) {
+                throw new IllegalArgumentException("iHeaderAdapter is not null,请实现IHeaderAdapter接口");
             }
+            return iHeaderAdapter.createHeaderViewHolder(inflater.inflate(mHeaderLayoutRes, parent, false), viewType);
+        } else if (viewType == viewtype_footer) {//footer 底部
+            if (iFooterAdapter == null) {
+                throw new IllegalArgumentException("iFooterAdapter is not null,请实现IFooterAdapter接口");
+            }
+            return iFooterAdapter.createFooterViewHolder(inflater.inflate(mFooterLayoutRes, parent, false), viewType);
+        } else if (viewType == viewtype_load_more) {//加载更多
+            if (loadMoreHolder == null) {
+                loadMoreHolder = new LoadMoreViewHolder(ViewUtils.getView(inflater, parent, R.layout.rc_footer_load_more));
+            }
+            if (mExistEmptyView || mListDatas.size() < pageNumber) loadMoreHolder.hideLoadMore();
+            return loadMoreHolder;
         } else {
-            View view = inflater.inflate(itemLayoutRes, parent, false);
+            View view = inflater.inflate(mItemLayoutRes, parent, false);
             return iAdapter.createViewHolder(view, viewType);
         }
     }
 
-    /**
-     * 获取footerviewholder
-     *
-     * @return
-     */
-    protected BaseFooterViewHolder getFooterViewHolder(LayoutInflater inflater, ViewGroup parent) {
-        return new BaseFooterViewHolder(ViewUtils.getView(inflater, parent, R.layout.rv_footer_default));
-    }
-
-    /**
-     * 获取HeaderViewHolder
-     *
-     * @param inflater
-     * @param parent
-     * @return
-     */
-    protected BaseHeaderViewHolder getHeaderViewHolder(LayoutInflater inflater, ViewGroup parent) {
-        return new BaseHeaderViewHolder(ViewUtils.getView(inflater, parent, R.layout.rv_header_default));
-    }
 
     @Override
     public void onBindViewHolder(BaseViewHolder holder, int position) {
         if (iAdapter == null) {
             throw new IllegalArgumentException("iAdapter is not null,请实现iadapter接口");
-        } else if (listContents.size() == 0 || position == listContents.size()) {
+        } else if (mExistHeader && position == 0) {
+            if (iHeaderAdapter == null) {
+                throw new IllegalArgumentException("iHeaderAdapter is not null,请实现IHeaderAdapter接口");
+            } else {
+                iHeaderAdapter.createHeaderView((BaseHeaderViewHolder) holder, position);
+            }
+        } else if (mExistEmptyView && (mExistHeader ? position == 1 : position == 0)) {
+
+        } else if (mExistFooter && position == getItemCount() - 1) {
+            if (iFooterAdapter == null) {
+                throw new IllegalArgumentException("iFooterAdapter is not null,请实现IFooterAdapter接口");
+            } else {
+                iFooterAdapter.createFooterView((BaseFooterViewHolder) holder, position);
+            }
+        } else if (mExistLoadMore && (mExistFooter ? position == getItemCount() - 2 : position == getItemCount() - 1)) {//加载更多
 
         } else {
-            iAdapter.createView(holder, position);
+            iAdapter.createView(holder, mExistHeader ? position - 1 : position);
             setItemClick(holder.itemView, position);
         }
     }
 
     @Override
     public int getItemCount() {
-        int itemCount = listContents.size();
+        int itemCount = mListDatas.size();
+        int headerCount = mHeaderLayoutRes > 0 ? 1 : 0;
+        int footerCount = mFooterLayoutRes > 0 ? 1 : 0;
+        int loadMoreCount = moreDataListener == null ? 0 : 1;
+        mExistEmptyView = mExistEmptyView ? itemCount == 0 : false;
+        mExistHeader = headerCount > 0;
+        mExistFooter = footerCount > 0;
+        mExistLoadMore = mExistEmptyView ? true : loadMoreCount > 0;
 
-        if (moreDataListener != null && itemCount > ApiWrapper.maxData - 1) {//有加载更多
-            itemCount += 1;
-        }
-        if (mExistFooterView) { //底部
-            itemCount += 1;
-        }
-        return listContents.size() > 0 ? itemCount : (mExistEmptyView ? 1 : itemCount);
+        int emptyCount = itemCount > 0 ? itemCount : mExistEmptyView ? 1 : 0;
+
+        return itemCount > 0 ? itemCount + headerCount + footerCount + loadMoreCount : emptyCount + headerCount + footerCount + loadMoreCount;
     }
 
     @Override
     public int getItemViewType(int position) {
-        if (mExistEmptyView && listContents.size() == 0) {
+        if (mExistHeader && position == 0) {
+            return viewtype_header;
+        }
+        if (mExistEmptyView && (mExistHeader ? position == 1 : position == 0)) {
             return viewtype_item_empty;
-        } else if (moreDataListener != null && position >= listContents.size()) {
-            return viewtype_load_more;
-        } else if (mExistFooterView && position >= listContents.size()) {
+        }
+
+        if (mExistFooter && position == getItemCount() - 1) {
             return viewtype_footer;
         }
+
+        if (mExistLoadMore && (mExistFooter ? position == getItemCount() - 2 : position == getItemCount() - 1)) {
+            return viewtype_load_more;
+        }
+
         return viewtype_item;
     }
 
@@ -155,10 +178,10 @@ public class BaseAdapter<T> extends RecyclerView.Adapter<BaseAdapter.BaseViewHol
      * @return
      */
     public T getItemData(int position) {
-        if (position >= 0 && listContents.size() > position) {
-            return listContents.get(position);
+        if (position >= 0 && mListDatas.size() > position) {
+            return mListDatas.get(position);
         } else {
-            throw new IllegalArgumentException("position is container listContents.size,点击的位置不在列表的范围之内");
+            throw new IllegalArgumentException("position is container mListDatas.size,点击的位置不在列表的范围之内");
         }
     }
 
@@ -168,7 +191,7 @@ public class BaseAdapter<T> extends RecyclerView.Adapter<BaseAdapter.BaseViewHol
      * @return
      */
     public List<T> getAllData() {
-        return listContents;
+        return mListDatas;
     }
 
     public void setItemClickListener(ItemClickListener itemClickListener) {
@@ -191,22 +214,47 @@ public class BaseAdapter<T> extends RecyclerView.Adapter<BaseAdapter.BaseViewHol
      * @param nextPage 下一页
      */
     public void addData(List<T> datas, int nextPage) {
-        if (listContents != null && (datas != null && datas.size() > 0)) {
+        if (mListDatas != null && (datas != null && datas.size() > 0)) {
             if (nextPage > 1) {
                 curPage++;
             } else {
                 curPage = 1;
                 clearAllData();
             }
-            listContents.addAll(datas);
-            loadMoreFinish = false;
+            mListDatas.addAll(datas);
+            if (mListDatas.size() < pageNumber){ //数据不足一页
+                if (loadMoreHolder != null){
+                    loadMoreHolder.hideLoadMore();
+                }
+            } else if (datas.size() < pageNumber) {//20为每页的数量
+                setLoadMoreFinish(true);
+            } else {
+                setLoadMoreFinish(false);
+            }
         } else {
-            if (listContents.size() > 0) {
-                loadMoreFinish = true;
+            if (mListDatas.size() > 0) {
+                setLoadMoreFinish(true);
+            } else {
+                if (loadMoreHolder != null){
+                    loadMoreHolder.hideLoadMore();
+                }
             }
         }
+
         notifyDataSetChanged();
         isLoadMore = false;
+    }
+
+    private void setLoadMoreFinish(boolean isFinish){
+        loadMoreFinish = isFinish;
+        if (loadMoreHolder == null){
+            return;
+        }
+        if (isFinish){
+            loadMoreHolder.setLoadMoreFinish();
+        } else {
+            loadMoreHolder.setLoadMore();
+        }
     }
 
     /**
@@ -226,18 +274,18 @@ public class BaseAdapter<T> extends RecyclerView.Adapter<BaseAdapter.BaseViewHol
     public int addData(T datas) {
         int position = 0;
 
-        if (listContents != null) {
-            listContents.add(datas);
-            position = listContents.indexOf(datas);
+        if (mListDatas != null) {
+            mListDatas.add(datas);
+            position = mListDatas.indexOf(datas);
             notifyDataChanged();
         }
         return position;
     }
 
     public void addDataOnFirst(T datas) {
-        if (listContents != null) {
-            listContents.add(0, datas);
-//            notifyItemChanged(listContents.size() - 1);
+        if (mListDatas != null) {
+            mListDatas.add(0, datas);
+//            notifyItemChanged(mListDatas.size() - 1);
             notifyDataChanged();
         }
     }
@@ -248,8 +296,8 @@ public class BaseAdapter<T> extends RecyclerView.Adapter<BaseAdapter.BaseViewHol
      * @param data
      */
     public void removeData(T data) {
-        if (listContents != null) {
-            listContents.remove(data);
+        if (mListDatas != null) {
+            mListDatas.remove(data);
             notifyDataSetChanged();
         }
     }
@@ -258,9 +306,9 @@ public class BaseAdapter<T> extends RecyclerView.Adapter<BaseAdapter.BaseViewHol
      * 清空所有数据
      */
     public void clearAllData() {
-        if (listContents != null) {
-            listContents.clear();
-            curPage = 0;
+        if (mListDatas != null) {
+            mListDatas.clear();
+//            curPage = 0;
             notifyDataSetChanged();
         }
     }
@@ -276,7 +324,8 @@ public class BaseAdapter<T> extends RecyclerView.Adapter<BaseAdapter.BaseViewHol
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    itemClickListener.onItemClick(getItemData(position), position);
+                    int itemPosition = mExistHeader ? position - 1 : position;
+                    itemClickListener.onItemClick(getItemData(itemPosition), itemPosition);
                 }
             });
         }
@@ -290,6 +339,18 @@ public class BaseAdapter<T> extends RecyclerView.Adapter<BaseAdapter.BaseViewHol
         void createView(VH holder, int position);
     }
 
+    public interface IHeaderAdapter<VH extends BaseHeaderViewHolder> {
+        VH createHeaderViewHolder(View view, int viewType);
+
+        void createHeaderView(VH holder, int position);
+    }
+
+    public interface IFooterAdapter<VH extends BaseFooterViewHolder> {
+        VH createFooterViewHolder(View view, int viewType);
+
+        void createFooterView(VH holder, int position);
+    }
+
     public abstract static class BaseViewHolder extends RecyclerView.ViewHolder {
 
         View itemView;
@@ -299,6 +360,15 @@ public class BaseAdapter<T> extends RecyclerView.Adapter<BaseAdapter.BaseViewHol
             this.itemView = itemView;
             ButterKnife.bind(this, itemView);
         }
+    }
+
+
+    public void setmHeaderLayoutRes(int mHeaderLayoutRes) {
+        this.mHeaderLayoutRes = mHeaderLayoutRes;
+    }
+
+    public void setmFooterLayoutRes(int mFooterLayoutRes) {
+        this.mFooterLayoutRes = mFooterLayoutRes;
     }
 
     /**
@@ -313,11 +383,12 @@ public class BaseAdapter<T> extends RecyclerView.Adapter<BaseAdapter.BaseViewHol
 
     /**
      * 返回空数据
+     *
      * @param inflater
      * @param parent
      * @return
      */
-    protected EmptyViewHolder getEmptyViewHolder(LayoutInflater inflater,ViewGroup parent){
+    protected EmptyViewHolder getEmptyViewHolder(LayoutInflater inflater, ViewGroup parent) {
         return new EmptyViewHolder(ViewUtils.getView(inflater, parent, R.layout.rc_item_empty));
     }
 
@@ -330,27 +401,50 @@ public class BaseAdapter<T> extends RecyclerView.Adapter<BaseAdapter.BaseViewHol
      */
     class LoadMoreViewHolder extends BaseViewHolder {
 
+        @BindView(R.id.ll_loading_more)
+        LinearLayout llLoadingMore;
+        @BindView(R.id.tv_loading_more_finish)
+        TextView tvLoadingMoreFinish;
+
         public LoadMoreViewHolder(View itemView) {
             super(itemView);
+        }
+
+        public void setLoadMore() {
+            llLoadingMore.setVisibility(View.VISIBLE);
+            tvLoadingMoreFinish.setVisibility(View.GONE);
+        }
+
+        public void setLoadMoreFinish() {
+            llLoadingMore.setVisibility(View.GONE);
+            tvLoadingMoreFinish.setVisibility(View.VISIBLE);
+        }
+
+        public void hideLoadMore(){
+            llLoadingMore.setVisibility(View.GONE);
+            tvLoadingMoreFinish.setVisibility(View.GONE);
         }
     }
 
 
-    public void setmExistFooterView(boolean mExistFooterView) {
-        this.mExistFooterView = mExistFooterView;
+    public void setmExistFooter(boolean mExistFooterView) {
+        this.mExistFooter = mExistFooterView;
     }
 
     /**
-     * footer
+     * footer viewHolder
      */
-    protected class BaseFooterViewHolder extends BaseViewHolder {
+    protected abstract static class BaseFooterViewHolder extends BaseViewHolder {
 
         public BaseFooterViewHolder(View itemView) {
             super(itemView);
         }
     }
 
-    protected class BaseHeaderViewHolder extends BaseViewHolder {
+    /**
+     * header viewHolder
+     */
+    protected abstract static class BaseHeaderViewHolder extends BaseViewHolder {
 
         public BaseHeaderViewHolder(View itemView) {
             super(itemView);
@@ -358,8 +452,8 @@ public class BaseAdapter<T> extends RecyclerView.Adapter<BaseAdapter.BaseViewHol
     }
 
     public T getListContent(int position) {
-        if (listContents != null && listContents.size() > 0 && position >= 0) {
-            return listContents.get(position);
+        if (mListDatas != null && mListDatas.size() > 0 && position >= 0) {
+            return mListDatas.get(position);
         } else {
             throw new IllegalArgumentException("无数据");
         }
@@ -369,6 +463,13 @@ public class BaseAdapter<T> extends RecyclerView.Adapter<BaseAdapter.BaseViewHol
         this.iAdapter = iAdapter;
     }
 
+    public void setiHeaderAdapter(IHeaderAdapter iHeaderAdapter) {
+        this.iHeaderAdapter = iHeaderAdapter;
+    }
+
+    public void setiFooterAdapter(IFooterAdapter iFooterAdapter) {
+        this.iFooterAdapter = iFooterAdapter;
+    }
 
     public interface ItemClickListener<T> {
         void onItemClick(T itemData, int position);
@@ -405,12 +506,36 @@ public class BaseAdapter<T> extends RecyclerView.Adapter<BaseAdapter.BaseViewHol
                 public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                     totalItemCount = llm.getItemCount();
                     lastVisiableItemPosition = llm.findLastVisibleItemPosition();
-
-                    if (!loadMoreFinish && !isLoadMore && totalItemCount <= (lastVisiableItemPosition + visibleThreshold)
-                            && !(curPage <= 1 && totalItemCount < 20)) {
-                        moreDataListener.loadMoreData();
-                        isLoadMore = true;
-                    }
+                    Flowable.just(lastVisiableItemPosition)
+                            .filter(new Predicate<Integer>() {
+                                @Override
+                                public boolean test(@NonNull Integer integer) throws Exception {
+                                    return !loadMoreFinish && !isLoadMore && totalItemCount <= (lastVisiableItemPosition + visibleThreshold)
+                                            && !(curPage <= 1 && totalItemCount < pageNumber);
+                                }
+                            })
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .doOnNext(new Consumer<Integer>() {
+                                @Override
+                                public void accept(@NonNull Integer integer) throws Exception {
+//                                    showLoadMore();
+                                    setLoadMoreFinish(false);
+                                    moreDataListener.loadMoreData();
+                                    isLoadMore = true;
+                                }
+                            })
+                            .subscribe(new Consumer<Integer>() {
+                                @Override
+                                public void accept(@NonNull Integer integer) throws Exception {
+//                                    hideLoadeMore();
+                                    notifyDataChanged();
+                                }
+                            });
+//                    if (!loadMoreFinish && !isLoadMore && totalItemCount <= (lastVisiableItemPosition + visibleThreshold)
+//                            && !(curPage <= 1 && totalItemCount < 20)) {
+//                        moreDataListener.loadMoreData();
+//                        isLoadMore = true;
+//                    }
                 }
             });
         }

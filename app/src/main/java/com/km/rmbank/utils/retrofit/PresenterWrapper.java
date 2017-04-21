@@ -64,6 +64,12 @@ public abstract class PresenterWrapper<V extends BaseView> implements BasePresen
                     MToast.showToast(mContext,"请求超时，请稍后再试");
                 } else if (e instanceof ConnectException) {
                     MToast.showToast(mContext,"连接服务器失败，请稍后再试");
+                } else if (e instanceof NullPointerException){
+                    try {
+                        onNext.accept((T) "");
+                    } catch (Exception e1) {
+                        e1.printStackTrace();
+                    }
                 }
 //                e.printStackTrace();
                 mView.hideLoading();
@@ -76,7 +82,7 @@ public abstract class PresenterWrapper<V extends BaseView> implements BasePresen
                     try {
                         onNext.accept(t);
                     } catch (Exception e) {// 返回值 为null
-                        e.printStackTrace();
+//                        e.printStackTrace();
                     }
                 }
             }
@@ -111,6 +117,12 @@ public abstract class PresenterWrapper<V extends BaseView> implements BasePresen
                     MToast.showToast(mContext,"请求超时，请稍后再试");
                 } else if (e instanceof ConnectException) {
                     MToast.showToast(mContext,"连接服务器失败，请稍后再试");
+                } else if (e instanceof NullPointerException){
+                    try {
+                        backNull.run();
+                    } catch (Exception e1) {
+                        e1.printStackTrace();
+                    }
                 }
 //                e.printStackTrace();
                 mView.hideLoading();
@@ -124,11 +136,7 @@ public abstract class PresenterWrapper<V extends BaseView> implements BasePresen
                         onNext.accept(t);
                     } catch (Exception e) {// 返回值 为null
 //                        e.printStackTrace();
-                        try {
-                            backNull.run();
-                        } catch (Exception e1) {
-                            e1.printStackTrace();
-                        }
+
                     }
                 }
             }

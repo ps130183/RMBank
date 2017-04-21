@@ -8,14 +8,12 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.km.rmbank.R;
+import com.km.rmbank.adapter.InformationAdapter;
+import com.km.rmbank.basic.BaseAdapter;
 import com.km.rmbank.basic.BaseFragment;
 import com.km.rmbank.basic.RVUtils;
-import com.km.rmbank.cell.BannerCell;
-import com.km.rmbank.cell.InformationCell;
 import com.km.rmbank.dto.InformationDto;
 import com.km.rmbank.module.actionarea.apply.ActionListActivity;
-import com.km.rv_libs.TemplateAdapter;
-import com.km.rv_libs.base.BaseAdapter;
 import com.km.rv_libs.base.ICell;
 
 import java.util.ArrayList;
@@ -45,6 +43,13 @@ public class InformationFragment extends BaseFragment<InformationPresenter> impl
         InformationFragment fragment = new InformationFragment();
         fragment.setArguments(bundle);
         return fragment;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        InformationAdapter adapter = (InformationAdapter) rvActionArea.getAdapter();
+        adapter.notifyDataSetChanged();
     }
 
     @Override
@@ -79,38 +84,37 @@ public class InformationFragment extends BaseFragment<InformationPresenter> impl
 
         RVUtils.setLinearLayoutManage(rvActionArea, LinearLayoutManager.VERTICAL);
         RVUtils.addDivideItemForRv(rvActionArea);
-        final TemplateAdapter adapter = new TemplateAdapter();
-        adapter.addHeader(new BannerCell(images,R.layout.action_area_banner));
+        final InformationAdapter adapter = new InformationAdapter(getContext());
+        adapter.setBannerImages(images);
         rvActionArea.setAdapter(adapter);
+        adapter.setItemClickListener(new BaseAdapter.ItemClickListener<InformationDto>() {
+            @Override
+            public void onItemClick(InformationDto itemData, int position) {
+                Bundle bundle = new Bundle();
+                bundle.putParcelable("informationDto",itemData);
+                toNextActivity(InformationDetailActivity.class,bundle);
+            }
+        });
 
+        adapter.setOnBannerCliclListener(new InformationAdapter.OnBannerCliclListener() {
+            @Override
+            public void clickBanner(int position) {
+                showToast("position = " + position);
+            }
+        });
         adapter.addLoadMore(rvActionArea, new BaseAdapter.MoreDataListener() {
             @Override
             public void loadMoreData() {
                 mPresenter.getActionList(adapter.getNextPage());
             }
         });
+        mPresenter.getActionList(adapter.getNextPage());
     }
 
     @Override
     public void getActionListSuccess(List<InformationDto> informationDtos, int pageNo) {
-        TemplateAdapter adapter = (TemplateAdapter) rvActionArea.getAdapter();
-        adapter.addData(getActionListCell(informationDtos));
+        InformationAdapter adapter = (InformationAdapter) rvActionArea.getAdapter();
+        adapter.addData(informationDtos,pageNo);
     }
 
-    private List<ICell> getActionListCell(List<InformationDto> actionDtos){
-        List<ICell> mICells = new ArrayList<>();
-        for(InformationDto name : actionDtos){
-            mICells.add(new InformationCell(name,cellClickListener));
-        }
-        return mICells;
-    }
-
-    private ICell.OnCellClickListener<InformationDto> cellClickListener = new ICell.OnCellClickListener<InformationDto>() {
-        @Override
-        public void cellClick(InformationDto mData, int position) {
-            Bundle bundle = new Bundle();
-            bundle.putParcelable("informationDto",mData);
-            toNextActivity(InformationDetailActivity.class,bundle);
-        }
-    };
 }

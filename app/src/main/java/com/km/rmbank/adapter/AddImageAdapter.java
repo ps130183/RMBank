@@ -21,7 +21,8 @@ import butterknife.OnClick;
  * Created by kamangkeji on 17/3/29.
  */
 
-public class AddImageAdapter extends BaseAdapter<ImageEntity> implements BaseAdapter.IAdapter<AddImageAdapter.ViewHolder> {
+public class AddImageAdapter extends BaseAdapter<ImageEntity> implements BaseAdapter.IAdapter<AddImageAdapter.ViewHolder>,
+        BaseAdapter.IFooterAdapter<AddImageAdapter.FooterViewHolder>{
 
 
     private onClickAddImageListener addImageListener;
@@ -30,6 +31,8 @@ public class AddImageAdapter extends BaseAdapter<ImageEntity> implements BaseAda
     public AddImageAdapter(Context mContext) {
         super(mContext, R.layout.item_rv_image);
         setiAdapter(this);
+        setmFooterLayoutRes(R.layout.item_rv_addimage);
+        setiFooterAdapter(this);
     }
 
     @Override
@@ -58,8 +61,13 @@ public class AddImageAdapter extends BaseAdapter<ImageEntity> implements BaseAda
     }
 
     @Override
-    protected BaseFooterViewHolder getFooterViewHolder(LayoutInflater inflater, ViewGroup parent) {
-        return new FooterViewHolder(ViewUtils.getView(inflater,parent,R.layout.item_rv_addimage));
+    public FooterViewHolder createFooterViewHolder(View view, int viewType) {
+        return new FooterViewHolder(view);
+    }
+
+    @Override
+    public void createFooterView(FooterViewHolder holder, int position) {
+
     }
 
     class ViewHolder extends BaseViewHolder{

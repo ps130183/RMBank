@@ -21,6 +21,7 @@ import com.km.rmbank.dto.ReceiverAddressDto;
 import com.km.rmbank.event.ConfirmGoodsNumberEvent;
 import com.km.rmbank.event.GoodsDetailNumberEvent;
 import com.km.rmbank.module.personal.shopcart.ShoppingCartActivity;
+import com.km.rmbank.module.personal.userinfo.EditUserCardActivity;
 import com.ps.androidlib.animator.ShowViewAnimator;
 import com.ps.androidlib.utils.EventBusUtils;
 import com.ps.androidlib.utils.ViewUtils;
@@ -190,6 +191,13 @@ public class GoodsActivity extends BaseActivity<GoodsDetailsPresenter> implement
     @OnClick(R.id.tv_shopping_cart)
     public void toShoopinCart(View view){
         toNextActivity(ShoppingCartActivity.class);
+    }
+
+    @OnClick(R.id.tv_shop_info)
+    public void shopInfo(View view){
+        Bundle bundle = new Bundle();
+        bundle.putString("shopId",mGoodsDetails.getShopId());
+        toNextActivity(EditUserCardActivity.class,bundle);
     }
 
     /** ----------------- 以下是 选择商品数量 --------------------- */

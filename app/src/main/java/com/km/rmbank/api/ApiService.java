@@ -145,7 +145,7 @@ public interface ApiService {
      */
     @FormUrlEncoded
     @POST(SecretConstant.API_HOST_PATH + "/auth/userCard/update/info")
-    Flowable<Response<UserCardDto>> createUserCard(@Field("token") String token,
+    Flowable<Response<String>> createUserCard(@Field("token") String token,
                                                    @Field("name") String name,
                                                    @Field("cardPhone") String mobilePhone,
                                                    @Field("company") String company,

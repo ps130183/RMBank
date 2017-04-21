@@ -141,6 +141,8 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailPresenter> imp
                 if (isUser){
                     btnAction.setVisibility(View.VISIBLE);
                     btnAction.setText("去评价");
+                } else {
+                    btnAction.setVisibility(View.GONE);
                 }
 
                 break;

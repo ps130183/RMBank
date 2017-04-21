@@ -145,7 +145,7 @@ public class CreateNewGoodsActivity extends BaseActivity<CreateNewGoodsPresenter
         RVUtils.addDivideItemForRv(mrvBanner, RVUtils.DIVIDER_COLOR_WHITE, GridLayoutManager.HORIZONTAL, 5);
         RVUtils.addDivideItemForRv(mrvBanner, RVUtils.DIVIDER_COLOR_WHITE, GridLayoutManager.VERTICAL, 5);
         AddImageAdapter addImageAdapter = new AddImageAdapter(this);
-        addImageAdapter.setmExistFooterView(true);
+        addImageAdapter.setmExistFooter(true);
         addImageAdapter.setmExistEmptyView(false);
         mrvBanner.setAdapter(addImageAdapter);
         addImageAdapter.setAddImageListener(new AddImageAdapter.onClickAddImageListener() {
@@ -170,7 +170,7 @@ public class CreateNewGoodsActivity extends BaseActivity<CreateNewGoodsPresenter
         RVUtils.addDivideItemForRv(mrvGoodsDetail, RVUtils.DIVIDER_COLOR_WHITE, GridLayoutManager.HORIZONTAL, 5);
         RVUtils.addDivideItemForRv(mrvGoodsDetail, RVUtils.DIVIDER_COLOR_WHITE, GridLayoutManager.VERTICAL, 5);
         AddImageAdapter addImageAdapter = new AddImageAdapter(this);
-        addImageAdapter.setmExistFooterView(true);
+        addImageAdapter.setmExistFooter(true);
         addImageAdapter.setmExistEmptyView(false);
         mrvGoodsDetail.setAdapter(addImageAdapter);
         addImageAdapter.setAddImageListener(new AddImageAdapter.onClickAddImageListener() {

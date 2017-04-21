@@ -12,6 +12,7 @@ import io.reactivex.Flowable;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Action;
 import io.reactivex.functions.BiFunction;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
@@ -55,12 +56,11 @@ public class CreateNewGoodsPresenter extends PresenterWrapper<CreateNewGoodsCont
     public void createNewGoods(GoodsDetailsDto goodsDetailsDto) {
         mView.showLoading();
         mApiwrapper.createNewGoods(goodsDetailsDto)
-                .subscribe(newSubscriber(new Consumer() {
+                .subscribe(newSubscriber(new Consumer<String>() {
                     @Override
-                    public void accept(@NonNull Object o) throws Exception {
+                    public void accept(@NonNull String s) throws Exception {
                         mView.createNewGoodsSuccess();
                     }
-
                 }));
     }
 
