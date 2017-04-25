@@ -86,7 +86,7 @@ public class GoodsInfoFragment extends BaseFragment {
         BannerUtils.initBannerFromUrl(banner, bannerUrls, new OnBannerListener() {
             @Override
             public void OnBannerClick(int position) {
-                showToast(bannerUrls.get(position) + "");
+//                showToast(bannerUrls.get(position) + "");
             }
         });
     }

@@ -5,12 +5,14 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.km.rmbank.R;
+import com.km.rmbank.adapter.GoodsDetailsAdapter;
 import com.km.rmbank.basic.BaseFragment;
 import com.km.rmbank.basic.BasePresenter;
 import com.km.rmbank.basic.RVUtils;
 import com.km.rmbank.cell.GoodsDetailsCell;
 import com.km.rv_libs.TemplateAdapter;
 import com.km.rv_libs.base.ICell;
+import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,14 +47,17 @@ public class GoodsDetailsFragment extends BaseFragment {
     }
 
     private void initRecyclerView(List<String> goodsDetails){
-        List<ICell> iCells = new ArrayList<>();
-        for (String goodsDetailPath : goodsDetails){
-            iCells.add(new GoodsDetailsCell(goodsDetailPath));
-        }
+//        List<ICell> iCells = new ArrayList<>();
+//        for (String goodsDetailPath : goodsDetails){
+//            iCells.add(new GoodsDetailsCell(goodsDetailPath));
+//        }
 
         RVUtils.setLinearLayoutManage(mRecyclerview, LinearLayoutManager.VERTICAL);
-        TemplateAdapter adapter = new TemplateAdapter();
+//        TemplateAdapter adapter = new TemplateAdapter();
+        GoodsDetailsAdapter adapter = new GoodsDetailsAdapter(getContext());
         mRecyclerview.setAdapter(adapter);
-        adapter.addData(iCells);
+//        adapter.addData(iCells);
+        adapter.addData(goodsDetails);
+        Logger.d(adapter.getAllData().toString());
     }
 }

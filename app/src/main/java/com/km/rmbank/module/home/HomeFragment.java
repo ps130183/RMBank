@@ -1,6 +1,7 @@
 package com.km.rmbank.module.home;
 
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -17,6 +18,7 @@ import com.km.rmbank.entity.HomeEntity;
 import com.km.rmbank.module.actionarea.InformationDetailActivity;
 import com.km.rmbank.module.home.message.MessageActivity;
 import com.km.rmbank.module.rmshop.goods.GoodsActivity;
+import com.ps.androidlib.utils.AppUtils;
 import com.ps.androidlib.utils.BannerUtils;
 import com.ps.androidlib.utils.MToast;
 import com.youth.banner.Banner;
@@ -34,6 +36,8 @@ import butterknife.OnClick;
 
 public class HomeFragment extends BaseFragment<HomePresenter> implements HomeContract.View {
 
+    @BindView(R.id.app_bar)
+    AppBarLayout appBar;
     @BindView(R.id.banner)
     Banner banner;
 
@@ -62,22 +66,9 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
     @Override
     protected void createView() {
 //        initBanner();
+        int windowWidth = AppUtils.getCurWindowWidth(getContext());
+        appBar.getLayoutParams().height = windowWidth;
         initrcContentView();
-    }
-
-
-    private void initBanner(){
-        List<Integer> images = new ArrayList<>();
-        images.add(R.mipmap.timg);
-        images.add(R.mipmap.timg);
-        images.add(R.mipmap.timg);
-        images.add(R.mipmap.timg);
-        BannerUtils.initBannerFromRes(banner, images, new OnBannerListener() {
-            @Override
-            public void OnBannerClick(int position) {
-                MToast.showToast(getContext(),"当前位置：" + position);
-            }
-        });
     }
 
     private void initrcContentView(){

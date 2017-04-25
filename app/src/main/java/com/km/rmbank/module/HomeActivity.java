@@ -46,7 +46,7 @@ public class HomeActivity extends BaseActivity {
     CommonTabLayout mTabLayout;
     private List<CustomTabEntity> mTabEntities;
 
-    private String[] mTitle = {"首页", "商城", "咨讯", "个人中心"};
+    private String[] mTitle = {"首页", "商城", "资讯", "个人中心"};
     private int[] mSelectedIcon = {R.mipmap.icon_home_rbtn1_pressed, R.mipmap.icon_home_rbtn2_pressed, R.mipmap.icon_home_rbtn3_pressed, R.mipmap.icon_home_rbtn4_pressed};
     private int[] mUnSelectedIcon = {R.mipmap.icon_home_rbtn1_unpress, R.mipmap.icon_home_rbtn2_unpress, R.mipmap.icon_home_rbtn3_unpress, R.mipmap.icon_home_rbtn4_unpress};
     private static List<Fragment> fragmentList;

@@ -52,7 +52,7 @@
     <application
         android:name=".basic.BaseApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/icon_desktop_180"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">

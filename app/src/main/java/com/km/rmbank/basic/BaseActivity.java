@@ -28,6 +28,7 @@ import com.km.rmbank.utils.retrofit.SecretConstant;
 import com.laojiang.retrofithttp.weight.downfilesutils.FinalDownFiles;
 import com.laojiang.retrofithttp.weight.downfilesutils.action.FinalDownFileResult;
 import com.laojiang.retrofithttp.weight.downfilesutils.downfiles.DownInfo;
+import com.orhanobut.logger.Logger;
 import com.ps.androidlib.utils.AppUtils;
 import com.ps.androidlib.utils.DialogLoading;
 import com.ps.androidlib.utils.DialogUtils;
@@ -480,6 +481,8 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
                             if (!event.getActivity().getClass().equals(HomeActivity.class)){
                                 showToast(exception.message);
                             }
+                        } else {
+                            t.printStackTrace();
                         }
                     }
 
@@ -496,61 +499,70 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
      * @param appVersionDto
      */
     private void updateApp(final AppVersionDto appVersionDto) {
-        DialogUtils.showDefaultAlertDialog("检测到新版本 " + appVersionDto.getVersion() + "，是否更新？", new DialogUtils.ClickListener() {
-            @Override
-            public void clickConfirm() {
-                String path = AppUtils.getDownloadAppPath("wzdq-resplease-" + System.currentTimeMillis() + "-" + appVersionDto.getVersion() + ".apk");
-                String url = appVersionDto.getAppUrl();
-                new FinalDownFiles(false, context, url,
-                        path,
-                        new FinalDownFileResult() {
+        if (1 == appVersionDto.getFoce()){//强制更新
+            downloadApp(appVersionDto);
+        } else {//不强制更新
+            DialogUtils.showDefaultAlertDialog("检测到新版本 " + appVersionDto.getVersionView() + "，是否更新？", new DialogUtils.ClickListener() {
+                @Override
+                public void clickConfirm() {
+                    downloadApp(appVersionDto);
+                }
 
-                            @Override
-                            public void onSuccess(DownInfo downInfo) {
-                                super.onSuccess(downInfo);
-//                                Logger.i("成功==",downInfo.toString());
-                                installApp(downInfo.getSavePath());
-                            }
+            });
+        }
 
-                            @Override
-                            public void onCompleted() {
-                                super.onCompleted();
-                                DialogUtils.DismissLoadDialog();
-                            }
+    }
 
-                            @Override
-                            public void onStart() {
-                                super.onStart();
-                                DialogUtils.showDownloadDialog(context, "因为我们努力，所以不断提高", false);
-                            }
+    private void downloadApp(AppVersionDto appVersionDto){
+        String path = AppUtils.getDownloadAppPath("wzdq-resplease-" + System.currentTimeMillis() + "-" + appVersionDto.getVersionView() + ".apk");
+        String url = appVersionDto.getAppUrl();
+        new FinalDownFiles(false, context, url,
+                path,
+                new FinalDownFileResult() {
 
-                            @Override
-                            public void onPause() {
-                                super.onPause();
-                            }
+                    @Override
+                    public void onSuccess(DownInfo downInfo) {
+                        super.onSuccess(downInfo);
+                        Logger.i("成功==",downInfo.toString());
+                        installApp(downInfo.getSavePath());
+                    }
 
-                            @Override
-                            public void onStop() {
-                                super.onStop();
-                                DialogUtils.DismissLoadDialog();
-                            }
+                    @Override
+                    public void onCompleted() {
+                        super.onCompleted();
+                        DialogUtils.DismissLoadDialog();
+                    }
 
-                            @Override
-                            public void onLoading(long readLength, long countLength) {
-                                super.onLoading(readLength, countLength);
-//                                Logger.i("下载过程=="," countLength = "+countLength+"    readLength = " +readLength);
-                                DialogUtils.setProgressValue((int) ((readLength * 100) / countLength));
-                            }
+                    @Override
+                    public void onStart() {
+                        super.onStart();
+                        DialogUtils.showDownloadDialog(context, "因为我们努力，所以不断提高", false);
+                    }
 
-                            @Override
-                            public void onErroe(Throwable e) {
-                                super.onErroe(e);
-                                DialogUtils.DismissLoadDialog();
-                            }
-                        });
-            }
+                    @Override
+                    public void onPause() {
+                        super.onPause();
+                    }
 
-        });
+                    @Override
+                    public void onStop() {
+                        super.onStop();
+                        DialogUtils.DismissLoadDialog();
+                    }
+
+                    @Override
+                    public void onLoading(long readLength, long countLength) {
+                        super.onLoading(readLength, countLength);
+                        Logger.i("下载过程=="," countLength = "+countLength+"    readLength = " +readLength);
+                        DialogUtils.setProgressValue((int) ((readLength * 100) / countLength));
+                    }
+
+                    @Override
+                    public void onErroe(Throwable e) {
+                        super.onErroe(e);
+                        DialogUtils.DismissLoadDialog();
+                    }
+                });
     }
 
     /**

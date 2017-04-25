@@ -15,19 +15,21 @@ android {
         variant.outputs.each { output ->
             def oldFile = output.outputFile
             def newName = '';
-            if(variant.buildType.name.equals('release')){
-                // println(variant.productFlavors[0].name)
-                // def releaseApkName = 'study-' + defaultConfig.versionName + '-luckpan.apk'
-                def releaseApkName = "WZDQ-" + buildType.name + "-${releaseTime() }-" + defaultConfig.versionName + '.apk'
-                output.outputFile = new File(oldFile.parent, releaseApkName)
-            }
-            if(variant.buildType.name.equals('beta')){
-                newName = oldFile.name.replace(".apk", "-v" + getVersionNameFromManifest() + "-build" + getDate() + ".apk")
-                output.outputFile = new File(oldFile.parent, newName)
-            }
-            if(variant.buildType.name.equals('debug')){
-
-            }
+            def releaseApkName = "WZDQ-" + buildType.name + "-${releaseTime() }-" + defaultConfig.versionName + '.apk'
+            output.outputFile = new File(oldFile.parent, releaseApkName)
+//            if(variant.buildType.name.equals('release')){
+//                // println(variant.productFlavors[0].name)
+//                // def releaseApkName = 'study-' + defaultConfig.versionName + '-luckpan.apk'
+//                def releaseApkName = "WZDQ-" + buildType.name + "-${releaseTime() }-" + defaultConfig.versionName + '.apk'
+//                output.outputFile = new File(oldFile.parent, releaseApkName)
+//            }
+//            if(variant.buildType.name.equals('beta')){
+//                newName = oldFile.name.replace(".apk", "-v" + getVersionNameFromManifest() + "-build" + getDate() + ".apk")
+//                output.outputFile = new File(oldFile.parent, newName)
+//            }
+//            if(variant.buildType.name.equals('debug')){
+//
+//            }
         }
 
 
@@ -38,13 +40,18 @@ android {
         applicationId "com.km.rmbank"
         minSdkVersion 15
         targetSdkVersion 25
-        versionCode 1
-        versionName "1.0"
+        versionCode 8
+        versionName "debug_1.0.8"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
+            //混淆
             minifyEnabled false
+            // Zipalign优化
+//            zipAlignEnabled true
+//            // 移除无用的resource文件
+//            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.rmbank
         }

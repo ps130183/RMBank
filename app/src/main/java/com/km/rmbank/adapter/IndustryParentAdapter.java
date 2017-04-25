@@ -14,6 +14,7 @@ import com.km.rmbank.R;
 import com.km.rmbank.basic.BaseAdapter;
 import com.km.rmbank.basic.RVUtils;
 import com.km.rmbank.dto.IndustryDto;
+import com.ps.androidlib.animator.AnimatorViewWrapper;
 import com.ps.androidlib.animator.ShowViewAnimator;
 
 import java.util.ArrayList;
@@ -41,53 +42,69 @@ public class IndustryParentAdapter extends BaseAdapter<IndustryDto> implements B
     }
 
     @Override
-    public void createView(final ViewHolder holder, int position) {
+    public void onBindViewHolder(BaseViewHolder holder, int position, List<Object> payloads) {
+//        super.onBindViewHolder(holder, position, payloads);
+        if (payloads.isEmpty()) {
+            onBindViewHolder(holder, position);
+        } else {
+            ViewHolder viewHolder = (ViewHolder) holder;
+            IndustryDto industryDto = getItemData(position);
+            viewHolder.checkBox.setChecked(industryDto.isChecked());
+        }
+    }
+
+    @Override
+    public void createView(final ViewHolder holder, final int position) {
 
         final IndustryDto parentEntity = getItemData(position);
 
         holder.tvIndustryName.setText(parentEntity.getName());
 
-        //子行业
-        List<IndustryDto> subEntitys = parentEntity.getIndustryList();
-        holder.subAdapter.addData(subEntitys);
-        holder.subAdapter.setOnSubCheckedListener(new IndustrySubAdapter.onSubCheckedListener() {
-            @Override
-            public void subChecked(IndustryDto subEntity, boolean isChecked) {
-                isParentCheckBoxTouch = false;
-                if (isChecked){
-                    parentEntity.setChecked(true);
-                } else {
-                    parentEntity.setChecked(subIndustryChecked(parentEntity.getIndustryList()));
-                }
-                getSubChecked(holder,parentEntity.getIndustryList());
-                notifyDataChanged();
-            }
-        });
 
-        //父级行业
-        holder.checkBox.setChecked(parentEntity.isChecked());
-        holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isParentCheckBoxTouch){
+        List<IndustryDto> subEntitys = parentEntity.getIndustryList();
+        if (subEntitys == null ||  subEntitys.isEmpty()){
+            holder.rlParent.setVisibility(View.GONE);
+        } else {
+            //子行业
+            holder.rlParent.setVisibility(View.VISIBLE);
+            holder.subAdapter.addData(subEntitys);
+            holder.subAdapter.setOnSubCheckedListener(new IndustrySubAdapter.onSubCheckedListener() {
+                @Override
+                public void subChecked(IndustryDto subEntity, boolean isChecked) {
+                    isParentCheckBoxTouch = false;
                     parentEntity.setChecked(isChecked);
-                    setSubCheckedByParent(parentEntity.getIndustryList(),isChecked);
-                    getSubChecked(holder,parentEntity.getIndustryList());
+                    parentEntity.setChecked(subIndustryChecked(parentEntity.getIndustryList()));
+                    notifyItemDataChanged(position, 10);
+                    getSubChecked(holder, parentEntity.getIndustryList());
                 }
-            }
-        });
-        holder.checkBox.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                isParentCheckBoxTouch = true;
-                return false;
-            }
-        });
+            });
+            //父级行业
+            holder.checkBox.setChecked(parentEntity.isChecked());
+            holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (isParentCheckBoxTouch) {
+                        parentEntity.setChecked(isChecked);
+                        setSubCheckedByParent(parentEntity.getIndustryList(), isChecked, holder.subAdapter);
+                        getSubChecked(holder, parentEntity.getIndustryList());
+                    }
+                }
+            });
+            holder.checkBox.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    isParentCheckBoxTouch = true;
+                    return false;
+                }
+            });
+        }
+
+
 
 
     }
 
-    class ViewHolder extends BaseViewHolder{
+    class ViewHolder extends BaseViewHolder {
 
         @BindView(R.id.rl_parent)
         RelativeLayout rlParent;
@@ -106,6 +123,7 @@ public class IndustryParentAdapter extends BaseAdapter<IndustryDto> implements B
 
         @BindView(R.id.tv_industry_name)
         TextView tvIndustryName;
+
         public ViewHolder(View itemView) {
             super(itemView);
             initSub();
@@ -114,17 +132,18 @@ public class IndustryParentAdapter extends BaseAdapter<IndustryDto> implements B
             tvCheckedHint.setText("");
         }
 
-        private void initSub(){
+        private void initSub() {
             RVUtils.setLinearLayoutManage(rvSub, LinearLayoutManager.VERTICAL);
-            RVUtils.addDivideItemForRv(rvSub,RVUtils.DIVIDER_COLOR_ACCOUNT_DETAILS,2);
+            RVUtils.addDivideItemForRv(rvSub, RVUtils.DIVIDER_COLOR_ACCOUNT_DETAILS, 2);
             subAdapter = new IndustrySubAdapter(mContext);
             rvSub.setAdapter(subAdapter);
             animator = new ShowViewAnimator();
         }
 
+
         @OnClick(R.id.rl_parent)
-        public void rlParentClick(View view){
-            if (vChecked.getVisibility() == View.GONE){
+        public void rlParentClick(View view) {
+            if (vChecked.getVisibility() == View.GONE) {
                 vChecked.setVisibility(View.VISIBLE);
             }
             animator.showViewByAnimator(rvSub, new ShowViewAnimator.onHideListener() {
@@ -139,13 +158,17 @@ public class IndustryParentAdapter extends BaseAdapter<IndustryDto> implements B
 
     /**
      * 检测子集中 是否有被选中的行业
+     *
      * @param industryEntities
      * @return
      */
-    private boolean subIndustryChecked(List<IndustryDto> industryEntities){
+    private boolean subIndustryChecked(List<IndustryDto> industryEntities) {
         boolean ischeced = false;
-        for (IndustryDto entity : industryEntities){
-            if (entity.isChecked()){
+        if (industryEntities == null || industryEntities.isEmpty()){
+            return ischeced;
+        }
+        for (IndustryDto entity : industryEntities) {
+            if (entity.isChecked()) {
                 ischeced = true;
                 break;
             }
@@ -155,43 +178,56 @@ public class IndustryParentAdapter extends BaseAdapter<IndustryDto> implements B
 
     /**
      * 根据父级的选中情况  设置子行业
+     *
      * @param industryEntities
      * @param isChecked
      */
-    private void setSubCheckedByParent(List<IndustryDto> industryEntities, boolean isChecked){
-        for (IndustryDto entity : industryEntities){
+    private void setSubCheckedByParent(List<IndustryDto> industryEntities, boolean isChecked, IndustrySubAdapter adapter) {
+        if (industryEntities == null || industryEntities.isEmpty()){
+            return;
+        }
+        for (IndustryDto entity : industryEntities) {
             entity.setChecked(isChecked);
         }
-        notifyDataChanged();
+        adapter.notifyDataSetChanged();
     }
 
     /**
      * 获取选中的子行业
+     *
      * @param industryEntities
      * @return
      */
-    private List<IndustryDto> getSubChecked(ViewHolder holder, List<IndustryDto> industryEntities){
+    private List<IndustryDto> getSubChecked(ViewHolder holder, List<IndustryDto> industryEntities) {
         List<IndustryDto> checkSubs = new ArrayList<>();
-        for (IndustryDto entity : industryEntities){
-            if (entity.isChecked()){
+        if (industryEntities == null || industryEntities.isEmpty()){
+            return checkSubs;
+        }
+        for (IndustryDto entity : industryEntities) {
+            if (entity.isChecked()) {
                 checkSubs.add(entity);
             }
         }
-        if (holder != null){
-            holder.tvCheckedHint.setText("已选"+ checkSubs.size()+"项");
+        if (holder != null) {
+            holder.tvCheckedHint.setText("已选" + checkSubs.size() + "项");
         }
         return checkSubs;
     }
 
     /**
      * 获取所有被选中的子行业
+     *
      * @return
      */
-    public List<IndustryDto> getAllIndustryChecked(){
+    public List<IndustryDto> getAllIndustryChecked() {
         List<IndustryDto> allChecked = new ArrayList<>();
-        for (IndustryDto parentEntity : getAllData()){
-            for (IndustryDto subEntity : parentEntity.getIndustryList()){
-                if (subEntity.isChecked()){
+        for (IndustryDto parentEntity : getAllData()) {
+            List<IndustryDto> subIndustryDto = parentEntity.getIndustryList();
+            if (subIndustryDto == null || subIndustryDto.isEmpty()){
+                continue;
+            }
+            for (IndustryDto subEntity : subIndustryDto) {
+                if (subEntity.isChecked()) {
                     allChecked.add(subEntity);
                 }
             }

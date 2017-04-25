@@ -51,10 +51,12 @@ public class GlideUtils {
 
         Glide.with(imageView.getContext())
                 .load(imagePath)
+                .asBitmap()
+                .centerCrop()
                 .placeholder(R.drawable.glide_placeholder_rotate)
                 .error(R.drawable.ic_load_fail)
-                .crossFade(1000)
-                .into(imageView);
+//                .crossFade(1000)
+                .into(new MyBitmapImageViewTarget(imageView));
     }
 
     public static void loadCircleImage(final ImageView imageView, String imagePath){

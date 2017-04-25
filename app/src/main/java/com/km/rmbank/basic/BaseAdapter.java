@@ -619,12 +619,22 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseAdapter.Ba
     /**
      * 刷新列表
      */
-    protected void notifyDataChanged() {
+    public void notifyDataChanged() {
         AppUtils.executeOnUiThread()
                 .subscribe(new Consumer() {
                     @Override
                     public void accept(@NonNull Object o) throws Exception {
                         notifyDataSetChanged();
+                    }
+                });
+    }
+
+    public void notifyItemDataChanged(final int position, final Object payload){
+        AppUtils.executeOnUiThread()
+                .subscribe(new Consumer() {
+                    @Override
+                    public void accept(@NonNull Object o) throws Exception {
+                        notifyItemChanged(position,payload);
                     }
                 });
     }

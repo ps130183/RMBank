@@ -19,7 +19,7 @@
             android:id="@+id/tv_clear_cache"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="清楚缓存"
+            android:text="清除缓存"
             style="@style/Personal.User.Setting.tv"
             />
         <include layout="@layout/divider_height_1"/>
