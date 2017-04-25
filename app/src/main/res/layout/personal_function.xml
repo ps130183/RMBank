@@ -19,7 +19,7 @@
             android:id="@+id/line_team_contact"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_marginLeft="30dp"
+            android:layout_marginLeft="50dp"
             android:background="@color/color_divider1"/>
 
         <TextView
@@ -48,7 +48,7 @@
             android:id="@+id/line_integral_goods"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_marginLeft="30dp"
+            android:layout_marginLeft="50dp"
             android:visibility="visible"
             android:background="@color/color_divider1"/>
 
@@ -75,7 +75,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_marginLeft="30dp"
+            android:layout_marginLeft="50dp"
             android:background="@color/color_divider1"/>
 
         <TextView
@@ -100,7 +100,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_marginLeft="30dp"
+            android:layout_marginLeft="50dp"
             android:background="@color/color_divider1"/>
 
         <TextView

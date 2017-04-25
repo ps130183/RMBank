@@ -86,6 +86,9 @@ public class CreateOrderActivity extends BaseActivity<CreateOrderPresenter> impl
         aSwitch.setOnCheckedChangeListener(new Switch.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(Switch view, boolean checked) {
+                if ("0".equals(curIntegral)){//积分为0 的时候不做计算
+                    return;
+                }
                 BigDecimal btm = new BigDecimal(totalMoney);//总金额
                 BigDecimal bint = new BigDecimal(curIntegral);//可用积分
                 BigDecimal result;

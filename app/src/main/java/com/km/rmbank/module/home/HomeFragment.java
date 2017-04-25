@@ -67,7 +67,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
     protected void createView() {
 //        initBanner();
         int windowWidth = AppUtils.getCurWindowWidth(getContext());
-        appBar.getLayoutParams().height = windowWidth;
+        appBar.getLayoutParams().height = windowWidth / 4 * 3;
         initrcContentView();
     }
 
