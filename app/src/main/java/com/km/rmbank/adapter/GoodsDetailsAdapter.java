@@ -29,8 +29,8 @@ public class GoodsDetailsAdapter extends BaseAdapter<String> implements BaseAdap
 
     @Override
     public void createView(ViewHolde holder, int position) {
-        Logger.d("position = " + position);
         GlideUtils.loadImage(holder.ivGoodsDetails,getItemData(position));
+//        GlideUtils.loadImage(holder.ivGoodsDetails,R.mipmap.timg);
     }
 
     class ViewHolde extends BaseViewHolder{

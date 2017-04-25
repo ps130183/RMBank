@@ -16,6 +16,8 @@ public class IndustryDto implements Parcelable {
     private String industryName;
     private int parentId;
 
+    private boolean isShow;
+
     private boolean isChecked;
 
     private List<IndustryDto> industryList;
@@ -62,6 +64,14 @@ public class IndustryDto implements Parcelable {
 
     public void setIndustryList(List<IndustryDto> industryList) {
         this.industryList = industryList;
+    }
+
+    public boolean isShow() {
+        return isShow;
+    }
+
+    public void setShow(boolean show) {
+        isShow = show;
     }
 
     @Override

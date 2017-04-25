@@ -34,9 +34,9 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     EditText etPhone;
     @BindView(R.id.et_code)
     EditText etCode;
-
-    @BindView(R.id.cb_agree)
-    CheckBox cbAgree;
+//
+//    @BindView(R.id.cb_agree)
+//    CheckBox cbAgree;
 
     @BindView(R.id.tv_send_code)
     TextView tvSendCode;
@@ -102,10 +102,10 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
             showToast("请填写手机号或验证码");
             return;
         }
-        if (!cbAgree.isChecked()){
-            showToast("请同意玩转地球注册协议");
-            return;
-        }
+//        if (!cbAgree.isChecked()){
+//            showToast("请同意玩转地球注册协议");
+//            return;
+//        }
         mPresenter.login(phone,smsCode);
     }
 

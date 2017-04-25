@@ -27,7 +27,7 @@ public class GoodsDetailsFragment extends BaseFragment {
 
     @BindView(R.id.recyclerview)
     RecyclerView mRecyclerview;
-//    private int[] bannerRes = {R.mipmap.timg,R.mipmap.timg,R.mipmap.timg,R.mipmap.timg,R.mipmap.timg};
+    private int[] bannerRes = {R.mipmap.timg,R.mipmap.timg,R.mipmap.timg,R.mipmap.timg,R.mipmap.timg};
 
     public static GoodsDetailsFragment newInstance(Bundle bundle) {
         GoodsDetailsFragment fragment = new GoodsDetailsFragment();
@@ -47,10 +47,6 @@ public class GoodsDetailsFragment extends BaseFragment {
     }
 
     private void initRecyclerView(List<String> goodsDetails){
-//        List<ICell> iCells = new ArrayList<>();
-//        for (String goodsDetailPath : goodsDetails){
-//            iCells.add(new GoodsDetailsCell(goodsDetailPath));
-//        }
 
         RVUtils.setLinearLayoutManage(mRecyclerview, LinearLayoutManager.VERTICAL);
 //        TemplateAdapter adapter = new TemplateAdapter();

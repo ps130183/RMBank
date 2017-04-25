@@ -115,11 +115,11 @@
         android:layout_height="wrap_content"
         android:paddingLeft="@dimen/view_space_16"
         android:paddingRight="@dimen/view_space_16">
-        <CheckBox
-            android:id="@+id/cb_agree"
+        <TextView
+            android:id="@+id/tv_agree"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="我已阅读并同意"
+            android:text="注册即同意 "
             />
         <TextView
             android:id="@+id/tv_register_agreement"
@@ -127,7 +127,7 @@
             android:layout_height="wrap_content"
             android:text="玩转地球注册协议"
             android:textColor="@color/color_red"
-            android:layout_toRightOf="@id/cb_agree"
+            android:layout_toRightOf="@+id/tv_agree"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/view_space_4"
             />

@@ -72,10 +72,13 @@ public class IndustryParentAdapter extends BaseAdapter<IndustryDto> implements B
                 @Override
                 public void subChecked(IndustryDto subEntity, boolean isChecked) {
                     isParentCheckBoxTouch = false;
-                    parentEntity.setChecked(isChecked);
-                    parentEntity.setChecked(subIndustryChecked(parentEntity.getIndustryList()));
-                    notifyItemDataChanged(position, 10);
+                    if (isChecked){
+                        parentEntity.setChecked(isChecked);
+                    } else {
+                        parentEntity.setChecked(subIndustryChecked(parentEntity.getIndustryList()));
+                    }
                     getSubChecked(holder, parentEntity.getIndustryList());
+                    notifyItemDataChanged(position, 10);
                 }
             });
             //父级行业
@@ -95,6 +98,27 @@ public class IndustryParentAdapter extends BaseAdapter<IndustryDto> implements B
                 public boolean onTouch(View v, MotionEvent event) {
                     isParentCheckBoxTouch = true;
                     return false;
+                }
+            });
+
+            getSubChecked(holder, parentEntity.getIndustryList());
+
+            holder.rvSub.setVisibility(parentEntity.isShow() ? View.VISIBLE : View.GONE);
+            holder.vChecked.setVisibility(parentEntity.isShow() ? View.VISIBLE : View.GONE);
+            holder.rlParent.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (holder.vChecked.getVisibility() == View.GONE) {
+                        holder.vChecked.setVisibility(View.VISIBLE);
+                        parentEntity.setShow(true);
+                    }
+                    holder.animator.showViewByAnimator(holder.rvSub, new ShowViewAnimator.onHideListener() {
+                        @Override
+                        public void hide() {
+                            holder.vChecked.setVisibility(View.GONE);
+                            parentEntity.setShow(false);
+                        }
+                    });
                 }
             });
         }
@@ -130,6 +154,7 @@ public class IndustryParentAdapter extends BaseAdapter<IndustryDto> implements B
             vChecked.setVisibility(View.GONE);
             rvSub.setVisibility(View.GONE);
             tvCheckedHint.setText("");
+//            tvCheckedHint.setVisibility(View.VISIBLE);
         }
 
         private void initSub() {
@@ -140,19 +165,6 @@ public class IndustryParentAdapter extends BaseAdapter<IndustryDto> implements B
             animator = new ShowViewAnimator();
         }
 
-
-        @OnClick(R.id.rl_parent)
-        public void rlParentClick(View view) {
-            if (vChecked.getVisibility() == View.GONE) {
-                vChecked.setVisibility(View.VISIBLE);
-            }
-            animator.showViewByAnimator(rvSub, new ShowViewAnimator.onHideListener() {
-                @Override
-                public void hide() {
-                    vChecked.setVisibility(View.GONE);
-                }
-            });
-        }
     }
 
 
@@ -200,16 +212,16 @@ public class IndustryParentAdapter extends BaseAdapter<IndustryDto> implements B
      */
     private List<IndustryDto> getSubChecked(ViewHolder holder, List<IndustryDto> industryEntities) {
         List<IndustryDto> checkSubs = new ArrayList<>();
-        if (industryEntities == null || industryEntities.isEmpty()){
-            return checkSubs;
-        }
-        for (IndustryDto entity : industryEntities) {
-            if (entity.isChecked()) {
-                checkSubs.add(entity);
+        if (industryEntities != null && !industryEntities.isEmpty()){
+            for (IndustryDto entity : industryEntities) {
+                if (entity.isChecked()) {
+                    checkSubs.add(entity);
+                }
             }
         }
         if (holder != null) {
-            holder.tvCheckedHint.setText("已选" + checkSubs.size() + "项");
+//            String checksubs = "已选" + checkSubs.size() + "个";
+//            holder.tvCheckedHint.setText(checksubs);
         }
         return checkSubs;
     }

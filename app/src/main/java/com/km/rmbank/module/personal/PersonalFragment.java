@@ -3,7 +3,9 @@ package com.km.rmbank.module.personal;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -270,7 +272,10 @@ public class PersonalFragment extends BaseFragment<PersonalPresenter> implements
                     toNextActivity(ReceiverAddressActivity.class);
                     break;
                 case R.id.tv_service:
-                    MToast.showToast(getContext(), "在线客服");
+                case R.id.tv_service_phone:
+                case R.id.rl_service:
+//                    MToast.showToast(getContext(), "在线客服");
+                    call("010-87655945");
                     break;
                 case R.id.tv_attention:
 //                    MToast.showToast(getContext(), "我的关注");
@@ -280,6 +285,16 @@ public class PersonalFragment extends BaseFragment<PersonalPresenter> implements
         }
     };
 
+
+    /**
+     * 调用拨号界面
+     * @param phone 电话号码
+     */
+    private void call(String phone) {
+        Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:"+phone));
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+    }
 
     private void sweep() {
         startActivityForResult(new Intent(getActivity(), CaptureActivity.class), 0);

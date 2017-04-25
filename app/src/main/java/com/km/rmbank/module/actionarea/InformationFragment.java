@@ -2,8 +2,10 @@ package com.km.rmbank.module.actionarea;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
 
@@ -28,6 +30,8 @@ import butterknife.OnClick;
 
 public class InformationFragment extends BaseFragment<InformationPresenter> implements InformationContract.View {
 
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
     @BindView(R.id.title)
     TextView title;
 
@@ -57,6 +61,8 @@ public class InformationFragment extends BaseFragment<InformationPresenter> impl
 
     @Override
     protected void createView() {
+        toolbar.setBackgroundResource(R.color.color_white);
+        title.setTextColor(ContextCompat.getColor(getContext(),R.color.color_block));
         title.setText("资讯");
     }
 

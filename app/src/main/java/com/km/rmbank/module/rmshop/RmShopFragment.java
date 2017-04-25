@@ -2,7 +2,9 @@ package com.km.rmbank.module.rmshop;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
 
 import com.flyco.tablayout.SlidingTabLayout;
@@ -11,6 +13,7 @@ import com.km.rmbank.adapter.ViewPagerTabLayoutAdapter;
 import com.km.rmbank.basic.BaseFragment;
 import com.km.rmbank.basic.BasePresenter;
 import com.km.rmbank.dto.GoodsTypeDto;
+import com.ps.androidlib.utils.StatusBarUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +26,8 @@ import butterknife.BindView;
 
 public class RmShopFragment extends BaseFragment<RmShopPresenter> implements RmShopContract.View {
 
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
     @BindView(R.id.title)
     TextView title;
 
@@ -55,6 +60,8 @@ public class RmShopFragment extends BaseFragment<RmShopPresenter> implements RmS
 
     @Override
     protected void createView() {
+        toolbar.setBackgroundResource(R.color.color_white);
+        title.setTextColor(ContextCompat.getColor(getContext(),R.color.color_block));
         title.setText("商城");
 //        initViewPager();
     }

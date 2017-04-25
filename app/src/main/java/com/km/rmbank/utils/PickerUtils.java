@@ -19,6 +19,7 @@ import com.lvfq.pickerview.OptionsPickerView;
 import com.lvfq.pickerview.TimePickerView;
 import com.lvfq.pickerview.adapter.ArrayWheelAdapter;
 import com.lvfq.pickerview.lib.WheelView;
+import com.ps.androidlib.utils.KeyboardUtils;
 import com.ps.androidlib.utils.MToast;
 
 import java.text.ParseException;
@@ -81,6 +82,7 @@ public class PickerUtils {
         pvTime.setTextSize(16);
         //弹出时间选择器
         pvTime.show();
+        KeyboardUtils.hideSoftInput((Activity) context);
     }
 
 

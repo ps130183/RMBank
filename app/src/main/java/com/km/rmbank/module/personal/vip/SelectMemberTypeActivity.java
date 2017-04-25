@@ -40,8 +40,15 @@ public class SelectMemberTypeActivity extends BaseActivity<SelectMemberTypePrese
     private int memberType = 0;
     private String amount;//支付金额
     private String[] memberNames = {"体验式会员","合伙人会员"};
-    private String[] memberTypeIntros = {"体验式会员 介绍，体验式会员 介绍，体验式会员 介绍，体验式会员 介绍，体验式会员 介绍，体验式会员 介绍，体验式会员 介绍，",
-    "合伙人会员介绍,合伙人会员介绍,合伙人会员介绍,合伙人会员介绍,合伙人会员介绍,合伙人会员介绍,合伙人会员介绍,合伙人会员介绍,合伙人会员介绍,"};
+    private String[] memberTypeIntros = {"1.成为体验式会员可以得到180体验积分，等同于180元现金可在商城上消费。\n" +
+            "2.直接享受玩转地球APP提供的所有商品的优惠。\n" +
+            "3.可以发布您自己的商品供所有用户来购买。\n" +
+            "4.每月最少15场的线下主题活动可以免费参加。",
+    "1.可享受体验式会员所有的服务。\n" +
+            "2.您的团队体验式会员达到15人可获得27000元现金奖励。\n" +
+            "3.15个体验式会员之后可多多获得积分。\n" +
+            "4.发展合伙人会员会有丰厚的现金奖励。\n" +
+            "5.毛里求斯的旅行可能会天降到您的头上。"};
     private List<MemberTypeDto> memberTypeDtos;
     @Override
     protected int getContentView() {
@@ -122,11 +129,11 @@ public class SelectMemberTypeActivity extends BaseActivity<SelectMemberTypePrese
         this.memberTypeDtos = memberTypeDtos;
         MemberTypeDto memberTypeDto1 = memberTypeDtos.get(0);
         MemberTypeDto memberTypeDto2 = memberTypeDtos.get(1);
-        memberNames[0] += "(" + memberTypeDto1.getMemberMoney() + ")";
-        memberNames[1] += "(" + memberTypeDto2.getMemberMoney() + ")";
+        memberNames[0] += "(" + memberTypeDto1.getMemberMoney() + "元)";
+        memberNames[1] += "(" + memberTypeDto2.getMemberMoney() + "元)";
 
-        memberTypeIntros[0] = memberTypeDto1.getExperience();
-        memberTypeIntros[1] = memberTypeDto2.getPartner();
+//        memberTypeIntros[0] = memberTypeDto1.getExperience();
+//        memberTypeIntros[1] = memberTypeDto2.getPartner();
 //        if ("3".equals(Constant.user.getRoleId())){
 //            rlVip1.setVisibility(View.GONE);
 //        }

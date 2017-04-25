@@ -7,10 +7,7 @@ import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
-import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
-import com.bumptech.glide.request.target.Target;
 import com.nineoldandroids.animation.ObjectAnimator;
 import com.orhanobut.logger.Logger;
 import com.ps.androidlib.R;
@@ -36,10 +33,57 @@ public class GlideUtils {
     public static void loadImage(ImageView imageView,int imageRes){
         Glide.with(imageView.getContext())
                 .load(imageRes)
+                .centerCrop()
                 .into(imageView);
     }
 
-    public static void loadImage(ImageView imageView,String imagePath){
+    public static void loadImage(final ImageView imageView, String imagePath){
+        if (imageView == null){
+            Logger.e("imageview is null");
+            return;
+        }
+        final ObjectAnimator anim = ObjectAnimator.ofInt(imageView, "ImageLevel", 0, 10000);
+        anim.setDuration(800);
+        anim.setRepeatCount(ObjectAnimator.INFINITE);
+        anim.start();
+
+        Glide.with(imageView.getContext())
+                .load(imagePath)
+                .placeholder(R.drawable.glide_placeholder_rotate)
+                .error(R.drawable.ic_load_fail)
+                .crossFade(1000)
+//                .into(new MyBitmapImageViewTarget(imageView));
+                .into(imageView);
+    }
+
+    /**
+     * 根据imageView的宽度等比缩放图片的高度
+     * @param imageView
+     * @param imagePath
+     */
+    public static void loadImageByFitWidth(final ImageView imageView, String imagePath){
+        if (imageView == null){
+            Logger.e("imageview is null");
+            return;
+        }
+        final ObjectAnimator anim = ObjectAnimator.ofInt(imageView, "ImageLevel", 0, 10000);
+        anim.setDuration(800);
+        anim.setRepeatCount(ObjectAnimator.INFINITE);
+        anim.start();
+
+        Glide.with(imageView.getContext())
+                .load(imagePath)
+//                .asBitmap()
+//                .fitCenter()
+//                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .placeholder(R.drawable.glide_placeholder_rotate)
+                .error(R.drawable.ic_load_fail)
+                .crossFade(1000)
+//                .into(new MyBitmapImageViewTarget(imageView));
+                .into(imageView);
+    }
+
+    public static void loadImageCenterCrop(ImageView imageView,String imagePath){
         if (imageView == null){
             Logger.e("imageview is null");
             return;
@@ -56,7 +100,9 @@ public class GlideUtils {
                 .placeholder(R.drawable.glide_placeholder_rotate)
                 .error(R.drawable.ic_load_fail)
 //                .crossFade(1000)
+                .dontAnimate()
                 .into(new MyBitmapImageViewTarget(imageView));
+//                .into(imageView);
     }
 
     public static void loadCircleImage(final ImageView imageView, String imagePath){

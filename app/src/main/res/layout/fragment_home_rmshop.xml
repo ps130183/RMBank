@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <include layout="@layout/toolbar_home"/>
+    <include layout="@layout/divider_height_1"/>
 
     <com.flyco.tablayout.SlidingTabLayout
         android:id="@+id/s_tab_layout"

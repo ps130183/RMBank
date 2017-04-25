@@ -51,7 +51,7 @@
             android:layout_below="@id/tv_receiver_name"
             android:layout_marginTop="@dimen/view_space_4"
             android:layout_toLeftOf="@+id/iv_other_address"
-            android:drawableLeft="@mipmap/ic_place_black_24dp"
+            android:drawableLeft="@mipmap/location"
             android:gravity="center|left"
             android:layout_alignParentLeft="true"
             />

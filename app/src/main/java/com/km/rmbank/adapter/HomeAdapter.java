@@ -35,9 +35,9 @@ public class HomeAdapter extends BaseAdapter<HomeRecommendDto> implements BaseAd
     public void createView(ViewHolder holder, int position) {
         final HomeRecommendDto homeRecommendDto = getItemData(position);
         holder.tvTitle.setText(homeRecommendDto.getRecommendName());
-        GlideUtils.loadImage(holder.imageHome1,homeRecommendDto.getProductReconmmendList().get(0).getThumbnailUrl());
-        GlideUtils.loadImage(holder.imageHome2,homeRecommendDto.getProductReconmmendList().get(1).getThumbnailUrl());
-        GlideUtils.loadImage(holder.imageHome3,homeRecommendDto.getProductReconmmendList().get(2).getThumbnailUrl());
+        GlideUtils.loadImageCenterCrop(holder.imageHome1,homeRecommendDto.getProductReconmmendList().get(0).getThumbnailUrl());
+        GlideUtils.loadImageCenterCrop(holder.imageHome2,homeRecommendDto.getProductReconmmendList().get(1).getThumbnailUrl());
+        GlideUtils.loadImageCenterCrop(holder.imageHome3,homeRecommendDto.getProductReconmmendList().get(2).getThumbnailUrl());
         holder.imageHome1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

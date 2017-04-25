@@ -11,6 +11,8 @@ import com.km.rmbank.R;
 import com.km.rmbank.basic.BaseAdapter;
 import com.km.rmbank.dto.IndustryDto;
 
+import java.util.List;
+
 import butterknife.BindView;
 
 /**
@@ -32,7 +34,19 @@ public class IndustrySubAdapter extends BaseAdapter<IndustryDto> implements Base
     }
 
     @Override
-    public void createView(ViewHolder holder, int position) {
+    public void onBindViewHolder(BaseViewHolder holder, int position, List<Object> payloads) {
+//        super.onBindViewHolder(holder, position, payloads);
+        if (payloads == null || payloads.isEmpty()){
+            onBindViewHolder(holder,position);
+        } else {
+            IndustryDto industryDto = getItemData(position);
+            ViewHolder viewHolder = (ViewHolder) holder;
+            viewHolder.checkBox.setChecked(industryDto.isChecked());
+        }
+    }
+
+    @Override
+    public void createView(ViewHolder holder, final int position) {
 
         final IndustryDto entity = getItemData(position);
         holder.tvIndustryName.setText(entity.getName());
@@ -51,7 +65,7 @@ public class IndustrySubAdapter extends BaseAdapter<IndustryDto> implements Base
             @Override
             public void onClick(View v) {
                 entity.setChecked(!entity.isChecked());
-                notifyDataChanged();
+                notifyItemDataChanged(position,10);
             }
         });
 

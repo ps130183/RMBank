@@ -27,18 +27,20 @@
         <include layout="@layout/divider_height_1"/>
 
         <TextView
+            android:id="@+id/tv_content1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="1.可以干什么有什么服务好的服务不是说的是做的，卡忙北鼻\n2.可以干什么有什么服务好的服务不是说的是做的，卡忙北鼻哦耶被逼\n3.可以干什么有什么服务好的服务不是说的是做的，卡忙北鼻继续做事儿吧"
+            android:text=""
             android:layout_marginTop="@dimen/view_space_4"
             android:layout_marginBottom="@dimen/view_space_4"
             />
         <include layout="@layout/divider_height_1"/>
 
         <TextView
+            android:id="@+id/tv_content2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="1.可以干什么有什么服务好的服务不是说的是做的，卡忙北鼻\n2.可以干什么有什么服务好的服务不是说的是做的，卡忙北鼻哦耶被逼\n3.可以干什么有什么服务好的服务不是说的是做的，卡忙北鼻继续做事儿吧"
+            android:text=""
             android:layout_marginTop="@dimen/view_space_4"
             android:layout_marginBottom="@dimen/view_space_4"
             />

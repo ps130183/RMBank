@@ -91,14 +91,14 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
         mCompositeSubscription = new CompositeDisposable();
         apiWrapper = ApiWrapper.getInstance();
         mPresenter = getmPresenter();//mPresenter
+
         if (toolbarType == TOOLBAR_TYPE_DEFAULT) {
             setContentView(R.layout.baseview);
             initDefaultView();
-            StatusBarUtil.StatusBarLightMode(context);//设置状态栏 字体颜色为深色
         } else if (toolbarType == TOOLBAR_TYPE_HOME) {
             setContentView(R.layout.activity_base_home);
         }
-
+        StatusBarUtil.StatusBarLightMode(context);//设置状态栏 字体颜色为深色
         //设置页面主内容布局
         View viewContent = ViewUtils.getView(context, getContentView());
         flContent = (FrameLayout) findViewById(R.id.fl_content);
@@ -258,7 +258,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
     protected
     @DrawableRes
     int getBackIconRes() {
-        return R.mipmap.ic_chevron_left_black_36dp;
+        return R.mipmap.ic_left_back;
     }
 
     protected int getRightIconRes() {
