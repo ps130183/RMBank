@@ -92,7 +92,7 @@ public class InformationFragment extends BaseFragment<InformationPresenter> impl
         adapter.setOnBannerCliclListener(new InformationAdapter.OnBannerCliclListener() {
             @Override
             public void clickBanner(int position) {
-                showToast("position = " + position);
+//                showToast("position = " + position);
             }
         });
         adapter.addLoadMore(rvActionArea, new BaseAdapter.MoreDataListener() {

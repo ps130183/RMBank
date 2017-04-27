@@ -13,6 +13,7 @@ import com.km.rmbank.dto.OrderDto;
 import com.km.rmbank.dto.PayOrderDto;
 import com.km.rmbank.module.payment.PaymentActivity;
 import com.km.rmbank.module.personal.order.detail.OrderDetailsActivity;
+import com.km.rmbank.utils.Constant;
 
 import java.util.List;
 
@@ -81,6 +82,10 @@ public class MyOrderFragment extends BaseFragment<OrderPresenter> implements Ord
             public void clickBtnAction(OrderDto orderDto,int status) {
                 switch (status){
                     case 1://去付款
+                        if (Constant.isPay){
+                            showToast("支付暂未开通");
+                            return;
+                        }
                         mPresenter.getPayOrder(orderDto);
                         break;
                     case 2:

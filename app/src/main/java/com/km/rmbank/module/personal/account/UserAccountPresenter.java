@@ -35,7 +35,7 @@ public class UserAccountPresenter extends PresenterWrapper<UserAccountContract.V
 
     @Override
     public void loadAccountDetail(final int pageNo) {
-        mView.showLoading();
+//        mView.showLoading();
         mApiwrapper.getUserAccountDetail(pageNo)
                 .subscribe(newSubscriber(new Consumer<List<UserAccountDetailDto>>() {
                     @Override
@@ -50,6 +50,5 @@ public class UserAccountPresenter extends PresenterWrapper<UserAccountContract.V
     public void onCreateView() {
         loadBalance();
         mView.initAccountDetail();
-        loadAccountDetail(1);
     }
 }

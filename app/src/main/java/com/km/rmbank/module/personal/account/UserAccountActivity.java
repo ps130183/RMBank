@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.km.rmbank.R;
 import com.km.rmbank.adapter.UserAccountDetailAdapter;
 import com.km.rmbank.basic.BaseActivity;
+import com.km.rmbank.basic.BaseAdapter;
 import com.km.rmbank.basic.RVUtils;
 import com.km.rmbank.cell.PersonalAccountDetailsCell;
 import com.km.rmbank.dto.UserAccountDetailDto;
@@ -68,8 +69,15 @@ public class UserAccountActivity extends BaseActivity<UserAccountPresenter> impl
     public void initAccountDetail() {
         RVUtils.setLinearLayoutManage(mRecyclerView, LinearLayoutManager.VERTICAL);
         RVUtils.addDivideItemForRv(mRecyclerView, RVUtils.DIVIDER_COLOR_ACCOUNT_DETAILS, 2);
-        UserAccountDetailAdapter adapter = new UserAccountDetailAdapter(this);
+        final UserAccountDetailAdapter adapter = new UserAccountDetailAdapter(this);
         mRecyclerView.setAdapter(adapter);
+        adapter.addLoadMore(mRecyclerView, new BaseAdapter.MoreDataListener() {
+            @Override
+            public void loadMoreData() {
+                mPresenter.loadAccountDetail(adapter.getNextPage());
+            }
+        });
+        mPresenter.loadAccountDetail(adapter.getNextPage());
 
     }
 

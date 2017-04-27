@@ -135,7 +135,7 @@ public class UserInfoActivity extends BaseActivity<UserInfoPresenter> implements
     @Override
     public void uploadProtraitSuccess(String imageUri) {
         Logger.d("上传头像 ==  " + imageUri);
-        GlideUtils.loadImage(ivProtrait, imageUri);
+        GlideUtils.loadCircleImage(ivProtrait, imageUri);
         userInfoDto.setPortraitUrl(imageUri);
     }
 

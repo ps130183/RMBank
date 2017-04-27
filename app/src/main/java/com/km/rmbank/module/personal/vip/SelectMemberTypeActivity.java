@@ -118,6 +118,10 @@ public class SelectMemberTypeActivity extends BaseActivity<SelectMemberTypePrese
 
     @OnClick(R.id.btn_become_member)
     public void becomeMember(View view){
+        if (Constant.isPay){
+            showToast("支付暂未开通");
+            return;
+        }
         Bundle bundle = new Bundle();
         bundle.putInt("paymentForObj",memberType);
         bundle.putString("amount",amount);

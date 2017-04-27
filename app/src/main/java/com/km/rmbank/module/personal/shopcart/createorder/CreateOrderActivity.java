@@ -18,6 +18,7 @@ import com.km.rmbank.dto.ShoppingCartDto;
 import com.km.rmbank.event.OtherAddressEvent;
 import com.km.rmbank.module.personal.receiveraddress.ReceiverAddressActivity;
 import com.km.rmbank.module.payment.PaymentActivity;
+import com.km.rmbank.utils.Constant;
 import com.rey.material.widget.Switch;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -132,13 +133,17 @@ public class CreateOrderActivity extends BaseActivity<CreateOrderPresenter> impl
 
     @Override
     public void submitOrderSuccess(PayOrderDto payOrderDto) {
-        Bundle bundle = new Bundle();
-        bundle.putParcelable("payOrderDto",payOrderDto);
-        toNextActivity(PaymentActivity.class,bundle);
+            Bundle bundle = new Bundle();
+            bundle.putParcelable("payOrderDto",payOrderDto);
+            toNextActivity(PaymentActivity.class,bundle);
     }
 
     @OnClick(R.id.tv_submit_order)
     public void submitOrder(View view){
+        if (Constant.isPay){
+            showToast("支付暂未开通");
+            return;
+        }
         String[] params = getOrderParams();
         mPresenter.submitOrder(params[0],params[1],receiverAddressDto.getId(),params[2],params[3]);
 //        toNextActivity(PaymentActivity.class);

@@ -6,9 +6,13 @@
     android:layout_height="match_parent"
     tools:context="com.km.rmbank.module.personal.shopcart.ShoppingCartActivity">
 
-    <include layout="@layout/recyclerview"/>
+    <include layout="@layout/recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/rl_bottom"/>
 
     <RelativeLayout
+        android:id="@+id/rl_bottom"
         android:layout_width="match_parent"
         android:layout_height="@dimen/toolbar_height"
         android:layout_alignParentBottom="true"
@@ -19,8 +23,9 @@
             android:id="@+id/cb_check_all"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="全选"
+            android:text=" 全选"
             android:layout_centerVertical="true"
+            android:button="@drawable/selector_shopcart_check"
             />
 
         <TextView

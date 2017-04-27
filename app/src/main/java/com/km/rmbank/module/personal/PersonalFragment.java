@@ -253,7 +253,7 @@ public class PersonalFragment extends BaseFragment<PersonalPresenter> implements
                     toNextActivity(MyTeamActivity.class);
                     break;
                 case R.id.tv_my_contact:
-                    MToast.showToast(getContext(), "我的人脉");
+                    MToast.showToast(getContext(), "暂未开通");
                     break;
                 case R.id.tv_my_integral:
 //                    MToast.showToast(getContext(), "我的积分");

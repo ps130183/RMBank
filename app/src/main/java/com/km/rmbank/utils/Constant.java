@@ -14,6 +14,8 @@ public class Constant {
     public static final UserDto user = new UserDto();
     public static String protrait =  "";
 
+    public static boolean isPay = false;
+
 
 
 }

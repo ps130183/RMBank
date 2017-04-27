@@ -195,6 +195,10 @@ public class GoodsActivity extends BaseActivity<GoodsDetailsPresenter> implement
 
     @OnClick(R.id.tv_shop_info)
     public void shopInfo(View view){
+        if (true){
+            showToast("客服暂未开通");
+            return;
+        }
         Bundle bundle = new Bundle();
         bundle.putString("shopId",mGoodsDetails.getShopId());
         toNextActivity(EditUserCardActivity.class,bundle);

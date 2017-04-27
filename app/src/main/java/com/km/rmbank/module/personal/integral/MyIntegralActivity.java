@@ -73,7 +73,7 @@ public class MyIntegralActivity extends BaseActivity<MyIntegralPresenter> implem
      */
     @OnClick(R.id.tv_integral)
     public void withDraw(View view){
-//        toNextActivity(WithDrawListActivity.class);
+        toNextActivity(IntegralRuleActivity.class);
     }
 
     @Override

@@ -95,6 +95,7 @@ public class MyOrderAdapter extends BaseAdapter<OrderDto> implements BaseAdapter
                 holder.tvOrderStatus.setText("待付款");
                 holder.btnAction.setVisibility(View.VISIBLE);
                 holder.btnAction.setText("去支付");
+                holder.rlAction.setVisibility(View.VISIBLE);
                 holder.tvMoneyDis.setText(" 件商品  需付款：¥ ");
                 break;
             case 2://已支付  待发货

@@ -839,7 +839,7 @@ public interface ApiService {
     @FormUrlEncoded
     @POST(SecretConstant.API_HOST_PATH + "/auth/member/send/add/friend/apply")
     Flowable<Response<String>> applyBecomeFriend(@Field("token") String token,
-                                                 @Field("mobilePhone") String friendPhone);
+                                                 @Field("friendMobilePhone") String friendPhone);
 
     /**
      * 获取分享的内容
