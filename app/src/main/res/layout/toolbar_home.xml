@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/toolbar"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/toolbar_statusbar_height"
-    android:paddingTop="@dimen/statusbar_height"
+    android:layout_height="@dimen/toolbar_status_height"
+    android:paddingTop="@dimen/status_height"
     app:popupTheme="@style/ToolbarPopupTheme"
     android:background="@color/color_toolbar_background">
 

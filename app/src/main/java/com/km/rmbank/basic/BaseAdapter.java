@@ -78,6 +78,9 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseAdapter.Ba
         this(mContext, new ArrayList<T>(), itemLayoutRes);
     }
 
+    public BaseAdapter(Context mContext) {
+        this(mContext,R.layout.item_rv_default);
+    }
 
     @Override
     public BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {

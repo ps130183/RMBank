@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.km.rmbank.R;
 import com.km.rmbank.basic.BaseActivity;
 import com.km.rmbank.module.HomeActivity;
+import com.km.rmbank.module.HomeNewActivity;
 import com.km.rmbank.module.personal.AgreementActivity;
 import com.orhanobut.logger.Logger;
 
@@ -87,7 +88,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     private void returnHome(){
         Bundle bundle = new Bundle();
         bundle.putInt("position",0);
-        toNextActivity(HomeActivity.class,bundle);
+        toNextActivity(HomeNewActivity.class,bundle);
     }
 
     /**
@@ -112,7 +113,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     @Override
     public void loginSuccess() {
         showToast("登录成功");
-        toNextActivity(HomeActivity.class);
+        toNextActivity(HomeNewActivity.class);
     }
 
     @Override

@@ -175,7 +175,8 @@
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity android:name=".module.personal.AgreementActivity" />
         <activity android:name=".module.actionarea.InformationDetailActivity" />
-        <activity android:name=".module.personal.integral.IntegralRuleActivity"></activity>
+        <activity android:name=".module.personal.integral.IntegralRuleActivity" />
+        <activity android:name=".module.HomeNewActivity" android:launchMode="singleTask"></activity>
     </application>
 
 </manifest>

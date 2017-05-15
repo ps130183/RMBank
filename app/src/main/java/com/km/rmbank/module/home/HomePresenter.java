@@ -2,6 +2,8 @@ package com.km.rmbank.module.home;
 
 import com.km.rmbank.dto.BannerDto;
 import com.km.rmbank.dto.HomeRecommendDto;
+import com.km.rmbank.dto.ShareDto;
+import com.km.rmbank.utils.Constant;
 import com.km.rmbank.utils.retrofit.PresenterWrapper;
 
 import java.util.List;

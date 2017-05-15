@@ -7,6 +7,8 @@
 
     <color name="gallery_blue">#ffffff</color>
 
+    <color name="comui_tab_text_color">#ff333333</color>
+
     <!--默认背景颜色-->
     <color name="color_default_background">#f4f2f2</color>
     <!--白色-->
@@ -16,7 +18,7 @@
     <!--标题栏背景色-->
     <color name="color_toolbar_background">#d50000</color>
 
-    <color name="color_search_background">#88000000</color>
+    <color name="color_search_background">#efedecec</color>
 
     <color name="color_text_gray">#d4d2d2</color>
     <color name="color_text_gray1">#636363</color>

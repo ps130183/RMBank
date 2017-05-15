@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/color_white"
+    >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <TextView
+            android:id="@+id/tv_floor_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="家居用品"
+            android:textSize="@dimen/text_size_16"
+            android:textStyle="bold"
+            android:layout_marginLeft="@dimen/view_space_16"
+            android:paddingTop="@dimen/view_space_8"
+            android:paddingBottom="@dimen/view_space_8"
+            />
+
+        <View
+            android:layout_width="8dp"
+            android:layout_height="35dp"
+            android:background="#ea8034"
+            android:layout_alignBottom="@+id/tv_floor_title"
+            />
+
+        <TextView
+            android:id="@+id/tv_floor_sub_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="有熟人放养 放心买"
+            android:textSize="@dimen/text_size_12"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/view_space_16"
+            android:paddingTop="@dimen/view_space_8"
+            android:paddingBottom="@dimen/view_space_8"
+            android:layout_centerVertical="true"
+            />
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/divider_line_1"
+        android:background="@color/color_divider1"/>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewpager1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </android.support.v4.view.ViewPager>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/divider_line_1"
+        android:background="@color/color_divider1"/>
+
+    <LinearLayout
+        android:id="@+id/ll_dot"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_alignParentBottom="true">
+
+    </LinearLayout>
+
+</LinearLayout>

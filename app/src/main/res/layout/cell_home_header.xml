@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:id="@+id/home_header_content"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/iv_home_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/ic_home_header"
+        android:scaleType="centerCrop"
+        />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:background="#33000000"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="发现，熟人的精彩"
+            android:gravity="center"
+            android:textColor="@color/color_white"
+            android:textSize="@dimen/text_size_20"
+            android:textStyle="bold"
+            android:layout_marginBottom="@dimen/view_space_16"
+            android:layout_above="@+id/rl_search"
+            />
+
+        <RelativeLayout
+            android:id="@+id/rl_search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#efedecec"
+            android:layout_marginLeft="@dimen/view_space_64"
+            android:layout_marginRight="@dimen/view_space_64"
+            android:paddingTop="@dimen/view_space_8"
+            android:paddingBottom="@dimen/view_space_8"
+            >
+
+            <TextView
+                android:id="@+id/tv_search"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="  输入你正在找的宝贝"
+                android:textSize="@dimen/text_size_14"
+                android:layout_centerHorizontal="true"
+                android:drawableLeft="@mipmap/ic_search_32"
+                />
+
+        </RelativeLayout>
+    </RelativeLayout>
+
+
+
+
+</FrameLayout>

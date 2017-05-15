@@ -4,9 +4,10 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
 
     <dimen name="toolbar_height">48dp</dimen>
-    <dimen name="toolbar_statusbar_height">75dp</dimen>
-    <dimen name="statusbar_height">15dp</dimen>
+    <dimen name="toolbar_status_height">75dp</dimen>
+    <dimen name="status_height">15dp</dimen>
 
+    <dimen name="view_space_64">64dp</dimen>
     <dimen name="view_space_32">32dp</dimen>
     <dimen name="view_space_16">16dp</dimen>
     <dimen name="view_space_8">8dp</dimen>

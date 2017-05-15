@@ -4,6 +4,7 @@ import com.km.rmbank.basic.BasePresenter;
 import com.km.rmbank.basic.BaseView;
 import com.km.rmbank.dto.BannerDto;
 import com.km.rmbank.dto.HomeRecommendDto;
+import com.km.rmbank.dto.ShareDto;
 
 import java.util.List;
 

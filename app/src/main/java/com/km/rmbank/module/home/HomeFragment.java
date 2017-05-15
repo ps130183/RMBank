@@ -14,6 +14,7 @@ import com.km.rmbank.basic.BaseFragment;
 import com.km.rmbank.basic.RVUtils;
 import com.km.rmbank.dto.BannerDto;
 import com.km.rmbank.dto.HomeRecommendDto;
+import com.km.rmbank.dto.ShareDto;
 import com.km.rmbank.entity.HomeEntity;
 import com.km.rmbank.module.actionarea.InformationDetailActivity;
 import com.km.rmbank.module.home.message.MessageActivity;

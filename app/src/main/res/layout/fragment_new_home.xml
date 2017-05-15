@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!--<android.support.design.widget.AppBarLayout-->
+        <!--android:id="@+id/app_bar"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="180dp"-->
+        <!--android:fitsSystemWindows="true">-->
+
+        <!--<android.support.design.widget.CollapsingToolbarLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--app:contentScrim="@color/color_red"-->
+            <!--app:layout_scrollFlags="scroll|exitUntilCollapsed">-->
+
+            <!--<com.youth.banner.Banner-->
+                <!--android:id="@+id/banner"-->
+                <!--android:fitsSystemWindows="true"-->
+                <!--android:clipToPadding="true"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent">-->
+
+            <!--</com.youth.banner.Banner>-->
+
+            <!--<ImageView-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:scaleType="centerCrop"-->
+                <!--android:src="@mipmap/timg"-->
+                <!--/>-->
+
+            <!--<android.support.v7.widget.Toolbar-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="@dimen/toolbar_status_height"-->
+                <!--android:background="@color/color_white"-->
+                <!--app:layout_collapseMode="pin">-->
+
+                <!--<ImageView-->
+                    <!--android:id="@+id/logo"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:src="@mipmap/ic_home_logo"-->
+                    <!--android:layout_marginRight="@dimen/view_space_8"-->
+                    <!--/>-->
+
+                <!--<RelativeLayout-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--&gt;-->
+                    <!--<EditText-->
+                        <!--android:id="@+id/et_search"-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="30dp"-->
+                        <!--android:hint="搜索"-->
+                        <!--android:textColorHint="@color/color_white"-->
+                        <!--android:layout_toLeftOf="@+id/tv_message"-->
+                        <!--android:background="@drawable/shape_home_search"-->
+                        <!--android:layout_centerVertical="true"-->
+                        <!--android:padding="@dimen/view_space_4"-->
+                        <!--android:textSize="@dimen/text_size_14"-->
+                        <!--android:focusable="false"-->
+                        <!--android:focusableInTouchMode="false"-->
+                        <!--/>-->
+
+                    <!--<ImageView-->
+                        <!--android:id="@+id/tv_message"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:src="@mipmap/ic_message_white"-->
+                        <!--android:textColor="@color/color_white"-->
+                        <!--android:layout_alignParentRight="true"-->
+                        <!--android:layout_centerVertical="true"-->
+                        <!--android:layout_marginRight="@dimen/view_space_16"-->
+                        <!--android:layout_marginLeft="@dimen/view_space_8"-->
+                        <!--/>-->
+
+                <!--</RelativeLayout>-->
+
+            <!--</android.support.v7.widget.Toolbar>-->
+
+        <!--</android.support.design.widget.CollapsingToolbarLayout>-->
+
+    <!--</android.support.design.widget.AppBarLayout>-->
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rc_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+    </android.support.v7.widget.RecyclerView>
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_status_height"
+        android:background="@color/color_white"
+        android:paddingTop="@dimen/status_height"
+        app:layout_collapseMode="pin">
+
+        <ImageView
+            android:id="@+id/logo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/ic_home_logo"
+            android:layout_marginRight="@dimen/view_space_8"
+            />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+            <RelativeLayout
+                android:id="@+id/rl_search"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shape_home_search"
+                android:paddingTop="@dimen/view_space_8"
+                android:paddingBottom="@dimen/view_space_8"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/tv_message"
+                android:layout_gravity="center">
+
+                <TextView
+                    android:id="@+id/tv_search"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="  输入你正在找的宝贝"
+                    android:textSize="@dimen/text_size_14"
+                    android:layout_centerHorizontal="true"
+                    android:drawableLeft="@mipmap/ic_search_32"
+                    />
+
+            </RelativeLayout>
+
+            <ImageView
+                android:id="@+id/tv_message"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/ic_message_white"
+                android:textColor="@color/color_white"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/view_space_16"
+                android:layout_marginLeft="@dimen/view_space_8"
+                />
+
+        </RelativeLayout>
+
+    </android.support.v7.widget.Toolbar>
+
+
+</FrameLayout>

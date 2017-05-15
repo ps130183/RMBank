@@ -15,6 +15,7 @@ import com.km.rmbank.event.PaySuccessEvent;
 import com.km.rmbank.event.UserIsEmptyEvent;
 import com.km.rmbank.module.actionarea.InformationFragment;
 import com.km.rmbank.module.home.HomeFragment;
+import com.km.rmbank.module.home.HomeNewFragment;
 import com.km.rmbank.module.login.LoginActivity;
 import com.km.rmbank.module.personal.PersonalFragment;
 import com.km.rmbank.module.personal.order.MyOrderActivity;
@@ -105,7 +106,8 @@ public class HomeActivity extends BaseActivity {
 
         if (fragmentList == null){
             fragmentList = new ArrayList<>();
-            fragmentList.add(HomeFragment.newInstance(null));
+            fragmentList.add(HomeNewFragment.newInstance(null));
+//            fragmentList.add(HomeFragment.newInstance(null));
             fragmentList.add(RmShopFragment.newInstance(null));
             fragmentList.add(InformationFragment.newInstance(null));
             fragmentList.add(PersonalFragment.newInstance(null));
