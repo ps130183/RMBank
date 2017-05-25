@@ -21,14 +21,19 @@ import com.km.rmbank.cell.HomeFloorTwoCell;
 import com.km.rmbank.cell.HomeGoodsTypeCell;
 import com.km.rmbank.cell.HomeHeaderCell;
 import com.km.rmbank.dto.BannerDto;
+import com.km.rmbank.dto.HomeGoodsTypeDto;
+import com.km.rmbank.dto.HomeNewRecommendDto;
 import com.km.rmbank.dto.HomeRecommendDto;
 import com.km.rmbank.dto.ShareDto;
+import com.km.rmbank.entity.HomeDataEntity;
 import com.km.rmbank.entity.HomeGtEntity;
 import com.km.rmbank.module.actionarea.InformationDetailActivity;
 import com.km.rmbank.module.home.message.MessageActivity;
 import com.km.rmbank.module.rmshop.goods.GoodsActivity;
+import com.km.rmbank.module.rmshop.goods.RmShopActivity;
 import com.km.rmbank.utils.UmengShareUtils;
 import com.km.rv_libs.TemplateAdapter;
+import com.km.rv_libs.base.ICell;
 import com.orhanobut.logger.Logger;
 import com.ps.androidlib.utils.AppUtils;
 import com.ps.androidlib.utils.BannerUtils;
@@ -75,6 +80,9 @@ public class HomeNewFragment extends BaseFragment<HomePresenter> implements Home
     private int mHomeHeaderVisibleHeight = 0;
     private int mToolbarHeight = 0;
 
+
+    private HomeGoodsTypeCell mHomeGoodsTypeCell;
+
     public static HomeNewFragment newInstance(Bundle bundle) {
         HomeNewFragment fragment = new HomeNewFragment();
         fragment.setArguments(bundle);
@@ -101,39 +109,25 @@ public class HomeNewFragment extends BaseFragment<HomePresenter> implements Home
         mHomeHeaderVisibleHeight = mHomeHeaderHeight;
         mToolbarHeight = mToolBar.getLayoutParams().height;
 //        appBar.getLayoutParams().height = windowWidth / 4 * 3;
-        initrcContentView();
+//        initrcContentView();
     }
 
-    private void initrcContentView(){
+    private void initrcContentView(List<HomeGoodsTypeDto> homeGoodsTypeDtos){
         RVUtils.setLinearLayoutManage(rcContent, LinearLayoutManager.VERTICAL);
         RVUtils.addDivideItemForRv(rcContent);
         TemplateAdapter adapter = new TemplateAdapter();
 
-        List<HomeGtEntity> goodsTypeList = new ArrayList<>();
+        List<HomeGoodsTypeDto> goodsTypeList = new ArrayList<>();
 
-        for (int i = 0; i < homeGtImages.length ; i++){
-            goodsTypeList.add(new HomeGtEntity(homeGtNames[i],homeGtImages[i]));
-        }
+//        for (int i = 0; i < homeGtImages.length ; i++){
+//            goodsTypeList.add(new HomeGtEntity(homeGtNames[i],homeGtImages[i]));
+//        }
 
         adapter.add(new HomeHeaderCell("",null));
 
-        HomeGoodsTypeCell homeGoodsTypeCell = new HomeGoodsTypeCell(goodsTypeList,null);
-        homeGoodsTypeCell.setmFragmentManager(getFragmentManager());
-        adapter.add(homeGoodsTypeCell);
-
-        HomeFloorOneCell homeFloorOneCell = new HomeFloorOneCell("",null);
-        adapter.add(homeFloorOneCell);
-
-        HomeFloorTwoCell homeFloorTwoCell = new HomeFloorTwoCell("",null);
-        homeFloorTwoCell.setmFragmentManager(getFragmentManager());
-        adapter.add(homeFloorTwoCell);
-
-        HomeFloorThreeCell homeFloorThreeCell = new HomeFloorThreeCell("",null);
-        adapter.add(homeFloorThreeCell);
-
-        HomeFloorFourCell homeFloorFourCell = new HomeFloorFourCell("",null);
-        adapter.add(homeFloorFourCell);
-
+        mHomeGoodsTypeCell = new HomeGoodsTypeCell(homeGoodsTypeDtos,null);
+        mHomeGoodsTypeCell.setmFragmentManager(getFragmentManager());
+        adapter.add(mHomeGoodsTypeCell);
 
         rcContent.setAdapter(adapter);
 
@@ -184,23 +178,38 @@ public class HomeNewFragment extends BaseFragment<HomePresenter> implements Home
         for (BannerDto bannerDto : bannerDtos){
             bannerImages.add(bannerDto.getAvatarUrl());
         }
-//        BannerUtils.initBannerFromUrl(banner, bannerImages, new OnBannerListener() {
-//            @Override
-//            public void OnBannerClick(int position) {
-//                BannerDto bannerDto = bannerDtos.get(position);
-//                String type = bannerDto.getType();
-//                Bundle bundle = new Bundle();
-//                if ("1".equals(type)){
-//                    bundle.putString("informationId",bannerDto.getId());
-//                    bundle.putString("informationTitle",bannerDto.getTitle());
-//                    toNextActivity(InformationDetailActivity.class,bundle);
-//                } else if ("2".equals(type)){
-//                    bundle.putString("productNo",bannerDto.getId());
-//                    toNextActivity(GoodsActivity.class,bundle);
-//                }
-////                showToast("banner type " + bannerDto.getType());
-//            }
-//        });
+    }
+
+    @Override
+    public void showHomeGoodsType(List<HomeGoodsTypeDto> homeDataEntity) {
+        initrcContentView(homeDataEntity);
+    }
+
+    @Override
+    public void ShowHomeNewRecommend(List<HomeNewRecommendDto> homeNewRecommendDtos) {
+        TemplateAdapter adapter = (TemplateAdapter) rcContent.getAdapter();
+        for (HomeNewRecommendDto homeNewRecommendDto : homeNewRecommendDtos){
+
+            switch (homeNewRecommendDto.getType()){
+                case "1":
+                    HomeFloorOneCell homeFloorOneCell = new HomeFloorOneCell(homeNewRecommendDto,onFloorOneClick);
+                    adapter.add(homeFloorOneCell);
+                    break;
+                case "2":
+                    HomeFloorTwoCell homeFloorTwoCell = new HomeFloorTwoCell(homeNewRecommendDto,onFloorTwoClick);
+                    homeFloorTwoCell.setmFragmentManager(getFragmentManager());
+                    adapter.add(homeFloorTwoCell);
+                    break;
+                case "3":
+                    HomeFloorThreeCell homeFloorThreeCell = new HomeFloorThreeCell(homeNewRecommendDto,onFloorThreeClick);
+                    adapter.add(homeFloorThreeCell);
+                    break;
+                case "4":
+                    HomeFloorFourCell homeFloorFourCell = new HomeFloorFourCell(homeNewRecommendDto,onFloorOneClick);
+                    adapter.add(homeFloorFourCell);
+                    break;
+            }
+        }
     }
 
     @OnClick({R.id.rl_search,R.id.tv_search})
@@ -212,5 +221,85 @@ public class HomeNewFragment extends BaseFragment<HomePresenter> implements Home
     public void message(View view){
         toNextActivity(MessageActivity.class);
     }
+
+    ICell.OnCellClickListener<HomeNewRecommendDto> onFloorOneClick = new ICell.OnCellClickListener<HomeNewRecommendDto>() {
+        @Override
+        public void cellClick(HomeNewRecommendDto mData, int position) {
+            Bundle bundle = new Bundle();
+            boolean isLevelOne = false;
+            String levelOneId = mData.getProductTypeParentId();
+            String levelTwoId = "";
+            switch (position){
+                case 0:
+                    isLevelOne = true;
+                    break;
+                case 1:
+                    levelTwoId = mData.getTypeList().get(0).getId();
+                    break;
+                case 2:
+                    levelTwoId = mData.getTypeList().get(1).getId();
+                    break;
+                case 3:
+                    levelTwoId = mData.getTypeList().get(2).getId();
+                    break;
+                case 4:
+                    levelTwoId = mData.getTypeList().get(3).getId();
+                    break;
+
+            }
+            bundle.putBoolean("isLevelOne",isLevelOne);
+            bundle.putString("levelOneId",levelOneId);
+            bundle.putString("levelTwoId",levelTwoId);
+            toNextActivity(RmShopActivity.class,bundle);
+        }
+    };
+
+    ICell.OnCellClickListener<HomeNewRecommendDto> onFloorTwoClick = new ICell.OnCellClickListener<HomeNewRecommendDto>() {
+        @Override
+        public void cellClick(HomeNewRecommendDto mData, int position) {
+            Bundle bundle = new Bundle();
+            bundle.putBoolean("isLevelOne",true);
+            bundle.putString("levelOneId",mData.getProductTypeParentId());
+            bundle.putString("levelTwoId","");
+            toNextActivity(RmShopActivity.class,bundle);
+        }
+    };
+
+    ICell.OnCellClickListener<HomeNewRecommendDto> onFloorThreeClick = new ICell.OnCellClickListener<HomeNewRecommendDto>() {
+        @Override
+        public void cellClick(HomeNewRecommendDto mData, int position) {
+            boolean isLevelOne = false;
+            String levelOneId = mData.getProductTypeParentId();
+            String levelTwoId = "";
+            switch (position){
+                case 0:
+                    isLevelOne = true;
+                    break;
+                case 1:
+                    levelTwoId = mData.getTypeList().get(0).getId();
+                    break;
+                case 2:
+                    levelTwoId = mData.getTypeList().get(1).getId();
+                    break;
+                case 3:
+                    levelTwoId = mData.getTypeList().get(2).getId();
+                    break;
+                case 4:
+                    levelTwoId = mData.getTypeList().get(3).getId();
+                    break;
+                case 5:
+                    levelTwoId = mData.getTypeList().get(4).getId();
+                    break;
+                case 6:
+                    levelTwoId = mData.getTypeList().get(5).getId();
+                    break;
+            }
+            Bundle bundle = new Bundle();
+            bundle.putBoolean("isLevelOne",isLevelOne);
+            bundle.putString("levelOneId",levelOneId);
+            bundle.putString("levelTwoId",levelTwoId);
+            toNextActivity(RmShopActivity.class,bundle);
+        }
+    };
 
 }

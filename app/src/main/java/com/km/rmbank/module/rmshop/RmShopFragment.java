@@ -12,7 +12,9 @@ import com.km.rmbank.R;
 import com.km.rmbank.adapter.ViewPagerTabLayoutAdapter;
 import com.km.rmbank.basic.BaseFragment;
 import com.km.rmbank.basic.BasePresenter;
+import com.km.rmbank.dto.GoodsDto;
 import com.km.rmbank.dto.GoodsTypeDto;
+import com.km.rmbank.dto.HomeGoodsTypeDto;
 import com.ps.androidlib.utils.StatusBarUtil;
 
 import java.util.ArrayList;
@@ -104,5 +106,15 @@ public class RmShopFragment extends BaseFragment<RmShopPresenter> implements RmS
         viewPager.setAdapter(viewPagerAdapter);
 
         mStabLayout.setViewPager(viewPager);
+    }
+
+    @Override
+    public void showGoodsType(List<HomeGoodsTypeDto> goodsTypeDtos) {
+
+    }
+
+    @Override
+    public void showGoodsList(int pageNo, List<GoodsDto> goodsDtos) {
+
     }
 }

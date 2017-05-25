@@ -10,6 +10,8 @@ import com.km.rmbank.dto.EvaluateDto;
 import com.km.rmbank.dto.GoodsDetailsDto;
 import com.km.rmbank.dto.GoodsDto;
 import com.km.rmbank.dto.GoodsTypeDto;
+import com.km.rmbank.dto.HomeGoodsTypeDto;
+import com.km.rmbank.dto.HomeNewRecommendDto;
 import com.km.rmbank.dto.HomeRecommendDto;
 import com.km.rmbank.dto.InformationDto;
 import com.km.rmbank.dto.IntegralDetailsDto;
@@ -274,6 +276,16 @@ public class ApiWrapper extends RetrofitUtil {
      */
     public Flowable<List<GoodsDto>> getGoodsListOfShopping(int pageNo,String typeId){
         return getService().getGoodsListOfShopping(pageNo,typeId)
+                .compose(this.<List<GoodsDto>>applySchedulers());
+    }
+
+    /**
+     * 获取商城的 商品列表
+     * @param pageNo
+     * @return
+     */
+    public Flowable<List<GoodsDto>> getGoodsListOfShoppingNew(int pageNo,String typeId,int orderBy,String roleId){
+        return getService().getGoodsListOfShoppingNew(pageNo,typeId,orderBy,roleId)
                 .compose(this.<List<GoodsDto>>applySchedulers());
     }
 
@@ -558,6 +570,15 @@ public class ApiWrapper extends RetrofitUtil {
     }
 
     /**
+     * 获取新版 商城 商品分类
+     * @return
+     */
+    public Flowable<List<HomeGoodsTypeDto>> getGoodsType(){
+        return getService().getGoodsType("1")
+                .compose(this.<List<HomeGoodsTypeDto>>applySchedulers());
+    }
+
+    /**
      * 获取关注商品列表
      * @param pageNo
      * @return
@@ -604,6 +625,15 @@ public class ApiWrapper extends RetrofitUtil {
     public Flowable<List<HomeRecommendDto>> getHomeRecommend(int pageNo){
         return getService().getHomeActionRecommend(pageNo)
                 .compose(this.<List<HomeRecommendDto>>applySchedulers());
+    }
+
+    /**
+     * 获取 新版 首页活动 商品推荐
+     * @return
+     */
+    public Flowable<List<HomeNewRecommendDto>> getHomeNewRecommend(int pageNo){
+        return getService().getHomeNewActionRecommend(pageNo)
+                .compose(this.<List<HomeNewRecommendDto>>applySchedulers());
     }
 
     /**
@@ -793,5 +823,17 @@ public class ApiWrapper extends RetrofitUtil {
         return getService().getInformationBanner("")
                 .compose(this.<List<InformationDto>>applySchedulers());
     }
+
+
+    /**
+     * 获取 新版首页 商品一级分类
+     * @return
+     */
+    public Flowable<List<HomeGoodsTypeDto>> getHomeGoodsTypes(){
+        return getService().getHomeGoodsType("1")
+                .compose(this.<List<HomeGoodsTypeDto>>applySchedulers());
+    }
+
+
 
 }

@@ -235,7 +235,10 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseAdapter.Ba
                 setLoadMoreFinish(false);
             }
         } else {
-            if (mListDatas.size() > 0) {
+            if (nextPage == 1){
+                clearAllData();
+                setmExistEmptyView(true);
+            } else if (mListDatas.size() > 0) {
                 setLoadMoreFinish(true);
             } else {
                 if (loadMoreHolder != null){

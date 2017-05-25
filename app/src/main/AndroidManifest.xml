@@ -176,7 +176,10 @@
         <activity android:name=".module.personal.AgreementActivity" />
         <activity android:name=".module.actionarea.InformationDetailActivity" />
         <activity android:name=".module.personal.integral.IntegralRuleActivity" />
-        <activity android:name=".module.HomeNewActivity" android:launchMode="singleTask"></activity>
+        <activity
+            android:name=".module.HomeNewActivity"
+            android:launchMode="singleTask" />
+        <activity android:name=".module.rmshop.goods.RmShopActivity"></activity>
     </application>
 
 </manifest>

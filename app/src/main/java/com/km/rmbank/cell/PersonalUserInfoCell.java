@@ -1,6 +1,8 @@
 package com.km.rmbank.cell;
 
+import android.text.TextUtils;
 import android.view.View;
+import android.widget.TextView;
 
 import com.km.rmbank.R;
 import com.km.rmbank.dto.UserInfoDto;
@@ -36,7 +38,13 @@ public class PersonalUserInfoCell extends BaseCell<UserInfoDto> implements View.
             } else if ("3".equals(Constant.user.getRoleId())){
                 vipType = "体验式会员";
             }
-            holder.getTextView(R.id.tv_vip_type).setText(vipType);
+            TextView tvVipType = holder.getTextView(R.id.tv_vip_type);
+            if (TextUtils.isEmpty(vipType)){
+                tvVipType.setVisibility(View.GONE);
+            } else {
+                tvVipType.setVisibility(View.VISIBLE);
+            }
+            tvVipType.setText(vipType);
         }
 
         holder.getImageView(R.id.iv_user_portrait).setOnClickListener(this);

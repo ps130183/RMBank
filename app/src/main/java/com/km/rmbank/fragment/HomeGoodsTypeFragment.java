@@ -13,7 +13,9 @@ import com.km.rmbank.adapter.HomeGoodsTypeAdapter;
 import com.km.rmbank.basic.BaseAdapter;
 import com.km.rmbank.basic.BaseFragment;
 import com.km.rmbank.basic.RVUtils;
+import com.km.rmbank.dto.HomeGoodsTypeDto;
 import com.km.rmbank.entity.HomeGtEntity;
+import com.km.rmbank.module.rmshop.goods.RmShopActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,15 +50,20 @@ public class HomeGoodsTypeFragment extends BaseFragment {
         HomeGoodsTypeAdapter adapter = new HomeGoodsTypeAdapter(getContext());
         mRecyclerView.setAdapter(adapter);
 
-        adapter.setItemClickListener(new BaseAdapter.ItemClickListener<HomeGtEntity>() {
+        adapter.setItemClickListener(new BaseAdapter.ItemClickListener<HomeGoodsTypeDto>() {
             @Override
-            public void onItemClick(HomeGtEntity itemData, int position) {
-               showToast(itemData.getGtName());
+            public void onItemClick(HomeGoodsTypeDto itemData, int position) {
+//               showToast(itemData.getProductTypeName());
+                Bundle bundle = new Bundle();
+                bundle.putBoolean("isLevelOne",true);
+                bundle.putString("levelOneId",itemData.getId());
+                bundle.putString("levelTwoId","");
+                toNextActivity(RmShopActivity.class,bundle);
             }
         });
 
 
-        List<HomeGtEntity> mDatas = getArguments().getParcelableArrayList("goodsTypes");
+        List<HomeGoodsTypeDto> mDatas = getArguments().getParcelableArrayList("goodsTypes");
         adapter.addData(mDatas);
 
     }

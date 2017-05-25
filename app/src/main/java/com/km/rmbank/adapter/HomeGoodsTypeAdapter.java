@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.km.rmbank.R;
 import com.km.rmbank.basic.BaseAdapter;
+import com.km.rmbank.dto.HomeGoodsTypeDto;
 import com.km.rmbank.entity.HomeGtEntity;
 import com.ps.androidlib.utils.glide.GlideUtils;
 
@@ -17,7 +18,7 @@ import butterknife.BindView;
  * Created by kamangkeji on 17/5/10.
  */
 
-public class HomeGoodsTypeAdapter extends BaseAdapter<HomeGtEntity> implements BaseAdapter.IAdapter<HomeGoodsTypeAdapter.ViewHolder> {
+public class HomeGoodsTypeAdapter extends BaseAdapter<HomeGoodsTypeDto> implements BaseAdapter.IAdapter<HomeGoodsTypeAdapter.ViewHolder> {
 
     public HomeGoodsTypeAdapter(Context mContext) {
         super(mContext, R.layout.item_rv_home_goods_type);
@@ -31,8 +32,8 @@ public class HomeGoodsTypeAdapter extends BaseAdapter<HomeGtEntity> implements B
 
     @Override
     public void createView(ViewHolder holder, int position) {
-        holder.tvGoodsTypeName.setText(getItemData(position).getGtName());
-        GlideUtils.loadImage(holder.ivGtImage,getItemData(position).getGtImageRes());
+        holder.tvGoodsTypeName.setText(getItemData(position).getProductTypeName());
+        GlideUtils.loadImage(holder.ivGtImage,getItemData(position).getProductTypeImage());
     }
 
     class ViewHolder extends BaseViewHolder{

@@ -13,8 +13,11 @@ import com.km.rmbank.basic.BaseAdapter;
 import com.km.rmbank.basic.BaseFragment;
 import com.km.rmbank.basic.RVUtils;
 import com.km.rmbank.dto.BannerDto;
+import com.km.rmbank.dto.HomeGoodsTypeDto;
+import com.km.rmbank.dto.HomeNewRecommendDto;
 import com.km.rmbank.dto.HomeRecommendDto;
 import com.km.rmbank.dto.ShareDto;
+import com.km.rmbank.entity.HomeDataEntity;
 import com.km.rmbank.entity.HomeEntity;
 import com.km.rmbank.module.actionarea.InformationDetailActivity;
 import com.km.rmbank.module.home.message.MessageActivity;
@@ -124,6 +127,16 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements HomeCon
 //                showToast("banner type " + bannerDto.getType());
             }
         });
+    }
+
+    @Override
+    public void showHomeGoodsType(List<HomeGoodsTypeDto> homeGoodsTypeDtos) {
+
+    }
+
+    @Override
+    public void ShowHomeNewRecommend(List<HomeNewRecommendDto> homeNewRecommendDtos) {
+
     }
 
     @OnClick(R.id.et_search)

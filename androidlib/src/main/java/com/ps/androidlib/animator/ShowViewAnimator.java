@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.nineoldandroids.animation.Animator;
+import com.nineoldandroids.animation.AnimatorListenerAdapter;
 import com.nineoldandroids.animation.ObjectAnimator;
 import com.nineoldandroids.animation.ValueAnimator;
 import com.orhanobut.logger.Logger;
@@ -46,6 +47,12 @@ public class ShowViewAnimator {
             objectAnimator = ObjectAnimator.ofInt(viewWrapper,"height",height,0);
             objectAnimator.setDuration(300);
             objectAnimator.start();
+            objectAnimator.addListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    recyclerView.setVisibility(View.GONE);
+                }
+            });
         }
         return isShow;
     }

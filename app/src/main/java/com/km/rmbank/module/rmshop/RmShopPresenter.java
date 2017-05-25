@@ -1,7 +1,10 @@
 package com.km.rmbank.module.rmshop;
 
+import com.km.rmbank.dto.GoodsDto;
 import com.km.rmbank.dto.GoodsTypeDto;
+import com.km.rmbank.dto.HomeGoodsTypeDto;
 import com.km.rmbank.utils.retrofit.PresenterWrapper;
+import com.orhanobut.logger.Logger;
 
 import java.util.List;
 
@@ -20,11 +23,30 @@ public class RmShopPresenter extends PresenterWrapper<RmShopContract.View> imple
 
     @Override
     public void getGodosTypes() {
-        mApiwrapper.getGoodsTypes()
-                .subscribe(newSubscriber(new Consumer<List<GoodsTypeDto>>() {
+//        mApiwrapper.getGoodsTypes()
+//                .subscribe(newSubscriber(new Consumer<List<GoodsTypeDto>>() {
+//                    @Override
+//                    public void accept(@NonNull List<GoodsTypeDto> goodsTypeDtos) throws Exception {
+//                        mView.getGoodsTypeSuccess(goodsTypeDtos);
+//                    }
+//                }));
+        mApiwrapper.getGoodsType()
+                .subscribe(newSubscriber(new Consumer<List<HomeGoodsTypeDto>>() {
                     @Override
-                    public void accept(@NonNull List<GoodsTypeDto> goodsTypeDtos) throws Exception {
-                        mView.getGoodsTypeSuccess(goodsTypeDtos);
+                    public void accept(@NonNull List<HomeGoodsTypeDto> homeGoodsTypeDtos) throws Exception {
+                        mView.showGoodsType(homeGoodsTypeDtos);
+                    }
+                }));
+    }
+
+    @Override
+    public void getGoodsList(final int pageNo, String isInIndextActivity, int orderBy, String roleId) {
+        mView.showLoading();
+        mApiwrapper.getGoodsListOfShoppingNew(pageNo,isInIndextActivity,orderBy,roleId)
+                .subscribe(newSubscriber(new Consumer<List<GoodsDto>>() {
+                    @Override
+                    public void accept(@NonNull List<GoodsDto> goodsDtos) throws Exception {
+                        mView.showGoodsList(pageNo,goodsDtos);
                     }
                 }));
     }

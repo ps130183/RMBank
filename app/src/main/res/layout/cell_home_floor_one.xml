@@ -56,6 +56,7 @@
         android:orientation="horizontal">
 
         <TextView
+            android:id="@+id/tv_floor1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -73,6 +74,7 @@
             android:layout_marginBottom="@dimen/view_space_8"/>
 
         <TextView
+            android:id="@+id/tv_floor2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -88,6 +90,7 @@
             android:layout_marginTop="@dimen/view_space_8"
             android:layout_marginBottom="@dimen/view_space_8"/>
         <TextView
+            android:id="@+id/tv_floor3"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -103,6 +106,7 @@
             android:layout_marginTop="@dimen/view_space_8"
             android:layout_marginBottom="@dimen/view_space_8"/>
         <TextView
+            android:id="@+id/tv_floor4"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"

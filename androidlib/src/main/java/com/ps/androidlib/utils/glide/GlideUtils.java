@@ -43,7 +43,7 @@ public class GlideUtils {
         Glide.with(imageView.getContext())
                 .load(imageRes)
                 .centerCrop()
-                .bitmapTransform(new BlurTransformation(imageView.getContext(),3,4)) // “23”：设置模糊度(在0.0到25.0之间)，默认”25";"4":图片缩放比例,默认“1”。
+                .bitmapTransform(new BlurTransformation(imageView.getContext(),1,1)) // “23”：设置模糊度(在0.0到25.0之间)，默认”25";"4":图片缩放比例,默认“1”。
                 .into(imageView);
     }
 

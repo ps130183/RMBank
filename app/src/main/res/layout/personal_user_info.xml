@@ -2,8 +2,23 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/color_white"
+    android:background="@color/color_red"
+    android:paddingTop="@dimen/status_height"
     android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="30dp">
+        <ImageView
+            android:id="@+id/iv_shop_cart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/ic_shopping_cart_white_64"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginRight="@dimen/view_space_16"
+            />
+    </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -26,17 +41,31 @@
             android:layout_toRightOf="@id/iv_user_portrait"
             android:lines="1"
             android:text="用户昵称"
+            android:textColor="@color/color_white"
+            android:textStyle="bold"
             android:textSize="@dimen/text_size_16" />
+
+        <TextView
+            android:id="@+id/tv_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="hi,这是你加入玩转地球的第123天"
+            android:textColor="@color/color_white"
+            android:layout_toRightOf="@+id/iv_user_portrait"
+            android:layout_below="@+id/tv_user_nick_name"
+            />
 
         <TextView
             android:id="@+id/tv_vip_type"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/iv_user_portrait"
-            android:layout_below="@+id/tv_user_nick_name"
+            android:layout_below="@+id/tv_time"
             android:layout_marginTop="@dimen/view_space_4"
             android:textColor="@color/color_red"
-            android:text=""
+            android:text="合伙人会晕"
+            android:background="@drawable/shape_personal_vip_type"
+            android:padding="@dimen/view_space_4"
             />
 
         <TextView
@@ -45,27 +74,17 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/view_space_8"
-            android:drawableRight="@mipmap/ic_chevron_right_black_24dp"
-            android:gravity="center"
-            android:text="我的账户" />
-
-        <ImageView
-            android:id="@+id/iv_shop_cart"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/ic_shopping_cart_solid_red"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="@dimen/view_space_8"
             android:layout_marginRight="@dimen/view_space_16"
-            />
+            android:drawableRight="@mipmap/ic_arrow_right_white_24"
+            android:gravity="center"
+            android:text="   " />
+
     </RelativeLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/color_divider1" />
+        android:background="@color/color_white" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -76,34 +95,39 @@
             android:id="@+id/tv_edit_card"
             style="@style/Personal.UserInfo"
             android:layout_height="wrap_content"
-            android:text="名片" />
+            android:text="名片"
+            android:textStyle="bold"
+            android:textColor="@color/color_white"/>
 
         <View
             android:layout_width="1dp"
             android:layout_height="match_parent"
             android:layout_marginBottom="@dimen/view_space_4"
             android:layout_marginTop="@dimen/view_space_4"
-            android:background="@color/color_divider1" />
+            android:background="@color/color_white" />
 
         <TextView
             android:id="@+id/tv_vip"
             style="@style/Personal.UserInfo"
             android:layout_height="wrap_content"
             android:text="VIP"
-            android:textColor="@color/color_red" />
+            android:textStyle="bold"
+            android:textColor="@color/color_white" />
 
         <View
             android:layout_width="1dp"
             android:layout_height="match_parent"
             android:layout_marginBottom="@dimen/view_space_4"
             android:layout_marginTop="@dimen/view_space_4"
-            android:background="@color/color_divider1" />
+            android:background="@color/color_white" />
 
         <TextView
             android:id="@+id/tv_setting"
             style="@style/Personal.UserInfo"
             android:layout_height="wrap_content"
-            android:text="设置" />
+            android:text="设置"
+            android:textStyle="bold"
+            android:textColor="@color/color_white"/>
     </LinearLayout>
 
 </LinearLayout>

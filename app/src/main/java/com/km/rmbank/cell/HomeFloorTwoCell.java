@@ -3,15 +3,19 @@ package com.km.rmbank.cell;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.km.rmbank.R;
 import com.km.rmbank.adapter.ViewPagerAdapter;
+import com.km.rmbank.dto.HomeNewRecommendDto;
 import com.km.rmbank.fragment.HomeFloorTwoFragment;
 import com.km.rv_libs.base.BaseCell;
 import com.km.rv_libs.base.BaseViewHolder;
@@ -24,11 +28,11 @@ import java.util.List;
  * Created by kamangkeji on 17/5/11.
  */
 
-public class HomeFloorTwoCell extends BaseCell<String> {
+public class HomeFloorTwoCell extends BaseCell<HomeNewRecommendDto> implements View.OnClickListener {
 
     private FragmentManager mFragmentManager;
 
-    public HomeFloorTwoCell(String mData, OnCellClickListener<String> onCellClickListener) {
+    public HomeFloorTwoCell(HomeNewRecommendDto mData, OnCellClickListener<HomeNewRecommendDto> onCellClickListener) {
         super(mData, R.layout.cell_home_floor_two, onCellClickListener);
     }
 
@@ -45,6 +49,12 @@ public class HomeFloorTwoCell extends BaseCell<String> {
             throw new RuntimeException("please set fragmentManage");
         }
 
+        TextView tvFloorTitle = holder.getTextView(R.id.tv_floor_title);
+        tvFloorTitle.setText(mData.getRecommendName());
+        TextView tvFloorSubTitle = holder.getTextView(R.id.tv_floor_sub_title);
+        tvFloorSubTitle.setText(mData.getSubtitle());
+        tvFloorSubTitle.setOnClickListener(this);
+
         ViewPager viewPager = holder.findView(R.id.viewpager1);
         final LinearLayout llDot = holder.findView(R.id.ll_dot);
 
@@ -56,9 +66,20 @@ public class HomeFloorTwoCell extends BaseCell<String> {
         viewPager.getLayoutParams().height = ivHeight + AppUtils.dip2px(context,31);
 
         List<Fragment> fragments = new ArrayList<>();
-        Bundle bundle = new Bundle();
-        fragments.add(HomeFloorTwoFragment.newInstance(bundle));
-        fragments.add(HomeFloorTwoFragment.newInstance(bundle));
+        List<HomeNewRecommendDto.TypeListBean> typeListBeanList = mData.getTypeList();
+
+        List<HomeNewRecommendDto.TypeListBean> subTypeList = new ArrayList<>();
+        for (int i = 0; i < typeListBeanList.size(); i++){
+            if (i != 0 && i % 3 == 0){
+                Bundle bundle = new Bundle();
+                bundle.putString("levelOneId",mData.getProductTypeParentId());
+                bundle.putParcelableArrayList("typeList", (ArrayList<? extends Parcelable>) subTypeList);
+                fragments.add(HomeFloorTwoFragment.newInstance(bundle));
+                subTypeList = new ArrayList<>();
+            }
+            subTypeList.add(typeListBeanList.get(i));
+
+        }
 
         ViewPagerAdapter adapter = new ViewPagerAdapter(mFragmentManager,fragments);
         viewPager.setAdapter(adapter);
@@ -112,5 +133,10 @@ public class HomeFloorTwoCell extends BaseCell<String> {
 
     public void setmFragmentManager(FragmentManager mFragmentManager) {
         this.mFragmentManager = mFragmentManager;
+    }
+
+    @Override
+    public void onClick(View v) {
+        onCellClickListener.cellClick(mData,0);
     }
 }

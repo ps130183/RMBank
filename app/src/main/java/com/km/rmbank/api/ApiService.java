@@ -7,6 +7,8 @@ import com.km.rmbank.dto.EvaluateDto;
 import com.km.rmbank.dto.GoodsDetailsDto;
 import com.km.rmbank.dto.GoodsDto;
 import com.km.rmbank.dto.GoodsTypeDto;
+import com.km.rmbank.dto.HomeGoodsTypeDto;
+import com.km.rmbank.dto.HomeNewRecommendDto;
 import com.km.rmbank.dto.HomeRecommendDto;
 import com.km.rmbank.dto.InformationDto;
 import com.km.rmbank.dto.IntegralDetailsDto;
@@ -288,6 +290,19 @@ public interface ApiService {
     @POST(SecretConstant.API_HOST_PATH + "/product/normal/list")
     Flowable<Response<List<GoodsDto>>> getGoodsListOfShopping(@Field("pageNo") int pageNo,
                                                               @Field("isInIndexActivity") String isInIndexActivity);
+
+    /**
+     * 获取商品列表  商城
+     *
+     * @param pageNo
+     * @returnr
+     */
+    @FormUrlEncoded
+    @POST(SecretConstant.API_HOST_PATH + "/product/normal/list")
+    Flowable<Response<List<GoodsDto>>> getGoodsListOfShoppingNew(@Field("pageNo") int pageNo,
+                                                              @Field("isInIndexActivity") String isInIndexActivity,
+                                                                 @Field("orderBy") int orderBy,
+                                                                 @Field("roleId") String roleId);
 
     /**
      * 获取商品列表  搜索
@@ -644,6 +659,15 @@ public interface ApiService {
     @POST(SecretConstant.API_HOST_PATH + "/product/normal/type")
     Flowable<Response<List<GoodsTypeDto>>> getGoodsTypes(@Field("token") String token);
 
+    /**
+     * 获取  新版  商城页面  商品分类
+     *
+     * @param type
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(SecretConstant.API_HOST_PATH + "/productTypes/listpage")
+    Flowable<Response<List<HomeGoodsTypeDto>>> getGoodsType(@Field("type") String type);
 
     /**
      * 关注商品列表
@@ -695,6 +719,16 @@ public interface ApiService {
     @FormUrlEncoded
     @POST(SecretConstant.API_HOST_PATH + "/product/recommend/list")
     Flowable<Response<List<HomeRecommendDto>>> getHomeActionRecommend(@Field("pageNo") int pageNo);
+
+    /**
+     * 获取活动列表
+     *
+     * @param pageNo
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(SecretConstant.API_HOST_PATH + "/product/recommend/list")
+    Flowable<Response<List<HomeNewRecommendDto>>> getHomeNewActionRecommend(@Field("pageNo") int pageNo);
 
     /**
      * 获取首页消息
@@ -911,4 +945,13 @@ public interface ApiService {
     @POST(SecretConstant.API_HOST_PATH + "/information/bannerList")
     Flowable<Response<List<InformationDto>>> getInformationBanner(@Field("str") String str);
 
+
+    /**
+     * 获取新版首页 商品分类  一级
+     * @param str
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(SecretConstant.API_HOST_PATH + "/productTypes/listpage")
+    Flowable<Response<List<HomeGoodsTypeDto>>> getHomeGoodsType(@Field("defaule") String str);
 }

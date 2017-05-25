@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 
 import com.km.rmbank.R;
 import com.km.rmbank.adapter.ViewPagerAdapter;
+import com.km.rmbank.dto.HomeGoodsTypeDto;
 import com.km.rmbank.entity.HomeGtEntity;
 import com.km.rmbank.fragment.HomeFloorTwoFragment;
 import com.km.rmbank.fragment.HomeGoodsTypeFragment;
@@ -26,11 +27,11 @@ import java.util.List;
  * Created by kamangkeji on 17/5/10.
  */
 
-public class HomeGoodsTypeCell extends BaseCell<List<HomeGtEntity>> {
+public class HomeGoodsTypeCell extends BaseCell<List<HomeGoodsTypeDto>> {
 
     private FragmentManager mFragmentManager;
 
-    public HomeGoodsTypeCell(List<HomeGtEntity> mData, OnCellClickListener<List<HomeGtEntity>> onCellClickListener) {
+    public HomeGoodsTypeCell(List<HomeGoodsTypeDto> mData, OnCellClickListener<List<HomeGoodsTypeDto>> onCellClickListener) {
         super(mData, R.layout.cell_home_goods_type, onCellClickListener);
     }
 
@@ -46,11 +47,11 @@ public class HomeGoodsTypeCell extends BaseCell<List<HomeGtEntity>> {
         Context context = llDot.getContext();
 
         List<Fragment> fragments = new ArrayList<>();
-        List<HomeGtEntity> content = new ArrayList<>();
+        List<HomeGoodsTypeDto> content = new ArrayList<>();
         for (int i = 0; i < mData.size(); i++){
             if (i != 0 && i % 8 == 0){
                 Bundle bundle = new Bundle();
-                bundle.putParcelableArrayList("goodsTypes", (ArrayList<HomeGtEntity>) content);
+                bundle.putParcelableArrayList("goodsTypes", (ArrayList<HomeGoodsTypeDto>) content);
 //                fragments.add(HomeFloorTwoFragment.newInstance(bundle));
                 fragments.add(HomeGoodsTypeFragment.newInstance(bundle));
                 content = new ArrayList<>();
@@ -60,7 +61,7 @@ public class HomeGoodsTypeCell extends BaseCell<List<HomeGtEntity>> {
 
         if (content.size() > 0){
             Bundle bundle = new Bundle();
-            bundle.putParcelableArrayList("goodsTypes", (ArrayList<HomeGtEntity>) content);
+            bundle.putParcelableArrayList("goodsTypes", (ArrayList<HomeGoodsTypeDto>) content);
             fragments.add(HomeGoodsTypeFragment.newInstance(bundle));
         }
         ViewPagerAdapter adapter = new ViewPagerAdapter(mFragmentManager,fragments);

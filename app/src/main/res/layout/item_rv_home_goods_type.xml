@@ -19,6 +19,8 @@
         android:layout_height="wrap_content"
         android:text="手机"
         android:padding="@dimen/view_space_8"
+        android:maxLines="1"
+        android:ellipsize="end"
         />
 
 </LinearLayout>

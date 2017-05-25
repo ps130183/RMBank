@@ -1,5 +1,8 @@
 package com.km.rmbank.module;
 
+import android.Manifest;
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.view.View;
@@ -12,6 +15,7 @@ import com.km.rmbank.R;
 import com.km.rmbank.basic.BaseActivity;
 import com.km.rmbank.basic.BasePresenter;
 import com.km.rmbank.dto.ShareDto;
+import com.km.rmbank.dto.UserCardDto;
 import com.km.rmbank.entity.TeamEntity;
 import com.km.rmbank.event.DownloadAppEvent;
 import com.km.rmbank.module.actionarea.InformationFragment;
@@ -19,7 +23,10 @@ import com.km.rmbank.module.home.HomeFragment;
 import com.km.rmbank.module.home.HomeNewFragment;
 import com.km.rmbank.module.login.LoginActivity;
 import com.km.rmbank.module.personal.PersonalFragment;
+import com.km.rmbank.module.personal.PersonalNewFragment;
+import com.km.rmbank.module.personal.userinfo.EditUserCardActivity;
 import com.km.rmbank.module.rmshop.RmShopFragment;
+import com.km.rmbank.module.rmshop.RmShopNewFragment;
 import com.km.rmbank.utils.Constant;
 import com.km.rmbank.utils.UmengShareUtils;
 import com.nineoldandroids.animation.Animator;
@@ -32,6 +39,7 @@ import com.ps.androidlib.utils.EventBusUtils;
 import com.startsmake.mainnavigatetabbar.widget.MainNavigateTabBar;
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.xys.libzxing.zxing.activity.CaptureActivity;
 
 import java.util.concurrent.TimeUnit;
 
@@ -39,15 +47,19 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.Observable;
 import io.reactivex.functions.Consumer;
+import kr.co.namee.permissiongen.PermissionFail;
+import kr.co.namee.permissiongen.PermissionGen;
+import kr.co.namee.permissiongen.PermissionSuccess;
 
 public class HomeNewActivity extends BaseActivity<HomePresenter> implements HomeContract.View {
 
+    public final static int REQUEST_PERMISSION_CAMERA = 1;
     private static boolean isExsit = false;
 
     private static final String TAG_PAGE_HOME = "首页";
     private static final String TAG_PAGE_CITY = "商城";
-    private static final String TAG_PAGE_PUBLISH = "添加";
-    private static final String TAG_PAGE_MESSAGE = "咨询";
+    private static final String TAG_PAGE_PUBLISH = "  ";
+    private static final String TAG_PAGE_MESSAGE = "咨讯";
     private static final String TAG_PAGE_PERSON = "我的";
 
     private ShareDto shareDto;
@@ -66,6 +78,9 @@ public class HomeNewActivity extends BaseActivity<HomePresenter> implements Home
 
     @BindView(R.id.tv_share)
     TextView tvShare;
+    @BindView(R.id.iv_share)
+    ImageView ivShare;
+
     @BindView(R.id.tv_rich_scan)
     TextView tvRichScan;
     @BindView(R.id.tv_near_partner)
@@ -139,10 +154,10 @@ public class HomeNewActivity extends BaseActivity<HomePresenter> implements Home
         mNavigateTabBar.onRestoreInstanceState(savedInstanceState);
 
         mNavigateTabBar.addTab(HomeNewFragment.class, new MainNavigateTabBar.TabParam(mUnSelectedIcon[0], mSelectedIcon[0], TAG_PAGE_HOME));
-        mNavigateTabBar.addTab(RmShopFragment.class, new MainNavigateTabBar.TabParam(mUnSelectedIcon[1], mSelectedIcon[1], TAG_PAGE_CITY));
+        mNavigateTabBar.addTab(RmShopNewFragment.class, new MainNavigateTabBar.TabParam(mUnSelectedIcon[1], mSelectedIcon[1], TAG_PAGE_CITY));
         mNavigateTabBar.addTab(null, new MainNavigateTabBar.TabParam(0, 0, TAG_PAGE_PUBLISH));
         mNavigateTabBar.addTab(InformationFragment.class, new MainNavigateTabBar.TabParam(mUnSelectedIcon[2], mSelectedIcon[2], TAG_PAGE_MESSAGE));
-        mNavigateTabBar.addTab(PersonalFragment.class, new MainNavigateTabBar.TabParam(mUnSelectedIcon[3], mSelectedIcon[3], TAG_PAGE_PERSON));
+        mNavigateTabBar.addTab(PersonalNewFragment.class, new MainNavigateTabBar.TabParam(mUnSelectedIcon[3], mSelectedIcon[3], TAG_PAGE_PERSON));
 
         mNavigateTabBar.setTabSelectListener(new MainNavigateTabBar.OnTabSelectedListener() {
             @Override
@@ -161,7 +176,8 @@ public class HomeNewActivity extends BaseActivity<HomePresenter> implements Home
     }
 
     public void onClickPublish(View v) {
-        float curTranslationY = tvShare.getTranslationY();
+        float curTvShareTranslationY = tvShare.getTranslationY();
+        float curIvShareTranslationY = ivShare.getTranslationY();
         float windowHeight = AppUtils.getCurWindowHeight(HomeNewActivity.this);
         ObjectAnimator tabPostIconAnimator = ObjectAnimator.ofFloat(mTabPostIcon,"rotation",0f,45f);
         ObjectAnimator mainDialogAnimator = ObjectAnimator.ofFloat(clMainDialog,"alpha",0f,0.95f);
@@ -171,14 +187,14 @@ public class HomeNewActivity extends BaseActivity<HomePresenter> implements Home
                 clMainDialog.setVisibility(View.VISIBLE);
             }
         });
-        final ObjectAnimator nearPartnerAnimator = ObjectAnimator.ofFloat(tvNearPartner,"translationY",windowHeight,curTranslationY);
+        final ObjectAnimator nearPartnerAnimator = ObjectAnimator.ofFloat(tvNearPartner,"translationY",windowHeight,curTvShareTranslationY);
         nearPartnerAnimator.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationStart(Animator animation) {
                 tvNearPartner.setVisibility(View.VISIBLE);
             }
         });
-        final ObjectAnimator richScanAnimator = ObjectAnimator.ofFloat(tvRichScan,"translationY",windowHeight,curTranslationY);
+        final ObjectAnimator richScanAnimator = ObjectAnimator.ofFloat(tvRichScan,"translationY",windowHeight,curTvShareTranslationY);
         richScanAnimator.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationStart(Animator animation) {
@@ -191,11 +207,13 @@ public class HomeNewActivity extends BaseActivity<HomePresenter> implements Home
                 nearPartnerAnimator.start();
             }
         });
-        ObjectAnimator shareAnimator = ObjectAnimator.ofFloat(tvShare,"translationY",windowHeight,curTranslationY);
+        ObjectAnimator shareAnimator = ObjectAnimator.ofFloat(tvShare,"translationY",windowHeight,curTvShareTranslationY);
+        ObjectAnimator ivShareAnimator = ObjectAnimator.ofFloat(ivShare,"translationY",windowHeight,curIvShareTranslationY);
         shareAnimator.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationStart(Animator animation) {
                 tvShare.setVisibility(View.VISIBLE);
+                ivShare.setVisibility(View.VISIBLE);
             }
 
             @Override
@@ -208,10 +226,10 @@ public class HomeNewActivity extends BaseActivity<HomePresenter> implements Home
         float rlCurTranslationY = rlPlayCard.getTranslationY();
         ObjectAnimator rlPlayCardAnimator = ObjectAnimator.ofFloat(rlPlayCard,"translationY",-200f,rlCurTranslationY);
 
-        ObjectAnimator cancelAnimator = ObjectAnimator.ofFloat(ivCancel,"rotation",-45f,0f);
+        ObjectAnimator cancelAnimator = ObjectAnimator.ofFloat(ivCancel,"rotation",0f,45f);
 
         AnimatorSet animatorSet = new AnimatorSet();
-        animatorSet.play(tabPostIconAnimator).with(mainDialogAnimator).with(shareAnimator).with(rlPlayCardAnimator).with(cancelAnimator);
+        animatorSet.play(tabPostIconAnimator).with(mainDialogAnimator).with(shareAnimator).with(ivShareAnimator).with(rlPlayCardAnimator).with(cancelAnimator);
         animatorSet.setDuration(500);
         animatorSet.start();
     }
@@ -222,6 +240,29 @@ public class HomeNewActivity extends BaseActivity<HomePresenter> implements Home
     @OnClick(R.id.iv_cancel)
     public void cancelMainDialog(View view){
         cancelMainDialog();
+    }
+
+    @PermissionSuccess(requestCode = REQUEST_PERMISSION_CAMERA)
+    public void success(){
+        sweep();
+    }
+    @PermissionFail(requestCode = REQUEST_PERMISSION_CAMERA)
+    public void failed(){
+        showToast("照相机权限申请失败");
+    }
+
+    private void sweep() {
+        startActivityForResult(new Intent(this, CaptureActivity.class), 0);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK) {//扫描二维码 成功  接收结果
+            Bundle bundle = data.getExtras();
+            String result = bundle.getString("result");
+            mPresenter.getUserInfoByQRCode(result);
+        }
     }
 
     /**
@@ -235,15 +276,23 @@ public class HomeNewActivity extends BaseActivity<HomePresenter> implements Home
             public void onAnimationEnd(Animator animation) {
                 clMainDialog.setVisibility(View.GONE);
                 tvShare.setVisibility(View.INVISIBLE);
+                ivShare.setVisibility(View.INVISIBLE);
                 tvRichScan.setVisibility(View.INVISIBLE);
                 tvNearPartner.setVisibility(View.INVISIBLE);
             }
         });
-        ObjectAnimator cancelAnimator = ObjectAnimator.ofFloat(ivCancel,"rotation",0f,-45f);
+        ObjectAnimator cancelAnimator = ObjectAnimator.ofFloat(ivCancel,"rotation",45f,0f);
         AnimatorSet animatorSet = new AnimatorSet();
         animatorSet.play(tabPostIconAnimator).with(mainDialogAnimator).with(cancelAnimator);
         animatorSet.setDuration(500);
         animatorSet.start();
+    }
+
+    @OnClick(R.id.tv_rich_scan)
+    public void richScan(View view){
+        cancelMainDialog();
+        PermissionGen.needPermission(HomeNewActivity.this,
+                REQUEST_PERMISSION_CAMERA, Manifest.permission.CAMERA);
     }
 
     @OnClick(R.id.tv_share)
@@ -284,5 +333,13 @@ public class HomeNewActivity extends BaseActivity<HomePresenter> implements Home
     @Override
     public void showShareContent(ShareDto shareDto) {
         this.shareDto = shareDto;
+    }
+
+    @Override
+    public void getUserInfoByQRCodeSuccess(UserCardDto userCardDto, String friendPhone) {
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("userCardDto",userCardDto);
+        bundle.putString("friendPhone",friendPhone);
+        toNextActivity(EditUserCardActivity.class,bundle);
     }
 }

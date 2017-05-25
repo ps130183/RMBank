@@ -14,6 +14,8 @@ public class GoodsTypeDto extends BaseEntity implements Parcelable {
     private String typeId;
     private String productType;
 
+    private int backgroundRes;
+
     private boolean isChecked;
     public GoodsTypeDto(String typeName) {
         this.productType = typeName;
@@ -44,6 +46,14 @@ public class GoodsTypeDto extends BaseEntity implements Parcelable {
         this.typeId = typeId;
     }
 
+    public int getBackgroundRes() {
+        return backgroundRes;
+    }
+
+    public void setBackgroundRes(int backgroundRes) {
+        this.backgroundRes = backgroundRes;
+    }
+
     @Override
     public boolean isEmpty() {
         if (!TextUtils.isEmpty(productType)){
@@ -61,12 +71,14 @@ public class GoodsTypeDto extends BaseEntity implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.typeId);
         dest.writeString(this.productType);
+        dest.writeInt(this.backgroundRes);
         dest.writeByte(this.isChecked ? (byte) 1 : (byte) 0);
     }
 
     protected GoodsTypeDto(Parcel in) {
         this.typeId = in.readString();
         this.productType = in.readString();
+        this.backgroundRes = in.readInt();
         this.isChecked = in.readByte() != 0;
     }
 

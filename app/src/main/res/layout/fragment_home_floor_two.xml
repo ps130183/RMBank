@@ -7,6 +7,7 @@
     tools:context="com.km.rmbank.fragment.HomeFloorTwoFragment">
 
     <LinearLayout
+        android:id="@+id/ll_floor1"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -27,6 +28,7 @@
             android:layout_height="wrap_content"
             android:src="@mipmap/ic_jiaju1"
             android:scaleType="centerCrop"
+            android:layout_margin="8dp"
             />
     </LinearLayout>
 
@@ -36,6 +38,7 @@
         android:background="@color/color_divider2"/>
 
     <LinearLayout
+        android:id="@+id/ll_floor2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -56,6 +59,7 @@
             android:layout_height="wrap_content"
             android:src="@mipmap/ic_jiaju2"
             android:scaleType="centerCrop"
+            android:layout_margin="8dp"
             />
     </LinearLayout>
 
@@ -65,6 +69,7 @@
         android:background="@color/color_divider2"/>
 
     <LinearLayout
+        android:id="@+id/ll_floor3"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -85,6 +90,7 @@
             android:layout_height="wrap_content"
             android:src="@mipmap/ic_jiaju3"
             android:scaleType="centerCrop"
+            android:layout_margin="8dp"
             />
     </LinearLayout>
 

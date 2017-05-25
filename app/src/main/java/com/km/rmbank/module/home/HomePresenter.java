@@ -1,9 +1,10 @@
 package com.km.rmbank.module.home;
 
 import com.km.rmbank.dto.BannerDto;
+import com.km.rmbank.dto.HomeGoodsTypeDto;
+import com.km.rmbank.dto.HomeNewRecommendDto;
 import com.km.rmbank.dto.HomeRecommendDto;
-import com.km.rmbank.dto.ShareDto;
-import com.km.rmbank.utils.Constant;
+import com.km.rmbank.entity.HomeDataEntity;
 import com.km.rmbank.utils.retrofit.PresenterWrapper;
 
 import java.util.List;
@@ -46,7 +47,35 @@ public class HomePresenter extends PresenterWrapper<HomeContract.View> implement
     }
 
     @Override
+    public void getHomeGoodsType() {
+        mView.showLoading();
+        mApiwrapper.getHomeGoodsTypes()
+                .subscribe(newSubscriber(new Consumer<List<HomeGoodsTypeDto>>() {
+                    @Override
+                    public void accept(@NonNull List<HomeGoodsTypeDto> homeGoodsTypeDtos) throws Exception {
+//                        homeDataEntity.setHomeGoodsTypeDtos(homeGoodsTypeDtos);
+                        mView.showHomeGoodsType(homeGoodsTypeDtos);
+                        getHomeNewRecommend(1);
+                    }
+                }));
+
+
+    }
+
+    @Override
+    public void getHomeNewRecommend(int pageNo) {
+        mApiwrapper.getHomeNewRecommend(pageNo)
+                .subscribe(newSubscriber(new Consumer<List<HomeNewRecommendDto>>() {
+                    @Override
+                    public void accept(@NonNull List<HomeNewRecommendDto> homeNewRecommendDtos) throws Exception {
+                        mView.ShowHomeNewRecommend(homeNewRecommendDtos);
+                    }
+                }));
+    }
+
+    @Override
     public void onCreateView() {
-        getHomeBanner();
+//        getHomeBanner();
+        getHomeGoodsType();
     }
 }

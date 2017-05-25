@@ -52,6 +52,7 @@
         android:orientation="horizontal">
 
         <LinearLayout
+            android:id="@+id/ll_goods1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -59,6 +60,7 @@
             android:padding="@dimen/view_space_16">
 
             <TextView
+                android:id="@+id/tv_goods_title1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="一体机"
@@ -66,12 +68,14 @@
                 android:textSize="15sp" />
 
             <TextView
+                android:id="@+id/tv_goods_sub_title1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="就他吗一个主机"
                 android:textSize="15sp" />
 
             <ImageView
+                android:id="@+id/iv_goods_image1"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:layout_gravity="center"
@@ -85,6 +89,7 @@
             android:background="@color/color_divider1"/>
 
         <LinearLayout
+            android:id="@+id/ll_goods2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -92,6 +97,7 @@
             android:padding="@dimen/view_space_16">
 
             <TextView
+                android:id="@+id/tv_goods_title2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="早教机"
@@ -99,12 +105,14 @@
                 android:textSize="15sp" />
 
             <TextView
+                android:id="@+id/tv_goods_sub_title2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="妈妈的好帮手"
                 android:textSize="15sp" />
 
             <ImageView
+                android:id="@+id/iv_goods_image2"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:layout_gravity="center"
@@ -125,6 +133,7 @@
         android:orientation="horizontal">
 
         <LinearLayout
+            android:id="@+id/ll_goods3"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -132,6 +141,7 @@
             android:padding="@dimen/view_space_16">
 
             <TextView
+                android:id="@+id/tv_goods_title3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="笔记本"
@@ -139,12 +149,14 @@
                 android:textSize="15sp" />
 
             <TextView
+                android:id="@+id/tv_goods_sub_title3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="华硕笔记本"
                 android:textSize="15sp" />
 
             <ImageView
+                android:id="@+id/iv_goods_image3"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:layout_gravity="center"
@@ -158,6 +170,7 @@
             android:background="@color/color_divider1"/>
 
         <LinearLayout
+            android:id="@+id/ll_goods4"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -165,6 +178,7 @@
             android:padding="@dimen/view_space_16">
 
             <TextView
+                android:id="@+id/tv_goods_title4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="特色笔记本"
@@ -172,12 +186,14 @@
                 android:textSize="15sp" />
 
             <TextView
+                android:id="@+id/tv_goods_sub_title4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="特别的颜色笔记本 赞"
                 android:textSize="15sp" />
 
             <ImageView
+                android:id="@+id/iv_goods_image4"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:layout_gravity="center"
