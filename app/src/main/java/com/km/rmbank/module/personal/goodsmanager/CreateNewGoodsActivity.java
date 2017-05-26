@@ -19,13 +19,17 @@ import com.km.rmbank.adapter.AddImageAdapter;
 import com.km.rmbank.basic.BaseActivity;
 import com.km.rmbank.basic.RVUtils;
 import com.km.rmbank.dto.GoodsDetailsDto;
-import com.km.rmbank.dto.GoodsTypeDto;
+import com.km.rmbank.dto.HomeGoodsTypeDto;
 import com.km.rmbank.entity.ImageEntity;
+import com.km.rmbank.event.GoodsTypeEvent;
 import com.km.rmbank.ui.CircleProgressView;
 import com.km.rmbank.utils.InputFilterUtils;
 import com.ps.androidlib.utils.DialogUtils;
 import com.ps.androidlib.utils.glide.GlideUtils;
 import com.ps.androidlib.utils.imageselector.ImageUtils;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -80,7 +84,8 @@ public class CreateNewGoodsActivity extends BaseActivity<CreateNewGoodsPresenter
 
     @BindView(R.id.et_goods_type)
     EditText etGoodsType;
-    private GoodsTypeDto goodsTypeDto;
+    private HomeGoodsTypeDto levelOneGoodsTypeDto;
+    private HomeGoodsTypeDto levelTwoGoodsType;
 
     //价格、运费
     @BindView(R.id.et_goods_price)
@@ -307,20 +312,30 @@ public class CreateNewGoodsActivity extends BaseActivity<CreateNewGoodsPresenter
     @OnClick(R.id.et_goods_type)
     public void selectGoodsType(View view) {
         Bundle bundle = new Bundle();
-        bundle.putParcelable("goodsTypeDto", goodsTypeDto);
+//        bundle.putParcelable("levelOneGoodsTypeDto", levelOneGoodsTypeDto);
         toNextActivityForResult(GoodsTypeActivity.class, 1000, bundle);
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == 1000) {//商品类型
-            goodsTypeDto = data.getParcelableExtra("goodsTypeDto");
-            if (goodsTypeDto != null) {
-                etGoodsType.setText(goodsTypeDto.getProductType());
-            }
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void receiverGoodsType(GoodsTypeEvent event){
+        levelOneGoodsTypeDto = event.getLevelOneType();
+        levelTwoGoodsType = event.getLevelTwoType();
+        if (levelTwoGoodsType != null){
+            etGoodsType.setText(levelTwoGoodsType.getProductTypeName());
         }
     }
+
+
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        if (resultCode == 1000) {//商品类型
+//            levelOneGoodsTypeDto = data.getParcelableExtra("levelOneGoodsTypeDto");
+//            if (levelOneGoodsTypeDto != null) {
+//                etGoodsType.setText(levelOneGoodsTypeDto.getProductTypeName());
+//            }
+//        }
+//    }
 
     @Override
     public void showImageUploadResult(int photoType, String photoUrl) {
@@ -378,8 +393,8 @@ public class CreateNewGoodsActivity extends BaseActivity<CreateNewGoodsPresenter
 
     @Override
     public void showGoodsInfo(GoodsDetailsDto goodsDetailsDto) {
-        goodsTypeDto = goodsDetailsDto.getGoodsTypeDto();
-        etGoodsType.setText(goodsTypeDto.getProductType());
+//        levelTwoGoodsType = goodsDetailsDto.getGoodsTypeDto();
+        etGoodsType.setText(goodsDetailsDto.getProductType());
         etName.setText(goodsDetailsDto.getName());
         etSubTitle.setText(goodsDetailsDto.getSubtitle());
         etGoodsPrice.setText(goodsDetailsDto.getPrice());
@@ -443,7 +458,7 @@ public class CreateNewGoodsActivity extends BaseActivity<CreateNewGoodsPresenter
         goodsDetailsDto.setFreightInEveryAdd(etFrieghtAdd.getText().toString());
         goodsDetailsDto.setProductBannerUrl(getImageUrl(bannerPathList));
         goodsDetailsDto.setProductDetail(getImageUrl(goodsDetailPathList));
-        goodsDetailsDto.setIsInIndexActivity(goodsTypeDto.getTypeId());
+        goodsDetailsDto.setIsInIndexActivity(levelTwoGoodsType.getId());
         if (TextUtils.isEmpty(actionUrl1) || TextUtils.isEmpty(actionUrl2) || TextUtils.isEmpty(actionUrl3)) {
             showToast("请上传活动图片");
             return;

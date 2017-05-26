@@ -14,8 +14,8 @@
         android:button="@null"
         android:background="@drawable/shape_new_goods_select_goods_type_1"
         android:textColor="@color/color_white"
-        android:paddingTop="@dimen/view_space_16"
-        android:paddingBottom="@dimen/view_space_16"
+        android:paddingTop="@dimen/view_space_8"
+        android:paddingBottom="@dimen/view_space_8"
         android:layout_marginTop="@dimen/view_space_4"
         android:layout_marginBottom="@dimen/view_space_4"
         android:layout_marginLeft="@dimen/view_space_8"
@@ -24,8 +24,8 @@
 
     <ImageView
         android:id="@+id/iv_checked_goods_type"
-        android:layout_width="15dp"
-        android:layout_height="15dp"
+        android:layout_width="10dp"
+        android:layout_height="10dp"
         android:src="@mipmap/ic_select_goods_type_checked"
         android:layout_marginLeft="12dp"
         android:layout_alignTop="@+id/cb_goods_type"

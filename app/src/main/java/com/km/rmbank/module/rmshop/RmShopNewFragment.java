@@ -53,6 +53,10 @@ public class RmShopNewFragment extends BaseFragment<RmShopPresenter> implements 
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+
+    @BindView(R.id.iv_back)
+    ImageView ivBack;
+
     @BindView(R.id.ll_sub_title)
     LinearLayout llSubTitle;
     @BindView(R.id.app_bar_layout)
@@ -136,6 +140,16 @@ public class RmShopNewFragment extends BaseFragment<RmShopPresenter> implements 
             isLevelOne = bundle.getBoolean("isLevelOne",false);
             levelOneId = bundle.getString("levelOneId");
             levelTwoId = bundle.getString("levelTwoId");
+        }
+
+        if (isFromHome){
+            ivBack.setVisibility(View.VISIBLE);
+            ivBack.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    getActivity().finish();
+                }
+            });
         }
 
 

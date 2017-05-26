@@ -2,6 +2,7 @@ package com.km.rmbank.module.personal.goodsmanager;
 
 import com.km.rmbank.dto.GoodsDetailsDto;
 import com.km.rmbank.dto.GoodsTypeDto;
+import com.km.rmbank.dto.HomeGoodsTypeDto;
 import com.km.rmbank.utils.fileupload.FileUploadingListener;
 import com.km.rmbank.utils.retrofit.PresenterWrapper;
 import com.orhanobut.logger.Logger;
@@ -68,26 +69,32 @@ public class CreateNewGoodsPresenter extends PresenterWrapper<CreateNewGoodsCont
     public void getGoodsInfo(String productNo) {
         mView.showLoading();
         Flowable<GoodsDetailsDto> goodsInfo = mApiwrapper.getGoodsInfo(productNo).subscribeOn(Schedulers.io());
-        final Flowable<List<GoodsTypeDto>> goodsType = mApiwrapper.getGoodsTypes().subscribeOn(Schedulers.io());
-
-        Flowable.zip(goodsInfo, goodsType, new BiFunction<GoodsDetailsDto, List<GoodsTypeDto>, GoodsDetailsDto>() {
-            @Override
-            public GoodsDetailsDto apply(@NonNull GoodsDetailsDto goodsDetailsDto, @NonNull List<GoodsTypeDto> goodsTypeDtos) throws Exception {
-                String typeId = goodsDetailsDto.getIsInIndexActivity();
-                for (GoodsTypeDto typeDto : goodsTypeDtos){
-                    if (typeId.equals(typeDto.getTypeId())){
-                        goodsDetailsDto.setGoodsTypeDto(typeDto);
-                        break;
-                    }
-                }
-                return goodsDetailsDto;
-            }
-        }).observeOn(AndroidSchedulers.mainThread()).subscribe(newSubscriber(new Consumer<GoodsDetailsDto>() {
+        goodsInfo.subscribe(newSubscriber(new Consumer<GoodsDetailsDto>() {
             @Override
             public void accept(@NonNull GoodsDetailsDto goodsDetailsDto) throws Exception {
                 mView.showGoodsInfo(goodsDetailsDto);
             }
         }));
+//        final Flowable<List<HomeGoodsTypeDto>> goodsType = mApiwrapper.getGoodsTypeForCreateGoods().subscribeOn(Schedulers.io());
+//
+//        Flowable.zip(goodsInfo, goodsType, new BiFunction<GoodsDetailsDto, List<HomeGoodsTypeDto>, GoodsDetailsDto>() {
+//            @Override
+//            public GoodsDetailsDto apply(@NonNull GoodsDetailsDto goodsDetailsDto, @NonNull List<HomeGoodsTypeDto> goodsTypeDtos) throws Exception {
+//                String typeId = goodsDetailsDto.getIsInIndexActivity();
+//                for (HomeGoodsTypeDto typeDto : goodsTypeDtos){
+//                    if (typeId.equals(typeDto.getId())){
+//                        goodsDetailsDto.setGoodsTypeDto(typeDto);
+//                        break;
+//                    }
+//                }
+//                return goodsDetailsDto;
+//            }
+//        }).observeOn(AndroidSchedulers.mainThread()).subscribe(newSubscriber(new Consumer<GoodsDetailsDto>() {
+//            @Override
+//            public void accept(@NonNull GoodsDetailsDto goodsDetailsDto) throws Exception {
+//                mView.showGoodsInfo(goodsDetailsDto);
+//            }
+//        }));
     }
 
     @Override

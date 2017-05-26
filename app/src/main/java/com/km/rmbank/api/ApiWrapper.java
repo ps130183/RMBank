@@ -579,6 +579,15 @@ public class ApiWrapper extends RetrofitUtil {
     }
 
     /**
+     * 获取 新增商品 选择 商品分类
+     * @return
+     */
+    public Flowable<List<HomeGoodsTypeDto>> getGoodsTypeForCreateGoods(){
+        return getService().getGoodsTypeForCreateGoods("1")
+                .compose(this.<List<HomeGoodsTypeDto>>applySchedulers());
+    }
+
+    /**
      * 获取关注商品列表
      * @param pageNo
      * @return

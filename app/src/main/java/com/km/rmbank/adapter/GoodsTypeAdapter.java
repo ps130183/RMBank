@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import com.km.rmbank.R;
 import com.km.rmbank.basic.BaseAdapter;
 import com.km.rmbank.dto.GoodsTypeDto;
+import com.km.rmbank.dto.HomeGoodsTypeDto;
 
 import java.util.Random;
 
@@ -17,7 +18,7 @@ import butterknife.BindView;
  * Created by kamangkeji on 17/4/6.
  */
 
-public class GoodsTypeAdapter extends BaseAdapter<GoodsTypeDto> implements BaseAdapter.IAdapter<GoodsTypeAdapter.ViewHolder> {
+public class GoodsTypeAdapter extends BaseAdapter<HomeGoodsTypeDto> implements BaseAdapter.IAdapter<GoodsTypeAdapter.ViewHolder> {
 
 
     public GoodsTypeAdapter(Context mContext) {
@@ -32,8 +33,8 @@ public class GoodsTypeAdapter extends BaseAdapter<GoodsTypeDto> implements BaseA
 
     @Override
     public void createView(ViewHolder holder, int position) {
-        final GoodsTypeDto goodsTypeDto = getItemData(position);
-        holder.cbGoodsType.setText(goodsTypeDto.getProductType());
+        final HomeGoodsTypeDto goodsTypeDto = getItemData(position);
+        holder.cbGoodsType.setText(goodsTypeDto.getProductTypeName());
 //        holder.cbGoodsType.setChecked(goodsTypeDto.isChecked());
         holder.cbGoodsType.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,8 +58,8 @@ public class GoodsTypeAdapter extends BaseAdapter<GoodsTypeDto> implements BaseA
         }
     }
 
-    private void setChecked(GoodsTypeDto typeDto) {
-        for (GoodsTypeDto goodsTypeDto : getAllData()) {
+    private void setChecked(HomeGoodsTypeDto typeDto) {
+        for (HomeGoodsTypeDto goodsTypeDto : getAllData()) {
             goodsTypeDto.setChecked(false);
         }
         typeDto.setChecked(true);
@@ -70,21 +71,21 @@ public class GoodsTypeAdapter extends BaseAdapter<GoodsTypeDto> implements BaseA
      *
      * @return
      */
-    public GoodsTypeDto getCheckedGoodsType() {
-        for (GoodsTypeDto goodsTypeDto : getAllData()) {
+    public HomeGoodsTypeDto getCheckedGoodsType() {
+        for (HomeGoodsTypeDto goodsTypeDto : getAllData()) {
             if (goodsTypeDto.isChecked()) {
                 return goodsTypeDto;
             }
         }
-        return new GoodsTypeDto("");
+        return new HomeGoodsTypeDto("");
     }
 
-    public void setDefaultChecked(GoodsTypeDto goodsTypeDto) {
+    public void setDefaultChecked(HomeGoodsTypeDto goodsTypeDto) {
         if (goodsTypeDto == null) {
             return;
         }
-        for (GoodsTypeDto typeDto : getAllData()) {
-            if (typeDto.getProductType().equals(goodsTypeDto.getProductType())) {
+        for (HomeGoodsTypeDto typeDto : getAllData()) {
+            if (typeDto.getProductTypeName().equals(goodsTypeDto.getProductTypeName())) {
                 typeDto.setChecked(true);
                 break;
             }

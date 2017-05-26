@@ -670,6 +670,16 @@ public interface ApiService {
     Flowable<Response<List<HomeGoodsTypeDto>>> getGoodsType(@Field("type") String type);
 
     /**
+     * 获取  新增商品  选择  商品分类
+     *
+     * @param type
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(SecretConstant.API_HOST_PATH + "/productTypes/list")
+    Flowable<Response<List<HomeGoodsTypeDto>>> getGoodsTypeForCreateGoods(@Field("type") String type);
+
+    /**
      * 关注商品列表
      *
      * @param token

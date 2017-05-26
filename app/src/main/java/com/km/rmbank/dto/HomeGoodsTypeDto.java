@@ -2,8 +2,10 @@ package com.km.rmbank.dto;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.text.TextUtils;
 
 import com.google.gson.annotations.SerializedName;
+import com.km.rmbank.basic.BaseEntity;
 
 import java.util.List;
 
@@ -11,7 +13,7 @@ import java.util.List;
  * Created by kamangkeji on 17/5/24.
  */
 
-public class HomeGoodsTypeDto implements Parcelable {
+public class HomeGoodsTypeDto extends BaseEntity implements Parcelable {
 
     /**
      * createDate : 1493005887000
@@ -32,6 +34,8 @@ public class HomeGoodsTypeDto implements Parcelable {
     private String supply;
 
     private boolean isChecked;
+
+    private int backgroundRes;
     private List<HomeGoodsTypeDto> typeList;
 
 
@@ -123,6 +127,28 @@ public class HomeGoodsTypeDto implements Parcelable {
         isChecked = checked;
     }
 
+    public int getBackgroundRes() {
+        return backgroundRes;
+    }
+
+    public void setBackgroundRes(int backgroundRes) {
+        this.backgroundRes = backgroundRes;
+    }
+
+    @Override
+    public String toString() {
+        return "HomeGoodsTypeDto{" +
+                "createDate='" + createDate + '\'' +
+                ", describe='" + describe + '\'' +
+                ", id='" + id + '\'' +
+                ", parentId='" + parentId + '\'' +
+                ", productTypeImage='" + productTypeImage + '\'' +
+                ", productTypeName='" + productTypeName + '\'' +
+                ", supply='" + supply + '\'' +
+                ", isChecked=" + isChecked +
+                ", typeList=" + typeList +
+                '}';
+    }
 
     @Override
     public int describeContents() {
@@ -139,6 +165,7 @@ public class HomeGoodsTypeDto implements Parcelable {
         dest.writeString(this.productTypeName);
         dest.writeString(this.supply);
         dest.writeByte(this.isChecked ? (byte) 1 : (byte) 0);
+        dest.writeInt(this.backgroundRes);
         dest.writeTypedList(this.typeList);
     }
 
@@ -151,6 +178,7 @@ public class HomeGoodsTypeDto implements Parcelable {
         this.productTypeName = in.readString();
         this.supply = in.readString();
         this.isChecked = in.readByte() != 0;
+        this.backgroundRes = in.readInt();
         this.typeList = in.createTypedArrayList(HomeGoodsTypeDto.CREATOR);
     }
 
@@ -167,17 +195,10 @@ public class HomeGoodsTypeDto implements Parcelable {
     };
 
     @Override
-    public String toString() {
-        return "HomeGoodsTypeDto{" +
-                "createDate='" + createDate + '\'' +
-                ", describe='" + describe + '\'' +
-                ", id='" + id + '\'' +
-                ", parentId='" + parentId + '\'' +
-                ", productTypeImage='" + productTypeImage + '\'' +
-                ", productTypeName='" + productTypeName + '\'' +
-                ", supply='" + supply + '\'' +
-                ", isChecked=" + isChecked +
-                ", typeList=" + typeList +
-                '}';
+    public boolean isEmpty() {
+        if (TextUtils.isEmpty(productTypeName) && TextUtils.isEmpty(id)){
+            return true;
+        }
+        return false;
     }
 }

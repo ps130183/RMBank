@@ -5,6 +5,7 @@ import com.km.rmbank.api.ApiWrapper;
 import com.km.rmbank.basic.BaseActivity;
 import com.km.rmbank.dto.GoodsDetailsDto;
 import com.km.rmbank.dto.GoodsTypeDto;
+import com.km.rmbank.dto.HomeGoodsTypeDto;
 import com.km.rmbank.utils.retrofit.PresenterWrapper;
 
 import java.util.ArrayList;
@@ -44,18 +45,18 @@ public class GoodsTypePresenter extends PresenterWrapper<GoodsTypeContract.View>
 //        goodsTypeDtos.add(new GoodsTypeDto("煤炭"));
 //        goodsTypeDtos.add(new GoodsTypeDto("互联网"));
 //        goodsTypeDtos.add(new GoodsTypeDto("林木"));
-        mApiwrapper.getGoodsTypes()
-                .doOnNext(new Consumer<List<GoodsTypeDto>>() {
+        mApiwrapper.getGoodsTypeForCreateGoods()
+                .doOnNext(new Consumer<List<HomeGoodsTypeDto>>() {
                     @Override
-                    public void accept(@NonNull List<GoodsTypeDto> goodsTypeDtos) throws Exception {
-                        for (GoodsTypeDto goodsTypeDto : goodsTypeDtos){
+                    public void accept(@NonNull List<HomeGoodsTypeDto> goodsTypeDtos) throws Exception {
+                        for (HomeGoodsTypeDto goodsTypeDto : goodsTypeDtos){
                             goodsTypeDto.setBackgroundRes(backgroundRes[mRandom.nextInt(backgroundRes.length)]);
                         }
                     }
                 })
-                .subscribe(newSubscriber(new Consumer<List<GoodsTypeDto>>() {
+                .subscribe(newSubscriber(new Consumer<List<HomeGoodsTypeDto>>() {
                     @Override
-                    public void accept(@NonNull List<GoodsTypeDto> goodsTypeDtos) throws Exception {
+                    public void accept(@NonNull List<HomeGoodsTypeDto> goodsTypeDtos) throws Exception {
                         mView.showGoodsType(goodsTypeDtos);
                     }
                 }));
@@ -65,6 +66,6 @@ public class GoodsTypePresenter extends PresenterWrapper<GoodsTypeContract.View>
     @Override
     public void onCreateView() {
         mView.initGoodsTypeView();
-        getGoodsType();
+//        getGoodsType();
     }
 }

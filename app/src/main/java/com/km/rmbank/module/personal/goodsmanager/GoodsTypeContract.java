@@ -3,6 +3,7 @@ package com.km.rmbank.module.personal.goodsmanager;
 import com.km.rmbank.basic.BasePresenter;
 import com.km.rmbank.basic.BaseView;
 import com.km.rmbank.dto.GoodsTypeDto;
+import com.km.rmbank.dto.HomeGoodsTypeDto;
 
 import java.util.List;
 
@@ -13,7 +14,7 @@ import java.util.List;
 public interface GoodsTypeContract {
     interface View extends BaseView{
         void initGoodsTypeView();
-        void showGoodsType(List<GoodsTypeDto> goodsTypeDtos);
+        void showGoodsType(List<HomeGoodsTypeDto> goodsTypeDtos);
     }
     interface Presenter extends BasePresenter{
         void getGoodsType();

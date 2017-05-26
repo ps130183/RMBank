@@ -68,6 +68,7 @@ public class GoodsDetailsDto extends BaseEntity implements Parcelable {
     private int productInShopCarCount;
     private String productNo;
     private String productType;
+    private String productTypeOne;
     private String residualStock;
     private String role;
     private String shopId;
@@ -82,7 +83,7 @@ public class GoodsDetailsDto extends BaseEntity implements Parcelable {
     private List<String> productDetailList;
     private String total;
 
-    private GoodsTypeDto goodsTypeDto;
+    private HomeGoodsTypeDto goodsTypeDto;
 
     private ReceiverAddressDto receiverAddressDto;
 
@@ -368,12 +369,20 @@ public class GoodsDetailsDto extends BaseEntity implements Parcelable {
         this.total = total;
     }
 
-    public GoodsTypeDto getGoodsTypeDto() {
+    public HomeGoodsTypeDto getGoodsTypeDto() {
         return goodsTypeDto;
     }
 
-    public void setGoodsTypeDto(GoodsTypeDto goodsTypeDto) {
+    public void setGoodsTypeDto(HomeGoodsTypeDto goodsTypeDto) {
         this.goodsTypeDto = goodsTypeDto;
+    }
+
+    public String getProductTypeOne() {
+        return productTypeOne;
+    }
+
+    public void setProductTypeOne(String productTypeOne) {
+        this.productTypeOne = productTypeOne;
     }
 
     public GoodsDetailsDto() {
@@ -406,6 +415,7 @@ public class GoodsDetailsDto extends BaseEntity implements Parcelable {
         dest.writeInt(this.productInShopCarCount);
         dest.writeString(this.productNo);
         dest.writeString(this.productType);
+        dest.writeString(this.productTypeOne);
         dest.writeString(this.residualStock);
         dest.writeString(this.role);
         dest.writeString(this.shopId);
@@ -444,6 +454,7 @@ public class GoodsDetailsDto extends BaseEntity implements Parcelable {
         this.productInShopCarCount = in.readInt();
         this.productNo = in.readString();
         this.productType = in.readString();
+        this.productTypeOne = in.readString();
         this.residualStock = in.readString();
         this.role = in.readString();
         this.shopId = in.readString();
@@ -457,7 +468,7 @@ public class GoodsDetailsDto extends BaseEntity implements Parcelable {
         this.productBannerList = in.createStringArrayList();
         this.productDetailList = in.createStringArrayList();
         this.total = in.readString();
-        this.goodsTypeDto = in.readParcelable(GoodsTypeDto.class.getClassLoader());
+        this.goodsTypeDto = in.readParcelable(HomeGoodsTypeDto.class.getClassLoader());
         this.receiverAddressDto = in.readParcelable(ReceiverAddressDto.class.getClassLoader());
     }
 

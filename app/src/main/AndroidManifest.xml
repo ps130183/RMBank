@@ -156,6 +156,7 @@
         <activity android:name=".module.personal.goodsmanager.GoodsManagerActivity" />
         <activity
             android:name=".module.personal.goodsmanager.CreateNewGoodsActivity"
+            android:launchMode="singleTask"
             android:windowSoftInputMode="adjustPan" />
         <activity android:name=".module.personal.team.MyTeamActivity" />
         <activity android:name=".module.personal.receiveraddress.ReceiverAddressActivity" />
