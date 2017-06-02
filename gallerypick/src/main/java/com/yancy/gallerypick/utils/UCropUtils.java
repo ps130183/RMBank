@@ -20,7 +20,7 @@ public class UCropUtils {
                 .withMaxResultSize(maxWidth, maxHeight);
 
         UCrop.Options options = new UCrop.Options();
-        int bgcolor = mActivity.getResources().getColor(R.color.gallery_blue);
+        int bgcolor = mActivity.getResources().getColor(R.color.ucrop_gallery_blue);
         options.setToolbarColor(bgcolor);
         options.setStatusBarColor(bgcolor);
         if (bgcolor == 0xffffffff){

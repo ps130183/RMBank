@@ -13,9 +13,9 @@
 
 
     <!--PopupWindow动画-->
-    <style name="popupAnimation" parent="android:Animation">
-        <item name="android:windowEnterAnimation">@anim/in_fade</item>
-        <item name="android:windowExitAnimation">@anim/out_fade</item>
+    <style name="gallery_popupAnimation" parent="android:Animation">
+        <item name="android:windowEnterAnimation">@anim/gallery_in_fade</item>
+        <item name="android:windowExitAnimation">@anim/gallery_out_fade</item>
     </style>
 
 </resources>

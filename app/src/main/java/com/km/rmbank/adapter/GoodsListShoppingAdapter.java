@@ -35,6 +35,12 @@ public class GoodsListShoppingAdapter extends BaseAdapter<GoodsDto> implements B
         holder.tvGoodsName.setText(goodsDto.getName());
         holder.tvGoodsPrice.setText("¥"+goodsDto.getPrice());
         holder.tvSubTitle.setText(goodsDto.getSubtitle());
+        holder.tvAccess.setText(goodsDto.getAccess());
+        if (goodsDto.getRole() == 2){
+            holder.ivIsVip2.setVisibility(View.VISIBLE);
+        } else {
+            holder.ivIsVip2.setVisibility(View.GONE);
+        }
     }
 
     class ViewHolder extends BaseViewHolder{
@@ -48,6 +54,12 @@ public class GoodsListShoppingAdapter extends BaseAdapter<GoodsDto> implements B
 
         @BindView(R.id.tv_goods_price)
         TextView tvGoodsPrice;
+
+        @BindView(R.id.tv_access)
+        TextView tvAccess;
+
+        @BindView(R.id.iv_is_vip2)
+        ImageView ivIsVip2;
 
         public ViewHolder(View itemView) {
             super(itemView);

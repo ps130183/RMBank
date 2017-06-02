@@ -63,7 +63,7 @@ public class FolderListPopupWindow extends PopupWindow {
         //设置PopupWindow弹出窗体可点击
         this.setFocusable(false);
         //设置PopupWindow弹出窗体动画效果
-        this.setAnimationStyle(R.style.popupAnimation);
+        this.setAnimationStyle(R.style.gallery_popupAnimation);
         //实例化一个ColorDrawable颜色为半透明
         ColorDrawable dw = new ColorDrawable(mContext.getResources().getColor(R.color.gallery_folder_bg));
         //设置PopupWindow弹出窗体的背景

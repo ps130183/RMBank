@@ -14,24 +14,28 @@ android {
         variant.outputs.each { output ->
             def oldFile = output.outputFile
             def newName = '';
-            def releaseApkName = "WZDQ-" + buildType.name + "-${releaseTime()}-" + defaultConfig.versionName + '.apk'
-            output.outputFile = new File(oldFile.parent, releaseApkName)
-//            if(variant.buildType.name.equals('release')){
-//                // println(variant.productFlavors[0].name)
-//                // def releaseApkName = 'study-' + defaultConfig.versionName + '-luckpan.apk'
-//                def releaseApkName = "WZDQ-" + buildType.name + "-${releaseTime() }-" + defaultConfig.versionName + '.apk'
-//                output.outputFile = new File(oldFile.parent, releaseApkName)
-//            }
-//            if(variant.buildType.name.equals('beta')){
-//                newName = oldFile.name.replace(".apk", "-v" + getVersionNameFromManifest() + "-build" + getDate() + ".apk")
-//                output.outputFile = new File(oldFile.parent, newName)
-//            }
-//            if(variant.buildType.name.equals('debug')){
-//
-//            }
+//            def releaseApkName = "WZDQ-" + buildType.name + "-${releaseTime()}-" + defaultConfig.versionName + '.apk'
+//            output.outputFile = new File(oldFile.parent, releaseApkName)
+            if(variant.buildType.name.equals('release')){
+                // println(variant.productFlavors[0].name)
+                // def releaseApkName = 'study-' + defaultConfig.versionName + '-luckpan.apk'
+                def releaseApkName = "WZDQ-" + buildType.name + "-${releaseTime() }-" + defaultConfig.versionName + '.apk'
+                output.outputFile = new File(oldFile.parent, releaseApkName)
+            }
+            if(variant.buildType.name.equals('beta')){
+                newName = oldFile.name.replace(".apk", "-v" + getVersionNameFromManifest() + "-build" + getDate() + ".apk")
+                output.outputFile = new File(oldFile.parent, newName)
+            }
+            if(variant.buildType.name.equals('debug')){
+
+            }
         }
 
 
+    }
+    lintOptions{
+        checkReleaseBuilds false
+        abortOnError false
     }
     compileSdkVersion 25
     buildToolsVersion "25.0.2"

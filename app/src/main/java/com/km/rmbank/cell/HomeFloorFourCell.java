@@ -74,6 +74,7 @@ public class HomeFloorFourCell extends BaseCell<HomeNewRecommendDto> implements 
         tvGoodsSubTitle4.setText(goodsList.get(3).getDescribe());
         GlideUtils.loadImage(ivGoodsImage4,goodsList.get(3).getProductTypeImage());
 
+        tvFloorTitle.setOnClickListener(null);
         tvFloorSubTitle.setOnClickListener(this);
 
         llGoods1.setOnClickListener(this);

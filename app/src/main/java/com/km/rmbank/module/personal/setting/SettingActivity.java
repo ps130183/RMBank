@@ -75,6 +75,7 @@ public class SettingActivity extends BaseActivity {
             public void clickConfirm() {
 //                showToast("退出登录");
                 Constant.user.clear();
+//                EventBusUtils.post(new LogoutEntity(true));
                 toNextActivity(LoginActivity.class);
             }
         });

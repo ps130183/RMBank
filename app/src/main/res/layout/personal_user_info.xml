@@ -49,7 +49,7 @@
             android:id="@+id/tv_time"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="hi,这是你加入玩转地球的第123天"
+            android:text="hi,这是你加入玩转地球的第0天"
             android:textColor="@color/color_white"
             android:layout_toRightOf="@+id/iv_user_portrait"
             android:layout_below="@+id/tv_user_nick_name"

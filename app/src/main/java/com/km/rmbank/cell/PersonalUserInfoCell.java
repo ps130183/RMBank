@@ -32,6 +32,7 @@ public class PersonalUserInfoCell extends BaseCell<UserInfoDto> implements View.
         if (mData !=null){
             GlideUtils.loadCircleImage(holder.getImageView(R.id.iv_user_portrait), mData.getPortraitUrl());
             holder.getTextView(R.id.tv_user_nick_name).setText(mData.getNickName());
+            holder.getTextView(R.id.tv_time).setText("hi,这是你加入玩转地球的第" + mData.getRegisterDate() + "天");
             String vipType = "";
             if ("2".equals(Constant.user.getRoleId())){
                 vipType = "合伙人会员";

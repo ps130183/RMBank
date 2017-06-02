@@ -18,6 +18,19 @@ public class UserInfoDto implements Parcelable {
     private String birthday;
     private String portraitUrl;
     private String nickName;
+    /**
+     * total : 0
+     * registerDate : 86
+     * roleName : 体验式会员
+     * updateDate : 2017-05-15
+     * roleId : 3
+     */
+
+    private String total;
+    private int registerDate;
+    private String roleName;
+    private String updateDate;
+    private String roleId;
 
     public String getBirthday() {
         return birthday;
@@ -49,7 +62,55 @@ public class UserInfoDto implements Parcelable {
                 "birthday='" + birthday + '\'' +
                 ", portraitUrl='" + portraitUrl + '\'' +
                 ", nickName='" + nickName + '\'' +
+                ", total='" + total + '\'' +
+                ", registerDate=" + registerDate +
+                ", roleName='" + roleName + '\'' +
+                ", updateDate='" + updateDate + '\'' +
+                ", roleId='" + roleId + '\'' +
                 '}';
+    }
+
+    public UserInfoDto() {
+    }
+
+    public String getTotal() {
+        return total;
+    }
+
+    public void setTotal(String total) {
+        this.total = total;
+    }
+
+    public int getRegisterDate() {
+        return registerDate;
+    }
+
+    public void setRegisterDate(int registerDate) {
+        this.registerDate = registerDate;
+    }
+
+    public String getRoleName() {
+        return roleName;
+    }
+
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
+    }
+
+    public String getUpdateDate() {
+        return updateDate;
+    }
+
+    public void setUpdateDate(String updateDate) {
+        this.updateDate = updateDate;
+    }
+
+    public String getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(String roleId) {
+        this.roleId = roleId;
     }
 
     @Override
@@ -62,18 +123,25 @@ public class UserInfoDto implements Parcelable {
         dest.writeString(this.birthday);
         dest.writeString(this.portraitUrl);
         dest.writeString(this.nickName);
-    }
-
-    public UserInfoDto() {
+        dest.writeString(this.total);
+        dest.writeInt(this.registerDate);
+        dest.writeString(this.roleName);
+        dest.writeString(this.updateDate);
+        dest.writeString(this.roleId);
     }
 
     protected UserInfoDto(Parcel in) {
         this.birthday = in.readString();
         this.portraitUrl = in.readString();
         this.nickName = in.readString();
+        this.total = in.readString();
+        this.registerDate = in.readInt();
+        this.roleName = in.readString();
+        this.updateDate = in.readString();
+        this.roleId = in.readString();
     }
 
-    public static final Parcelable.Creator<UserInfoDto> CREATOR = new Parcelable.Creator<UserInfoDto>() {
+    public static final Creator<UserInfoDto> CREATOR = new Creator<UserInfoDto>() {
         @Override
         public UserInfoDto createFromParcel(Parcel source) {
             return new UserInfoDto(source);

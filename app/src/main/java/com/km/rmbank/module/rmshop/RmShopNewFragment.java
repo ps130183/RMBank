@@ -5,6 +5,7 @@ import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -29,7 +30,10 @@ import com.km.rmbank.dto.GoodsTypeDto;
 import com.km.rmbank.dto.HomeGoodsTypeDto;
 import com.km.rmbank.entity.GoodsTypeEntity;
 import com.km.rmbank.module.home.SearchActivity;
+import com.km.rmbank.module.home.message.MessageActivity;
+import com.km.rmbank.module.personal.shopcart.ShoppingCartActivity;
 import com.km.rmbank.module.rmshop.goods.GoodsActivity;
+import com.km.rmbank.utils.SwipeRefreshUtils;
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.AnimatorListenerAdapter;
 import com.nineoldandroids.animation.ObjectAnimator;
@@ -37,6 +41,8 @@ import com.orhanobut.logger.Logger;
 import com.ps.androidlib.animator.AnimatorViewWrapper;
 import com.ps.androidlib.animator.ShowViewAnimator;
 import com.ps.androidlib.utils.AppUtils;
+import com.zaaach.toprightmenu.MenuItem;
+import com.zaaach.toprightmenu.TopRightMenu;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -77,6 +83,9 @@ public class RmShopNewFragment extends BaseFragment<RmShopPresenter> implements 
     @BindView(R.id.iv_vip)
     ImageView ivVip;
 
+    @BindView(R.id.iv_more)
+    ImageView ivMore;
+
     @BindView(R.id.tv_goods_type)
     TextView tvGoodsType;
     @BindView(R.id.tv_sort)
@@ -107,6 +116,9 @@ public class RmShopNewFragment extends BaseFragment<RmShopPresenter> implements 
     @BindView(R.id.cb_vip2)
     CheckBox cbVip2;
 
+//    @BindView(R.id.swiper_refresh)
+//    SwipeRefreshLayout mSwipeRefresh;
+
     private String isInIndextActivity = "";
     private int orderBy = 0;
     private String roleId = "";
@@ -115,6 +127,10 @@ public class RmShopNewFragment extends BaseFragment<RmShopPresenter> implements 
     private boolean isLevelOne = false;//是否是第一级
     private String levelOneId = "";//一级分类 Id
     private String levelTwoId = "";//二级分类Id
+
+    private TopRightMenu mTopRightMenu;
+
+
 
     public static RmShopNewFragment newInstance(Bundle bundle) {
         RmShopNewFragment fragment = new RmShopNewFragment();
@@ -152,7 +168,7 @@ public class RmShopNewFragment extends BaseFragment<RmShopPresenter> implements 
             });
         }
 
-
+        initToolbarRight();
 
         mSelectGoodsAnimator = new ShowViewAnimator();
         mSortAnimator = new ShowViewAnimator();
@@ -176,6 +192,60 @@ public class RmShopNewFragment extends BaseFragment<RmShopPresenter> implements 
         initSelectSort();
         initGoodsList();
         initTriangleOrientation();
+        initSwipeRefresh();
+    }
+
+    @OnClick(R.id.iv_more)
+    public void moreClick(View view){
+        if (mTopRightMenu != null){
+            mTopRightMenu.showAsDropDown(ivMore,-230,0);
+        }
+    }
+
+    private void initSwipeRefresh(){
+        SwipeRefreshUtils.initSwipeRefresh(mSwipeRefresh, new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getGoodsList(1);
+            }
+        });
+    }
+
+    /**
+     * 初始化 右上角弹出框
+     */
+    private void initToolbarRight(){
+        mTopRightMenu = new TopRightMenu(getActivity());
+
+//添加菜单项
+        List<MenuItem> menuItems = new ArrayList<>();
+        menuItems.add(new MenuItem(R.mipmap.ic_message_gray, "消息"));
+        menuItems.add(new MenuItem(R.mipmap.ic_shopping_cart_32, "购物车"));
+
+        mTopRightMenu
+                .setHeight(RecyclerView.LayoutParams.WRAP_CONTENT)     //默认高度480
+                .setWidth(320)      //默认宽度wrap_content
+                .showIcon(true)     //显示菜单图标，默认为true
+                .dimBackground(true)        //背景变暗，默认为true
+                .needAnimationStyle(true)   //显示动画，默认为true
+                .setAnimationStyle(R.style.TRM_ANIM_STYLE)
+                .addMenuList(menuItems)
+//                .addMenuItem(new MenuItem(R.mipmap.facetoface, "面对面快传"))
+//                .addMenuItem(new MenuItem(R.mipmap.pay, "付款"))
+                .setOnMenuItemClickListener(new TopRightMenu.OnMenuItemClickListener() {
+                    @Override
+                    public void onMenuItemClick(int position) {
+                        switch (position){
+                            case 0:
+                                toNextActivity(MessageActivity.class);
+                                break;
+                            case 1:
+                                toNextActivity(ShoppingCartActivity.class);
+                                break;
+                        }
+                    }
+                });
+//                .showAsDropDown(ivMore, -225, 0);    //带偏移量
     }
 
     /**

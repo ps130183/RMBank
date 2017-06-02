@@ -16,6 +16,7 @@ import com.km.rmbank.module.HomeActivity;
 import com.km.rmbank.module.HomeNewActivity;
 import com.km.rmbank.module.personal.AgreementActivity;
 import com.orhanobut.logger.Logger;
+import com.ps.androidlib.utils.EventBusUtils;
 
 import org.reactivestreams.Subscriber;
 
@@ -89,6 +90,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
         Bundle bundle = new Bundle();
         bundle.putInt("position",0);
         toNextActivity(HomeNewActivity.class,bundle);
+//        EventBusUtils.post(new LogoutEntity(true));
     }
 
     /**

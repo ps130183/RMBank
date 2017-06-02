@@ -5,7 +5,7 @@
     android:layout_height="fill_parent"
     android:background="#33000000">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="140dip"
         android:layout_height="140dip"
         android:layout_centerInParent="true"
@@ -13,9 +13,20 @@
         android:gravity="center"
         android:orientation="vertical" >
 
-        <ProgressBar
+        <ImageView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_loading"
+            android:layout_centerInParent="true"
+            />
+
+        <ProgressBar
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_centerInParent="true"
+            android:indeterminateTint="#f56e06"
+            android:indeterminateTintMode="multiply"/>
+
 
         <TextView
             android:id="@+id/loading_text"
@@ -23,7 +34,8 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="加载中"
-            android:textColor="#B4B4B4" />
-    </LinearLayout>
+            android:textColor="#B4B4B4"
+            android:visibility="gone"/>
+    </RelativeLayout>
 
 </RelativeLayout>

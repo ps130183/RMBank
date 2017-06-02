@@ -41,6 +41,9 @@ import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.xys.libzxing.zxing.activity.CaptureActivity;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
@@ -91,6 +94,8 @@ public class HomeNewActivity extends BaseActivity<HomePresenter> implements Home
 
     @BindView(R.id.iv_cancel)
     ImageView ivCancel;
+
+    private int currentPosition = -1;
 
     @Override
     protected int getContentView() {
@@ -162,11 +167,21 @@ public class HomeNewActivity extends BaseActivity<HomePresenter> implements Home
         mNavigateTabBar.setTabSelectListener(new MainNavigateTabBar.OnTabSelectedListener() {
             @Override
             public void onTabSelected(MainNavigateTabBar.ViewHolder holder) {
-                if (holder.fragmentClass == PersonalFragment.class && Constant.user.isEmpty()){//个人中心
+                if (holder.fragmentClass == PersonalNewFragment.class && Constant.user.isEmpty()){//个人中心
                     toNextActivity(LoginActivity.class);
                 }
             }
         });
+    }
+
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        currentPosition = intent.getIntExtra("position", -1);
+        if (currentPosition >= 0) {
+            mNavigateTabBar.setCurrentSelectedTab(currentPosition);
+        }
     }
 
     @Override
@@ -342,4 +357,11 @@ public class HomeNewActivity extends BaseActivity<HomePresenter> implements Home
         bundle.putString("friendPhone",friendPhone);
         toNextActivity(EditUserCardActivity.class,bundle);
     }
+
+//    @Subscribe(threadMode = ThreadMode.MAIN)
+//    public void logout(LogoutEntity entity){
+//        if (entity.isLogout()){
+//            mNavigateTabBar.setCurrentSelectedTab(0);
+//        }
+//    }
 }

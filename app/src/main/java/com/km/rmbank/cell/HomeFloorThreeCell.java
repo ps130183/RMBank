@@ -48,6 +48,7 @@ public class HomeFloorThreeCell extends BaseCell<HomeNewRecommendDto> implements
         tvFloor5.setText(typeListBeanList.get(4).getProductTypeName());
         tvFloor6.setText(typeListBeanList.get(5).getProductTypeName());
 
+        tvFloorTitle.setOnClickListener(null);
         tvFloorSubTitle.setOnClickListener(this);
         tvFloor1.setOnClickListener(this);
         tvFloor2.setOnClickListener(this);

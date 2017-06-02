@@ -52,7 +52,7 @@ public class UIUtils {
             whole_layout.setPadding(0, activity.getResources().getDimensionPixelSize(getStatusBarHeight()), 0, 0);
         }
 
-        int bgColor = activity.getResources().getColor(R.color.gallery_blue);
+        int bgColor = activity.getResources().getColor(R.color.ucrop_gallery_blue);
         if (bgColor == 0xffffffff && Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             if(MIUISetStatusBarLightMode(activity.getWindow(), true)){
 //                result=1;

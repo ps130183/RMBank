@@ -29,6 +29,7 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate() {
         initPcaData(this);
+//        showLoading();
     }
 
     @OnClick(R.id.to_home)

@@ -53,6 +53,7 @@ public class HomeFloorTwoCell extends BaseCell<HomeNewRecommendDto> implements V
         tvFloorTitle.setText(mData.getRecommendName());
         TextView tvFloorSubTitle = holder.getTextView(R.id.tv_floor_sub_title);
         tvFloorSubTitle.setText(mData.getSubtitle());
+        tvFloorTitle.setOnClickListener(null);
         tvFloorSubTitle.setOnClickListener(this);
 
         ViewPager viewPager = holder.findView(R.id.viewpager1);

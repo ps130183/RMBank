@@ -8,11 +8,13 @@ import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.km.rmbank.R;
 import com.orhanobut.logger.Logger;
 import com.ps.androidlib.utils.DialogLoading;
 import com.ps.androidlib.utils.EventBusUtils;
@@ -33,6 +35,8 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment imp
     protected P mPresenter;
     protected Toast mToast = null;//提示框
 
+    protected SwipeRefreshLayout mSwipeRefresh;
+
     protected BaseFragment() {
         // Required empty public constructor
     }
@@ -49,6 +53,7 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment imp
                              Bundle savedInstanceState) {
         View view = ViewUtils.getView(inflater, container, getContentView());
         ButterKnife.bind(this, view);
+        mSwipeRefresh = (SwipeRefreshLayout) view.findViewById(R.id.swiper_refresh);
         mPresenter = getmPresenter();
         createView();
         if (mPresenter != null) {
@@ -149,6 +154,9 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment imp
     public void hideLoading() {
         if (loading != null){
             loading.dismiss();
+        }
+        if (mSwipeRefresh != null && mSwipeRefresh.isRefreshing()){
+            mSwipeRefresh.setRefreshing(false);
         }
     }
 

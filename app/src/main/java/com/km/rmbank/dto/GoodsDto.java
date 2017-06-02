@@ -40,6 +40,7 @@ public class GoodsDto implements Parcelable {
      * thumbnailUrl : http://122.114.162.140:8889/image131141
      */
 
+    private String access;
     private int alreadySoldCount;
     private String avgStartLevel;
     private int bannerType;
@@ -54,6 +55,7 @@ public class GoodsDto implements Parcelable {
     private String longitude;
     private String name;
     private double price;
+    private int role;
     private String productBannerUrl;
     private String productDetail;
     private int productInShopCarCount;
@@ -69,6 +71,22 @@ public class GoodsDto implements Parcelable {
     private String thumbnailUrl;
 
     public GoodsDto() {
+    }
+
+    public String getAccess() {
+        return access;
+    }
+
+    public void setAccess(String access) {
+        this.access = access;
+    }
+
+    public int getRole() {
+        return role;
+    }
+
+    public void setRole(int role) {
+        this.role = role;
     }
 
     public boolean isChecked() {
@@ -304,6 +322,7 @@ public class GoodsDto implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeByte(this.isChecked ? (byte) 1 : (byte) 0);
+        dest.writeString(this.access);
         dest.writeInt(this.alreadySoldCount);
         dest.writeString(this.avgStartLevel);
         dest.writeInt(this.bannerType);
@@ -318,6 +337,7 @@ public class GoodsDto implements Parcelable {
         dest.writeString(this.longitude);
         dest.writeString(this.name);
         dest.writeDouble(this.price);
+        dest.writeInt(this.role);
         dest.writeString(this.productBannerUrl);
         dest.writeString(this.productDetail);
         dest.writeInt(this.productInShopCarCount);
@@ -335,6 +355,7 @@ public class GoodsDto implements Parcelable {
 
     protected GoodsDto(Parcel in) {
         this.isChecked = in.readByte() != 0;
+        this.access = in.readString();
         this.alreadySoldCount = in.readInt();
         this.avgStartLevel = in.readString();
         this.bannerType = in.readInt();
@@ -349,6 +370,7 @@ public class GoodsDto implements Parcelable {
         this.longitude = in.readString();
         this.name = in.readString();
         this.price = in.readDouble();
+        this.role = in.readInt();
         this.productBannerUrl = in.readString();
         this.productDetail = in.readString();
         this.productInShopCarCount = in.readInt();
@@ -364,7 +386,7 @@ public class GoodsDto implements Parcelable {
         this.thumbnailUrl = in.readString();
     }
 
-    public static final Parcelable.Creator<GoodsDto> CREATOR = new Parcelable.Creator<GoodsDto>() {
+    public static final Creator<GoodsDto> CREATOR = new Creator<GoodsDto>() {
         @Override
         public GoodsDto createFromParcel(Parcel source) {
             return new GoodsDto(source);

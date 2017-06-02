@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="50dp"
-    android:background="@color/gallery_blue">
+    android:background="@color/ucrop_gallery_blue">
 
     <LinearLayout
         android:id="@+id/btnGalleryPickBack"
