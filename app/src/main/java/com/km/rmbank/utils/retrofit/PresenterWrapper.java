@@ -8,6 +8,7 @@ import com.km.rmbank.basic.BasePresenter;
 import com.km.rmbank.basic.BaseView;
 import com.km.rmbank.dto.RetCode;
 import com.km.rmbank.event.UserIsEmptyEvent;
+import com.orhanobut.logger.Logger;
 import com.ps.androidlib.utils.EventBusUtils;
 import com.ps.androidlib.utils.MToast;
 
@@ -78,6 +79,7 @@ public abstract class PresenterWrapper<V extends BaseView> implements BasePresen
             @Override
             public void onNext(T t) {
                 mView.hideLoading();
+                Logger.d(mCompositeSubscription + "");
                 if (!mCompositeSubscription.isDisposed()) {
                     try {
                         onNext.accept(t);

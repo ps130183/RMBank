@@ -4,10 +4,12 @@ import android.content.DialogInterface;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.km.rmbank.R;
 import com.km.rmbank.basic.BaseActivity;
+import com.km.rmbank.basic.BasePresenter;
 import com.km.rmbank.dto.UserDto;
 import com.km.rmbank.event.DownloadAppEvent;
 import com.km.rmbank.module.login.LoginActivity;
@@ -17,10 +19,15 @@ import com.ps.androidlib.utils.AppUtils;
 import com.ps.androidlib.utils.DialogUtils;
 import com.ps.androidlib.utils.EventBusUtils;
 import com.ps.androidlib.utils.SPUtils;
+import com.rey.material.widget.Switch;
 
+import butterknife.BindView;
 import butterknife.OnClick;
 
-public class SettingActivity extends BaseActivity {
+public class SettingActivity extends BaseActivity<SettingPresenter> implements SettingContract.View {
+
+    @BindView(R.id.swich_usercard)
+    Switch swichUsercard;
 
     @Override
     protected int getContentView() {
@@ -34,8 +41,20 @@ public class SettingActivity extends BaseActivity {
     }
 
     @Override
-    protected void onCreate() {
+    public SettingPresenter getmPresenter() {
+        return new SettingPresenter(this);
+    }
 
+    @Override
+    protected void onCreate() {
+        swichUsercard.setChecked(Constant.isAllowUserCard);
+
+        swichUsercard.setOnCheckedChangeListener(new Switch.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(Switch view, boolean checked) {
+                mPresenter.updateAllowUserCard(checked);
+            }
+        });
     }
 
     @OnClick(R.id.tv_clear_cache)
@@ -49,10 +68,10 @@ public class SettingActivity extends BaseActivity {
         });
     }
 
-    @OnClick(R.id.tv_push_message_setting)
-    public void pushMessageSetting(View view){
-        showToast("设置缓存推送消息");
-    }
+//    @OnClick(R.id.tv_push_message_setting)
+//    public void pushMessageSetting(View view){
+//        showToast("设置缓存推送消息");
+//    }
 
     @OnClick(R.id.tv_about)
     public void aboutMe(View view){
@@ -88,5 +107,11 @@ public class SettingActivity extends BaseActivity {
     @OnClick(R.id.tv_update)
     public void updateApp(View view){
         EventBusUtils.post(new DownloadAppEvent(this));
+    }
+
+    @Override
+    public void showAllowUserCardResult(boolean isAllow) {
+        swichUsercard.setChecked(isAllow);
+        Constant.isAllowUserCard = isAllow;
     }
 }

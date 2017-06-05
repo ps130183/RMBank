@@ -16,6 +16,7 @@ import com.km.rmbank.dto.IntegralDto;
 import com.km.rmbank.dto.MemberTypeDto;
 import com.km.rmbank.dto.MessageDto;
 import com.km.rmbank.dto.MyTeamDto;
+import com.km.rmbank.dto.NearbyVipDto;
 import com.km.rmbank.dto.PayOrderDto;
 import com.km.rmbank.dto.ReceiverAddressDto;
 import com.km.rmbank.dto.Response;
@@ -977,4 +978,26 @@ public interface ApiService {
     Flowable<Response<String>> updateUserLocation(@Field("token") String token,
                                                   @Field("longitude") String longitude,
                                                   @Field("latitude") String latitude);
+
+    /**
+     * 获取附近合伙人信息
+     * @param token
+     * @param pageNo
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(SecretConstant.API_HOST_PATH + "/auth/user/list/near/partner")
+    Flowable<Response<List<NearbyVipDto>>> getNearbyVip(@Field("token") String token,
+                                                        @Field("pageNo") int pageNo);
+
+    /**
+     * 更新 是否允许其他人查看 名片的状态
+     * @param token
+     * @param allowStutas
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(SecretConstant.API_HOST_PATH + "/auth/user/update/allowStutas")
+    Flowable<Response<String>> updateAllowUserCard(@Field("token") String token,
+                                                        @Field("allowStutas") String allowStutas);
 }

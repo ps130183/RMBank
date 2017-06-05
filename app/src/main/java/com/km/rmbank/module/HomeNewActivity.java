@@ -28,6 +28,7 @@ import com.km.rmbank.module.actionarea.InformationFragment;
 import com.km.rmbank.module.home.HomeFragment;
 import com.km.rmbank.module.home.HomeNewFragment;
 import com.km.rmbank.module.login.LoginActivity;
+import com.km.rmbank.module.nearbyvip.NearbyVipActivity;
 import com.km.rmbank.module.personal.PersonalFragment;
 import com.km.rmbank.module.personal.PersonalNewFragment;
 import com.km.rmbank.module.personal.userinfo.EditUserCardActivity;
@@ -229,7 +230,7 @@ public class HomeNewActivity extends BaseActivity<HomePresenter> implements Home
         option.setCoorType("bd09ll");
         //可选，默认gcj02，设置返回的定位结果坐标系
 
-        int span = 10000;
+        int span = 1000 * 60 * 10; //10秒
         option.setScanSpan(span);
         //可选，默认0，即仅定位一次，设置发起定位请求的间隔需要大于等于1000ms才是有效的
 
@@ -482,6 +483,10 @@ public class HomeNewActivity extends BaseActivity<HomePresenter> implements Home
         animatorSet.start();
     }
 
+    /**
+     * 扫一扫
+     * @param view
+     */
     @OnClick(R.id.tv_rich_scan)
     public void richScan(View view) {
         cancelMainDialog();
@@ -489,10 +494,24 @@ public class HomeNewActivity extends BaseActivity<HomePresenter> implements Home
                 REQUEST_PERMISSION_CAMERA, Manifest.permission.CAMERA);
     }
 
+    /**
+     * 分享
+     * @param view
+     */
     @OnClick(R.id.tv_share)
     public void shareApp(View view) {
         cancelMainDialog();
         openShare();
+    }
+
+    /**
+     * 附近合伙人
+     * @param view
+     */
+    @OnClick(R.id.tv_near_partner)
+    public void nearPartner(View view){
+        cancelMainDialog();
+        toNextActivity(NearbyVipActivity.class);
     }
 
     /**

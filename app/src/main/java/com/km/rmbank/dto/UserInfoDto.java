@@ -32,6 +32,8 @@ public class UserInfoDto implements Parcelable {
     private String updateDate;
     private String roleId;
 
+    private String allowStutas;
+
     public String getBirthday() {
         return birthday;
     }
@@ -67,6 +69,7 @@ public class UserInfoDto implements Parcelable {
                 ", roleName='" + roleName + '\'' +
                 ", updateDate='" + updateDate + '\'' +
                 ", roleId='" + roleId + '\'' +
+                ", allowStutas='" + allowStutas + '\'' +
                 '}';
     }
 
@@ -113,6 +116,14 @@ public class UserInfoDto implements Parcelable {
         this.roleId = roleId;
     }
 
+    public String getAllowStutas() {
+        return allowStutas;
+    }
+
+    public void setAllowStutas(String allowStutas) {
+        this.allowStutas = allowStutas;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -128,6 +139,7 @@ public class UserInfoDto implements Parcelable {
         dest.writeString(this.roleName);
         dest.writeString(this.updateDate);
         dest.writeString(this.roleId);
+        dest.writeString(this.allowStutas);
     }
 
     protected UserInfoDto(Parcel in) {
@@ -139,6 +151,7 @@ public class UserInfoDto implements Parcelable {
         this.roleName = in.readString();
         this.updateDate = in.readString();
         this.roleId = in.readString();
+        this.allowStutas = in.readString();
     }
 
     public static final Creator<UserInfoDto> CREATOR = new Creator<UserInfoDto>() {

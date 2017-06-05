@@ -10,6 +10,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -165,34 +166,6 @@ public class PersonalNewFragment extends BaseFragment<PersonalPresenter> impleme
 
     }
 
-    /**
-     * 打开分享面板
-     */
-    private void openShare(){
-        UmengShareUtils.openShare(getActivity(), shareDto, new UMShareListener() {
-            @Override
-            public void onStart(SHARE_MEDIA share_media) {
-
-            }
-
-            @Override
-            public void onResult(SHARE_MEDIA share_media) {
-                showToast("分享成功");
-            }
-
-            @Override
-            public void onError(SHARE_MEDIA share_media, Throwable throwable) {
-                Logger.d(throwable.getMessage());
-
-                showToast("分享失败");
-            }
-
-            @Override
-            public void onCancel(SHARE_MEDIA share_media) {
-                showToast("取消分享");
-            }
-        });
-    }
 
 
     private void initRvContent() {
@@ -304,6 +277,7 @@ public class PersonalNewFragment extends BaseFragment<PersonalPresenter> impleme
     @Override
     public void showUserInfo(UserInfoDto userInfoDto) {
         mUserInfo = userInfoDto;
+        Constant.isAllowUserCard = (TextUtils.isEmpty(mUserInfo.getAllowStutas()) || "0".equals(mUserInfo.getAllowStutas()));
         userInfoCell.setmData(userInfoDto);
         mRecyclerView.getAdapter().notifyDataSetChanged();
     }

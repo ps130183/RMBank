@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.v4.content.FileProvider;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.KeyEvent;
@@ -63,6 +64,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
     private static final int DEFAULT_CENTERVIEW_VISIABLE_POSITION = 0;
 
     protected P mPresenter;
+    protected SwipeRefreshLayout mSwipeRefresh;
 
     FrameLayout fltitle;
     FrameLayout flContent;
@@ -91,6 +93,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
         mCompositeSubscription = new CompositeDisposable();
         apiWrapper = ApiWrapper.getInstance();
         mPresenter = getmPresenter();//mPresenter
+//        mSwipeRefresh = (SwipeRefreshLayout) findViewById(R.id.swiper_refresh);
 
         if (toolbarType == TOOLBAR_TYPE_DEFAULT) {
             setContentView(R.layout.baseview);
@@ -431,6 +434,10 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
     protected void hideLoadingDialog() {
         if (loading != null) {
             loading.dismiss();
+        }
+
+        if (mSwipeRefresh != null && mSwipeRefresh.isRefreshing()){
+            mSwipeRefresh.setRefreshing(false);
         }
 
     }

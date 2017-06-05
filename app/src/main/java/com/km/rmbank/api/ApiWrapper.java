@@ -19,6 +19,7 @@ import com.km.rmbank.dto.IntegralDto;
 import com.km.rmbank.dto.MemberTypeDto;
 import com.km.rmbank.dto.MessageDto;
 import com.km.rmbank.dto.MyTeamDto;
+import com.km.rmbank.dto.NearbyVipDto;
 import com.km.rmbank.dto.PayOrderDto;
 import com.km.rmbank.dto.ReceiverAddressDto;
 import com.km.rmbank.dto.ShareDto;
@@ -855,5 +856,24 @@ public class ApiWrapper extends RetrofitUtil {
     }
 
 
+    /**
+     * 获取附近合伙人信息
+     * @param pageNo
+     * @return
+     */
+    public Flowable<List<NearbyVipDto>> getNearbyVip(int pageNo){
+        return getService().getNearbyVip(Constant.user.getToken(),pageNo)
+                .compose(this.<List<NearbyVipDto>>applySchedulers());
+    }
+
+    /**
+     * 更新 是否允许其他人查看 名片的状态
+     * @param allowStatus
+     * @return
+     */
+    public Flowable<String> updateAllowUserCard(String allowStatus){
+        return getService().updateAllowUserCard(Constant.user.getToken(),allowStatus)
+                .compose(this.<String>applySchedulers());
+    }
 
 }
