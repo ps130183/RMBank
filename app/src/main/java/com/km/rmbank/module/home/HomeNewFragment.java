@@ -20,6 +20,7 @@ import com.km.rmbank.cell.HomeFloorThreeCell;
 import com.km.rmbank.cell.HomeFloorTwoCell;
 import com.km.rmbank.cell.HomeGoodsTypeCell;
 import com.km.rmbank.cell.HomeHeaderCell;
+import com.km.rmbank.cell.HomeVipCell;
 import com.km.rmbank.dto.BannerDto;
 import com.km.rmbank.dto.HomeGoodsTypeDto;
 import com.km.rmbank.dto.HomeNewRecommendDto;
@@ -29,8 +30,11 @@ import com.km.rmbank.entity.HomeDataEntity;
 import com.km.rmbank.entity.HomeGtEntity;
 import com.km.rmbank.module.actionarea.InformationDetailActivity;
 import com.km.rmbank.module.home.message.MessageActivity;
+import com.km.rmbank.module.login.LoginActivity;
+import com.km.rmbank.module.personal.vip.SelectMemberTypeActivity;
 import com.km.rmbank.module.rmshop.goods.GoodsActivity;
 import com.km.rmbank.module.rmshop.goods.RmShopActivity;
+import com.km.rmbank.utils.Constant;
 import com.km.rmbank.utils.UmengShareUtils;
 import com.km.rv_libs.TemplateAdapter;
 import com.km.rv_libs.base.ICell;
@@ -129,6 +133,8 @@ public class HomeNewFragment extends BaseFragment<HomePresenter> implements Home
         mHomeGoodsTypeCell.setmFragmentManager(getFragmentManager());
         adapter.add(mHomeGoodsTypeCell);
 
+        adapter.add(new HomeVipCell("",onVipClick));
+
         rcContent.setAdapter(adapter);
 
         final LinearLayoutManager llm = (LinearLayoutManager) rcContent.getLayoutManager();
@@ -221,6 +227,28 @@ public class HomeNewFragment extends BaseFragment<HomePresenter> implements Home
     public void message(View view){
         toNextActivity(MessageActivity.class);
     }
+
+
+    ICell.OnCellClickListener<String> onVipClick = new ICell.OnCellClickListener<String>() {
+        @Override
+        public void cellClick(String mData, int position) {
+            if (Constant.user.isEmpty()){
+                showToast("您尚未登录");
+                toNextActivity(LoginActivity.class);
+                return;
+            }
+            Bundle bundle = new Bundle();
+            switch (position){
+                case 0:
+                    bundle.putInt("vipType",1);
+                    break;
+                case 1:
+                    bundle.putInt("vipType",2);
+                    break;
+            }
+            toNextActivity(SelectMemberTypeActivity.class,bundle);
+        }
+    };
 
     ICell.OnCellClickListener<HomeNewRecommendDto> onFloorOneClick = new ICell.OnCellClickListener<HomeNewRecommendDto>() {
         @Override

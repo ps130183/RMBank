@@ -843,6 +843,17 @@ public class ApiWrapper extends RetrofitUtil {
                 .compose(this.<List<HomeGoodsTypeDto>>applySchedulers());
     }
 
+    /**
+     * 更新用户的位置信息
+     * @param longitude
+     * @param latitude
+     * @return
+     */
+    public Flowable<String> updateUserLocation(String longitude,String latitude){
+        return getService().updateUserLocation(Constant.user.getToken(),longitude,latitude)
+                .compose(this.<String>applySchedulers());
+    }
+
 
 
 }

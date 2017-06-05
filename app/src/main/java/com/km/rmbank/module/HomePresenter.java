@@ -52,4 +52,19 @@ public class HomePresenter extends PresenterWrapper<HomeContract.View> implement
                     }
                 }));
     }
+
+    @Override
+    public void getUserLocation(String longitude, String latitude) {
+        if (Constant.user.isEmpty()){
+            return;
+        }
+        mApiwrapper.updateUserLocation(longitude,latitude)
+                .subscribe(newSubscriber(new Consumer<String>() {
+                    @Override
+                    public void accept(@NonNull String s) throws Exception {
+                        mView.locationSuccess();
+                    }
+                }));
+    }
+
 }

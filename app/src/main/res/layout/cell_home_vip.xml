@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="80dp"
+    android:background="@color/color_white"
+    android:padding="@dimen/view_space_4"
+    android:orientation="horizontal">
+
+    <TextView
+        android:layout_width="15dp"
+        android:layout_height="wrap_content"
+        android:text="会员认证"
+        android:textSize="@dimen/text_size_12"
+        android:textColor="@color/color_red"
+        android:layout_margin="@dimen/view_space_4"
+        android:layout_gravity="center"
+        />
+
+    <ImageView
+        android:id="@+id/iv_vip1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:src="@mipmap/ic_home_vip1"
+        android:scaleType="centerCrop"
+        android:layout_marginLeft="@dimen/view_space_4"
+        />
+
+    <View
+        android:layout_width="@dimen/divider_line_1"
+        android:layout_height="match_parent"
+        android:background="@color/color_divider1"
+        android:layout_marginLeft="@dimen/view_space_8"
+        android:layout_marginRight="@dimen/view_space_8"
+        />
+
+    <ImageView
+        android:id="@+id/iv_vip2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:src="@mipmap/ic_home_vip2"
+        android:scaleType="centerCrop"
+        />
+
+</LinearLayout>

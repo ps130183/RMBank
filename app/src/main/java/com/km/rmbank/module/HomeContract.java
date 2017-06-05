@@ -15,9 +15,11 @@ public interface HomeContract {
     interface View extends BaseView{
         void showShareContent(ShareDto shareDto);
         void getUserInfoByQRCodeSuccess(UserCardDto userCardDto, String friendPhone);
+        void locationSuccess();
     }
     interface Presenter extends BasePresenter{
         void getShareContent();
         void getUserInfoByQRCode(String url);
+        void getUserLocation(String longitude,String latitude);
     }
 }

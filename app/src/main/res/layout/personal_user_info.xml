@@ -63,9 +63,10 @@
             android:layout_below="@+id/tv_time"
             android:layout_marginTop="@dimen/view_space_4"
             android:textColor="@color/color_red"
-            android:text="合伙人会晕"
+            android:text="合伙人会员"
             android:background="@drawable/shape_personal_vip_type"
             android:padding="@dimen/view_space_4"
+            android:visibility="gone"
             />
 
         <TextView

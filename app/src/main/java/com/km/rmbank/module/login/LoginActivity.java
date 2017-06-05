@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.km.rmbank.R;
 import com.km.rmbank.basic.BaseActivity;
+import com.km.rmbank.event.LoginSuccessEvent;
 import com.km.rmbank.module.HomeActivity;
 import com.km.rmbank.module.HomeNewActivity;
 import com.km.rmbank.module.personal.AgreementActivity;
@@ -115,6 +116,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     @Override
     public void loginSuccess() {
         showToast("登录成功");
+        EventBusUtils.post(new LoginSuccessEvent());
         toNextActivity(HomeNewActivity.class);
     }
 

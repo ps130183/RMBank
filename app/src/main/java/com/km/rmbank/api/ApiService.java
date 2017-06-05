@@ -964,4 +964,17 @@ public interface ApiService {
     @FormUrlEncoded
     @POST(SecretConstant.API_HOST_PATH + "/productTypes/listpage")
     Flowable<Response<List<HomeGoodsTypeDto>>> getHomeGoodsType(@Field("defaule") String str);
+
+    /**
+     * 更新用户位置信息
+     * @param token
+     * @param longitude
+     * @param latitude
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(SecretConstant.API_HOST_PATH + "/auth/user/GPS")
+    Flowable<Response<String>> updateUserLocation(@Field("token") String token,
+                                                  @Field("longitude") String longitude,
+                                                  @Field("latitude") String latitude);
 }

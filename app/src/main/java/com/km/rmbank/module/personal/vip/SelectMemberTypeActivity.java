@@ -37,6 +37,7 @@ public class SelectMemberTypeActivity extends BaseActivity<SelectMemberTypePrese
     @BindView(R.id.btn_become_member)
     Button btnBecomeMember;
 
+    private int vipType = 0;
     private int memberType = 0;
     private String amount;//支付金额
     private String[] memberNames = {"体验式会员","合伙人会员"};
@@ -68,7 +69,7 @@ public class SelectMemberTypeActivity extends BaseActivity<SelectMemberTypePrese
 
     @Override
     protected void onCreate() {
-
+        vipType = getIntent().getIntExtra("vipType",0);
     }
 
     @OnClick({R.id.tv_member1,R.id.iv_member1})
@@ -141,6 +142,10 @@ public class SelectMemberTypeActivity extends BaseActivity<SelectMemberTypePrese
 //        if ("3".equals(Constant.user.getRoleId())){
 //            rlVip1.setVisibility(View.GONE);
 //        }
-        selectMember(2);
+        if (vipType > 0){
+            selectMember(vipType);
+        } else {
+            selectMember(2);
+        }
     }
 }
