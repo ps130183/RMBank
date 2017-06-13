@@ -58,7 +58,7 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseAdapter.Ba
     private IHeaderAdapter iHeaderAdapter;
     private IFooterAdapter iFooterAdapter;
 
-    private ItemClickListener<T> itemClickListener;
+    protected ItemClickListener<T> itemClickListener;
     protected int curPage = 0;
 
     private MoreDataListener moreDataListener;

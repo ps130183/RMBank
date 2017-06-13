@@ -2,6 +2,7 @@ package com.km.rmbank.cell;
 
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.km.rmbank.R;
@@ -16,6 +17,7 @@ import com.km.rv_libs.base.BaseViewHolder;
 
 public class PersonalFunctionCell extends BaseCell<UserDto> implements View.OnClickListener {
 
+    private TextView myContactHint;
 
     public PersonalFunctionCell(UserDto mData, OnCellClickListener<UserDto> onCellClickListener) {
         super(mData, R.layout.personal_function, onCellClickListener);
@@ -28,6 +30,9 @@ public class PersonalFunctionCell extends BaseCell<UserDto> implements View.OnCl
         TextView tvMyTeam = holder.getTextView(R.id.tv_my_team);
         View lineTeamContact = holder.getView(R.id.line_team_contact);
         TextView tvMyContact = holder.getTextView(R.id.tv_my_contact);
+        RelativeLayout rlMyContact = (RelativeLayout) holder.getView(R.id.rl_my_contact);
+        myContactHint = holder.getTextView(R.id.tv_my_contact_hint);
+
 
         LinearLayout llIntegralGoods = holder.findView(R.id.ll_integral_goods);
         TextView tvMyIntegral = holder.getTextView(R.id.tv_my_integral);
@@ -74,5 +79,16 @@ public class PersonalFunctionCell extends BaseCell<UserDto> implements View.OnCl
     @Override
     public void onClick(View v) {
         onCellClickListener.cellClick(mData,v.getId());
+    }
+
+    public void setMyContactHintVisible(boolean unreadNumber){
+        if (myContactHint == null){
+            return;
+        }
+        if (unreadNumber){
+            myContactHint.setVisibility(View.VISIBLE);
+        } else {
+            myContactHint.setVisibility(View.GONE);
+        }
     }
 }

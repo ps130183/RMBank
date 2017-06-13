@@ -42,7 +42,13 @@ public class AttentionGoodsActivity extends BaseActivity<AttentionGoodsPresenter
 
     @Override
     protected void onCreate() {
+        initAttentionGoods();
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mPresenter.getAttentionGoods(1);
     }
 
     @Override
@@ -66,7 +72,7 @@ public class AttentionGoodsActivity extends BaseActivity<AttentionGoodsPresenter
             }
 
         });
-        mPresenter.getAttentionGoods(adapter.getNextPage());
+//        mPresenter.getAttentionGoods(adapter.getNextPage());
     }
 
     @Override

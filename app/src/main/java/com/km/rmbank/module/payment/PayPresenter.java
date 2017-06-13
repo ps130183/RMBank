@@ -1,6 +1,7 @@
 package com.km.rmbank.module.payment;
 
 import com.km.rmbank.dto.PayOrderDto;
+import com.km.rmbank.dto.UserBalanceDto;
 import com.km.rmbank.dto.WeiCharParamsDto;
 import com.km.rmbank.utils.retrofit.PresenterWrapper;
 
@@ -81,7 +82,18 @@ public class PayPresenter extends PresenterWrapper<PayContract.View> implements 
     }
 
     @Override
-    public void onCreateView() {
+    public void getBalance() {
+        mApiwrapper.getUserAccountBalance()
+                .subscribe(newSubscriber(new Consumer<UserBalanceDto>() {
+                    @Override
+                    public void accept(@NonNull UserBalanceDto userBalanceDto) throws Exception {
+                        mView.showUserBalance(userBalanceDto);
+                    }
+                }));
+    }
 
+    @Override
+    public void onCreateView() {
+        getBalance();
     }
 }

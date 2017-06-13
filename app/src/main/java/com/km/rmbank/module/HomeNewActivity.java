@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -16,14 +17,22 @@ import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.baidu.location.Poi;
+import com.hyphenate.EMCallBack;
+import com.hyphenate.chat.EMClient;
+import com.hyphenate.easeui.domain.EaseUser;
+import com.hyphenate.easeui.utils.EaseUserChatUtils;
+import com.hyphenate.exceptions.HyphenateException;
 import com.km.rmbank.R;
 import com.km.rmbank.basic.BaseActivity;
 import com.km.rmbank.basic.BasePresenter;
+import com.km.rmbank.dto.MyFriendsDto;
 import com.km.rmbank.dto.ShareDto;
 import com.km.rmbank.dto.UserCardDto;
 import com.km.rmbank.entity.TeamEntity;
 import com.km.rmbank.event.DownloadAppEvent;
 import com.km.rmbank.event.LoginSuccessEvent;
+import com.km.rmbank.event.PaySuccessEvent;
+import com.km.rmbank.event.UserIsEmptyEvent;
 import com.km.rmbank.module.actionarea.InformationFragment;
 import com.km.rmbank.module.home.HomeFragment;
 import com.km.rmbank.module.home.HomeNewFragment;
@@ -31,6 +40,7 @@ import com.km.rmbank.module.login.LoginActivity;
 import com.km.rmbank.module.nearbyvip.NearbyVipActivity;
 import com.km.rmbank.module.personal.PersonalFragment;
 import com.km.rmbank.module.personal.PersonalNewFragment;
+import com.km.rmbank.module.personal.order.MyOrderActivity;
 import com.km.rmbank.module.personal.userinfo.EditUserCardActivity;
 import com.km.rmbank.module.rmshop.RmShopFragment;
 import com.km.rmbank.module.rmshop.RmShopNewFragment;
@@ -57,7 +67,11 @@ import java.util.concurrent.TimeUnit;
 import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.Observable;
+import io.reactivex.Scheduler;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 import kr.co.namee.permissiongen.PermissionFail;
 import kr.co.namee.permissiongen.PermissionGen;
 import kr.co.namee.permissiongen.PermissionSuccess;
@@ -186,6 +200,11 @@ public class HomeNewActivity extends BaseActivity<HomePresenter> implements Home
                 }
             }
         });
+
+        if (!Constant.user.isEmpty()){
+//            loginEmclient();
+            EventBusUtils.post(new LoginSuccessEvent());
+        }
     }
 
 
@@ -198,9 +217,27 @@ public class HomeNewActivity extends BaseActivity<HomePresenter> implements Home
         }
     }
 
+    /**
+     * 登录成功
+     * @param event
+     */
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void loginSuccess(LoginSuccessEvent event){
         mPresenter.getShareContent();
+//        loginSuccessToHuanxin();
+        EaseUser easeUser = new EaseUser(Constant.user.getMobilePhone());
+        EaseUserChatUtils.addCurLoginUser(easeUser);
+        loginEmclient();
+    }
+
+    /**
+     * 支付成功
+     *
+     * @param event
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void paySuccess(PaySuccessEvent event) {
+        toNextActivity(MyOrderActivity.class);
     }
 
     @Override
@@ -264,105 +301,17 @@ public class HomeNewActivity extends BaseActivity<HomePresenter> implements Home
             @Override
             public void onReceiveLocation(BDLocation location) {
                 //获取定位结果
-                StringBuffer sb = new StringBuffer(256);
-
                 String longitude = String.valueOf(location.getLongitude());
                 String latitude = String.valueOf(location.getLatitude());
 
                 mPresenter.getUserLocation(longitude, latitude);
-
-                sb.append("time : ");
-                sb.append(location.getTime());    //获取定位时间
-
-                sb.append("\nerror code : ");
-                sb.append(location.getLocType());    //获取类型类型
-
-                sb.append("\nlatitude : ");
-                sb.append(location.getLatitude());    //获取纬度信息
-
-                sb.append("\nlontitude : ");
-                sb.append(location.getLongitude());    //获取经度信息
-
-                sb.append("\nradius : ");
-                sb.append(location.getRadius());    //获取定位精准度
-
-                if (location.getLocType() == BDLocation.TypeGpsLocation) {
-
-                    // GPS定位结果
-                    sb.append("\nspeed : ");
-                    sb.append(location.getSpeed());    // 单位：公里每小时
-
-                    sb.append("\nsatellite : ");
-                    sb.append(location.getSatelliteNumber());    //获取卫星数
-
-                    sb.append("\nheight : ");
-                    sb.append(location.getAltitude());    //获取海拔高度信息，单位米
-
-                    sb.append("\ndirection : ");
-                    sb.append(location.getDirection());    //获取方向信息，单位度
-
-                    sb.append("\naddr : ");
-                    sb.append(location.getAddrStr());    //获取地址信息
-
-                    sb.append("\ndescribe : ");
-                    sb.append("gps定位成功");
-
-                } else if (location.getLocType() == BDLocation.TypeNetWorkLocation) {
-
-                    // 网络定位结果
-                    sb.append("\naddr : ");
-                    sb.append(location.getAddrStr());    //获取地址信息
-
-                    sb.append("\noperationers : ");
-                    sb.append(location.getOperators());    //获取运营商信息
-
-                    sb.append("\ndescribe : ");
-                    sb.append("网络定位成功");
-
-                } else if (location.getLocType() == BDLocation.TypeOffLineLocation) {
-
-                    // 离线定位结果
-                    sb.append("\ndescribe : ");
-                    sb.append("离线定位成功，离线定位结果也是有效的");
-
-                } else if (location.getLocType() == BDLocation.TypeServerError) {
-
-                    sb.append("\ndescribe : ");
-                    sb.append("服务端网络定位失败，可以反馈IMEI号和大体定位时间到loc-bugs@baidu.com，会有人追查原因");
-
-                } else if (location.getLocType() == BDLocation.TypeNetWorkException) {
-
-                    sb.append("\ndescribe : ");
-                    sb.append("网络不同导致定位失败，请检查网络是否通畅");
-
-                } else if (location.getLocType() == BDLocation.TypeCriteriaException) {
-
-                    sb.append("\ndescribe : ");
-                    sb.append("无法获取有效定位依据导致定位失败，一般是由于手机的原因，处于飞行模式下一般会造成这种结果，可以试着重启手机");
-
-                }
-
-                sb.append("\nlocationdescribe : ");
-                sb.append(location.getLocationDescribe());    //位置语义化信息
-
-                List<Poi> list = location.getPoiList();    // POI数据
-                if (list != null) {
-                    sb.append("\npoilist size = : ");
-                    sb.append(list.size());
-                    for (Poi p : list) {
-                        sb.append("\npoi= : ");
-                        sb.append(p.getId() + " " + p.getName() + " " + p.getRank());
-                    }
-                }
-
-                Logger.d("BaiduLocationApiDem -----  " + sb.toString());
-//                Logger.d("onReceiveLocation -----  " + bdLocation.getAddrStr());
             }
 
-            @Override
             public void onConnectHotSpotMessage(String s, int i) {
-                Logger.d("onConnectHotSpotMessage ----- " + s);
+
             }
+
+
         });
 
         mLocationClient.start();
@@ -370,7 +319,7 @@ public class HomeNewActivity extends BaseActivity<HomePresenter> implements Home
 
     public void onClickPublish(View v) {
         float curTvShareTranslationY = tvShare.getTranslationY();
-        float curIvShareTranslationY = ivShare.getTranslationY();
+//        float curIvShareTranslationY = ivShare.getTranslationY();
         float windowHeight = AppUtils.getCurWindowHeight(HomeNewActivity.this);
         ObjectAnimator tabPostIconAnimator = ObjectAnimator.ofFloat(mTabPostIcon, "rotation", 0f, 45f);
         ObjectAnimator mainDialogAnimator = ObjectAnimator.ofFloat(clMainDialog, "alpha", 0f, 0.95f);
@@ -401,12 +350,12 @@ public class HomeNewActivity extends BaseActivity<HomePresenter> implements Home
             }
         });
         ObjectAnimator shareAnimator = ObjectAnimator.ofFloat(tvShare, "translationY", windowHeight, curTvShareTranslationY);
-        ObjectAnimator ivShareAnimator = ObjectAnimator.ofFloat(ivShare, "translationY", windowHeight, curIvShareTranslationY);
+//        ObjectAnimator ivShareAnimator = ObjectAnimator.ofFloat(ivShare, "translationY", windowHeight, curIvShareTranslationY);
         shareAnimator.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationStart(Animator animation) {
                 tvShare.setVisibility(View.VISIBLE);
-                ivShare.setVisibility(View.VISIBLE);
+//                ivShare.setVisibility(View.VISIBLE);
             }
 
             @Override
@@ -422,7 +371,8 @@ public class HomeNewActivity extends BaseActivity<HomePresenter> implements Home
         ObjectAnimator cancelAnimator = ObjectAnimator.ofFloat(ivCancel, "rotation", 0f, 45f);
 
         AnimatorSet animatorSet = new AnimatorSet();
-        animatorSet.play(tabPostIconAnimator).with(mainDialogAnimator).with(shareAnimator).with(ivShareAnimator).with(rlPlayCardAnimator).with(cancelAnimator);
+        //.with(ivShareAnimator)
+        animatorSet.play(tabPostIconAnimator).with(mainDialogAnimator).with(shareAnimator).with(rlPlayCardAnimator).with(cancelAnimator);
         animatorSet.setDuration(500);
         animatorSet.start();
     }
@@ -471,7 +421,7 @@ public class HomeNewActivity extends BaseActivity<HomePresenter> implements Home
             public void onAnimationEnd(Animator animation) {
                 clMainDialog.setVisibility(View.GONE);
                 tvShare.setVisibility(View.INVISIBLE);
-                ivShare.setVisibility(View.INVISIBLE);
+//                ivShare.setVisibility(View.INVISIBLE);
                 tvRichScan.setVisibility(View.INVISIBLE);
                 tvNearPartner.setVisibility(View.INVISIBLE);
             }
@@ -559,6 +509,64 @@ public class HomeNewActivity extends BaseActivity<HomePresenter> implements Home
     @Override
     public void locationSuccess() {
         Logger.d("定位成功");
+    }
+
+    @Override
+    public void showMyFriends(List<MyFriendsDto> myFriendsDtos) {
+        for (MyFriendsDto friendsDto : myFriendsDtos){
+            EaseUser user = new EaseUser(friendsDto.getMobilePhone());
+            user.setAvatar(friendsDto.getPortraitUrl());
+            user.setNickname(friendsDto.getNickName());
+            EaseUserChatUtils.addUser(user);
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void userNotLogin(UserIsEmptyEvent emptyEvent){
+        Constant.user.clear();
+        toNextActivity(LoginActivity.class);
+    }
+
+    private void loginEmclient(){
+        EMClient.getInstance().login(Constant.user.getMobilePhone(),Constant.user.getHXpwd(),new EMCallBack() {//回调
+            @Override
+            public void onSuccess() {
+                EMClient.getInstance().groupManager().loadAllGroups();
+                EMClient.getInstance().chatManager().loadAllConversations();
+                Logger.d("登录聊天服务器成功！");
+            }
+
+            @Override
+            public void onProgress(int progress, String status) {
+
+            }
+
+            @Override
+            public void onError(int code, String message) {
+                Logger.d("登录聊天服务器失败！");
+            }
+        });
+    }
+
+    @OnClick({R.id.ll_guide1,R.id.tv_guide1,R.id.tv_guide_intro1})
+    public void guide1(View view){
+        Bundle bundle = new Bundle();
+        bundle.putInt("guide",0);
+        toNextActivity(UserCardGuideActivity.class,bundle);
+    }
+
+    @OnClick({R.id.ll_guide2,R.id.tv_guide2,R.id.tv_guide_intro2})
+    public void guide2(View view){
+        Bundle bundle = new Bundle();
+        bundle.putInt("guide",1);
+        toNextActivity(UserCardGuideActivity.class,bundle);
+    }
+
+    @OnClick({R.id.ll_guide3,R.id.tv_guide3,R.id.tv_guide_intro3})
+    public void guide3(View view){
+        Bundle bundle = new Bundle();
+        bundle.putInt("guide",2);
+        toNextActivity(UserCardGuideActivity.class,bundle);
     }
 
 }

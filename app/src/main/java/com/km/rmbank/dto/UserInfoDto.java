@@ -2,12 +2,15 @@ package com.km.rmbank.dto;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.text.TextUtils;
+
+import com.km.rmbank.basic.BaseEntity;
 
 /**
  * Created by kamangkeji on 17/3/31.
  */
 
-public class UserInfoDto implements Parcelable {
+public class UserInfoDto extends BaseEntity implements Parcelable {
 
     /**
      * birthday : 1988-01-01
@@ -165,4 +168,12 @@ public class UserInfoDto implements Parcelable {
             return new UserInfoDto[size];
         }
     };
+
+    @Override
+    public boolean isEmpty() {
+        if (TextUtils.isEmpty(nickName) || TextUtils.isEmpty(portraitUrl)){
+            return true;
+        }
+        return false;
+    }
 }

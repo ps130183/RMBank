@@ -15,6 +15,7 @@ import com.km.rmbank.dto.IntegralDetailsDto;
 import com.km.rmbank.dto.IntegralDto;
 import com.km.rmbank.dto.MemberTypeDto;
 import com.km.rmbank.dto.MessageDto;
+import com.km.rmbank.dto.MyFriendsDto;
 import com.km.rmbank.dto.MyTeamDto;
 import com.km.rmbank.dto.NearbyVipDto;
 import com.km.rmbank.dto.PayOrderDto;
@@ -882,9 +883,18 @@ public interface ApiService {
      * @return
      */
     @FormUrlEncoded
-    @POST(SecretConstant.API_HOST_PATH + "/auth/member/send/add/friend/apply")
+    @POST(SecretConstant.API_HOST_PATH + "/auth/user/add/friend")
     Flowable<Response<String>> applyBecomeFriend(@Field("token") String token,
                                                  @Field("friendMobilePhone") String friendPhone);
+
+    /**
+     * 获取我的人脉列表
+     * @param token
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(SecretConstant.API_HOST_PATH + "/auth/user/list/friend")
+    Flowable<Response<List<MyFriendsDto>>> getMyFriends(@Field("token") String token);
 
     /**
      * 获取分享的内容
@@ -963,7 +973,7 @@ public interface ApiService {
      * @return
      */
     @FormUrlEncoded
-    @POST(SecretConstant.API_HOST_PATH + "/productTypes/listpage")
+    @POST(SecretConstant.API_HOST_PATH + "/productTypes/firstList")
     Flowable<Response<List<HomeGoodsTypeDto>>> getHomeGoodsType(@Field("defaule") String str);
 
     /**

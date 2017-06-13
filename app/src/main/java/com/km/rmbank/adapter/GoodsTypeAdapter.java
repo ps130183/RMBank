@@ -32,7 +32,7 @@ public class GoodsTypeAdapter extends BaseAdapter<HomeGoodsTypeDto> implements B
     }
 
     @Override
-    public void createView(ViewHolder holder, int position) {
+    public void createView(ViewHolder holder, final int position) {
         final HomeGoodsTypeDto goodsTypeDto = getItemData(position);
         holder.cbGoodsType.setText(goodsTypeDto.getProductTypeName());
 //        holder.cbGoodsType.setChecked(goodsTypeDto.isChecked());
@@ -44,6 +44,16 @@ public class GoodsTypeAdapter extends BaseAdapter<HomeGoodsTypeDto> implements B
         });
         holder.cbGoodsType.setBackgroundResource(goodsTypeDto.getBackgroundRes());
         holder.ivCheckedGoodsType.setVisibility(goodsTypeDto.isChecked() ? View.VISIBLE : View.GONE);
+
+        if (itemClickListener != null) {
+            holder.cbGoodsType.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    itemClickListener.onItemClick(goodsTypeDto, position);
+                }
+            });
+        }
+
     }
 
     class ViewHolder extends BaseViewHolder {

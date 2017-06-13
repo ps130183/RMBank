@@ -8,6 +8,7 @@ import android.widget.TextView;
 import com.km.rmbank.R;
 import com.km.rmbank.basic.BaseAdapter;
 import com.km.rmbank.dto.NearbyVipDto;
+import com.ps.androidlib.utils.StringUtils;
 import com.ps.androidlib.utils.glide.GlideUtils;
 
 import butterknife.BindView;
@@ -33,7 +34,7 @@ public class NearbyVipAdapter extends BaseAdapter<NearbyVipDto> implements BaseA
         NearbyVipDto nearbyVipDto = getItemData(position);
         GlideUtils.loadCircleImage(holder.ivProtrait,nearbyVipDto.getPortraitUrl());
         holder.tvNickname.setText(nearbyVipDto.getNickName());
-        holder.tvPhone.setText(nearbyVipDto.getMobilePhone());
+        holder.tvPhone.setText(StringUtils.hidePhone(nearbyVipDto.getMobilePhone()));
         holder.tvDistance.setText(nearbyVipDto.getDistance());
     }
 

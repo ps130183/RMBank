@@ -22,12 +22,29 @@
             android:layout_marginLeft="50dp"
             android:background="@color/color_divider1"/>
 
-        <TextView
-            android:id="@+id/tv_my_contact"
-            style="@style/Personal.function_tv"
-            android:text="  我的人脉"
-            android:drawableLeft="@mipmap/ic_personal_my_friend"
-            />
+        <RelativeLayout
+            android:id="@+id/rl_my_contact"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/tv_my_contact"
+                style="@style/Personal.function_tv"
+                android:text="  我的人脉"
+                android:drawableLeft="@mipmap/ic_personal_my_friend"
+                />
+
+            <TextView
+                android:id="@+id/tv_my_contact_hint"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:background="@drawable/shape_tv_circle_red"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:visibility="gone"
+                />
+        </RelativeLayout>
+
+
 
     </LinearLayout>
 

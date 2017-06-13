@@ -13,11 +13,15 @@ public interface EditUserCartContract {
         void showUserCard(UserCardDto userCardDto);
         void createUserCardSuccess();
         void applyBecomeFriendSuccess();
+
+        void addFriendSuccess();
     }
     interface Presenter extends BasePresenter{
         void getUserCard();
         void createUserCard(UserCardDto userCardDto);
         void applyBecomeFriend(String friendPhone);
         void getUserCardById(String userId);
+
+        void addShopToFriend(String friendMobilePhone);
     }
 }

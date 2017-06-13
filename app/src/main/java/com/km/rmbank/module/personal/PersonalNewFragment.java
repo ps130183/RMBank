@@ -17,6 +17,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.hyphenate.chat.EMClient;
+import com.hyphenate.chat.EMConversation;
+import com.hyphenate.easeui.utils.EaseUserChatUtils;
 import com.km.rmbank.R;
 import com.km.rmbank.basic.BaseFragment;
 import com.km.rmbank.basic.RVUtils;
@@ -26,10 +29,12 @@ import com.km.rmbank.dto.ShareDto;
 import com.km.rmbank.dto.UserCardDto;
 import com.km.rmbank.dto.UserDto;
 import com.km.rmbank.dto.UserInfoDto;
+import com.km.rmbank.event.UpdateEaseUserUnreadNumberEvent;
 import com.km.rmbank.module.personal.account.UserAccountActivity;
 import com.km.rmbank.module.personal.attention.AttentionGoodsActivity;
 import com.km.rmbank.module.personal.goodsmanager.GoodsManagerActivity;
 import com.km.rmbank.module.personal.integral.MyIntegralActivity;
+import com.km.rmbank.module.personal.mycontact.MyContactActivity;
 import com.km.rmbank.module.personal.order.MyOrderActivity;
 import com.km.rmbank.module.personal.receiveraddress.ReceiverAddressActivity;
 import com.km.rmbank.module.personal.setting.SettingActivity;
@@ -47,6 +52,9 @@ import com.ps.androidlib.utils.MToast;
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.xys.libzxing.zxing.activity.CaptureActivity;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -81,6 +89,7 @@ public class PersonalNewFragment extends BaseFragment<PersonalPresenter> impleme
 
     private UserInfoDto mUserInfo;
     PersonalUserInfoCell userInfoCell;
+    PersonalFunctionCell fucntionCell;
 
     public static PersonalFragment newInstance(Bundle bundle) {
         PersonalFragment fragment = new PersonalFragment();
@@ -101,7 +110,6 @@ public class PersonalNewFragment extends BaseFragment<PersonalPresenter> impleme
     @Override
     protected void createView() {
 //        title.setText("个人中心");
-        initToolbar();
         initRvContent();
     }
 
@@ -109,7 +117,9 @@ public class PersonalNewFragment extends BaseFragment<PersonalPresenter> impleme
     public void onResume() {
         super.onResume();
         mPresenter.loadUserInfo();
-        mPresenter.getShareContent();
+//        mPresenter.getShareContent();
+
+        fucntionCell.setMyContactHintVisible(EaseUserChatUtils.isUnreadMsg());
     }
 
     @Override
@@ -143,27 +153,10 @@ public class PersonalNewFragment extends BaseFragment<PersonalPresenter> impleme
     }
 
 
-    /**
-     * 初始化toolbar
-     */
-    private void initToolbar() {
-//        toolbar.inflateMenu(R.menu.toolbar_personal_right);
-////        toolbar.setOverflowIcon(baseut);
-//        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-//
-//            @Override
-//            public boolean onMenuItemClick(MenuItem item) {
-//                if (item.getItemId() == R.id.rich_scan) {
-//                    PermissionGen.needPermission(PersonalNewFragment.this,
-//                            REQUEST_PERMISSION_CAMERA, Manifest.permission.CAMERA);
-//                } else if (item.getItemId() == R.id.share) {
-////                    PermissionGen.needPermission(PersonalFragment.this,REQUEST_PERMISSION_SHARE,mPermissionList);
-//                    openShare();
-//                }
-//                return false;
-//            }
-//        });
-
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void updateUnreadNumber(UpdateEaseUserUnreadNumberEvent event){
+        fucntionCell.setMyContactHintVisible(true);
+        mRecyclerView.getAdapter().notifyDataSetChanged();
     }
 
 
@@ -177,7 +170,7 @@ public class PersonalNewFragment extends BaseFragment<PersonalPresenter> impleme
 
         final List<ICell> iCells = new ArrayList<>();
         userInfoCell = new PersonalUserInfoCell(null, userCellClickListener);
-        PersonalFunctionCell fucntionCell = new PersonalFunctionCell(Constant.user, functionCellClickListener);
+        fucntionCell = new PersonalFunctionCell(Constant.user, functionCellClickListener);
         iCells.add(userInfoCell);
         iCells.add(fucntionCell);
 
@@ -227,7 +220,8 @@ public class PersonalNewFragment extends BaseFragment<PersonalPresenter> impleme
                     toNextActivity(MyTeamActivity.class);
                     break;
                 case R.id.tv_my_contact:
-                    MToast.showToast(getContext(), "暂未开通");
+//                    MToast.showToast(getContext(), "暂未开通");
+                    toNextActivity(MyContactActivity.class);
                     break;
                 case R.id.tv_my_integral:
 //                    MToast.showToast(getContext(), "我的积分");
@@ -277,6 +271,7 @@ public class PersonalNewFragment extends BaseFragment<PersonalPresenter> impleme
     @Override
     public void showUserInfo(UserInfoDto userInfoDto) {
         mUserInfo = userInfoDto;
+        Constant.userInfo = userInfoDto;
         Constant.isAllowUserCard = (TextUtils.isEmpty(mUserInfo.getAllowStutas()) || "0".equals(mUserInfo.getAllowStutas()));
         userInfoCell.setmData(userInfoDto);
         mRecyclerView.getAdapter().notifyDataSetChanged();

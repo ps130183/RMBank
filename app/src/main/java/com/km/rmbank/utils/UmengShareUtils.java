@@ -24,7 +24,7 @@ public class UmengShareUtils {
     public static void initUmengShare(Context context){
         UMShareAPI mShareAPI = UMShareAPI.get(context);
 //        mShareAPI.isInstall((Activity) context, SHARE_MEDIA.WEIXIN);//获取客户端安装信息
-        PlatformConfig.setWeixin("wxed2472eaa0db4e8d", "036adf9e7ac8f157fb20aa01cb16e18e");
+        PlatformConfig.setWeixin("wx637ea06a1c6d1fff", "1b2n3v4fx5v56vj8f3hd5t7g5f6hj8fh");
         PlatformConfig.setQQZone("100424468", "c7394704798a158208a74ab60104f0ba");
     }
 

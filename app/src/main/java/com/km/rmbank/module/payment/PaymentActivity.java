@@ -13,13 +13,16 @@ import com.km.rmbank.alipay.AuthResult;
 import com.km.rmbank.alipay.PayResult;
 import com.km.rmbank.basic.BaseActivity;
 import com.km.rmbank.dto.PayOrderDto;
+import com.km.rmbank.dto.UserBalanceDto;
 import com.km.rmbank.dto.WeiCharParamsDto;
 import com.km.rmbank.event.PaySuccessEvent;
 import com.km.rmbank.event.WXPayResult;
 import com.km.rmbank.module.HomeActivity;
+import com.km.rmbank.module.HomeNewActivity;
 import com.km.rmbank.utils.Constant;
 import com.km.rmbank.wxpay.WxUtil;
 import com.orhanobut.logger.Logger;
+import com.ps.androidlib.utils.DialogUtils;
 import com.ps.androidlib.utils.EventBusUtils;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -43,6 +46,9 @@ public class PaymentActivity extends BaseActivity<PayPresenter> implements PayCo
     CheckBox cbAlipay;
     @BindView(R.id.cb_bank)
     CheckBox cbBank;
+
+    @BindView(R.id.tv_balance_intro)
+    TextView tvBalanceIntro;
 
     @BindView(R.id.ll_pay_balance)
     RelativeLayout llPayBalance;
@@ -140,7 +146,12 @@ public class PaymentActivity extends BaseActivity<PayPresenter> implements PayCo
         }
         switch (position){
             case 0://余额
-                mPresenter.payBalance(mPayOrderDto.getPayNumber());
+                DialogUtils.showDefaultAlertDialog("是否使用余额支付？", new DialogUtils.ClickListener() {
+                    @Override
+                    public void clickConfirm() {
+                        mPresenter.payBalance(mPayOrderDto.getPayNumber());
+                    }
+                });
                 break;
             case 1://微信
                 mPresenter.getWeiChatParams(mPayOrderDto.getPayNumber());
@@ -216,6 +227,11 @@ public class PaymentActivity extends BaseActivity<PayPresenter> implements PayCo
         paySuccess(false);
     }
 
+    @Override
+    public void showUserBalance(UserBalanceDto userBalanceDto) {
+        tvBalanceIntro.setText("您的可用余额是" + userBalanceDto.getBalance() + "元");
+    }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void wxpayResult(WXPayResult result){
         if (result.getBaseResp().errCode == 0){//支付成功
@@ -235,8 +251,9 @@ public class PaymentActivity extends BaseActivity<PayPresenter> implements PayCo
             if (paymentForObj > 0){//会员充值
                 Constant.user.setRoleId(paymentForObj == 1 ? "3" : "2");
                 Constant.user.saveToSp();
-                toNextActivity(HomeActivity.class);
+                toNextActivity(HomeNewActivity.class);
             } else {
+                toNextActivity(HomeNewActivity.class);
                 EventBusUtils.post(new PaySuccessEvent());
                 finish();
             }

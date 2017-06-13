@@ -19,6 +19,7 @@ import com.km.rmbank.dto.HomeNewRecommendDto;
 import com.km.rmbank.fragment.HomeFloorTwoFragment;
 import com.km.rv_libs.base.BaseCell;
 import com.km.rv_libs.base.BaseViewHolder;
+import com.orhanobut.logger.Logger;
 import com.ps.androidlib.utils.AppUtils;
 
 import java.util.ArrayList;
@@ -31,6 +32,7 @@ import java.util.List;
 public class HomeFloorTwoCell extends BaseCell<HomeNewRecommendDto> implements View.OnClickListener {
 
     private FragmentManager mFragmentManager;
+    private int itemViewType = 2000;
 
     public HomeFloorTwoCell(HomeNewRecommendDto mData, OnCellClickListener<HomeNewRecommendDto> onCellClickListener) {
         super(mData, R.layout.cell_home_floor_two, onCellClickListener);
@@ -38,7 +40,7 @@ public class HomeFloorTwoCell extends BaseCell<HomeNewRecommendDto> implements V
 
     @Override
     public int getItemViewType() {
-        return 2;
+        return itemViewType;
     }
 
     @Override
@@ -70,6 +72,7 @@ public class HomeFloorTwoCell extends BaseCell<HomeNewRecommendDto> implements V
         List<HomeNewRecommendDto.TypeListBean> typeListBeanList = mData.getTypeList();
 
         List<HomeNewRecommendDto.TypeListBean> subTypeList = new ArrayList<>();
+
         for (int i = 0; i < typeListBeanList.size(); i++){
             if (i != 0 && i % 3 == 0){
                 Bundle bundle = new Bundle();
@@ -81,6 +84,14 @@ public class HomeFloorTwoCell extends BaseCell<HomeNewRecommendDto> implements V
             subTypeList.add(typeListBeanList.get(i));
 
         }
+
+        Bundle bundle = new Bundle();
+        bundle.putString("levelOneId",mData.getProductTypeParentId());
+        bundle.putParcelableArrayList("typeList", (ArrayList<? extends Parcelable>) subTypeList);
+        fragments.add(HomeFloorTwoFragment.newInstance(bundle));
+        subTypeList = new ArrayList<>();
+
+        Logger.d("fragments.length = " + fragments.size());
 
         ViewPagerAdapter adapter = new ViewPagerAdapter(mFragmentManager,fragments);
         viewPager.setAdapter(adapter);
@@ -139,5 +150,9 @@ public class HomeFloorTwoCell extends BaseCell<HomeNewRecommendDto> implements V
     @Override
     public void onClick(View v) {
         onCellClickListener.cellClick(mData,0);
+    }
+
+    public void setItemViewType(int itemViewType) {
+        this.itemViewType += itemViewType;
     }
 }

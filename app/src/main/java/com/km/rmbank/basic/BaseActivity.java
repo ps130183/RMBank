@@ -18,12 +18,16 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.km.rmbank.MainActivity;
 import com.km.rmbank.R;
 import com.km.rmbank.api.ApiWrapper;
 import com.km.rmbank.dto.AppVersionDto;
 import com.km.rmbank.event.DownloadAppEvent;
 import com.km.rmbank.module.HomeActivity;
+import com.km.rmbank.module.HomeNewActivity;
+import com.km.rmbank.module.chat.EaseChatActivity;
 import com.km.rmbank.titlebar.ToolBarTitle;
+import com.km.rmbank.utils.EMUtils;
 import com.km.rmbank.utils.retrofit.RetrofitUtil;
 import com.km.rmbank.utils.retrofit.SecretConstant;
 import com.laojiang.retrofithttp.weight.downfilesutils.FinalDownFiles;
@@ -84,6 +88,9 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
     private DialogLoading loading;//加载提示框
     protected Toast mToast = null;//提示框
 
+
+    private EMUtils.EMMessageListener emMessageListener;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -113,6 +120,11 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
         if (mPresenter != null) {
             mPresenter.onCreateView();
         }
+
+        if (!MainActivity.class.equals(this.getClass())){
+            //设置环信连接监听  检测
+            EMUtils.setEMConnectionListener(this,true);
+        }
     }
 
     /**
@@ -136,9 +148,24 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         }
         super.onResume();
+
+        //注册消息监听
+        if (!EaseChatActivity.class.equals(this.getClass())){
+            emMessageListener = EMUtils.setMessageReceiveListener(this,true);
+        }
 //        if (mPresenter != null) {
 //            mPresenter.onCreateView();
 //        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        //注销消息监听
+        if (emMessageListener != null && !EaseChatActivity.class.equals(this.getClass())){
+            EMUtils.removeMessageReceiverListener(emMessageListener);
+        }
     }
 
     @Override
@@ -485,7 +512,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
                     public void onError(Throwable t) {
                         if (t instanceof RetrofitUtil.APIException){
                             RetrofitUtil.APIException exception = (RetrofitUtil.APIException) t;
-                            if (!event.getActivity().getClass().equals(HomeActivity.class)){
+                            if (!event.getActivity().getClass().equals(HomeNewActivity.class)){
                                 showToast(exception.message);
                             }
                         } else {

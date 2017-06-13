@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.TextView;
 
 import com.km.rmbank.R;
 import com.km.rmbank.adapter.IndustryParentAdapter;
@@ -21,6 +22,9 @@ public class EditUserResourceActivity extends BaseActivity<ResourcePresenter> im
 
     @BindView(R.id.recyclerview)
     RecyclerView mRecyclerview;
+
+    @BindView(R.id.title)
+    TextView mTitle;
 
     private int requestCode;
 
@@ -64,6 +68,8 @@ public class EditUserResourceActivity extends BaseActivity<ResourcePresenter> im
 
     private void init(){
         requestCode = getIntent().getIntExtra("requestcode",0);
+        String title = getIntent().getStringExtra("title");
+        mTitle.setText(title);
         RVUtils.setLinearLayoutManage(mRecyclerview,LinearLayoutManager.VERTICAL);
         IndustryParentAdapter adapter = new IndustryParentAdapter(this);
         mRecyclerview.setAdapter(adapter);

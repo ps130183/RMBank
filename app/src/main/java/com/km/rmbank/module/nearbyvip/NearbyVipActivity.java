@@ -27,7 +27,7 @@ public class NearbyVipActivity extends BaseActivity<NearbyVipPresenter> implemen
 
     @BindView(R.id.recyclerview)
     RecyclerView mRecyclerView;
-    private static final String QRCODE_URL = SecretConstant.API_HOST + SecretConstant.API_HOST_PATH + "/user/saoUserCard/info?mobilePhone=";
+//    private static final String QRCODE_URL = SecretConstant.API_HOST + SecretConstant.API_HOST_PATH + "/user/saoUserCard/info?mobilePhone=";
     @Override
     protected int getContentView() {
         return R.layout.activity_nearby_vip;
@@ -60,12 +60,13 @@ public class NearbyVipActivity extends BaseActivity<NearbyVipPresenter> implemen
                 mPresenter.getNearbyVip(adapter.getNextPage());
             }
         });
+
         mPresenter.getNearbyVip(1);
         adapter.setItemClickListener(new BaseAdapter.ItemClickListener<NearbyVipDto>() {
             @Override
             public void onItemClick(NearbyVipDto itemData, int position) {
                 if (TextUtils.isEmpty(itemData.getAllowStutas()) || "0".equals(itemData.getAllowStutas())){
-                    mPresenter.getUserCardInfo(QRCODE_URL + itemData.getMobilePhone());
+                    mPresenter.getUserCardInfo(Constant.QRCODE_URL + itemData.getMobilePhone());
                 } else {
                     showToast("该用户不允许查看名片");
                 }

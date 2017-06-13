@@ -7,6 +7,7 @@ android {
             keyPassword 'rmbank2017'
             storeFile file('/Users/kamangkeji/Desktop/ASWorkSpace/RMBank/app/src/main/java/RMBankKeystore.jks')
             storePassword 'rmbank2017'
+//            v2SigningEnabled false
         }
     }
     aaptOptions {
@@ -51,6 +52,9 @@ android {
         versionCode 9
         versionName '1.0.0'
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        // Enabling multidex support.
+        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -118,10 +122,12 @@ dependencies {
     compile files('libs/BaiduLBS_Android.jar')
     compile project(':guideShowLib')
     //文件上传、下载
+    compile project(':easeui')
     compile 'com.android.support:appcompat-v7:25.2.0'
     compile 'com.android.support:support-v4:25.2.0'
     compile 'com.github.JiangAndroidwork:RetrofitOfRxJava:v2.3'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile 'com.android.support:multidex:1.0.0'
     testCompile 'junit:junit:4.12'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
 }

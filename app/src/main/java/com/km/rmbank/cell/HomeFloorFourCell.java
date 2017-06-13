@@ -19,13 +19,15 @@ import java.util.List;
 
 public class HomeFloorFourCell extends BaseCell<HomeNewRecommendDto> implements View.OnClickListener {
 
+    private int itemViewType = 4000;
+
     public HomeFloorFourCell(HomeNewRecommendDto mData, OnCellClickListener<HomeNewRecommendDto> onCellClickListener) {
         super(mData, R.layout.cell_home_floor_four, onCellClickListener);
     }
 
     @Override
     public int getItemViewType() {
-        return 4;
+        return itemViewType;
     }
 
     @Override
@@ -133,5 +135,9 @@ public class HomeFloorFourCell extends BaseCell<HomeNewRecommendDto> implements 
                 break;
         }
         onCellClickListener.cellClick(mData,position);
+    }
+
+    public void setItemViewType(int itemViewType) {
+        this.itemViewType += itemViewType;
     }
 }

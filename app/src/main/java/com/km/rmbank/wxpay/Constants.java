@@ -5,7 +5,7 @@ package com.km.rmbank.wxpay;
  */
 public class Constants {
     // APP_ID 替换为你的应用从官方网站申请到的合法appId
-    public static final String APP_ID = "wxed2472eaa0db4e8d";
+    public static final String APP_ID = "wx637ea06a1c6d1fff";
     public static final String PRIVATE_KEY = "1b2n3v4fx5v56vj8f3hd5t7g5f6hj8fh";
     //商户号
     public static final String MCH_ID = "1381321402";//

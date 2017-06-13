@@ -18,6 +18,7 @@ import com.km.rmbank.dto.IntegralDetailsDto;
 import com.km.rmbank.dto.IntegralDto;
 import com.km.rmbank.dto.MemberTypeDto;
 import com.km.rmbank.dto.MessageDto;
+import com.km.rmbank.dto.MyFriendsDto;
 import com.km.rmbank.dto.MyTeamDto;
 import com.km.rmbank.dto.NearbyVipDto;
 import com.km.rmbank.dto.PayOrderDto;
@@ -769,6 +770,14 @@ public class ApiWrapper extends RetrofitUtil {
                 .compose(this.<String>applySchedulers());
     }
 
+    /**
+     * 获取我的人脉列表
+     * @return
+     */
+    public Flowable<List<MyFriendsDto>> getMyFriends(){
+        return getService().getMyFriends(Constant.user.getToken())
+                .compose(this.<List<MyFriendsDto>>applySchedulers());
+    }
     /**
      * 获取分享的内容
      * @return

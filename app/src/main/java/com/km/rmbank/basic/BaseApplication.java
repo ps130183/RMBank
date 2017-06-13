@@ -2,10 +2,17 @@ package com.km.rmbank.basic;
 
 import android.app.Activity;
 import android.app.Application;
+import android.content.Context;
 import android.os.Bundle;
+import android.support.multidex.MultiDex;
+import android.support.multidex.MultiDexApplication;
 
 import com.hss01248.dialog.MyActyManager;
 import com.hss01248.dialog.StyledDialog;
+import com.hyphenate.chat.EMClient;
+import com.hyphenate.easeui.EaseUI;
+import com.hyphenate.easeui.domain.EaseUser;
+import com.hyphenate.easeui.utils.EaseUserChatUtils;
 import com.km.rmbank.utils.UmengShareUtils;
 import com.orhanobut.logger.LogLevel;
 import com.orhanobut.logger.Logger;
@@ -18,8 +25,15 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
  * Created by kamangkeji on 17/2/11.
  */
 
-public class BaseApplication extends Application {
+public class BaseApplication extends MultiDexApplication {
     private static BaseApplication mInstance;
+
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
+    }
 
     @Override
     public void onCreate() {
@@ -29,17 +43,18 @@ public class BaseApplication extends Application {
         registCallback();
         initUtils();
         UmengShareUtils.initUmengShare(this);
+        initEaseUI();
 //        RxBus.config(AndroidSchedulers.mainThread());
     }
 
-    public static BaseApplication getInstance(){
+    public static BaseApplication getInstance() {
         return mInstance;
     }
 
     /**
      * 初始化日志打印
      */
-    private void initLogUtils(){
+    private void initLogUtils() {
         Logger.init("RMBANK")               // default tag : PRETTYLOGGER or use just init()
                 .setMethodCount(2)            // default 2
 //                .hideThreadInfo()           // default it is shown
@@ -91,9 +106,16 @@ public class BaseApplication extends Application {
         });
     }
 
-    private void initUtils(){
+    private void initUtils() {
         Utils.init(this);
 //        SPUtils spUtils = new SPUtils("RMbank");
+    }
+
+    private void initEaseUI() {
+        if (EaseUI.getInstance().init(this,null)){
+            EMClient.getInstance().setDebugMode(true);
+            EaseUserChatUtils.init();
+        }
     }
 
 }

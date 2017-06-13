@@ -55,6 +55,13 @@ public class UserAccountActivity extends BaseActivity<UserAccountPresenter> impl
     protected void onCreate() {
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mPresenter.loadBalance();
+        mPresenter.loadAccountDetail(1);
+    }
+
     /**
      * 提现
      *
@@ -77,7 +84,6 @@ public class UserAccountActivity extends BaseActivity<UserAccountPresenter> impl
                 mPresenter.loadAccountDetail(adapter.getNextPage());
             }
         });
-        mPresenter.loadAccountDetail(adapter.getNextPage());
 
     }
 

@@ -27,6 +27,29 @@ public class UserCardDto extends BaseEntity implements Parcelable {
 
     private List<IndustryDto> demandResourcesMap;//需求资源
 
+    @Override
+    public String toString() {
+        return "UserCardDto{" +
+                "name='" + name + '\'' +
+                ", cardPhone='" + cardPhone + '\'' +
+                ", position='" + position + '\'' +
+                ", company='" + company + '\'' +
+                ", companyProfile='" + companyProfile + '\'' +
+                ", provideResourcesMap=" + provideResourcesMap +
+                ", demandResourcesMap=" + demandResourcesMap +
+                ", provideResourcesId='" + provideResourcesId + '\'' +
+                ", demandResourcesId='" + demandResourcesId + '\'' +
+                ", location='" + location + '\'' +
+                ", detailedAddress='" + detailedAddress + '\'' +
+                ", emailAddress='" + emailAddress + '\'' +
+                ", status=" + status +
+                ", friendMobilePhone='" + friendMobilePhone + '\'' +
+                ", portraitUrl='" + portraitUrl + '\'' +
+                ", mobilePhone='" + mobilePhone + '\'' +
+                ", nickName='" + nickName + '\'' +
+                '}';
+    }
+
     private String provideResourcesId;//提供资源
 
     private String demandResourcesId;//需求资源
@@ -36,6 +59,14 @@ public class UserCardDto extends BaseEntity implements Parcelable {
     private String detailedAddress;//详细地址
 
     private String emailAddress;//邮箱
+
+    private int status;
+
+    private String friendMobilePhone;
+
+    private String portraitUrl;
+    private String mobilePhone;
+    private String nickName;
 
     public String getName() {
         return name;
@@ -133,22 +164,44 @@ public class UserCardDto extends BaseEntity implements Parcelable {
         this.demandResourcesMap = demandResourcesMap;
     }
 
-    @Override
-    public String toString() {
-        return "UserCardDto{" +
-                "name='" + name + '\'' +
-                ", cardPhone='" + cardPhone + '\'' +
-                ", position='" + position + '\'' +
-                ", company='" + company + '\'' +
-                ", companyProfile='" + companyProfile + '\'' +
-                ", provideResourcesMap=" + provideResourcesMap +
-                ", demandResourcesMap=" + demandResourcesMap +
-                ", provideResourcesId='" + provideResourcesId + '\'' +
-                ", demandResourcesId='" + demandResourcesId + '\'' +
-                ", location='" + location + '\'' +
-                ", detailedAddress='" + detailedAddress + '\'' +
-                ", emailAddress='" + emailAddress + '\'' +
-                '}';
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public String getFriendMobilePhone() {
+        return friendMobilePhone;
+    }
+
+    public void setFriendMobilePhone(String friendMobilePhone) {
+        this.friendMobilePhone = friendMobilePhone;
+    }
+
+    public String getPortraitUrl() {
+        return portraitUrl;
+    }
+
+    public void setPortraitUrl(String portraitUrl) {
+        this.portraitUrl = portraitUrl;
+    }
+
+    public String getMobilePhone() {
+        return mobilePhone;
+    }
+
+    public void setMobilePhone(String mobilePhone) {
+        this.mobilePhone = mobilePhone;
+    }
+
+    public String getNickName() {
+        return nickName;
+    }
+
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
     }
 
     /**
@@ -165,6 +218,9 @@ public class UserCardDto extends BaseEntity implements Parcelable {
             return true;
         }
         return false;
+    }
+
+    public UserCardDto() {
     }
 
     @Override
@@ -186,9 +242,11 @@ public class UserCardDto extends BaseEntity implements Parcelable {
         dest.writeString(this.location);
         dest.writeString(this.detailedAddress);
         dest.writeString(this.emailAddress);
-    }
-
-    public UserCardDto() {
+        dest.writeInt(this.status);
+        dest.writeString(this.friendMobilePhone);
+        dest.writeString(this.portraitUrl);
+        dest.writeString(this.mobilePhone);
+        dest.writeString(this.nickName);
     }
 
     protected UserCardDto(Parcel in) {
@@ -204,9 +262,14 @@ public class UserCardDto extends BaseEntity implements Parcelable {
         this.location = in.readString();
         this.detailedAddress = in.readString();
         this.emailAddress = in.readString();
+        this.status = in.readInt();
+        this.friendMobilePhone = in.readString();
+        this.portraitUrl = in.readString();
+        this.mobilePhone = in.readString();
+        this.nickName = in.readString();
     }
 
-    public static final Parcelable.Creator<UserCardDto> CREATOR = new Parcelable.Creator<UserCardDto>() {
+    public static final Creator<UserCardDto> CREATOR = new Creator<UserCardDto>() {
         @Override
         public UserCardDto createFromParcel(Parcel source) {
             return new UserCardDto(source);

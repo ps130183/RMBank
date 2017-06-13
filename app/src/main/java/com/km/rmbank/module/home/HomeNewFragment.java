@@ -121,11 +121,6 @@ public class HomeNewFragment extends BaseFragment<HomePresenter> implements Home
         RVUtils.addDivideItemForRv(rcContent);
         TemplateAdapter adapter = new TemplateAdapter();
 
-        List<HomeGoodsTypeDto> goodsTypeList = new ArrayList<>();
-
-//        for (int i = 0; i < homeGtImages.length ; i++){
-//            goodsTypeList.add(new HomeGtEntity(homeGtNames[i],homeGtImages[i]));
-//        }
 
         adapter.add(new HomeHeaderCell("",null));
 
@@ -194,24 +189,32 @@ public class HomeNewFragment extends BaseFragment<HomePresenter> implements Home
     @Override
     public void ShowHomeNewRecommend(List<HomeNewRecommendDto> homeNewRecommendDtos) {
         TemplateAdapter adapter = (TemplateAdapter) rcContent.getAdapter();
+        int countOne = 0;
+        int countTwo = 0;
+        int countThree = 0;
+        int countFour = 0;
         for (HomeNewRecommendDto homeNewRecommendDto : homeNewRecommendDtos){
 
             switch (homeNewRecommendDto.getType()){
                 case "1":
                     HomeFloorOneCell homeFloorOneCell = new HomeFloorOneCell(homeNewRecommendDto,onFloorOneClick);
+                    homeFloorOneCell.setItemViewType(countOne++);
                     adapter.add(homeFloorOneCell);
                     break;
                 case "2":
                     HomeFloorTwoCell homeFloorTwoCell = new HomeFloorTwoCell(homeNewRecommendDto,onFloorTwoClick);
+                    homeFloorTwoCell.setItemViewType(countTwo++);
                     homeFloorTwoCell.setmFragmentManager(getFragmentManager());
                     adapter.add(homeFloorTwoCell);
                     break;
                 case "3":
                     HomeFloorThreeCell homeFloorThreeCell = new HomeFloorThreeCell(homeNewRecommendDto,onFloorThreeClick);
+                    homeFloorThreeCell.setItemViewType(countThree++);
                     adapter.add(homeFloorThreeCell);
                     break;
                 case "4":
                     HomeFloorFourCell homeFloorFourCell = new HomeFloorFourCell(homeNewRecommendDto,onFloorOneClick);
+                    homeFloorFourCell.setItemViewType(countFour);
                     adapter.add(homeFloorFourCell);
                     break;
             }

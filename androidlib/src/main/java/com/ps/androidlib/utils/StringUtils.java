@@ -187,6 +187,15 @@ public final class StringUtils {
         }
         return new String(chars);
     }
+
+    /**
+     * 隐藏 手机号 中间4位
+     * @param phone
+     * @return
+     */
+    public static String hidePhone(String phone){
+        return phone.replaceAll("(\\d{3})\\d{4}(\\d{4})","$1****$2");
+    }
 //
 //    public static String hidePhoneMiddle4(String ){
 //

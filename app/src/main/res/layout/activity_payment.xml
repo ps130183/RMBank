@@ -96,7 +96,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_pay_type_weichat"
-            android:text="快捷又安全" />
+            android:text="推荐有微信账号的用户使用" />
 
 
         <CheckBox
@@ -131,7 +131,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_pay_type_alipay"
-            android:text="快捷又安全" />
+            android:text="推荐有支付宝账号的用户使用" />
 
 
         <CheckBox
@@ -147,6 +147,7 @@
         android:layout_height="wrap_content"
         android:background="@color/color_white"
         android:orientation="vertical"
+        android:visibility="gone"
         android:paddingBottom="@dimen/view_space_8"
         android:paddingTop="@dimen/view_space_8">
 

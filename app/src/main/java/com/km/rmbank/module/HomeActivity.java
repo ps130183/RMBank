@@ -158,7 +158,6 @@ public class HomeActivity extends BaseActivity {
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void paySuccess(PaySuccessEvent event) {
-        toNextActivity(HomeActivity.class);
         toNextActivity(MyOrderActivity.class);
     }
 

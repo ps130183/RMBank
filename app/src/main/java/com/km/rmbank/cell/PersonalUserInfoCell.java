@@ -34,10 +34,13 @@ public class PersonalUserInfoCell extends BaseCell<UserInfoDto> implements View.
             holder.getTextView(R.id.tv_user_nick_name).setText(mData.getNickName());
             holder.getTextView(R.id.tv_time).setText("hi,这是你加入玩转地球的第" + mData.getRegisterDate() + "天");
             String vipType = "";
+            holder.getTextView(R.id.tv_user_account).setVisibility(View.VISIBLE);
             if ("2".equals(Constant.user.getRoleId())){
                 vipType = "合伙人会员";
             } else if ("3".equals(Constant.user.getRoleId())){
                 vipType = "体验式会员";
+            } else {
+                holder.getTextView(R.id.tv_user_account).setVisibility(View.GONE);
             }
             TextView tvVipType = holder.getTextView(R.id.tv_vip_type);
             if (TextUtils.isEmpty(vipType)){

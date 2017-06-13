@@ -72,6 +72,18 @@ public class EditUserCardPresenter extends PresenterWrapper<EditUserCartContract
     }
 
     @Override
+    public void addShopToFriend(String friendMobilePhone) {
+        mView.showLoading();
+        mApiwrapper.applyBecomeFriend(friendMobilePhone)
+                .subscribe(newSubscriber(new Consumer<String>() {
+                    @Override
+                    public void accept(@NonNull String s) throws Exception {
+                        mView.addFriendSuccess();
+                    }
+                }));
+    }
+
+    @Override
     public void onCreateView() {
 
     }

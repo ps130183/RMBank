@@ -11,10 +11,12 @@ import android.widget.TextView;
 import com.km.rmbank.R;
 import com.km.rmbank.adapter.GoodsTypeAdapter;
 import com.km.rmbank.basic.BaseActivity;
+import com.km.rmbank.basic.BaseAdapter;
 import com.km.rmbank.basic.RVUtils;
 import com.km.rmbank.dto.GoodsTypeDto;
 import com.km.rmbank.dto.HomeGoodsTypeDto;
 import com.km.rmbank.event.GoodsTypeEvent;
+import com.km.rmbank.module.rmshop.goods.RmShopActivity;
 import com.orhanobut.logger.Logger;
 import com.ps.androidlib.utils.EventBusUtils;
 
@@ -42,6 +44,8 @@ public class GoodsTypeActivity extends BaseActivity<GoodsTypePresenter> implemen
     TextView title;
 
     private boolean isTwoLevel = false;
+    private boolean fromHome = false;
+
     @Override
     protected int getContentView() {
         return R.layout.activity_goods_type;
@@ -60,57 +64,74 @@ public class GoodsTypeActivity extends BaseActivity<GoodsTypePresenter> implemen
 
     @Override
     protected void onCreate() {
-        isTwoLevel = getIntent().getBooleanExtra("isTwoLevel",false);
-        Logger.d(this.toString());
+        isTwoLevel = getIntent().getBooleanExtra("isTwoLevel", false);
+        fromHome = getIntent().getBooleanExtra("fromHome", false);
         String rightBtn = "下一步";
-        title.setText("一级分类");
-        if (isTwoLevel){
-            rightBtn = "保存";
-            title.setText("二级分类");
+        if (fromHome) {
+            title.setText("全部分类");
+//            rightBtn = "确定";
+        } else {
+            title.setText("一级分类");
+            if (isTwoLevel) {
+                rightBtn = "保存";
+                title.setText("二级分类");
+            }
         }
 
-        setRightBtnClick(rightBtn, new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                GoodsTypeAdapter adapter = (GoodsTypeAdapter) mRecyclerView.getAdapter();
-                HomeGoodsTypeDto goodsTypeDto = adapter.getCheckedGoodsType();
-                List<HomeGoodsTypeDto> subGoodsTypeDtos = goodsTypeDto.getTypeList();
-                if (goodsTypeDto.isEmpty()){
-                    showToast("请选择商品类型");
-                    return;
-                }
 
-                if (isTwoLevel){
-                    EventBusUtils.post(new GoodsTypeEvent(GoodsTypeActivity.this.goodsTypeDto,goodsTypeDto));
-                    toNextActivity(CreateNewGoodsActivity.class);
-                } else if (subGoodsTypeDtos.size() > 0){
-                    Bundle bundle = new Bundle();
-                    bundle.putBoolean("isTwoLevel",true);
-                    bundle.putParcelable("goodsTypeDto",goodsTypeDto);
-                    toNextActivity(GoodsTypeActivity.class,bundle);
-                }
-//                else {
-//                    EventBusUtils.post(new GoodsTypeEvent(goodsTypeDto,null));
-//                    toNextActivity(CreateNewGoodsActivity.class);
-//                }
+        if (!fromHome){
+            setRightBtnClick(rightBtn, new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    GoodsTypeAdapter adapter = (GoodsTypeAdapter) mRecyclerView.getAdapter();
+                    HomeGoodsTypeDto goodsTypeDto = adapter.getCheckedGoodsType();
+                    List<HomeGoodsTypeDto> subGoodsTypeDtos = goodsTypeDto.getTypeList();
+                    if (goodsTypeDto.isEmpty()) {
+                        showToast("请选择商品类型");
+                        return;
+                    }
 
-//                Bundle bundle = new Bundle();
-//                bundle.putParcelable("goodsTypeDto",goodsTypeDto);
-//                setResult(1000,bundle);
-            }
-        });
+
+                    if (isTwoLevel) {
+                        EventBusUtils.post(new GoodsTypeEvent(GoodsTypeActivity.this.goodsTypeDto, goodsTypeDto));
+                        toNextActivity(CreateNewGoodsActivity.class);
+                    } else if (subGoodsTypeDtos.size() > 0) {
+                        Bundle bundle = new Bundle();
+                        bundle.putBoolean("isTwoLevel", true);
+                        bundle.putParcelable("goodsTypeDto", goodsTypeDto);
+                        toNextActivity(GoodsTypeActivity.class, bundle);
+                    }
+
+
+                }
+            });
+        }
+
         goodsTypeDto = getIntent().getParcelableExtra("goodsTypeDto");
 
     }
 
     @Override
     public void initGoodsTypeView() {
-        RVUtils.setGridLayoutManage(mRecyclerView,4);
+        RVUtils.setGridLayoutManage(mRecyclerView, 4);
 //        RVUtils.addDivideItemForRv(mRecyclerView,0xffffffff);
         GoodsTypeAdapter adapter = new GoodsTypeAdapter(this);
         mRecyclerView.setAdapter(adapter);
+        if (fromHome) {
+            adapter.setItemClickListener(new BaseAdapter.ItemClickListener<HomeGoodsTypeDto>() {
+                @Override
+                public void onItemClick(HomeGoodsTypeDto itemData, int position) {
 
-        if (isTwoLevel){
+                    Bundle bundle = new Bundle();
+                    bundle.putBoolean("isLevelOne", true);
+                    bundle.putString("levelOneId", itemData.getId());
+                    bundle.putString("levelTwoId", "");
+                    toNextActivity(RmShopActivity.class, bundle);
+
+                }
+            });
+        }
+        if (isTwoLevel) {
             showGoodsType(goodsTypeDto.getTypeList());
         } else {
             mPresenter.getGoodsType();
@@ -119,9 +140,9 @@ public class GoodsTypeActivity extends BaseActivity<GoodsTypePresenter> implemen
 
     @Override
     public void showGoodsType(List<HomeGoodsTypeDto> goodsTypeDtos) {
-        if (isTwoLevel){
+        if (isTwoLevel) {
             Random mRandom = new Random();
-            for (HomeGoodsTypeDto goodsTypeDto : goodsTypeDtos){
+            for (HomeGoodsTypeDto goodsTypeDto : goodsTypeDtos) {
                 goodsTypeDto.setBackgroundRes(backgroundRes[mRandom.nextInt(backgroundRes.length)]);
             }
         }

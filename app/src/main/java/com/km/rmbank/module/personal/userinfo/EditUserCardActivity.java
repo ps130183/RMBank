@@ -10,11 +10,15 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.hyphenate.easeui.EaseUI;
+import com.hyphenate.easeui.domain.EaseUser;
+import com.hyphenate.easeui.utils.EaseUserChatUtils;
 import com.km.rmbank.R;
 import com.km.rmbank.basic.BaseActivity;
 import com.km.rmbank.dto.IndustryDto;
 import com.km.rmbank.dto.MyTeamDto;
 import com.km.rmbank.dto.UserCardDto;
+import com.km.rmbank.module.chat.EaseChatActivity;
 import com.km.rmbank.module.personal.userinfo.editcart.EditUserAddressActivity;
 import com.km.rmbank.module.personal.userinfo.editcart.EditUserCompanyActivity;
 import com.km.rmbank.module.personal.userinfo.editcart.EditUserCompanyIntroActivity;
@@ -48,7 +52,7 @@ public class EditUserCardActivity extends BaseActivity<EditUserCardPresenter> im
     public static final int REQUEST_CODE_ET_EMAIL = 1010;
 
     //二维码 路径
-    private static final String QRCODE_URL = SecretConstant.API_HOST + SecretConstant.API_HOST_PATH + "/user/saoUserCard/info?mobilePhone=" + Constant.user.getMobilePhone();
+    private static final String QRCODE_URL = Constant.QRCODE_URL + Constant.user.getMobilePhone();
 
     @BindView(R.id.title)
     TextView title;
@@ -124,7 +128,12 @@ public class EditUserCardActivity extends BaseActivity<EditUserCardPresenter> im
 //        PickerUtils.showOptions(this,etLocation,vMasker);
         if (userCardDto != null){ //来源 ： 扫一扫  其他人的名片
             showUserCard(userCardDto);
-            btnCreateCode.setText("加为好友");
+            if (userCardDto.getStatus() == 2){
+                btnCreateCode.setText("发消息");
+            } else {
+                btnCreateCode.setText("加入我的人脉");
+            }
+//            btnCreateCode.setText("加入我的人脉");
             title.setText("好友信息");
             ivQRCode.setVisibility(View.GONE);
             fromQRCode = true;
@@ -284,6 +293,7 @@ public class EditUserCardActivity extends BaseActivity<EditUserCardPresenter> im
         if (fromQRCode) return;
         Bundle bundle = new Bundle();
         bundle.putInt("requestcode",REQUEST_CODE_ET_PROVIDER_RESOURCE);
+        bundle.putString("title","提供资源");
         toNextActivityForResult(REQUEST_CODE_ET_PROVIDER_RESOURCE,bundle);
     }
 
@@ -296,6 +306,7 @@ public class EditUserCardActivity extends BaseActivity<EditUserCardPresenter> im
         if (fromQRCode) return;
         Bundle bundle = new Bundle();
         bundle.putInt("requestcode",REQUEST_CODE_ET_NEED_RESOURCE);
+        bundle.putString("title","需求资源");
         toNextActivityForResult(REQUEST_CODE_ET_NEED_RESOURCE,bundle);
     }
 
@@ -333,15 +344,38 @@ public class EditUserCardActivity extends BaseActivity<EditUserCardPresenter> im
 
         if (fromQRCode){
             if (TextUtils.isEmpty(shopId)){
-                DialogUtils.showDefaultAlertDialog("是否要加 " + userCardDto.getName() + " 为好友?", new DialogUtils.ClickListener() {
-                    @Override
-                    public void clickConfirm() {
-                        showToast(friendPhone);
-                        mPresenter.applyBecomeFriend(friendPhone);
-                    }
-                });
+                if (userCardDto.getStatus() == 2){//发消息
+                    EaseUser user = new EaseUser(userCardDto.getMobilePhone());
+                    user.setNickname(userCardDto.getNickName());
+                    user.setAvatar(userCardDto.getPortraitUrl());
+                    EaseUserChatUtils.addUser(user);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("to_user_id",userCardDto.getMobilePhone());
+                    bundle.putString("user_nick_name",userCardDto.getNickName());
+                    toNextActivity(EaseChatActivity.class,bundle);
+                } else {
+                    DialogUtils.showDefaultAlertDialog("是否要将 " + userCardDto.getName() + " 加入我的人脉?", new DialogUtils.ClickListener() {
+                        @Override
+                        public void clickConfirm() {
+//                        showToast(friendPhone);
+                            mPresenter.applyBecomeFriend(friendPhone);
+                        }
+                    });
+                }
             } else {
-                showToast("联系商家");
+//                showToast("联系商家");
+                EaseUser user = new EaseUser(userCardDto.getMobilePhone());
+                user.setNickname(userCardDto.getNickName());
+                user.setAvatar(userCardDto.getPortraitUrl());
+                EaseUserChatUtils.addUser(user);
+
+                mPresenter.addShopToFriend(userCardDto.getMobilePhone());
+
+                Bundle bundle = new Bundle();
+                bundle.putString("to_user_id",userCardDto.getMobilePhone());
+                bundle.putString("user_nick_name",userCardDto.getNickName());
+                toNextActivity(EaseChatActivity.class,bundle);
+//                EaseUI.getInstance().setAvatarOptions()
             }
 
         } else {
@@ -400,14 +434,22 @@ public class EditUserCardActivity extends BaseActivity<EditUserCardPresenter> im
         }
         if (!TextUtils.isEmpty(shopId) && userCardDto.isEmpty()){
             showToast("该商家尚未编辑名片");
-//            finish();
+            finish();
             return;
         }
         this.userCardDto = userCardDto;
         if (this.userCardDto == null || userCardDto.isEmpty()){
             this.userCardDto = new UserCardDto();
             return;
-        } else if (memberDtoListBean != null || !TextUtils.isEmpty(shopId)){
+        } else if (memberDtoListBean != null){
+            btnCreateCode.setVisibility(View.VISIBLE);
+            friendPhone = userCardDto.getMobilePhone();
+            if (userCardDto.getStatus() == 2){
+                btnCreateCode.setText("发消息");
+            } else {
+                btnCreateCode.setText("加入我的人脉");
+            }
+        } else if (!TextUtils.isEmpty(shopId)){
 
         } else {
 //            ivQRCode.setImageBitmap(QRCodeUtils.createQRCode(EditUserCardActivity.this, Constant.user.getMobilePhone()));
@@ -440,6 +482,13 @@ public class EditUserCardActivity extends BaseActivity<EditUserCardPresenter> im
 
     @Override
     public void applyBecomeFriendSuccess() {
-        showToast("已发送申请，请等待对方同意");
+        showToast("已将对方添加到人脉中");
+        userCardDto.setStatus(2);
+        btnCreateCode.setText("发消息");
+    }
+
+    @Override
+    public void addFriendSuccess() {
+
     }
 }

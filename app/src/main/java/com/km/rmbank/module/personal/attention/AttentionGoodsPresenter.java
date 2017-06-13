@@ -32,6 +32,6 @@ public class AttentionGoodsPresenter extends PresenterWrapper<AttentionGoodsCont
 
     @Override
     public void onCreateView() {
-        mView.initAttentionGoods();
+
     }
 }

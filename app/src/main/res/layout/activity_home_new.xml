@@ -85,6 +85,7 @@
                 android:orientation="horizontal">
 
                 <LinearLayout
+                    android:id="@+id/ll_guide1"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -93,6 +94,7 @@
                     >
 
                     <TextView
+                        android:id="@+id/tv_guide1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="人脉团队"
@@ -100,6 +102,7 @@
                         android:textStyle="bold"
                         android:drawableRight="@mipmap/ic_triangle_12"/>
                     <TextView
+                        android:id="@+id/tv_guide_intro1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="如何建立起团队"
@@ -107,6 +110,7 @@
                         />
                 </LinearLayout>
                 <LinearLayout
+                    android:id="@+id/ll_guide2"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -115,6 +119,7 @@
                     >
 
                     <TextView
+                        android:id="@+id/tv_guide2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="名片添加"
@@ -122,6 +127,7 @@
                         android:textStyle="bold"
                         android:drawableRight="@mipmap/ic_triangle_12"/>
                     <TextView
+                        android:id="@+id/tv_guide_intro2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="如何玩转名片"
@@ -129,6 +135,7 @@
                         />
                 </LinearLayout>
                 <LinearLayout
+                    android:id="@+id/ll_guide3"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -137,6 +144,7 @@
                     >
 
                     <TextView
+                        android:id="@+id/tv_guide3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="推荐资源"
@@ -144,6 +152,7 @@
                         android:textStyle="bold"
                         android:drawableRight="@mipmap/ic_triangle_12"/>
                     <TextView
+                        android:id="@+id/tv_guide_intro3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="快速匹配所需资源"
@@ -185,7 +194,7 @@
             android:layout_alignTop="@+id/tv_share"
             android:layout_marginLeft="80dp"
             android:layout_marginTop="@dimen/view_space_4"
-            android:visibility="invisible"
+            android:visibility="gone"
             />
 
         <TextView

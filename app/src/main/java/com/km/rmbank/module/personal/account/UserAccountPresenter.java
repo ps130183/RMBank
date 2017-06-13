@@ -48,7 +48,7 @@ public class UserAccountPresenter extends PresenterWrapper<UserAccountContract.V
 
     @Override
     public void onCreateView() {
-        loadBalance();
+//        loadBalance();
         mView.initAccountDetail();
     }
 }

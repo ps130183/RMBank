@@ -3,7 +3,6 @@ package com.km.rmbank.dto;
 import android.text.TextUtils;
 
 import com.km.rmbank.basic.BaseEntity;
-import com.km.rmbank.utils.Constant;
 import com.ps.androidlib.utils.SPUtils;
 
 /**
@@ -14,13 +13,13 @@ public class UserDto extends BaseEntity {
 
     /**
      * mobilePhone : 15631707132
-     * hxPwd : eccbc87e4b5ce2fe28308fd9f2a7baf3
+     * HXpwd : eccbc87e4b5ce2fe28308fd9f2a7baf3
      * token : b7811eb9f25948f59eb659514aca8072
      * type : 1
      */
 
     private String mobilePhone;
-    private String hxPwd;
+    private String HXpwd;
     private String token;
 
     private String roleId;
@@ -33,12 +32,12 @@ public class UserDto extends BaseEntity {
         this.mobilePhone = mobilePhone;
     }
 
-    public String getHxPwd() {
-        return hxPwd;
+    public String getHXpwd() {
+        return HXpwd;
     }
 
-    public void setHxPwd(String hxPwd) {
-        this.hxPwd = hxPwd;
+    public void setHXpwd(String HXpwd) {
+        this.HXpwd = HXpwd;
     }
 
     public String getToken() {
@@ -63,7 +62,7 @@ public class UserDto extends BaseEntity {
     public void saveToSp(){
         SPUtils spUtils = SPUtils.getInstance();
         spUtils.put("mobilePhone",TextUtils.isEmpty(mobilePhone)?"":mobilePhone);
-//        spUtils.put("hxPwd",TextUtils.isEmpty(hxPwd)?"":hxPwd);
+        spUtils.put("HXpwd",TextUtils.isEmpty(HXpwd)?"": HXpwd);
         spUtils.put("token",TextUtils.isEmpty(token)?"":token);
         spUtils.put("roleId",TextUtils.isEmpty(roleId)?"":roleId);
     }
@@ -74,7 +73,7 @@ public class UserDto extends BaseEntity {
     public void clear(){
         SPUtils spUtils = SPUtils.getInstance();
         spUtils.remove("mobilePhone");
-//        spUtils.remove("hxPwd");
+        spUtils.remove("HXpwd");
         spUtils.remove("token");
         spUtils.remove("roleId");
         getDataFromSp();
@@ -86,7 +85,7 @@ public class UserDto extends BaseEntity {
     public void getDataFromSp(){
         SPUtils spUtils = SPUtils.getInstance();
         mobilePhone = spUtils.getString("mobilePhone","");
-//        hxPwd = spUtils.getString("hxPwd","");
+        HXpwd = spUtils.getString("HXpwd","");
         token = spUtils.getString("token","");
         roleId = spUtils.getString("roleId","");
     }
@@ -103,5 +102,13 @@ public class UserDto extends BaseEntity {
         return false;
     }
 
-
+    @Override
+    public String toString() {
+        return "UserDto{" +
+                "mobilePhone='" + mobilePhone + '\'' +
+                ", HXpwd='" + HXpwd + '\'' +
+                ", token='" + token + '\'' +
+                ", roleId='" + roleId + '\'' +
+                '}';
+    }
 }

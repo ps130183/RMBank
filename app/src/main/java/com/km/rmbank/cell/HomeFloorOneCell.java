@@ -19,13 +19,14 @@ import com.ps.androidlib.utils.glide.GlideUtils;
 
 public class HomeFloorOneCell extends BaseCell<HomeNewRecommendDto> implements View.OnClickListener {
 
+    private int itemViewType = 1000;
     public HomeFloorOneCell(HomeNewRecommendDto mData, OnCellClickListener<HomeNewRecommendDto> onCellClickListener) {
         super(mData, R.layout.cell_home_floor_one, onCellClickListener);
     }
 
     @Override
     public int getItemViewType() {
-        return 1;
+        return itemViewType;
     }
 
     @Override
@@ -86,5 +87,9 @@ public class HomeFloorOneCell extends BaseCell<HomeNewRecommendDto> implements V
 
         }
         onCellClickListener.cellClick(mData,position);
+    }
+
+    public void setItemViewType(int itemViewType) {
+        this.itemViewType += itemViewType;
     }
 }

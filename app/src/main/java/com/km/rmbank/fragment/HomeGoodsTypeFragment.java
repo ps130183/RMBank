@@ -15,6 +15,7 @@ import com.km.rmbank.basic.BaseFragment;
 import com.km.rmbank.basic.RVUtils;
 import com.km.rmbank.dto.HomeGoodsTypeDto;
 import com.km.rmbank.entity.HomeGtEntity;
+import com.km.rmbank.module.personal.goodsmanager.GoodsTypeActivity;
 import com.km.rmbank.module.rmshop.goods.RmShopActivity;
 
 import java.util.ArrayList;
@@ -54,6 +55,13 @@ public class HomeGoodsTypeFragment extends BaseFragment {
             @Override
             public void onItemClick(HomeGoodsTypeDto itemData, int position) {
 //               showToast(itemData.getProductTypeName());
+                if (itemData.getProductTypeName().indexOf("全部") >= 0){
+//                    showToast("全部");
+                    Bundle bundle = new Bundle();
+                    bundle.putBoolean("fromHome",true);
+                    toNextActivity(GoodsTypeActivity.class,bundle);
+                    return;
+                }
                 Bundle bundle = new Bundle();
                 bundle.putBoolean("isLevelOne",true);
                 bundle.putString("levelOneId",itemData.getId());

@@ -3,6 +3,7 @@ package com.km.rmbank.module.payment;
 import com.km.rmbank.basic.BasePresenter;
 import com.km.rmbank.basic.BaseView;
 import com.km.rmbank.dto.PayOrderDto;
+import com.km.rmbank.dto.UserBalanceDto;
 import com.km.rmbank.dto.WeiCharParamsDto;
 
 /**
@@ -16,6 +17,8 @@ public interface PayContract {
         void getWeiCharParamsSuccess(WeiCharParamsDto weicharParams);
         void payBalanceSuccess();
         void checkSuccess();
+
+        void showUserBalance(UserBalanceDto userBalanceDto);
     }
     interface Presenter extends BasePresenter{
         void createPayOrder(String amount);
@@ -23,5 +26,7 @@ public interface PayContract {
         void getWeiChatParams(String payNumber);
         void payBalance(String payNumber);
         void checkPayResult(String payNumber);
+
+        void getBalance();
     }
 }

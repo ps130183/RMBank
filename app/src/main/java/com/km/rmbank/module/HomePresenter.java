@@ -1,9 +1,12 @@
 package com.km.rmbank.module;
 
+import com.km.rmbank.dto.MyFriendsDto;
 import com.km.rmbank.dto.ShareDto;
 import com.km.rmbank.dto.UserCardDto;
 import com.km.rmbank.utils.Constant;
 import com.km.rmbank.utils.retrofit.PresenterWrapper;
+
+import java.util.List;
 
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
@@ -21,6 +24,9 @@ public class HomePresenter extends PresenterWrapper<HomeContract.View> implement
     @Override
     public void onCreateView() {
         getShareContent();
+        if (!Constant.user.isEmpty()){
+            getMyFriends();
+        }
     }
 
     @Override
@@ -63,6 +69,17 @@ public class HomePresenter extends PresenterWrapper<HomeContract.View> implement
                     @Override
                     public void accept(@NonNull String s) throws Exception {
                         mView.locationSuccess();
+                    }
+                }));
+    }
+
+    @Override
+    public void getMyFriends() {
+        mApiwrapper.getMyFriends()
+                .subscribe(newSubscriber(new Consumer<List<MyFriendsDto>>() {
+                    @Override
+                    public void accept(@NonNull List<MyFriendsDto> myFriendsDtos) throws Exception {
+                        mView.showMyFriends(myFriendsDtos);
                     }
                 }));
     }
