@@ -61,19 +61,19 @@ public class HomeFloorFourCell extends BaseCell<HomeNewRecommendDto> implements 
         ImageView ivGoodsImage4 = holder.getImageView(R.id.iv_goods_image4);
 
         tvGoodsTitle1.setText(goodsList.get(0).getProductTypeName());
-        tvGoodsSubTitle1.setText(goodsList.get(0).getDescribe());
+        tvGoodsSubTitle1.setText(goodsList.get(0).getDescribes());
         GlideUtils.loadImage(ivGoodsImage1,goodsList.get(0).getProductTypeImage());
 
         tvGoodsTitle2.setText(goodsList.get(1).getProductTypeName());
-        tvGoodsSubTitle2.setText(goodsList.get(1).getDescribe());
+        tvGoodsSubTitle2.setText(goodsList.get(1).getDescribes());
         GlideUtils.loadImage(ivGoodsImage2,goodsList.get(1).getProductTypeImage());
 
         tvGoodsTitle3.setText(goodsList.get(2).getProductTypeName());
-        tvGoodsSubTitle3.setText(goodsList.get(2).getDescribe());
+        tvGoodsSubTitle3.setText(goodsList.get(2).getDescribes());
         GlideUtils.loadImage(ivGoodsImage3,goodsList.get(2).getProductTypeImage());
 
         tvGoodsTitle4.setText(goodsList.get(3).getProductTypeName());
-        tvGoodsSubTitle4.setText(goodsList.get(3).getDescribe());
+        tvGoodsSubTitle4.setText(goodsList.get(3).getDescribes());
         GlideUtils.loadImage(ivGoodsImage4,goodsList.get(3).getProductTypeImage());
 
         tvFloorTitle.setOnClickListener(null);

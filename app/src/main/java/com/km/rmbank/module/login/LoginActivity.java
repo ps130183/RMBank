@@ -16,16 +16,20 @@ import com.km.rmbank.event.LoginSuccessEvent;
 import com.km.rmbank.module.HomeActivity;
 import com.km.rmbank.module.HomeNewActivity;
 import com.km.rmbank.module.personal.AgreementActivity;
+import com.km.rmbank.utils.Constant;
 import com.orhanobut.logger.Logger;
 import com.ps.androidlib.utils.EventBusUtils;
 
 import org.reactivestreams.Subscriber;
 
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 import butterknife.OnTextChanged;
+import cn.jpush.android.api.JPushInterface;
+import cn.jpush.android.api.TagAliasCallback;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -115,7 +119,13 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
 
     @Override
     public void loginSuccess() {
-        showToast("登录成功");
+//        showToast("登录成功");
+        JPushInterface.setAlias(this, Constant.user.getMobilePhone(), new TagAliasCallback() {
+            @Override
+            public void gotResult(int i, String s, Set<String> set) {
+                Logger.d("极光别名设置成功 = " + s + "    i =" + i);
+            }
+        });
         EventBusUtils.post(new LoginSuccessEvent());
         toNextActivity(HomeNewActivity.class);
     }

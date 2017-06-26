@@ -3,7 +3,14 @@ package com.km.rmbank.dto;
 import android.text.TextUtils;
 
 import com.km.rmbank.basic.BaseEntity;
+import com.km.rmbank.utils.Constant;
+import com.orhanobut.logger.Logger;
 import com.ps.androidlib.utils.SPUtils;
+
+import java.util.Set;
+
+import cn.jpush.android.api.JPushInterface;
+import cn.jpush.android.api.TagAliasCallback;
 
 /**
  * Created by kamangkeji on 17/3/17.
@@ -65,6 +72,7 @@ public class UserDto extends BaseEntity {
         spUtils.put("HXpwd",TextUtils.isEmpty(HXpwd)?"": HXpwd);
         spUtils.put("token",TextUtils.isEmpty(token)?"":token);
         spUtils.put("roleId",TextUtils.isEmpty(roleId)?"":roleId);
+
     }
 
     /**

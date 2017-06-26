@@ -3,7 +3,6 @@ package com.km.rmbank.dto;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -22,7 +21,7 @@ public class HomeNewRecommendDto implements Parcelable {
      * status : 0
      * subtitle : 销量第一
      * type : 1
-     * typeList : [{"createDate":1493880685000,"describe":"1","id":"26","parentId":"12","productTypeImage":"http://47.93.184.121/img/user/portrait/201705/0b4198ad45284403b838e98e71a1695a.jpg","productTypeName":"logo设计","supply":"0.7"},{"createDate":1493881489000,"describe":"1","id":"27","parentId":"12","productTypeImage":"http://47.93.184.121/img/user/portrait/201705/0b4198ad45284403b838e98e71a1695a.jpg","productTypeName":"平面设计","supply":"0.7"},{"createDate":1493881515000,"describe":"1","id":"28","parentId":"12","productTypeImage":"http://47.93.184.121/img/user/portrait/201705/0b4198ad45284403b838e98e71a1695a.jpg","productTypeName":"网页排版","supply":"0.7"},{"createDate":1495014226000,"describe":"1","id":"29","parentId":"12","productTypeImage":"http://47.93.184.121/img/user/portrait/201705/0b4198ad45284403b838e98e71a1695a.jpg","productTypeName":"手机","supply":"0.7"}]
+     * typeList : [{"createDate":1493880685000,"describes":"1","id":"26","parentId":"12","productTypeImage":"http://47.93.184.121/img/user/portrait/201705/0b4198ad45284403b838e98e71a1695a.jpg","productTypeName":"logo设计","supply":"0.7"},{"createDate":1493881489000,"describes":"1","id":"27","parentId":"12","productTypeImage":"http://47.93.184.121/img/user/portrait/201705/0b4198ad45284403b838e98e71a1695a.jpg","productTypeName":"平面设计","supply":"0.7"},{"createDate":1493881515000,"describes":"1","id":"28","parentId":"12","productTypeImage":"http://47.93.184.121/img/user/portrait/201705/0b4198ad45284403b838e98e71a1695a.jpg","productTypeName":"网页排版","supply":"0.7"},{"createDate":1495014226000,"describes":"1","id":"29","parentId":"12","productTypeImage":"http://47.93.184.121/img/user/portrait/201705/0b4198ad45284403b838e98e71a1695a.jpg","productTypeName":"手机","supply":"0.7"}]
      */
 
     private String indexActivityImage;
@@ -110,7 +109,7 @@ public class HomeNewRecommendDto implements Parcelable {
     public static class TypeListBean implements Parcelable {
         /**
          * createDate : 1493880685000
-         * describe : 1
+         * describes : 1
          * id : 26
          * parentId : 12
          * productTypeImage : http://47.93.184.121/img/user/portrait/201705/0b4198ad45284403b838e98e71a1695a.jpg
@@ -118,19 +117,19 @@ public class HomeNewRecommendDto implements Parcelable {
          * supply : 0.7
          */
 
-        private String describe;
+        private String describes;
         private String id;
         private String parentId;
         private String productTypeImage;
         private String productTypeName;
         private String supply;
 
-        public String getDescribe() {
-            return describe;
+        public String getDescribes() {
+            return describes;
         }
 
-        public void setDescribe(String describe) {
-            this.describe = describe;
+        public void setDescribes(String describes) {
+            this.describes = describes;
         }
 
         public String getId() {
@@ -183,7 +182,7 @@ public class HomeNewRecommendDto implements Parcelable {
 
         @Override
         public void writeToParcel(Parcel dest, int flags) {
-            dest.writeString(this.describe);
+            dest.writeString(this.describes);
             dest.writeString(this.id);
             dest.writeString(this.parentId);
             dest.writeString(this.productTypeImage);
@@ -192,7 +191,7 @@ public class HomeNewRecommendDto implements Parcelable {
         }
 
         protected TypeListBean(Parcel in) {
-            this.describe = in.readString();
+            this.describes = in.readString();
             this.id = in.readString();
             this.parentId = in.readString();
             this.productTypeImage = in.readString();

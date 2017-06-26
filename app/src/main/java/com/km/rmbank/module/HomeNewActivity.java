@@ -62,10 +62,13 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import cn.jpush.android.api.JPushInterface;
+import cn.jpush.android.api.TagAliasCallback;
 import io.reactivex.Observable;
 import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -147,6 +150,12 @@ public class HomeNewActivity extends BaseActivity<HomePresenter> implements Home
     protected void onCreate() {
         if (Constant.user.isEmpty()) {
             Constant.user.getDataFromSp();
+            JPushInterface.setAlias(this, Constant.user.getMobilePhone(), new TagAliasCallback() {
+                @Override
+                public void gotResult(int i, String s, Set<String> set) {
+                    Logger.d("极光别名设置成功 = " + s + "    i =" + i);
+                }
+            });
         }
 
         //退出程序

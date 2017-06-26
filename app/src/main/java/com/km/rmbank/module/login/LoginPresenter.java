@@ -4,7 +4,12 @@ import com.km.rmbank.dto.DefaultDto;
 import com.km.rmbank.dto.UserDto;
 import com.km.rmbank.utils.Constant;
 import com.km.rmbank.utils.retrofit.PresenterWrapper;
+import com.orhanobut.logger.Logger;
 
+import java.util.Set;
+
+import cn.jpush.android.api.JPushInterface;
+import cn.jpush.android.api.TagAliasCallback;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
 
