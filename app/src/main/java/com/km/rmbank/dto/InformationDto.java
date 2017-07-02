@@ -12,6 +12,14 @@ public class InformationDto implements Parcelable {
     private String id;
     private String title;
     private String viewCount;
+    /**
+     * clubLogo : http://47.93.184.121/img/guest/201707/950332fa76904fa091ce46dd38898fe7.png
+     * clubName : 瑜伽俱乐部
+     * viewCount : 2
+     */
+
+    private String clubLogo;
+    private String clubName;
 
     public String getAvatarUrl() {
         return avatarUrl;
@@ -79,4 +87,20 @@ public class InformationDto implements Parcelable {
             return new InformationDto[size];
         }
     };
+
+    public String getClubLogo() {
+        return clubLogo;
+    }
+
+    public void setClubLogo(String clubLogo) {
+        this.clubLogo = clubLogo;
+    }
+
+    public String getClubName() {
+        return clubName;
+    }
+
+    public void setClubName(String clubName) {
+        this.clubName = clubName;
+    }
 }

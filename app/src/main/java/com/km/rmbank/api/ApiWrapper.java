@@ -5,6 +5,7 @@ import com.google.gson.Gson;
 import com.km.rmbank.dto.ActionDto;
 import com.km.rmbank.dto.AppVersionDto;
 import com.km.rmbank.dto.BannerDto;
+import com.km.rmbank.dto.ClubDto;
 import com.km.rmbank.dto.DefaultDto;
 import com.km.rmbank.dto.EvaluateDto;
 import com.km.rmbank.dto.GoodsDetailsDto;
@@ -883,6 +884,16 @@ public class ApiWrapper extends RetrofitUtil {
     public Flowable<String> updateAllowUserCard(String allowStatus){
         return getService().updateAllowUserCard(Constant.user.getToken(),allowStatus)
                 .compose(this.<String>applySchedulers());
+    }
+
+    /**
+     * 获取俱乐部信息
+     * @param type
+     * @return
+     */
+    public Flowable<List<ClubDto>> getClubInfos(String type){
+        return getService().getClubInfos(type)
+                .compose(this.<List<ClubDto>>applySchedulers());
     }
 
 }

@@ -99,8 +99,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-
-        <!--  极光推送 receiver start  -->
+        <!-- 极光推送 receiver start -->
         <receiver
             android:name=".receiver.JPushReceiver"
             android:enabled="true">
@@ -111,10 +110,11 @@
                 <action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED" />
                 <action android:name="cn.jpush.android.intent.NOTIFICATION_CLICK_ACTION" />
                 <action android:name="cn.jpush.android.intent.CONNECTION" />
+
                 <category android:name="com.km.rmbank" />
             </intent-filter>
         </receiver>
-        <!--  极光推送 receiver end  -->
+        <!-- 极光推送 receiver end -->
 
 
         <!-- 环信配置 start -->
@@ -248,7 +248,6 @@
         <activity android:name=".module.personal.userinfo.editcart.EditUserResourceActivity" />
         <activity android:name=".module.personal.userinfo.editcart.EditUserEmailActivity" />
         <activity android:name=".module.personal.userinfo.editcart.EditUserAddressActivity" />
-        <activity android:name=".module.personal.vip.BecomeVIPActivity" />
         <activity android:name=".module.personal.vip.SelectMemberTypeActivity" />
         <activity android:name=".module.personal.setting.SettingActivity" />
         <activity android:name=".module.personal.setting.AboutMeActivity" />
@@ -288,7 +287,9 @@
             android:name=".module.chat.EaseChatActivity"
             android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity android:name="com.hyphenate.easeui.ui.EaseShowBigImageActivity" />
-        <activity android:name=".module.UserCardGuideActivity"></activity>
+        <activity android:name=".module.UserCardGuideActivity" />
+        <activity android:name=".module.HomeThreeActivity"
+            android:launchMode="singleTask"></activity>
     </application>
 
 </manifest>

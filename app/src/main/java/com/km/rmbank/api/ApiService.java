@@ -3,6 +3,7 @@ package com.km.rmbank.api;
 import com.km.rmbank.dto.ActionDto;
 import com.km.rmbank.dto.AppVersionDto;
 import com.km.rmbank.dto.BannerDto;
+import com.km.rmbank.dto.ClubDto;
 import com.km.rmbank.dto.EvaluateDto;
 import com.km.rmbank.dto.GoodsDetailsDto;
 import com.km.rmbank.dto.GoodsDto;
@@ -1010,4 +1011,13 @@ public interface ApiService {
     @POST(SecretConstant.API_HOST_PATH + "/auth/user/update/allowStutas")
     Flowable<Response<String>> updateAllowUserCard(@Field("token") String token,
                                                         @Field("allowStutas") String allowStutas);
+
+    /**
+     * 获取俱乐部 的基本数据 logo  名称
+     * @param type
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(SecretConstant.API_HOST_PATH + "/club/type")
+    Flowable<Response<List<ClubDto>>> getClubInfos(@Field("type") String type);
 }

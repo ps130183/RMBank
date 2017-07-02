@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.TextView;
 
 import com.km.rmbank.R;
 import com.km.rmbank.basic.BaseActivity;
@@ -15,19 +16,30 @@ import com.km.rmbank.event.DownloadAppEvent;
 import com.km.rmbank.module.login.LoginActivity;
 import com.km.rmbank.module.personal.AgreementActivity;
 import com.km.rmbank.utils.Constant;
+import com.orhanobut.logger.Logger;
 import com.ps.androidlib.utils.AppUtils;
+import com.ps.androidlib.utils.DataCleacManager;
 import com.ps.androidlib.utils.DialogUtils;
 import com.ps.androidlib.utils.EventBusUtils;
 import com.ps.androidlib.utils.SPUtils;
 import com.rey.material.widget.Switch;
 
+import java.util.concurrent.TimeUnit;
+
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 public class SettingActivity extends BaseActivity<SettingPresenter> implements SettingContract.View {
 
     @BindView(R.id.swich_usercard)
     Switch swichUsercard;
+
+    @BindView(R.id.tv_cache_size)
+    TextView tvCacheSize;
 
     @Override
     protected int getContentView() {
@@ -55,17 +67,44 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
                 mPresenter.updateAllowUserCard(checked);
             }
         });
+
+        try {
+            tvCacheSize.setText(DataCleacManager.getTotalCacheSize(this));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @OnClick(R.id.tv_clear_cache)
     public void clearCache(View view){
-        SPUtils.getInstance().clear();
-        AppUtils.executeOnUIThread(3000, new AppUtils.UIThread() {
+//        SPUtils.getInstance().clear();
+        DialogUtils.showDefaultAlertDialog("是否清除缓存？", new DialogUtils.ClickListener() {
             @Override
-            public void onUIThread() {
-                showToast("缓存已清空");
+            public void clickConfirm() {
+                Observable.just(1)
+                        .doOnNext(new Consumer<Integer>() {
+                            @Override
+                            public void accept(@io.reactivex.annotations.NonNull Integer integer) throws Exception {
+                                DataCleacManager.clearAllCache(SettingActivity.this);
+                            }
+                        })
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Consumer<Integer>() {
+                            @Override
+                            public void accept(@io.reactivex.annotations.NonNull Integer integer) throws Exception {
+                                Logger.d("缓存已清空");
+                                try {
+                                    tvCacheSize.setText(DataCleacManager.getTotalCacheSize(SettingActivity.this));
+                                    showToast("缓存已清除");
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
             }
         });
+
     }
 
 //    @OnClick(R.id.tv_push_message_setting)

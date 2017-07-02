@@ -25,6 +25,7 @@ import com.km.rmbank.dto.AppVersionDto;
 import com.km.rmbank.event.DownloadAppEvent;
 import com.km.rmbank.module.HomeActivity;
 import com.km.rmbank.module.HomeNewActivity;
+import com.km.rmbank.module.HomeThreeActivity;
 import com.km.rmbank.module.chat.EaseChatActivity;
 import com.km.rmbank.titlebar.ToolBarTitle;
 import com.km.rmbank.utils.EMUtils;
@@ -512,7 +513,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
                     public void onError(Throwable t) {
                         if (t instanceof RetrofitUtil.APIException){
                             RetrofitUtil.APIException exception = (RetrofitUtil.APIException) t;
-                            if (!event.getActivity().getClass().equals(HomeNewActivity.class)){
+                            if (!event.getActivity().getClass().equals(HomeThreeActivity.class)){
                                 showToast(exception.message);
                             }
                         } else {

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import com.km.rmbank.R;
 import com.km.rmbank.module.HomeActivity;
 import com.km.rmbank.module.HomeNewActivity;
+import com.km.rmbank.module.HomeThreeActivity;
 import com.km.rmbank.utils.selectcity.CityPickData;
 import com.ps.androidlib.utils.SPUtils;
 import com.ps.androidlib.utils.StatusBarUtil;
@@ -46,7 +47,8 @@ public class LaunchActivity extends AppCompatActivity {
                         if (isFirst){
                             startActivity(new Intent(LaunchActivity.this,GuideActivity.class));
                         } else {
-                            startActivity(new Intent(LaunchActivity.this,HomeNewActivity.class));
+                            startActivity(new Intent(LaunchActivity.this,HomeThreeActivity.class));
+//                            startActivity(new Intent(LaunchActivity.this,HomeNewActivity.class));
 //                            startActivity(new Intent(LaunchActivity.this,HomeActivity.class));
                         }
                         finish();

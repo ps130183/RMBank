@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/color_white"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_action_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="@dimen/view_space_8"
+        android:text="－没有帆船    怎么玩转地球－"
+        android:textColor="@color/color_block" />
+
+    <RelativeLayout
+        android:id="@+id/rl_action_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/view_space_8">
+
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/iv_action"
+            android:layout_alignParentRight="true">
+            <ImageView
+                android:id="@+id/iv_club_logo"
+                android:layout_width="120dp"
+                android:layout_height="60dp"
+                android:src="@mipmap/timg"
+                android:layout_gravity="center"
+                android:scaleType="fitXY"
+                />
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/tv_clud_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="玩转地球帆船俱乐部"
+            android:textColor="#ff78c9"
+            android:layout_toRightOf="@+id/iv_action"
+            android:layout_alignBottom="@+id/iv_action"
+            android:layout_alignParentRight="true"
+            android:gravity="center"/>
+
+        <ImageView
+            android:id="@+id/iv_action"
+            android:layout_width="200dp"
+            android:layout_height="150dp"
+            android:scaleType="fitXY"
+            android:src="@mipmap/timg" />
+
+    </RelativeLayout>
+
+</LinearLayout>

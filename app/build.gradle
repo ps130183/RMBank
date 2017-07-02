@@ -63,9 +63,9 @@ android {
         }
 
         manifestPlaceholders = [
-                JPUSH_PKGNAME : "com.km.rmbank",
+                JPUSH_PKGNAME: "com.km.rmbank",
                 JPUSH_APPKEY : "722dde5b1dc43834e68da4e7", //JPush上注册的包名对应的appkey.
-                JPUSH_CHANNEL : "玩转地球", //用户渠道统计的渠道名称
+                JPUSH_CHANNEL: "玩转地球", //用户渠道统计的渠道名称
         ]
     }
     buildTypes {
@@ -136,15 +136,18 @@ dependencies {
     compile project(':guideShowLib')
     //文件上传、下载
     compile project(':easeui')
+    //极光推送
+
+    // 此处以JPush 3.0.5 版本为例。
+    // 此处以JCore 1.1.2 版本为例。
+    compile project(':fablibrary')
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support:support-v4:25.3.1'
     compile 'com.github.JiangAndroidwork:RetrofitOfRxJava:v2.3'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.android.support:multidex:1.0.1'
+    compile 'cn.jiguang.sdk:jpush:3.0.5'
+    compile 'cn.jiguang.sdk:jcore:1.1.2'
     testCompile 'junit:junit:4.12'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
-
-    //极光推送
-    compile 'cn.jiguang.sdk:jpush:3.0.5'  // 此处以JPush 3.0.5 版本为例。
-    compile 'cn.jiguang.sdk:jcore:1.1.2'  // 此处以JCore 1.1.2 版本为例。
 }

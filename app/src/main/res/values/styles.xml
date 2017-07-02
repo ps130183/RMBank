@@ -174,4 +174,9 @@
         <item name="android:textColor">@drawable/selector_order_button_textcolor</item>
         <item name="android:background">@drawable/selector_order_button</item>
     </style>
+
+    <style name="menu_labels_style">
+        <item name="android:background">@drawable/fab_label_background</item>
+        <item name="android:textColor">@color/color_white</item>
+    </style>
 </resources>

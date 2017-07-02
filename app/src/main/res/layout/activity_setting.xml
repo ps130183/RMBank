@@ -15,13 +15,28 @@
         android:background="@color/color_white"
         android:layout_marginTop="@dimen/view_space_16">
 
-        <TextView
-            android:id="@+id/tv_clear_cache"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="清除缓存"
-            style="@style/Personal.User.Setting.tv"
-            />
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/tv_clear_cache"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="清除缓存"
+                style="@style/Personal.User.Setting.tv"
+                />
+
+            <TextView
+                android:id="@+id/tv_cache_size"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="10M"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/view_space_16"
+                />
+        </RelativeLayout>
+
         <include layout="@layout/divider_height_1"/>
         <RelativeLayout
             android:layout_width="match_parent"

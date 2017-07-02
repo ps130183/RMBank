@@ -92,6 +92,7 @@ public class AppUtils {
      * @return
      */
     public static int getCurWindowWidth(Context mContext) {
+//        DisplayMetrics metrics = new DisplayMetrics();
         WindowManager wm = (WindowManager) mContext
                 .getSystemService(Context.WINDOW_SERVICE);
         wm.getDefaultDisplay().getMetrics(metrics);
@@ -105,6 +106,7 @@ public class AppUtils {
      * @return
      */
     public static int getCurWindowHeight(Context mContext) {
+//        DisplayMetrics metrics = new DisplayMetrics();
         WindowManager wm = (WindowManager) mContext
                 .getSystemService(Context.WINDOW_SERVICE);
         wm.getDefaultDisplay().getMetrics(metrics);

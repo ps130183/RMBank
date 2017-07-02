@@ -42,7 +42,6 @@ import com.km.rmbank.module.personal.shopcart.ShoppingCartActivity;
 import com.km.rmbank.module.personal.team.MyTeamActivity;
 import com.km.rmbank.module.personal.userinfo.EditUserCardActivity;
 import com.km.rmbank.module.personal.userinfo.UserInfoActivity;
-import com.km.rmbank.module.personal.vip.BecomeVIPActivity;
 import com.km.rmbank.utils.Constant;
 import com.km.rmbank.utils.UmengShareUtils;
 import com.km.rv_libs.TemplateAdapter;
@@ -198,7 +197,7 @@ public class PersonalNewFragment extends BaseFragment<PersonalPresenter> impleme
 //                        showToast("您已经是合伙人会员");
 //                        return;
 //                    }
-                    toNextActivity(BecomeVIPActivity.class);
+//                    toNextActivity(BecomeVIPActivity.class);
                     break;
                 case R.id.tv_setting:
                     toNextActivity(SettingActivity.class);
