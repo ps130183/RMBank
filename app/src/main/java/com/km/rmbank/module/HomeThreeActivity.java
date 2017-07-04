@@ -55,6 +55,7 @@ import com.km.rmbank.module.personal.team.MyTeamActivity;
 import com.km.rmbank.module.personal.userinfo.EditUserCardActivity;
 import com.km.rmbank.module.personal.userinfo.UserInfoActivity;
 import com.km.rmbank.module.personal.vip.SelectMemberTypeActivity;
+import com.km.rmbank.module.rmshop.goods.RmShopActivity;
 import com.km.rmbank.utils.Constant;
 import com.km.rv_libs.TemplateAdapter;
 import com.km.rv_libs.base.ICell;
@@ -439,6 +440,7 @@ public class HomeThreeActivity extends BaseActivity<HomeThreePresenter> implemen
                         toNextActivity(MyTeamActivity.class);
                         break;
                     case 5://逛一逛  之前的商城
+                        toNextActivity(RmShopActivity.class);
                         break;
 
                 }

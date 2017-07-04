@@ -452,7 +452,7 @@ public interface ApiService {
      * @returnr
      */
     @FormUrlEncoded
-    @POST(SecretConstant.API_HOST_PATH + "/user/joinMember/money")
+    @POST(SecretConstant.API_HOST_PATH + "/auth/user/joinMember/money")
     Flowable<Response<List<MemberTypeDto>>> getMemberTypeInfo(@Field("token") String token);
 
 

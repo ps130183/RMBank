@@ -36,7 +36,7 @@ public class RmShopActivity extends BaseActivity {
     @Override
     protected void onCreate() {
         Bundle bundle = getIntent().getExtras();
-        bundle.putBoolean("isFromHome",true);
+//        bundle.putBoolean("isFromHome",true);
 
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
