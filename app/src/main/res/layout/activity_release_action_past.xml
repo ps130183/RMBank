@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_white"
+    tools:context="com.km.rmbank.module.club.past.ReleaseActionPastActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:background="@color/color_divider1">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingTop="@dimen/view_space_16">
+
+                <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+                    <TextView
+                        android:id="@+id/tv_upload_action_past_img1"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:layout_centerInParent="true"
+                        android:background="@drawable/shape_edit_club_upload_logo"
+                        android:gravity="center"
+                        android:text="点击上传图片"
+                        android:layout_gravity="center"/>
+
+                    <ImageView
+                        android:id="@+id/iv_upload_action_past_img1"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:layout_centerInParent="true"
+                        android:scaleType="fitXY"
+                        android:src="@mipmap/timg"
+                        android:visibility="gone"
+                        android:layout_gravity="center"/>
+
+                    <com.km.rmbank.ui.CircleProgressView
+                        android:id="@+id/cpv_upload_pastaction_img1"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:layout_gravity="center"
+                        android:visibility="gone"/>
+
+                </FrameLayout>
+                <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+                    <TextView
+                        android:id="@+id/tv_upload_action_past_img2"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:layout_centerInParent="true"
+                        android:background="@drawable/shape_edit_club_upload_logo"
+                        android:gravity="center"
+                        android:text="点击上传图片"
+                        android:layout_gravity="center"/>
+
+                    <ImageView
+                        android:id="@+id/iv_upload_action_past_img2"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:layout_centerInParent="true"
+                        android:scaleType="fitXY"
+                        android:src="@mipmap/timg"
+                        android:visibility="gone"
+                        android:layout_gravity="center"/>
+                    <com.km.rmbank.ui.CircleProgressView
+                        android:id="@+id/cpv_upload_pastaction_img2"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:layout_gravity="center"
+                        android:visibility="gone"/>
+
+                </FrameLayout>
+                <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+                    <TextView
+                        android:id="@+id/tv_upload_action_past_img3"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:layout_centerInParent="true"
+                        android:background="@drawable/shape_edit_club_upload_logo"
+                        android:gravity="center"
+                        android:text="点击上传图片"
+                        android:layout_gravity="center"/>
+
+                    <ImageView
+                        android:id="@+id/iv_upload_action_past_img3"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:layout_centerInParent="true"
+                        android:scaleType="fitXY"
+                        android:src="@mipmap/timg"
+                        android:visibility="gone"
+                        android:layout_gravity="center"/>
+                    <com.km.rmbank.ui.CircleProgressView
+                        android:id="@+id/cpv_upload_pastaction_img3"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:layout_gravity="center"
+                        android:visibility="gone"/>
+
+                </FrameLayout>
+
+            </LinearLayout>
+
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="三张图均为首页展示所用，请务必上传^-^"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="@dimen/view_space_8"
+                android:layout_marginLeft="@dimen/view_space_16"
+                />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingBottom="@dimen/view_space_8"
+            android:paddingLeft="@dimen/view_space_32"
+            android:paddingRight="@dimen/view_space_32"
+            android:paddingTop="@dimen/view_space_8">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="标题："
+                android:textColor="@color/color_block"/>
+
+            <EditText
+                android:id="@+id/et_action_past_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/color_white"
+                android:hint="往期活动标题"
+                android:padding="@dimen/view_space_4"
+                android:textSize="@dimen/text_size_14" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:background="@color/color_divider1"
+            />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_action_past_details"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </android.support.v7.widget.RecyclerView>
+
+    </LinearLayout>
+
+</android.support.v4.widget.NestedScrollView>

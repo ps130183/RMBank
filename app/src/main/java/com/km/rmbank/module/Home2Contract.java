@@ -14,7 +14,7 @@ import java.util.List;
  * Created by kamangkeji on 17/5/15.
  */
 
-public interface HomeContract {
+public interface Home2Contract {
     interface View extends BaseView{
         void showShareContent(ShareDto shareDto);
         void getUserInfoByQRCodeSuccess(UserCardDto userCardDto, String friendPhone);

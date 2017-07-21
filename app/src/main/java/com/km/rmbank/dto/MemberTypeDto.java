@@ -16,8 +16,17 @@ public class MemberTypeDto {
     private String experience;
     private String id;
     private String memberMoney;
+    private int moneyDifference;
     private String roleId;
     private String partner;
+
+    public int getMoneyDifference() {
+        return moneyDifference;
+    }
+
+    public void setMoneyDifference(int moneyDifference) {
+        this.moneyDifference = moneyDifference;
+    }
 
     public String getExperience() {
         return experience;
@@ -57,5 +66,17 @@ public class MemberTypeDto {
 
     public void setPartner(String partner) {
         this.partner = partner;
+    }
+
+    @Override
+    public String toString() {
+        return "MemberTypeDto{" +
+                "experience='" + experience + '\'' +
+                ", id='" + id + '\'' +
+                ", memberMoney='" + memberMoney + '\'' +
+                ", moneyDifference='" + moneyDifference + '\'' +
+                ", roleId='" + roleId + '\'' +
+                ", partner='" + partner + '\'' +
+                '}';
     }
 }

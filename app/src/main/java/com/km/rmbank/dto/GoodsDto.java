@@ -69,8 +69,17 @@ public class GoodsDto implements Parcelable {
     private int stockCount;
     private String subtitle;
     private String thumbnailUrl;
+    private int type;
 
     public GoodsDto() {
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
     }
 
     public String getAccess() {
@@ -315,6 +324,43 @@ public class GoodsDto implements Parcelable {
 
 
     @Override
+    public String toString() {
+        return "GoodsDto{" +
+                "isChecked=" + isChecked +
+                ", access='" + access + '\'' +
+                ", alreadySoldCount=" + alreadySoldCount +
+                ", avgStartLevel='" + avgStartLevel + '\'' +
+                ", bannerType=" + bannerType +
+                ", bannerUrl='" + bannerUrl + '\'' +
+                ", freightInEveryAdd=" + freightInEveryAdd +
+                ", freightInMaxCount=" + freightInMaxCount +
+                ", freightMaxCount=" + freightMaxCount +
+                ", id='" + id + '\'' +
+                ", indexActivityImage='" + indexActivityImage + '\'' +
+                ", indexActivityPosition=" + indexActivityPosition +
+                ", isInIndexActivity=" + isInIndexActivity +
+                ", longitude='" + longitude + '\'' +
+                ", name='" + name + '\'' +
+                ", price=" + price +
+                ", role=" + role +
+                ", productBannerUrl='" + productBannerUrl + '\'' +
+                ", productDetail='" + productDetail + '\'' +
+                ", productInShopCarCount=" + productInShopCarCount +
+                ", productNo='" + productNo + '\'' +
+                ", productParams='" + productParams + '\'' +
+                ", residualStock=" + residualStock +
+                ", shopId='" + shopId + '\'' +
+                ", sort=" + sort +
+                ", source=" + source +
+                ", status=" + status +
+                ", stockCount=" + stockCount +
+                ", subtitle='" + subtitle + '\'' +
+                ", thumbnailUrl='" + thumbnailUrl + '\'' +
+                ", type=" + type +
+                '}';
+    }
+
+    @Override
     public int describeContents() {
         return 0;
     }
@@ -351,6 +397,7 @@ public class GoodsDto implements Parcelable {
         dest.writeInt(this.stockCount);
         dest.writeString(this.subtitle);
         dest.writeString(this.thumbnailUrl);
+        dest.writeInt(this.type);
     }
 
     protected GoodsDto(Parcel in) {
@@ -384,6 +431,7 @@ public class GoodsDto implements Parcelable {
         this.stockCount = in.readInt();
         this.subtitle = in.readString();
         this.thumbnailUrl = in.readString();
+        this.type = in.readInt();
     }
 
     public static final Creator<GoodsDto> CREATOR = new Creator<GoodsDto>() {

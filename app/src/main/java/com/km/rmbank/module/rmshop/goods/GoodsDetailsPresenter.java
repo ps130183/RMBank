@@ -43,7 +43,7 @@ public class GoodsDetailsPresenter extends PresenterWrapper<GoodsDetailsContract
 
     @Override
     public void followGoods(String productNo) {
-        mApiwrapper.followGodos(productNo)
+        mApiwrapper.followGodos(productNo,"")
                 .subscribe(newSubscriber(new Consumer<String>() {
                     @Override
                     public void accept(@NonNull String s) throws Exception {

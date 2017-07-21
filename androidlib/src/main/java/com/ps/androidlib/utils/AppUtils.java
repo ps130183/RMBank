@@ -231,6 +231,18 @@ public class AppUtils {
      */
     public static String getDownloadAppPath(String appName){
         if (!SDCardUtils.isSDCardEnable()) return "";
-        return Environment.getExternalStorageDirectory().getPath() + File.separator + "wzdq" + File.separator + "app" + File.separator + appName;
+        return Environment.getExternalStorageDirectory().getPath() + File.separator + "RMBank" + File.separator + "app" + File.separator + appName;
     }
+
+    /**
+     * 获取压缩图片的存储路径
+     * @param imageName
+     * @return
+     */
+    public static String getImagePath(String imageName){
+        if (!SDCardUtils.isSDCardEnable()) return "";
+        return Environment.getExternalStorageDirectory().getPath() + File.separator + "RMBank" + File.separator + "image" + File.separator + imageName;
+    }
+
+
 }

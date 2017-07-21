@@ -3,10 +3,11 @@ package com.km.rmbank.api;
 
 import com.google.gson.Gson;
 import com.km.rmbank.dto.ActionDto;
+import com.km.rmbank.dto.ActionMemberDto;
+import com.km.rmbank.dto.ActionPastDto;
 import com.km.rmbank.dto.AppVersionDto;
 import com.km.rmbank.dto.BannerDto;
 import com.km.rmbank.dto.ClubDto;
-import com.km.rmbank.dto.DefaultDto;
 import com.km.rmbank.dto.EvaluateDto;
 import com.km.rmbank.dto.GoodsDetailsDto;
 import com.km.rmbank.dto.GoodsDto;
@@ -141,10 +142,14 @@ public class ApiWrapper extends RetrofitUtil {
      * @return
      */
     public Flowable<String> createUserCart(UserCardDto userCardDto){
-        return getService().createUserCard(Constant.user.getToken(),userCardDto.getName(),userCardDto.getCardPhone(),
-                userCardDto.getCompany(),userCardDto.getPosition(),userCardDto.getCompanyProfile(),
-                userCardDto.getProvideResourcesId(),userCardDto.getDemandResourcesId(),
-                userCardDto.getLocation(),userCardDto.getDetailedAddress(),userCardDto.getEmailAddress())
+        return getService().createUserCard(Constant.user.getToken()
+                ,userCardDto.getName()
+                ,userCardDto.getCardPhone()
+                ,userCardDto.getPosition()
+                ,userCardDto.getProvideResources()
+                ,userCardDto.getDemandResources()
+                ,userCardDto.getDetailedAddress()
+                ,userCardDto.getEmailAddress())
                 .compose(this.<String>applySchedulers());
     }
 
@@ -193,6 +198,9 @@ public class ApiWrapper extends RetrofitUtil {
         RequestBody requestOptionType = util.createRequestBody(optionType);
 
         File image = new File(imagePath);
+//        Bitmap mBitmap = ImageUtils.compressByQuality(ImageUtils.getBitmap(imagePath),(long)(2 * 1024 * 1024),true);
+//        image = ImageUtils.compressImage(ImageUtils.getBitmap(imagePath));
+//        image = mBitmap.
         UploadFileRequestBody uploadFileRequestBody = new UploadFileRequestBody(image, fileUploadObserver);
         MultipartBody.Part part = MultipartBody.Part.createFormData("pictureFile", image.getName(), uploadFileRequestBody);
 
@@ -327,8 +335,8 @@ public class ApiWrapper extends RetrofitUtil {
      * @param productNo
      * @return
      */
-    public Flowable<String> followGodos(String productNo){
-        return getService().followGoods(Constant.user.getToken(),productNo)
+    public Flowable<String> followGodos(String productNo,String clubId){
+        return getService().followGoods(Constant.user.getToken(),productNo,clubId)
                 .compose(this.<String>applySchedulers());
     }
 
@@ -401,8 +409,8 @@ public class ApiWrapper extends RetrofitUtil {
      * @param amount
      * @return
      */
-    public Flowable<PayOrderDto> createPayOrder(String amount){
-        return getService().createPayOrder(Constant.user.getToken(),amount)
+    public Flowable<PayOrderDto> createPayOrder(String amount,String memberType){
+        return getService().createPayOrder(Constant.user.getToken(),amount,memberType)
                 .compose(this.<PayOrderDto>applySchedulers());
     }
 
@@ -618,6 +626,16 @@ public class ApiWrapper extends RetrofitUtil {
      */
     public Flowable<List<InformationDto>> getInformationList(int pageNo){
         return getService().getInformationList(pageNo)
+                .compose(this.<List<InformationDto>>applySchedulers());
+    }
+
+    /**
+     * 获取首页冬天  平台发布的资讯
+     * @param pageNo
+     * @return
+     */
+    public Flowable<List<InformationDto>> getDynamicInformationList(int pageNo){
+        return getService().getDynamicInformationList(pageNo)
                 .compose(this.<List<InformationDto>>applySchedulers());
     }
 
@@ -896,4 +914,159 @@ public class ApiWrapper extends RetrofitUtil {
                 .compose(this.<List<ClubDto>>applySchedulers());
     }
 
+    /**
+     * 创建我的俱乐部
+     * @param clubDto
+     * @return
+     */
+    public Flowable<String> createMyClub(ClubDto clubDto){
+        String clubDetailList = gson.toJson(clubDto.getClubDetailList());
+        return getService().createMyClub(Constant.user.getToken(),
+                clubDto.getClubName(),
+                clubDto.getClubLogo(),
+                clubDto.getContent(),
+                clubDto.getBackgroundImg(),
+                clubDetailList)
+                .compose(this.<String>applySchedulers());
+    }
+
+    /**
+     * 创建我的俱乐部
+     * @param clubDto
+     * @return
+     */
+    public Flowable<String> editMyClub(ClubDto clubDto){
+        String clubDetailList = gson.toJson(clubDto.getClubDetailList());
+        return getService().editMyClub(Constant.user.getToken(),
+                clubDto.getClubName(),
+                clubDto.getClubLogo(),
+                clubDto.getContent(),
+                clubDto.getBackgroundImg(),
+                clubDetailList,
+                clubDto.getId())
+                .compose(this.<String>applySchedulers());
+    }
+
+    /**
+     * 获取我的俱乐部信息
+     * @return
+     */
+    public Flowable<ClubDto> getMyClubInfo(String clubId){
+        return getService().getMyClubInfoBasic(Constant.user.getToken(),clubId)
+                .compose(this.<ClubDto>applySchedulers());
+    }
+
+    /**
+     * 获取我的俱乐部的 图文介绍 信息
+     * @param clubId
+     * @return
+     */
+    public Flowable<List<ClubDto.ClubDetailBean>> getMyClubInfoDetails(String clubId){
+        return getService().getMyClubInfoDetails(clubId)
+                .compose(this.<List<ClubDto.ClubDetailBean>>applySchedulers());
+    }
+
+    /**
+     * 俱乐部 发布 活动
+     * @param actionDto
+     * @return
+     */
+    public Flowable<String> releaseActionRecent(ActionDto actionDto,String clubId){
+        String guestList = gson.toJson(actionDto.getGuestList());
+        return getService().releaseActionRecent(Constant.user.getToken(),
+                clubId,
+                actionDto.getActivityPictureUrl(),
+                actionDto.getTitle(),
+                actionDto.getAddress(),
+                actionDto.getFlow(),
+                actionDto.getHoldDate(),
+                guestList)
+                .compose(this.<String>applySchedulers());
+    }
+
+    /**
+     * 获取俱乐部 近期活动列表
+     * @param clubId
+     * @param pageNo
+     * @return
+     */
+    public Flowable<List<ActionDto>> getActionRecentList(String clubId,int pageNo){
+        return getService().getActionRecentList(clubId,pageNo)
+                .compose(this.<List<ActionDto>>applySchedulers());
+    }
+
+    /**
+     * 获取俱乐部 发布近期活动的详细细腻
+     * @param actionId
+     * @return
+     */
+    public Flowable<ActionDto> getActionRecentInfo(String actionId){
+        return getService().getActionRecentInfo(actionId)
+                .compose(this.<ActionDto>applySchedulers());
+    }
+
+    /**
+     * 获取俱乐部 活动 的参加人员 列表
+     * @param actionId
+     * @return
+     */
+    public Flowable<List<ActionMemberDto>> getActionMemberList(String actionId,int pageNo){
+        return getService().getActionMemberList(actionId,pageNo)
+                .compose(this.<List<ActionMemberDto>>applySchedulers());
+    }
+
+    /**
+     * 俱乐部 发布 往期活动
+     * @param actionPastDto
+     * @return
+     */
+    public Flowable<String> releaseActionPast(ActionPastDto actionPastDto){
+        String dynamicList = gson.toJson(actionPastDto.getDynamicList());
+        return getService().releaseActionPast(actionPastDto.getClubId(),
+                actionPastDto.getAvatarUrl1()+"#"+actionPastDto.getAvatarUrl2()+"#"+actionPastDto.getAvatarUrl3(),
+                actionPastDto.getTitle(),dynamicList)
+                .compose(this.<String>applySchedulers());
+    }
+
+    /**
+     * 获取往期资讯列表
+     * @param clubId
+     * @param pageNo
+     * @return
+     */
+    public Flowable<List<ActionPastDto>> getActionPastList(String clubId,int pageNo){
+        return getService().getActionPastList(clubId,pageNo)
+                .compose(this.<List<ActionPastDto>>applySchedulers());
+    }
+
+    /**
+     * 获取往期资讯 详情
+     * @param id
+     * @return
+     */
+    public Flowable<ActionPastDto> getActionPastDetail(String id){
+        return getService().getActionPastDetail(id)
+                .compose(this.<ActionPastDto>applySchedulers());
+    }
+
+    /**
+     * 获取 首页约吗  数据 未举办活动
+     * @param pageNo
+     * @return
+     */
+    public Flowable<List<ActionDto>> getActionRecentList(int pageNo){
+        return getService().getActionRecentList(pageNo)
+                .compose(this.<List<ActionDto>>applySchedulers());
+    }
+
+    /**
+     * 活动报名
+     * @param name
+     * @param phone
+     * @return
+     */
+    public Flowable<String> applyAction(String activityId,String name,String phone){
+        return getService().applyAction(Constant.user.getToken(),activityId,name,phone)
+                .compose(this.<String>applySchedulers());
+    }
 }

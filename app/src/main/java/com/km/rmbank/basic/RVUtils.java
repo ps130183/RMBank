@@ -31,8 +31,18 @@ public class RVUtils {
 
     public static void setLinearLayoutManage(RecyclerView rc, int orientation){
         LinearLayoutManager llm = new LinearLayoutManager(rc.getContext(),orientation,false);
+        llm.setSmoothScrollbarEnabled(true);
+        llm.setAutoMeasureEnabled(true);
+        rc.setLayoutManager(llm);
+        rc.setHasFixedSize(true);
+        rc.setNestedScrollingEnabled(false);
+    }
+
+    public static void setDefaultLinearLayoutManage(RecyclerView rc, int orientation){
+        LinearLayoutManager llm = new LinearLayoutManager(rc.getContext(),orientation,false);
         rc.setLayoutManager(llm);
     }
+
 
     public static void setGridLayoutManage(RecyclerView rv,int spanCount){
         GridLayoutManager dlm = new GridLayoutManager(rv.getContext(),spanCount);

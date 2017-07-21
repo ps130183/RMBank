@@ -4,45 +4,36 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.constraint.ConstraintLayout;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.baidu.location.BDLocation;
-import com.baidu.location.BDLocationListener;
-import com.baidu.location.LocationClient;
-import com.baidu.location.LocationClientOption;
-import com.baidu.location.Poi;
+//import com.baidu.location.BDLocation;
+//import com.baidu.location.BDLocationListener;
+//import com.baidu.location.LocationClient;
+//import com.baidu.location.LocationClientOption;
 import com.hyphenate.EMCallBack;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.easeui.domain.EaseUser;
 import com.hyphenate.easeui.utils.EaseUserChatUtils;
-import com.hyphenate.exceptions.HyphenateException;
 import com.km.rmbank.R;
 import com.km.rmbank.basic.BaseActivity;
-import com.km.rmbank.basic.BasePresenter;
 import com.km.rmbank.dto.MyFriendsDto;
 import com.km.rmbank.dto.ShareDto;
 import com.km.rmbank.dto.UserCardDto;
-import com.km.rmbank.entity.TeamEntity;
 import com.km.rmbank.event.DownloadAppEvent;
 import com.km.rmbank.event.LoginSuccessEvent;
 import com.km.rmbank.event.PaySuccessEvent;
 import com.km.rmbank.event.UserIsEmptyEvent;
 import com.km.rmbank.module.actionarea.InformationFragment;
-import com.km.rmbank.module.home.HomeFragment;
-import com.km.rmbank.module.home.HomeNewFragment;
+import com.km.rmbank.module.home.Home2Fragment;
+import com.km.rmbank.module.home.Home3Fragment;
 import com.km.rmbank.module.login.LoginActivity;
 import com.km.rmbank.module.nearbyvip.NearbyVipActivity;
-import com.km.rmbank.module.personal.PersonalFragment;
 import com.km.rmbank.module.personal.PersonalNewFragment;
 import com.km.rmbank.module.personal.order.MyOrderActivity;
 import com.km.rmbank.module.personal.userinfo.EditUserCardActivity;
-import com.km.rmbank.module.rmshop.RmShopFragment;
 import com.km.rmbank.module.rmshop.RmShopNewFragment;
 import com.km.rmbank.utils.Constant;
 import com.km.rmbank.utils.UmengShareUtils;
@@ -70,16 +61,12 @@ import butterknife.OnClick;
 import cn.jpush.android.api.JPushInterface;
 import cn.jpush.android.api.TagAliasCallback;
 import io.reactivex.Observable;
-import io.reactivex.Scheduler;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
-import io.reactivex.schedulers.Schedulers;
 import kr.co.namee.permissiongen.PermissionFail;
 import kr.co.namee.permissiongen.PermissionGen;
 import kr.co.namee.permissiongen.PermissionSuccess;
 
-public class HomeNewActivity extends BaseActivity<HomePresenter> implements HomeContract.View {
+public class Home2Activity extends BaseActivity<Home2Presenter> implements Home2Contract.View {
 
     public final static int REQUEST_PERMISSION_CAMERA = 1;
     public final static int REQUEST_PERMISSION_LOCATION = 2;
@@ -87,8 +74,8 @@ public class HomeNewActivity extends BaseActivity<HomePresenter> implements Home
 
     private static final String TAG_PAGE_HOME = "首页";
     private static final String TAG_PAGE_CITY = "商城";
-    private static final String TAG_PAGE_PUBLISH = "  ";
-    private static final String TAG_PAGE_MESSAGE = "咨讯";
+    private static final String TAG_PAGE_PUBLISH = "会员VIP";
+    private static final String TAG_PAGE_MESSAGE = "琅琊榜";
     private static final String TAG_PAGE_PERSON = "我的";
 
     private ShareDto shareDto;
@@ -124,11 +111,11 @@ public class HomeNewActivity extends BaseActivity<HomePresenter> implements Home
     private int currentPosition = -1;
 
     //百度地图
-    private LocationClient mLocationClient;
+//    private LocationClient mLocationClient;
 
     @Override
     protected int getContentView() {
-        return R.layout.activity_home_new;
+        return R.layout.activity_home_2;
     }
 
     @Override
@@ -137,8 +124,8 @@ public class HomeNewActivity extends BaseActivity<HomePresenter> implements Home
     }
 
     @Override
-    public HomePresenter getmPresenter() {
-        return new HomePresenter(this);
+    public Home2Presenter getmPresenter() {
+        return new Home2Presenter(this);
     }
 
     @Override
@@ -195,10 +182,11 @@ public class HomeNewActivity extends BaseActivity<HomePresenter> implements Home
 
         mNavigateTabBar.onRestoreInstanceState(savedInstanceState);
 
-        mNavigateTabBar.addTab(HomeNewFragment.class, new MainNavigateTabBar.TabParam(mUnSelectedIcon[0], mSelectedIcon[0], TAG_PAGE_HOME));
-        mNavigateTabBar.addTab(RmShopNewFragment.class, new MainNavigateTabBar.TabParam(mUnSelectedIcon[1], mSelectedIcon[1], TAG_PAGE_CITY));
-        mNavigateTabBar.addTab(null, new MainNavigateTabBar.TabParam(0, 0, TAG_PAGE_PUBLISH));
+        mNavigateTabBar.addTab(Home3Fragment.class, new MainNavigateTabBar.TabParam(mUnSelectedIcon[0], mSelectedIcon[0], TAG_PAGE_HOME));
+//        mNavigateTabBar.addTab(Home2Fragment.class, new MainNavigateTabBar.TabParam(mUnSelectedIcon[0], mSelectedIcon[0], TAG_PAGE_HOME));
         mNavigateTabBar.addTab(InformationFragment.class, new MainNavigateTabBar.TabParam(mUnSelectedIcon[2], mSelectedIcon[2], TAG_PAGE_MESSAGE));
+        mNavigateTabBar.addTab(null, new MainNavigateTabBar.TabParam(0, 0, TAG_PAGE_PUBLISH));
+        mNavigateTabBar.addTab(RmShopNewFragment.class, new MainNavigateTabBar.TabParam(mUnSelectedIcon[1], mSelectedIcon[1], TAG_PAGE_CITY));
         mNavigateTabBar.addTab(PersonalNewFragment.class, new MainNavigateTabBar.TabParam(mUnSelectedIcon[3], mSelectedIcon[3], TAG_PAGE_PERSON));
 
         mNavigateTabBar.setTabSelectListener(new MainNavigateTabBar.OnTabSelectedListener() {
@@ -258,7 +246,7 @@ public class HomeNewActivity extends BaseActivity<HomePresenter> implements Home
     private void requestLocationPremission() {
         String[] locationPermission = {Manifest.permission.ACCESS_COARSE_LOCATION,
                 Manifest.permission.ACCESS_FINE_LOCATION};
-        PermissionGen.needPermission(HomeNewActivity.this, REQUEST_PERMISSION_LOCATION, locationPermission);
+        PermissionGen.needPermission(Home2Activity.this, REQUEST_PERMISSION_LOCATION, locationPermission);
     }
 
     @PermissionSuccess(requestCode = REQUEST_PERMISSION_LOCATION)
@@ -267,69 +255,69 @@ public class HomeNewActivity extends BaseActivity<HomePresenter> implements Home
     }
 
     private void initBDLocation() {
-        mLocationClient = new LocationClient(getApplicationContext());
-
-        LocationClientOption option = new LocationClientOption();
-        option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);
-        //可选，默认高精度，设置定位模式，高精度，低功耗，仅设备
-
-        option.setCoorType("bd09ll");
-        //可选，默认gcj02，设置返回的定位结果坐标系
-
-        int span = 1000 * 60 * 10; //10秒
-        option.setScanSpan(span);
-        //可选，默认0，即仅定位一次，设置发起定位请求的间隔需要大于等于1000ms才是有效的
-
-        option.setIsNeedAddress(true);
-        //可选，设置是否需要地址信息，默认不需要
-
-        option.setOpenGps(true);
-        //可选，默认false,设置是否使用gps
-
-        option.setLocationNotify(true);
-        //可选，默认false，设置是否当GPS有效时按照1S/1次频率输出GPS结果
-
-        option.setIsNeedLocationDescribe(true);
-        //可选，默认false，设置是否需要位置语义化结果，可以在BDLocation.getLocationDescribe里得到，结果类似于“在北京天安门附近”
-
-        option.setIsNeedLocationPoiList(true);
-        //可选，默认false，设置是否需要POI结果，可以在BDLocation.getPoiList里得到
-
-        option.setIgnoreKillProcess(false);
-        //可选，默认true，定位SDK内部是一个SERVICE，并放到了独立进程，设置是否在stop的时候杀死这个进程，默认不杀死
-
-        option.SetIgnoreCacheException(false);
-        //可选，默认false，设置是否收集CRASH信息，默认收集
-
-        option.setEnableSimulateGps(false);
-        //可选，默认false，设置是否需要过滤GPS仿真结果，默认需要
-
-        mLocationClient.setLocOption(option);
-
-        mLocationClient.registerLocationListener(new BDLocationListener() {
-            @Override
-            public void onReceiveLocation(BDLocation location) {
-                //获取定位结果
-                String longitude = String.valueOf(location.getLongitude());
-                String latitude = String.valueOf(location.getLatitude());
-
-                mPresenter.getUserLocation(longitude, latitude);
-            }
-
-            public void onConnectHotSpotMessage(String s, int i) {
-
-            }
-
-
-        });
-
-        mLocationClient.start();
+//        mLocationClient = new LocationClient(getApplicationContext());
+//
+//        LocationClientOption option = new LocationClientOption();
+//        option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);
+//        //可选，默认高精度，设置定位模式，高精度，低功耗，仅设备
+//
+//        option.setCoorType("bd09ll");
+//        //可选，默认gcj02，设置返回的定位结果坐标系
+//
+//        int span = 1000 * 60 * 10; //10秒
+//        option.setScanSpan(span);
+//        //可选，默认0，即仅定位一次，设置发起定位请求的间隔需要大于等于1000ms才是有效的
+//
+//        option.setIsNeedAddress(true);
+//        //可选，设置是否需要地址信息，默认不需要
+//
+//        option.setOpenGps(true);
+//        //可选，默认false,设置是否使用gps
+//
+//        option.setLocationNotify(true);
+//        //可选，默认false，设置是否当GPS有效时按照1S/1次频率输出GPS结果
+//
+//        option.setIsNeedLocationDescribe(true);
+//        //可选，默认false，设置是否需要位置语义化结果，可以在BDLocation.getLocationDescribe里得到，结果类似于“在北京天安门附近”
+//
+//        option.setIsNeedLocationPoiList(true);
+//        //可选，默认false，设置是否需要POI结果，可以在BDLocation.getPoiList里得到
+//
+//        option.setIgnoreKillProcess(false);
+//        //可选，默认true，定位SDK内部是一个SERVICE，并放到了独立进程，设置是否在stop的时候杀死这个进程，默认不杀死
+//
+//        option.SetIgnoreCacheException(false);
+//        //可选，默认false，设置是否收集CRASH信息，默认收集
+//
+//        option.setEnableSimulateGps(false);
+//        //可选，默认false，设置是否需要过滤GPS仿真结果，默认需要
+//
+//        mLocationClient.setLocOption(option);
+//
+//        mLocationClient.registerLocationListener(new BDLocationListener() {
+//            @Override
+//            public void onReceiveLocation(BDLocation location) {
+//                //获取定位结果
+//                String longitude = String.valueOf(location.getLongitude());
+//                String latitude = String.valueOf(location.getLatitude());
+//
+//                mPresenter.getUserLocation(longitude, latitude);
+//            }
+//
+//            public void onConnectHotSpotMessage(String s, int i) {
+//
+//            }
+//
+//
+//        });
+//
+//        mLocationClient.start();
     }
 
     public void onClickPublish(View v) {
         float curTvShareTranslationY = tvShare.getTranslationY();
 //        float curIvShareTranslationY = ivShare.getTranslationY();
-        float windowHeight = AppUtils.getCurWindowHeight(HomeNewActivity.this);
+        float windowHeight = AppUtils.getCurWindowHeight(Home2Activity.this);
         ObjectAnimator tabPostIconAnimator = ObjectAnimator.ofFloat(mTabPostIcon, "rotation", 0f, 45f);
         ObjectAnimator mainDialogAnimator = ObjectAnimator.ofFloat(clMainDialog, "alpha", 0f, 0.95f);
         mainDialogAnimator.addListener(new AnimatorListenerAdapter() {
@@ -449,7 +437,7 @@ public class HomeNewActivity extends BaseActivity<HomePresenter> implements Home
     @OnClick(R.id.tv_rich_scan)
     public void richScan(View view) {
         cancelMainDialog();
-        PermissionGen.needPermission(HomeNewActivity.this,
+        PermissionGen.needPermission(Home2Activity.this,
                 REQUEST_PERMISSION_CAMERA, Manifest.permission.CAMERA);
     }
 

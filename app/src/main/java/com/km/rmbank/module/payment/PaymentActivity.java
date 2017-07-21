@@ -3,13 +3,11 @@ package com.km.rmbank.module.payment;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.km.rmbank.R;
 import com.km.rmbank.alipay.AlipayUtils;
-import com.km.rmbank.alipay.AuthResult;
 import com.km.rmbank.alipay.PayResult;
 import com.km.rmbank.basic.BaseActivity;
 import com.km.rmbank.dto.PayOrderDto;
@@ -17,11 +15,9 @@ import com.km.rmbank.dto.UserBalanceDto;
 import com.km.rmbank.dto.WeiCharParamsDto;
 import com.km.rmbank.event.PaySuccessEvent;
 import com.km.rmbank.event.WXPayResult;
-import com.km.rmbank.module.HomeActivity;
-import com.km.rmbank.module.HomeNewActivity;
+import com.km.rmbank.module.Home2Activity;
 import com.km.rmbank.utils.Constant;
 import com.km.rmbank.wxpay.WxUtil;
-import com.orhanobut.logger.Logger;
 import com.ps.androidlib.utils.DialogUtils;
 import com.ps.androidlib.utils.EventBusUtils;
 
@@ -61,6 +57,8 @@ public class PaymentActivity extends BaseActivity<PayPresenter> implements PayCo
     private int paymentForObj;
     private String mAmount;//支付金额
 
+    private boolean becomeVip2 = false;
+
     @Override
     protected int getContentView() {
         return R.layout.activity_payment;
@@ -86,10 +84,11 @@ public class PaymentActivity extends BaseActivity<PayPresenter> implements PayCo
         paymentForObj = getIntent().getIntExtra("paymentForObj",0);
         mAmount = getIntent().getStringExtra("amount");
         mPayOrderDto = getIntent().getParcelableExtra("payOrderDto");
+        becomeVip2 = getIntent().getBooleanExtra("becomeVip2",false);
 
         if (paymentForObj > 0){//认证会员支付时，隐藏余额支付 和 积分
             llPayBalance.setVisibility(View.GONE);
-            mPresenter.createPayOrder(mAmount);
+            mPresenter.createPayOrder(mAmount, String.valueOf(paymentForObj));
         } else { //商品支付
             createPayOrderSuccess(mPayOrderDto);
         }
@@ -249,11 +248,12 @@ public class PaymentActivity extends BaseActivity<PayPresenter> implements PayCo
             mPresenter.checkPayResult(mPayOrderDto.getPayNumber());
         } else {
             if (paymentForObj > 0){//会员充值
-                Constant.user.setRoleId(paymentForObj == 1 ? "3" : "2");
+
+                Constant.user.setRoleId(paymentForObj == 3 ? "3" : (becomeVip2 ? "2" : "4"));
                 Constant.user.saveToSp();
-                toNextActivity(HomeNewActivity.class);
+                toNextActivity(Home2Activity.class);
             } else {
-                toNextActivity(HomeNewActivity.class);
+                toNextActivity(Home2Activity.class);
                 EventBusUtils.post(new PaySuccessEvent());
                 finish();
             }

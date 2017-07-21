@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="@dimen/view_space_16"
+    android:paddingRight="@dimen/view_space_16"
+    android:paddingTop="@dimen/view_space_8"
+    android:paddingBottom="@dimen/view_space_8"
+    android:background="@color/color_white">
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="80dp"
+        android:layout_weight="3"
+        android:layout_marginRight="@dimen/view_space_8">
+
+        <TextView
+            android:id="@+id/tv_action_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:lines="2"
+            android:text="相约峡谷一起干主宰，现在就差射手了等你哦"
+            />
+
+        <TextView
+            android:id="@+id/tv_count"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="浏览次数：136"
+            android:layout_alignParentBottom="true"
+            />
+
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/iv_avatar"
+        android:layout_width="0dp"
+        android:layout_height="80dp"
+        android:layout_weight="2"
+        android:src="@mipmap/timg"
+        android:scaleType="fitXY"
+        />
+
+
+</LinearLayout>

@@ -1,6 +1,8 @@
 package com.km.rmbank.api;
 
 import com.km.rmbank.dto.ActionDto;
+import com.km.rmbank.dto.ActionMemberDto;
+import com.km.rmbank.dto.ActionPastDto;
 import com.km.rmbank.dto.AppVersionDto;
 import com.km.rmbank.dto.BannerDto;
 import com.km.rmbank.dto.ClubDto;
@@ -38,6 +40,7 @@ import com.km.rmbank.utils.retrofit.SecretConstant;
 import java.util.List;
 
 import io.reactivex.Flowable;
+import io.reactivex.functions.Action;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
@@ -139,12 +142,7 @@ public interface ApiService {
      * @param token
      * @param name
      * @param mobilePhone
-     * @param company
      * @param position
-     * @param companyProfile
-     * @param provideResourcesId
-     * @param demandResourcesId
-     * @param location
      * @param detailedAddress
      * @param emailAddress
      * @return
@@ -154,12 +152,9 @@ public interface ApiService {
     Flowable<Response<String>> createUserCard(@Field("token") String token,
                                                    @Field("name") String name,
                                                    @Field("cardPhone") String mobilePhone,
-                                                   @Field("company") String company,
                                                    @Field("position") String position,
-                                                   @Field("companyProfile") String companyProfile,
-                                                   @Field("provideResourcesId") String provideResourcesId,
-                                                   @Field("demandResourcesId") String demandResourcesId,
-                                                   @Field("location") String location,
+                                                   @Field("provideResources") String provideResources,
+                                                   @Field("demandResources") String demandResources,
                                                    @Field("detailedAddress") String detailedAddress,
                                                    @Field("emailAddress") String emailAddress);
 
@@ -169,7 +164,7 @@ public interface ApiService {
      * @return
      */
     @FormUrlEncoded
-    @POST(SecretConstant.API_HOST_PATH + "/auth/userCard/info")
+    @POST(SecretConstant.API_HOST_PATH + "/auth/userCard/info/send")
     Flowable<Response<UserCardDto>> getUserCard(@Field("token") String token);
 
     /**
@@ -350,7 +345,8 @@ public interface ApiService {
     @FormUrlEncoded
     @POST(SecretConstant.API_HOST_PATH + "/auth/keep/product")
     Flowable<Response<String>> followGoods(@Field("token") String token,
-                                           @Field("productNo") String productNo);
+                                           @Field("productNo") String productNo,
+                                           @Field("clubId") String clubId);
 
     /**
      * 发布商品
@@ -452,7 +448,7 @@ public interface ApiService {
      * @returnr
      */
     @FormUrlEncoded
-    @POST(SecretConstant.API_HOST_PATH + "/auth/user/joinMember/money")
+    @POST(SecretConstant.API_HOST_PATH + "/auth/member/joinMember/money")
     Flowable<Response<List<MemberTypeDto>>> getMemberTypeInfo(@Field("token") String token);
 
 
@@ -465,7 +461,8 @@ public interface ApiService {
     @FormUrlEncoded
     @POST(SecretConstant.API_HOST_PATH + "/auth/order/recharge/create")
     Flowable<Response<PayOrderDto>> createPayOrder(@Field("token") String token,
-                                                   @Field("amount") String amount);
+                                                   @Field("amount") String amount,
+                                                   @Field("memberType") String memberType);
 
 
     /**
@@ -712,6 +709,16 @@ public interface ApiService {
     @FormUrlEncoded
     @POST(SecretConstant.API_HOST_PATH + "/information/list")
     Flowable<Response<List<InformationDto>>> getInformationList(@Field("pageNo") int pageNo);
+
+    /**
+     *   获取首页 动态  平台发布的资讯
+     *
+     * @param pageNo
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(SecretConstant.API_HOST_PATH + "/information/managerDynamic")
+    Flowable<Response<List<InformationDto>>> getDynamicInformationList(@Field("pageNo") int pageNo);
 
     /**
      * 获取资讯列表
@@ -1020,4 +1027,176 @@ public interface ApiService {
     @FormUrlEncoded
     @POST(SecretConstant.API_HOST_PATH + "/club/type")
     Flowable<Response<List<ClubDto>>> getClubInfos(@Field("type") String type);
+
+
+    /**
+     * 创建我的俱乐部
+     * @param token
+     * @param clubName
+     * @param clubLogo
+     * @param content
+     * @param backgroundImg
+     * @param clubDetailList
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(SecretConstant.API_HOST_PATH + "/auth/club/addImageDetail")
+    Flowable<Response<String>> createMyClub(@Field("token") String token,
+                                            @Field("clubName") String clubName,
+                                            @Field("clubLogo") String clubLogo,
+                                            @Field("content") String content,
+                                            @Field("backgroundImg") String backgroundImg,
+                                            @Field("clubDetailList") String clubDetailList);
+
+    /**
+     * 编辑我的俱乐部
+     * @param token
+     * @param clubName
+     * @param clubLogo
+     * @param content
+     * @param backgroundImg
+     * @param clubDetailList
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(SecretConstant.API_HOST_PATH + "/auth/club/editImageDetail")
+    Flowable<Response<String>> editMyClub(@Field("token") String token,
+                                            @Field("clubName") String clubName,
+                                            @Field("clubLogo") String clubLogo,
+                                            @Field("content") String content,
+                                            @Field("backgroundImg") String backgroundImg,
+                                            @Field("clubDetailList") String clubDetailList,
+                                          @Field("id") String id);
+
+    /**
+     * 获取我的俱乐部基本信息
+     * @param token
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(SecretConstant.API_HOST_PATH + "/auto/club/detail")
+    Flowable<Response<ClubDto>> getMyClubInfoBasic(@Field("token") String token,
+                                                   @Field("clubId") String clubId);
+
+    /**
+     * 获取我的俱乐部图文介绍信息
+     * @param clubId
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(SecretConstant.API_HOST_PATH + "/club/ImageDetail")
+    Flowable<Response<List<ClubDto.ClubDetailBean>>> getMyClubInfoDetails(@Field("clubId") String clubId);
+
+    /**
+     * 俱乐部 发布活动
+     * @param token
+     * @param clubId
+     * @param activityPictureUrl
+     * @param title
+     * @param address
+     * @param flow
+     * @param holdDate
+     * @param guestList
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(SecretConstant.API_HOST_PATH + "/auth/club/addOrEditClubActivity")
+    Flowable<Response<String>> releaseActionRecent(@Field("token") String token,
+                                                   @Field("clubId") String clubId,
+                                                      @Field("activityPictureUrl") String activityPictureUrl,
+                                                      @Field("title") String title,
+                                                      @Field("address") String address,
+                                                      @Field("flow") String flow,
+                                                      @Field("holdDate") String holdDate,
+                                                      @Field("appGuestList") String guestList);
+
+    /**
+     * 获取俱乐部 近期活动列表
+     * @param clubId
+     * @param pageNo
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(SecretConstant.API_HOST_PATH + "/club/activityList")
+    Flowable<Response<List<ActionDto>>> getActionRecentList(@Field("clubId") String clubId,
+                                                         @Field("pageNo") int pageNo);
+
+    /**
+     * 获取为举办 活动详情信息
+     * @param id
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(SecretConstant.API_HOST_PATH + "/club/activityDetail")
+    Flowable<Response<ActionDto>> getActionRecentInfo(@Field("id") String id);
+
+    /**
+     * 获取活动 的参加人员
+     * @param actionId
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(SecretConstant.API_HOST_PATH + "/club/activity/registration/listpage")
+    Flowable<Response<List<ActionMemberDto>>> getActionMemberList(@Field("activityId") String actionId,
+                                                                  @Field("pageNo") int pageNo);
+
+    /**
+     * 俱乐部发布 往期活动
+     * @param clubId
+     * @param avatarUrl
+     * @param title
+     * @param dynamicList
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(SecretConstant.API_HOST_PATH + "/information/add")
+    Flowable<Response<String>> releaseActionPast(@Field("clubId") String clubId,
+                                                 @Field("avatarUrl") String avatarUrl,
+                                                 @Field("title") String title,
+                                                 @Field("dynamicList") String dynamicList);
+
+    /**
+     * 获取往期资讯 列表
+     * @param clubId
+     * @param pageNo
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(SecretConstant.API_HOST_PATH + "/information/list")
+    Flowable<Response<List<ActionPastDto>>> getActionPastList(@Field("clubId") String clubId,
+                                                              @Field("pageNo") int pageNo);
+
+    /**
+     * 获取往期资讯  详情
+     * @param id
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(SecretConstant.API_HOST_PATH + "/information/detail")
+    Flowable<Response<ActionPastDto>> getActionPastDetail(@Field("id") String id);
+
+    /**
+     * 获取首页  约吗  列表  所有的未举办活动列表
+     * @param pageNo
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(SecretConstant.API_HOST_PATH + "/activity/list")
+    Flowable<Response<List<ActionDto>>> getActionRecentList(@Field("pageNo") int pageNo);
+
+    /**
+     * 报名
+     * @param token
+     * @param activityId
+     * @param registrationName
+     * @param registrationPhone
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(SecretConstant.API_HOST_PATH + "/auth/app/activityRegistration")
+    Flowable<Response<String>> applyAction(@Field("token") String token,
+                                           @Field("activityId") String activityId,
+                                           @Field("registrationName") String registrationName,
+                                           @Field("registrationPhone") String registrationPhone);
+
 }

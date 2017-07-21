@@ -39,4 +39,5 @@
     <dimen name="sectionRowMarginHorizontal">16sp</dimen>
 
     <dimen name="view_width_30">30dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
 </resources>

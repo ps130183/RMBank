@@ -71,6 +71,8 @@ public abstract class PresenterWrapper<V extends BaseView> implements BasePresen
                     } catch (Exception e1) {
                         e1.printStackTrace();
                     }
+                } else {
+                    e.printStackTrace();
                 }
 //                e.printStackTrace();
                 mView.hideLoading();
@@ -79,12 +81,12 @@ public abstract class PresenterWrapper<V extends BaseView> implements BasePresen
             @Override
             public void onNext(T t) {
                 mView.hideLoading();
-                Logger.d(mCompositeSubscription + "");
+//                Logger.d(mCompositeSubscription + "");
                 if (!mCompositeSubscription.isDisposed()) {
                     try {
                         onNext.accept(t);
                     } catch (Exception e) {// 返回值 为null
-//                        e.printStackTrace();
+                        e.printStackTrace();
                     }
                 }
             }

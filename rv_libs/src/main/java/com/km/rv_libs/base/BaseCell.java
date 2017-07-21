@@ -1,5 +1,6 @@
 package com.km.rv_libs.base;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import java.security.PolicySpi;
 
 public abstract class BaseCell<T> implements ICell {
 
+    protected Context mContext;
     public T mData;
     protected int layoutRes;
 

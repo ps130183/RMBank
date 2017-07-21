@@ -2,12 +2,18 @@ package com.km.rmbank.dto;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.text.TextUtils;
+
+import com.km.rmbank.basic.BaseEntity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by kamangkeji on 17/4/12.
  */
 
-public class ActionDto implements Parcelable {
+public class ActionDto extends BaseEntity implements Parcelable {
 
     /**
      * activityPictureUrl : http://192.168.31.216:8088/img2542342
@@ -16,7 +22,7 @@ public class ActionDto implements Parcelable {
      * createDate : 1490779228000
      * durationDate : 1490779224000
      * id : 14
-     * startDate : 1489483221000
+     * holdDate : 1489483221000
      * title : 活动
      * updateDate : 1490779230000
      */
@@ -27,9 +33,17 @@ public class ActionDto implements Parcelable {
     private long createDate;
     private long durationDate;
     private String id;
+    private String holdDate;
     private long startDate;
     private String title;
+    private String address;
+    private String flow;
+    private String webActivityUrl;
     private long updateDate;
+    private List<ActionGuestBean> guestList;
+    private String clubName;
+    private String clubLogo;
+
 
     public String getActivityPictureUrl() {
         return activityPictureUrl;
@@ -37,6 +51,52 @@ public class ActionDto implements Parcelable {
 
     public void setActivityPictureUrl(String activityPictureUrl) {
         this.activityPictureUrl = activityPictureUrl;
+    }
+
+    @Override
+    public String toString() {
+        return "ActionDto{" +
+                "activityPictureUrl='" + activityPictureUrl + '\'' +
+                ", activityType='" + activityType + '\'' +
+                ", content='" + content + '\'' +
+                ", createDate=" + createDate +
+                ", durationDate=" + durationDate +
+                ", id='" + id + '\'' +
+                ", holdDate='" + holdDate + '\'' +
+                ", startDate=" + startDate +
+                ", title='" + title + '\'' +
+                ", address='" + address + '\'' +
+                ", flow='" + flow + '\'' +
+                ", webActivityUrl='" + webActivityUrl + '\'' +
+                ", updateDate=" + updateDate +
+                ", guestList=" + guestList +
+                ", clubName='" + clubName + '\'' +
+                ", clubLogo='" + clubLogo + '\'' +
+                '}';
+    }
+
+    public String getClubName() {
+        return clubName;
+    }
+
+    public void setClubName(String clubName) {
+        this.clubName = clubName;
+    }
+
+    public String getClubLogo() {
+        return clubLogo;
+    }
+
+    public void setClubLogo(String clubLogo) {
+        this.clubLogo = clubLogo;
+    }
+
+    public String getWebActivityUrl() {
+        return webActivityUrl;
+    }
+
+    public void setWebActivityUrl(String webActivityUrl) {
+        this.webActivityUrl = webActivityUrl;
     }
 
     public String getActivityType() {
@@ -79,12 +139,12 @@ public class ActionDto implements Parcelable {
         this.id = id;
     }
 
-    public long getStartDate() {
-        return startDate;
+    public String getHoldDate() {
+        return holdDate;
     }
 
-    public void setStartDate(long startDate) {
-        this.startDate = startDate;
+    public void setHoldDate(String holdDate) {
+        this.holdDate = holdDate;
     }
 
     public String getTitle() {
@@ -103,19 +163,126 @@ public class ActionDto implements Parcelable {
         this.updateDate = updateDate;
     }
 
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getFlow() {
+        return flow;
+    }
+
+    public void setFlow(String flow) {
+        this.flow = flow;
+    }
+
+    public long getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(long startDate) {
+        this.startDate = startDate;
+    }
+
+    public List<ActionGuestBean> getGuestList() {
+        return guestList;
+    }
+
+    public void setGuestList(List<ActionGuestBean> guestList) {
+        this.guestList = guestList;
+    }
+
+    public ActionDto() {
+    }
+
     @Override
-    public String toString() {
-        return "ActionDto{" +
-                "activityPictureUrl='" + activityPictureUrl + '\'' +
-                ", activityType='" + activityType + '\'' +
-                ", content='" + content + '\'' +
-                ", createDate=" + createDate +
-                ", durationDate=" + durationDate +
-                ", id='" + id + '\'' +
-                ", startDate=" + startDate +
-                ", title='" + title + '\'' +
-                ", updateDate=" + updateDate +
-                '}';
+    public boolean isEmpty() {
+        if (TextUtils.isEmpty(activityPictureUrl) || TextUtils.isEmpty(title) || TextUtils.isEmpty(holdDate)
+                || TextUtils.isEmpty(address) || TextUtils.isEmpty(flow)){
+            return true;
+        }
+        if (guestList != null){
+            boolean isEmpty = false;
+            for (ActionGuestBean bean : guestList){
+                isEmpty = bean.isEmpty();
+                if (isEmpty){
+                    break;
+                }
+            }
+            return isEmpty;
+        }
+        return false;
+    }
+
+    public static class ActionGuestBean extends BaseEntity implements Parcelable {
+        private String title;
+        private String avatarUrl;
+
+        public String getTitle() {
+            return title;
+        }
+
+        public void setTitle(String title) {
+            this.title = title;
+        }
+
+        @Override
+        public String toString() {
+            return "ActionGuestBean{" +
+                    "title='" + title + '\'' +
+                    ", avatarUrl='" + avatarUrl + '\'' +
+                    '}';
+        }
+
+        public String getAvatarUrl() {
+            return avatarUrl;
+        }
+
+        public void setAvatarUrl(String avatarUrl) {
+            this.avatarUrl = avatarUrl;
+        }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeString(this.title);
+            dest.writeString(this.avatarUrl);
+        }
+
+        public ActionGuestBean() {
+        }
+
+        protected ActionGuestBean(Parcel in) {
+            this.title = in.readString();
+            this.avatarUrl = in.readString();
+        }
+
+        public static final Creator<ActionGuestBean> CREATOR = new Creator<ActionGuestBean>() {
+            @Override
+            public ActionGuestBean createFromParcel(Parcel source) {
+                return new ActionGuestBean(source);
+            }
+
+            @Override
+            public ActionGuestBean[] newArray(int size) {
+                return new ActionGuestBean[size];
+            }
+        };
+
+        @Override
+        public boolean isEmpty() {
+            if (TextUtils.isEmpty(title) || TextUtils.isEmpty(avatarUrl)){
+                return true;
+            }
+            return false;
+        }
     }
 
     @Override
@@ -131,12 +298,16 @@ public class ActionDto implements Parcelable {
         dest.writeLong(this.createDate);
         dest.writeLong(this.durationDate);
         dest.writeString(this.id);
+        dest.writeString(this.holdDate);
         dest.writeLong(this.startDate);
         dest.writeString(this.title);
+        dest.writeString(this.address);
+        dest.writeString(this.flow);
+        dest.writeString(this.webActivityUrl);
         dest.writeLong(this.updateDate);
-    }
-
-    public ActionDto() {
+        dest.writeTypedList(this.guestList);
+        dest.writeString(this.clubName);
+        dest.writeString(this.clubLogo);
     }
 
     protected ActionDto(Parcel in) {
@@ -146,12 +317,19 @@ public class ActionDto implements Parcelable {
         this.createDate = in.readLong();
         this.durationDate = in.readLong();
         this.id = in.readString();
+        this.holdDate = in.readString();
         this.startDate = in.readLong();
         this.title = in.readString();
+        this.address = in.readString();
+        this.flow = in.readString();
+        this.webActivityUrl = in.readString();
         this.updateDate = in.readLong();
+        this.guestList = in.createTypedArrayList(ActionGuestBean.CREATOR);
+        this.clubName = in.readString();
+        this.clubLogo = in.readString();
     }
 
-    public static final Parcelable.Creator<ActionDto> CREATOR = new Parcelable.Creator<ActionDto>() {
+    public static final Creator<ActionDto> CREATOR = new Creator<ActionDto>() {
         @Override
         public ActionDto createFromParcel(Parcel source) {
             return new ActionDto(source);

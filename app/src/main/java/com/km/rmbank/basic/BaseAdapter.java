@@ -283,7 +283,7 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseAdapter.Ba
         if (mListDatas != null) {
             mListDatas.add(datas);
             position = mListDatas.indexOf(datas);
-            notifyDataChanged();
+            notifyItemInserted(position);
         }
         return position;
     }
@@ -516,7 +516,9 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseAdapter.Ba
                             .filter(new Predicate<Integer>() {
                                 @Override
                                 public boolean test(@NonNull Integer integer) throws Exception {
-                                    return !loadMoreFinish && !isLoadMore && totalItemCount <= (lastVisiableItemPosition + visibleThreshold)
+                                    return !loadMoreFinish
+                                            && !isLoadMore
+                                            && totalItemCount <= (lastVisiableItemPosition + visibleThreshold)
                                             && !(curPage <= 1 && totalItemCount < pageNumber);
                                 }
                             })
@@ -641,6 +643,16 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseAdapter.Ba
                     @Override
                     public void accept(@NonNull Object o) throws Exception {
                         notifyItemChanged(position,payload);
+                    }
+                });
+    }
+
+    public void notifyItemDataChanged(final int position){
+        AppUtils.executeOnUiThread()
+                .subscribe(new Consumer() {
+                    @Override
+                    public void accept(@NonNull Object o) throws Exception {
+                        notifyItemChanged(position);
                     }
                 });
     }

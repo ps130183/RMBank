@@ -36,7 +36,8 @@ public abstract class BaseAdapter<C extends ICell> extends RecyclerView.Adapter<
 
 
     private Handler mHandler;
-    protected int curPageNo = 0;
+    protected int curPageNo = 1;
+
 
     public BaseAdapter() {
         mIcells = new ArrayList<>();
@@ -48,8 +49,12 @@ public abstract class BaseAdapter<C extends ICell> extends RecyclerView.Adapter<
     public void addData(List<C> cells) {
         if (cells != null && cells.size() > 0) {
             mIcells.addAll(cells);
+            loadMoreEmpty = false;
         } else if (curPageNo == 1){
             add((C) emptyCell);
+        } else {
+            curPageNo--;
+            loadMoreEmpty = true;
         }
         notifyDataSetChanged();
     }
@@ -243,6 +248,8 @@ public abstract class BaseAdapter<C extends ICell> extends RecyclerView.Adapter<
     //当前滚动的position下面最小的items的临界值
     private static final int visibleThreshold = 5;
 
+    private boolean loadMoreEmpty = false;
+
     /**
      * 加载更多
      * 建议在recyclerView 设置完adapter以后再进行加载更多的设置
@@ -269,7 +276,10 @@ public abstract class BaseAdapter<C extends ICell> extends RecyclerView.Adapter<
                             .filter(new Predicate<Integer>() {
                                 @Override
                                 public boolean test(@NonNull Integer integer) throws Exception {
-                                    return !isLoadMore && totalItemCount <= (lastVisiableItemPosition + visibleThreshold);
+                                    return !isLoadMore
+                                            && totalItemCount <= (lastVisiableItemPosition + visibleThreshold)
+                                            && !loadMoreEmpty
+                                            && curPageNo > 1;
                                 }
                             })
                             .observeOn(AndroidSchedulers.mainThread())

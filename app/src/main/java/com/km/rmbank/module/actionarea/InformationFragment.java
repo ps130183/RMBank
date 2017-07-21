@@ -61,8 +61,8 @@ public class InformationFragment extends BaseFragment<InformationPresenter> impl
 
     @Override
     protected void createView() {
-        toolbar.setBackgroundResource(R.color.color_white);
-        title.setTextColor(ContextCompat.getColor(getContext(),R.color.color_block));
+        toolbar.setBackgroundResource(R.color.colorPrimary);
+        title.setTextColor(ContextCompat.getColor(getContext(),R.color.color_white));
         title.setText("资讯");
     }
 

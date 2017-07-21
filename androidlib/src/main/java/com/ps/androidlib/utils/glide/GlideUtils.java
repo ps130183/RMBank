@@ -4,13 +4,18 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.target.Target;
 import com.nineoldandroids.animation.ObjectAnimator;
 import com.orhanobut.logger.Logger;
 import com.ps.androidlib.R;
+import com.yancy.gallerypick.utils.ScreenUtils;
 
 import jp.wasabeef.glide.transformations.BlurTransformation;
 
@@ -32,23 +37,23 @@ public class GlideUtils {
      */
 
 
-    public static void loadImage(ImageView imageView,int imageRes){
+    public static void loadImage(ImageView imageView, int imageRes) {
         Glide.with(imageView.getContext())
                 .load(imageRes)
                 .centerCrop()
                 .into(imageView);
     }
 
-    public static void loadImageBlur(ImageView imageView,int imageRes){
+    public static void loadImageBlur(ImageView imageView, int imageRes) {
         Glide.with(imageView.getContext())
                 .load(imageRes)
                 .centerCrop()
-                .bitmapTransform(new BlurTransformation(imageView.getContext(),1,1)) // “23”：设置模糊度(在0.0到25.0之间)，默认”25";"4":图片缩放比例,默认“1”。
+                .bitmapTransform(new BlurTransformation(imageView.getContext(), 1, 1)) // “23”：设置模糊度(在0.0到25.0之间)，默认”25";"4":图片缩放比例,默认“1”。
                 .into(imageView);
     }
 
-    public static void loadImage(final ImageView imageView, String imagePath){
-        if (imageView == null){
+    public static void loadImage(final ImageView imageView, String imagePath) {
+        if (imageView == null) {
             Logger.e("imageview is null");
             return;
         }
@@ -68,11 +73,12 @@ public class GlideUtils {
 
     /**
      * 根据imageView的宽度等比缩放图片的高度
+     *
      * @param imageView
      * @param imagePath
      */
-    public static void loadImageByFitWidth(final ImageView imageView, String imagePath){
-        if (imageView == null){
+    public static void loadImageByFitWidth(final ImageView imageView, final String imagePath) {
+        if (imageView == null) {
             Logger.e("imageview is null");
             return;
         }
@@ -83,18 +89,27 @@ public class GlideUtils {
 
         Glide.with(imageView.getContext())
                 .load(imagePath)
-//                .asBitmap()
-//                .fitCenter()
-//                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .asBitmap()
                 .placeholder(R.drawable.glide_placeholder_rotate)
                 .error(R.drawable.ic_load_fail)
-                .crossFade(1000)
-//                .into(new MyBitmapImageViewTarget(imageView));
-                .into(imageView);
+                .dontAnimate()
+                .into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
+                    @Override
+                    public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                        int imageWidth = resource.getWidth();
+                        int imageHeight = resource.getHeight();
+                        int height = ScreenUtils.getScreenWidth(imageView.getContext()) * imageHeight / imageWidth;
+                        ViewGroup.LayoutParams para = imageView.getLayoutParams();
+                        para.height = height;
+                        para.width = ScreenUtils.getScreenWidth(imageView.getContext());
+                        imageView.setImageBitmap(resource);
+
+                    }
+                });
     }
 
-    public static void loadImageCenterCrop(ImageView imageView,String imagePath){
-        if (imageView == null){
+    public static void loadImageCenterCrop(ImageView imageView, String imagePath) {
+        if (imageView == null) {
             Logger.e("imageview is null");
             return;
         }
@@ -115,8 +130,8 @@ public class GlideUtils {
 //                .into(imageView);
     }
 
-    public static void loadCircleImage(final ImageView imageView, String imagePath){
-        if (imageView == null){
+    public static void loadCircleImage(final ImageView imageView, String imagePath) {
+        if (imageView == null) {
             Logger.e("imageview is null");
             return;
         }
@@ -131,7 +146,7 @@ public class GlideUtils {
                 .asBitmap()
                 .placeholder(R.drawable.glide_placeholder_rotate)
                 .error(R.drawable.ic_load_fail)
-                .into(new BitmapImageViewTarget(imageView){
+                .into(new BitmapImageViewTarget(imageView) {
                     @Override
                     protected void setResource(Bitmap resource) {
                         RoundedBitmapDrawable circularBitmapDrawable =

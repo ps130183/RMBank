@@ -1,0 +1,322 @@
+package com.km.rmbank.module.club.past;
+
+import android.Manifest;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageView;
+
+import com.hss01248.dialog.interfaces.MyItemDialogListener;
+import com.km.rmbank.R;
+import com.km.rmbank.adapter.ClubIntroduceAdapter;
+import com.km.rmbank.basic.BaseActivity;
+import com.km.rmbank.basic.RVUtils;
+import com.km.rmbank.dto.ActionPastDto;
+import com.km.rmbank.event.ClubIntroduceEntity;
+import com.km.rmbank.module.club.ClubInfoActivity;
+import com.km.rmbank.ui.CircleProgressView;
+import com.orhanobut.logger.Logger;
+import com.ps.androidlib.utils.DialogUtils;
+import com.ps.androidlib.utils.glide.GlideUtils;
+import com.ps.androidlib.utils.imageselector.ImageUtils;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.BindView;
+import butterknife.OnClick;
+import kr.co.namee.permissiongen.PermissionFail;
+import kr.co.namee.permissiongen.PermissionGen;
+import kr.co.namee.permissiongen.PermissionSuccess;
+
+public class ReleaseActionPastActivity extends BaseActivity<ReleaseActionPastPresenter> implements ReleaseActionPastContract.View {
+
+    @BindView(R.id.rv_action_past_details)
+    RecyclerView rvActionPastDetails;
+
+    private int imgUploadPosition = -1;
+    private int introduceImgPosition = -1;
+
+    @BindView(R.id.iv_upload_action_past_img1)
+    ImageView ivUploadActionPastImg1;
+    @BindView(R.id.iv_upload_action_past_img2)
+    ImageView ivUploadActionPastImg2;
+    @BindView(R.id.iv_upload_action_past_img3)
+    ImageView ivUploadActionPastImg3;
+
+    @BindView(R.id.cpv_upload_pastaction_img1)
+    CircleProgressView cpvUploadPastacitonImg1;
+    @BindView(R.id.cpv_upload_pastaction_img2)
+    CircleProgressView cpvUploadPastacitonImg2;
+    @BindView(R.id.cpv_upload_pastaction_img3)
+    CircleProgressView cpvUploadPastacitonImg3;
+
+    @BindView(R.id.et_action_past_title)
+    EditText etActionPastTitle;
+
+    private ActionPastDto mActionPastDto;
+
+
+    @Override
+    protected int getContentView() {
+        return R.layout.activity_release_action_past;
+    }
+
+    @Override
+    protected String getTitleName() {
+        return "编辑往期";
+    }
+
+    @Override
+    public ReleaseActionPastPresenter getmPresenter() {
+        return new ReleaseActionPastPresenter(this);
+    }
+
+    @Override
+    protected void onCreate() {
+        setRightBtnClick("立即发布", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogUtils.showDefaultAlertDialog("是否要发布该活动？", new DialogUtils.ClickListener() {
+                    @Override
+                    public void clickConfirm() {
+                        saveActionInfo();
+                    }
+                });
+            }
+        });
+        initRecyclerView();
+        String clubId = getIntent().getStringExtra("clubId");
+        mActionPastDto = new ActionPastDto();
+        mActionPastDto.setClubId(clubId);
+    }
+
+    private void initRecyclerView(){
+        RVUtils.addDivideItemForRv(rvActionPastDetails);
+        RVUtils.setLinearLayoutManage(rvActionPastDetails, LinearLayoutManager.VERTICAL);
+        final ClubIntroduceAdapter adapter = new ClubIntroduceAdapter(this,R.layout.item_rv_release_action_past);
+        rvActionPastDetails.setAdapter(adapter);
+        adapter.setOnClickAddOrDeleteListener(new ClubIntroduceAdapter.OnClickAddOrDeleteListener() {
+
+            @Override
+            public void addClubIntroduce(ClubIntroduceEntity curClubIntroduce, int position) {
+                curClubIntroduce.setCanDelete(true);
+                adapter.addData(new ClubIntroduceEntity());
+                adapter.notifyDataChanged();
+//                rvClubIntroduce.getLayoutManager().scrollToPosition(position+1);
+            }
+
+            @Override
+            public void deleteClubIntroduce(final int position) {
+                DialogUtils.showDefaultAlertDialog("是否删除该项介绍？", new DialogUtils.ClickListener() {
+                    @Override
+                    public void clickConfirm() {
+                        adapter.removeData(adapter.getItemData(position));
+                        adapter.notifyDataChanged();
+                    }
+                });
+
+            }
+        });
+
+        adapter.setOnClickUploadIntroduceImgListener(new ClubIntroduceAdapter.OnClickUploadIntroduceImgListener() {
+            @Override
+            public void clickUploadImg(int position) {
+                introduceImgPosition = position;
+                imgUploadPosition = 4;
+                PermissionGen.with(ReleaseActionPastActivity.this)
+                        .addRequestCode(1)
+                        .permissions(Manifest.permission.CAMERA)
+                        .request();
+            }
+
+        });
+        adapter.addData(new ClubIntroduceEntity());
+
+    }
+
+    /**
+     * 上传往期活动图片1
+     *
+     * @param view
+     */
+    @OnClick({R.id.tv_upload_action_past_img1, R.id.iv_upload_action_past_img1})
+    public void onClickUploadLogo1(View view) {
+        imgUploadPosition = 1;
+        PermissionGen.with(ReleaseActionPastActivity.this)
+                .addRequestCode(1)
+                .permissions(Manifest.permission.CAMERA)
+                .request();
+    }
+
+    /**
+     * 上传往期活动图片2
+     *
+     * @param view
+     */
+    @OnClick({R.id.tv_upload_action_past_img2, R.id.iv_upload_action_past_img2})
+    public void onClickUploadLogo2(View view) {
+        imgUploadPosition = 2;
+        PermissionGen.with(ReleaseActionPastActivity.this)
+                .addRequestCode(1)
+                .permissions(Manifest.permission.CAMERA)
+                .request();
+    }
+
+    /**
+     * 上传往期活动图片3
+     *
+     * @param view
+     */
+    @OnClick({R.id.tv_upload_action_past_img3, R.id.iv_upload_action_past_img3})
+    public void onClickUploadLogo3(View view) {
+        imgUploadPosition = 3;
+        PermissionGen.with(ReleaseActionPastActivity.this)
+                .addRequestCode(1)
+                .permissions(Manifest.permission.CAMERA)
+                .request();
+    }
+
+    @PermissionSuccess(requestCode = 1)
+    public void requestCameraSuccess() {
+        DialogUtils.showBottomDialogForChoosePhoto(new MyItemDialogListener() {
+            @Override
+            public void onItemClick(CharSequence charSequence, int i) {
+                switch (i) {
+                    case 0:
+                        boolean isCrop;
+                        if (imgUploadPosition == 1) {
+                            ImageUtils.getSingleImageByCrop(ReleaseActionPastActivity.this,true,309,125,selectImageListener);
+                        } else if (imgUploadPosition == 2 || imgUploadPosition == 3){
+                            ImageUtils.getSingleImageByCrop(ReleaseActionPastActivity.this,true,148,98,selectImageListener);
+                        } else {
+                            ImageUtils.getImageFromCamera(ReleaseActionPastActivity.this, false, selectImageListener);
+                        }
+
+                        break;
+                    case 1:
+                        if (imgUploadPosition == 1) {
+                            ImageUtils.getSingleImageByCrop(ReleaseActionPastActivity.this,false,309,125,selectImageListener);
+                        } else if (imgUploadPosition == 2 || imgUploadPosition == 3){
+                            ImageUtils.getSingleImageByCrop(ReleaseActionPastActivity.this,false,148,98,selectImageListener);
+                        }else {
+                            ImageUtils.getImageFromPhotoAlbum(ReleaseActionPastActivity.this,
+                                    ImageUtils.ImageType.PRODUCT,
+                                    ImageUtils.ImageNumber.SINGLE,
+                                    null,
+                                    selectImageListener);
+                        }
+
+                        break;
+                }
+            }
+        });
+    }
+
+    @PermissionFail(requestCode = 1)
+    public void requestCameraFail() {
+        showToast("没有相机的使用权限");
+    }
+
+    private ImageUtils.SelectImageListener selectImageListener = new ImageUtils.SelectImageListener() {
+        @Override
+        public void onSuccess(List<String> photoList) {
+            if (imgUploadPosition == 1) {
+                ivUploadActionPastImg1.setVisibility(View.VISIBLE);
+                GlideUtils.loadCircleImage(ivUploadActionPastImg1, photoList.get(0));
+            } else if (imgUploadPosition == 2) {
+                ivUploadActionPastImg2.setVisibility(View.VISIBLE);
+                GlideUtils.loadCircleImage(ivUploadActionPastImg2, photoList.get(0));
+            }  else if (imgUploadPosition == 3) {
+                ivUploadActionPastImg3.setVisibility(View.VISIBLE);
+                GlideUtils.loadCircleImage(ivUploadActionPastImg3, photoList.get(0));
+            } else if (imgUploadPosition == 4) {
+                if (introduceImgPosition < 0) {
+                    return;
+                }
+                ClubIntroduceAdapter adapter = (ClubIntroduceAdapter) rvActionPastDetails.getAdapter();
+                ClubIntroduceEntity entity = adapter.getItemData(introduceImgPosition);
+                entity.setIntroduceImgPath(photoList.get(0));
+                adapter.notifyItemDataChanged(introduceImgPosition);
+            }
+            mPresenter.uploadActionImg(photoList.get(0),imgUploadPosition,introduceImgPosition);
+
+        }
+    };
+
+    @Override
+    public void uploadActionImgSuccess(String imageUrl, int imageType, int position) {
+        switch (imageType){
+            case 1:
+                mActionPastDto.setAvatarUrl1(imageUrl);
+                break;
+            case 2:
+                mActionPastDto.setAvatarUrl2(imageUrl);
+                break;
+            case 3:
+                mActionPastDto.setAvatarUrl3(imageUrl);
+                break;
+            case 4:
+                if (position < 0) {
+                    return;
+                }
+                Logger.d("adapter item position = " + position);
+                ClubIntroduceAdapter adapter = (ClubIntroduceAdapter) rvActionPastDetails.getAdapter();
+                ClubIntroduceEntity entity = adapter.getItemData(position);
+                entity.setIntroduceImgPath(imageUrl);
+                break;
+        }
+    }
+
+    @Override
+    public void showUploadImgProgress(int imageType, int position, int progress) {
+        switch (imageType){
+            case 1:
+                cpvUploadPastacitonImg1.setProgress(progress);
+                break;
+            case 2:
+                cpvUploadPastacitonImg1.setProgress(progress);
+                break;
+            case 3:
+                cpvUploadPastacitonImg1.setProgress(progress);
+                break;
+            case 4:
+                ClubIntroduceAdapter adapter = (ClubIntroduceAdapter) rvActionPastDetails.getAdapter();
+                adapter.setProgress(position,progress);
+                break;
+        }
+    }
+
+    @Override
+    public void releaseActionSuccess() {
+        toNextActivity(ClubInfoActivity.class);
+        finish();
+    }
+
+    /**
+     * 保存 并 发布活动
+     */
+    private void saveActionInfo(){
+        mActionPastDto.setTitle(etActionPastTitle.getText().toString());
+
+        ClubIntroduceAdapter adapter = (ClubIntroduceAdapter) rvActionPastDetails.getAdapter();
+        List<ClubIntroduceEntity> entityList = adapter.getAllData();
+        List<ActionPastDto.DynamicBean> dynamicBeanList = new ArrayList<>();
+
+        for (ClubIntroduceEntity entity : entityList){
+            ActionPastDto.DynamicBean bean = new ActionPastDto.DynamicBean();
+            bean.setDynamicImageContent(entity.getIntroduceContent());
+            bean.setDynamicImage(entity.getIntroduceImgPath());
+            dynamicBeanList.add(bean);
+        }
+        mActionPastDto.setDynamicList(dynamicBeanList);
+
+        if (mActionPastDto.isEmpty()){
+            Logger.d(mActionPastDto.toString());
+            showToast("请将活动的信息补充完整");
+            return;
+        }
+        mPresenter.releaseActionRecent(mActionPastDto);
+    }
+}

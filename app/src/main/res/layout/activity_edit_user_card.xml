@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.NestedScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.km.rmbank.module.personal.userinfo.EditUserCardActivity">
     <RelativeLayout
         android:id="@+id/activity_edit_user_card"
@@ -39,6 +39,8 @@
                         android:id="@+id/et_name"
                         style="@style/Personal.User.EditCard.et_nofocuse"
                         android:hint="请输入您的真实姓名"
+                        android:lines="1"
+                        android:inputType="text"
                         />
                 </LinearLayout>
                 <include layout="@layout/divider_height_1"/>
@@ -54,6 +56,8 @@
                         android:id="@+id/et_phone"
                         style="@style/Personal.User.EditCard.et_nofocuse"
                         android:hint="请输入您的手机号码"
+                        android:lines="1"
+                        android:inputType="phone"
                         />
                 </LinearLayout>
                 <include layout="@layout/divider_height_1"/>
@@ -62,28 +66,15 @@
                     >
                     <TextView
                         style="@style/Personal.User.EditCard.tv"
-                        android:text="公        司"
+                        android:text="身        份"
                         />
 
                     <EditText
-                        android:id="@+id/et_company"
+                        android:id="@+id/et_position"
                         style="@style/Personal.User.EditCard.et_nofocuse"
-                        android:hint="请输入您的公司名称"
-                        />
-                </LinearLayout>
-                <include layout="@layout/divider_height_1"/>
-                <LinearLayout
-                    style="@style/Personal.User.EditCard.sll"
-                    >
-                    <TextView
-                        style="@style/Personal.User.EditCard.tv"
-                        android:text="职        位"
-                        />
-
-                    <EditText
-                        android:id="@+id/et_job"
-                        style="@style/Personal.User.EditCard.et_nofocuse"
-                        android:hint="请输入您所在公司的职位"
+                        android:hint="请填写您所在俱乐部及身份"
+                        android:lines="1"
+                        android:inputType="text"
                         />
                 </LinearLayout>
             </LinearLayout>
@@ -95,28 +86,13 @@
                     >
                     <TextView
                         style="@style/Personal.User.EditCard.tv"
-                        android:text="企业介绍"
-                        />
-
-                    <EditText
-                        android:id="@+id/et_company_intro"
-                        style="@style/Personal.User.EditCard.et_nofocuse"
-                        android:hint="请用一句话概括您公司涉及的业务"
-                        />
-                </LinearLayout>
-                <include layout="@layout/divider_height_1"/>
-                <LinearLayout
-                    style="@style/Personal.User.EditCard.sll"
-                    >
-                    <TextView
-                        style="@style/Personal.User.EditCard.tv"
                         android:text="提供资源"
                         />
 
                     <EditText
                         android:id="@+id/et_provider_resource"
                         style="@style/Personal.User.EditCard.et_nofocuse"
-                        android:hint="请输入或选择"
+                        android:hint="不同资源之间请用＃分割"
                         />
                 </LinearLayout>
                 <include layout="@layout/divider_height_1"/>
@@ -131,28 +107,13 @@
                     <EditText
                         android:id="@+id/et_need_resource"
                         style="@style/Personal.User.EditCard.et_nofocuse"
-                        android:hint="请输入或选择"
+                        android:hint="不同资源之间请用＃分割"
                         />
                 </LinearLayout>
             </LinearLayout>
             <LinearLayout
                 style="@style/Personal.User.EditCard.pll"
                 >
-                <LinearLayout
-                    style="@style/Personal.User.EditCard.sll"
-                    >
-                    <TextView
-                        style="@style/Personal.User.EditCard.tv"
-                        android:text="所在地"
-                        />
-
-                    <EditText
-                        android:id="@+id/et_location"
-                        style="@style/Personal.User.EditCard.et_nofocuse"
-                        android:hint="请输入所在地"
-                        />
-                </LinearLayout>
-                <include layout="@layout/divider_height_1"/>
                 <LinearLayout
                     style="@style/Personal.User.EditCard.sll"
                     >
@@ -165,6 +126,8 @@
                         android:id="@+id/et_address"
                         style="@style/Personal.User.EditCard.et_nofocuse"
                         android:hint="请输入详细地址"
+                        android:lines="1"
+                        android:inputType="text"
                         />
                 </LinearLayout>
                 <include layout="@layout/divider_height_1"/>
@@ -180,6 +143,8 @@
                         android:id="@+id/et_email"
                         style="@style/Personal.User.EditCard.et_nofocuse"
                         android:hint="请输入邮箱地址"
+                        android:lines="1"
+                        android:inputType="text"
                         />
                 </LinearLayout>
             </LinearLayout>

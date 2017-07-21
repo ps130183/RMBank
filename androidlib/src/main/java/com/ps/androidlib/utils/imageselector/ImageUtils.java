@@ -46,13 +46,31 @@ public class ImageUtils {
     }
 
     /**
-     * 选择单张图片
+     * 选择单张图片  头像
      *
      * @param mContext
      * @param listener
      */
     private static void getUserProtrait(Context mContext, final SelectImageListener listener) {
         mGallertConfig.getBuilder().provider(mContext.getPackageName() + ".fileprovider")
+                .crop(true)
+                .isOpenCamera(false)
+                .iHandlerCallBack(getCallBack(listener))
+                .multiSelect(false)
+                .build();
+        GalleryPick.getInstance().setGalleryConfig(mGallertConfig).open((Activity) mContext);
+    }
+
+    /**
+     * 选择单张图片  可剪切
+     *
+     * @param mContext
+     * @param listener
+     */
+    private static void getSingleImgByCrop(Context mContext, int cropWidth,int cropHeight, final SelectImageListener listener) {
+        mGallertConfig.getBuilder().provider(mContext.getPackageName() + ".fileprovider")
+                .crop(true)
+                .crop(true, cropWidth, cropHeight, cropWidth, cropHeight)
                 .isOpenCamera(false)
                 .iHandlerCallBack(getCallBack(listener))
                 .multiSelect(false)
@@ -71,6 +89,22 @@ public class ImageUtils {
         mGallertConfig.getBuilder().provider(mContext.getPackageName() + ".fileprovider")
                 .crop(isCrop)
                 .isOpenCamera(true)
+                .iHandlerCallBack(getCallBack(listener))
+                .build();
+        GalleryPick.getInstance().setGalleryConfig(mGallertConfig).open((Activity) mContext);
+    }
+
+    /**
+     * 直接打开相机 设计剪切尺寸
+     *
+     * @param mContext
+     * @param listener
+     */
+    public static void getSingleImageByCrop(Context mContext, boolean isOpenCamera, int cropWidth,int cropHeight, final SelectImageListener listener) {
+        mGallertConfig.getBuilder().provider(mContext.getPackageName() + ".fileprovider")
+                .crop(true)
+                .crop(true, cropWidth, cropHeight, cropWidth, cropHeight)
+                .isOpenCamera(isOpenCamera)
                 .iHandlerCallBack(getCallBack(listener))
                 .build();
         GalleryPick.getInstance().setGalleryConfig(mGallertConfig).open((Activity) mContext);

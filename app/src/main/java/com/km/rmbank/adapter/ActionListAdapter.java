@@ -35,7 +35,7 @@ public class ActionListAdapter extends BaseAdapter<ActionDto> implements BaseAda
         ActionDto actionDto = getItemData(position);
         holder.tvActionTitle.setText(actionDto.getTitle());
         GlideUtils.loadImage(holder.ivAction,actionDto.getActivityPictureUrl());
-        holder.tvStartDate.setText("活动时间：" + DateUtils.getInstance().getDate(actionDto.getStartDate()));
+//        holder.tvStartDate.setText("活动时间：" + DateUtils.getInstance().getDate(actionDto.getHoldDate()));
     }
 
     class ViewHolder extends BaseViewHolder{

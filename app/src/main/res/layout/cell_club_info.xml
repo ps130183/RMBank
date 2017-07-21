@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/color_white">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:background="@color/color_divider1">
+
+        <Button
+            android:id="@+id/btn_follow_club"
+            android:layout_width="70dp"
+            android:layout_height="30dp"
+            android:text="关注 +"
+            android:textColor="@color/color_pink"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/shape_club_info_follow"
+            android:layout_marginRight="@dimen/view_space_16"
+            android:layout_marginTop="@dimen/view_space_16"
+            />
+
+        <ImageView
+            android:id="@+id/iv_background"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"/>
+
+        <!--<TextView-->
+            <!--android:id="@+id/tv_upload_logo"-->
+            <!--android:layout_width="90dp"-->
+            <!--android:layout_height="90dp"-->
+            <!--android:layout_centerInParent="true"-->
+            <!--android:background="@drawable/shape_edit_club_upload_logo"-->
+            <!--android:gravity="center"-->
+            <!--android:text="请上传Logo" />-->
+
+        <ImageView
+            android:id="@+id/iv_upload_logo"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:layout_centerInParent="true"
+            android:scaleType="fitXY"
+            android:src="@mipmap/timg"
+            android:visibility="visible" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_club_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textColor="@color/color_block"
+        android:gravity="center"
+        android:layout_margin="@dimen/view_space_16"
+        android:lines="1"
+        android:ellipsize="end"
+        />
+
+    <TextView
+        android:id="@+id/tv_club_introduce"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:paddingLeft="@dimen/view_space_16"
+        android:paddingRight="@dimen/view_space_16"
+        android:paddingBottom="@dimen/view_space_16"
+        />
+</LinearLayout>

@@ -15,9 +15,9 @@ import io.reactivex.functions.Consumer;
  * Created by kamangkeji on 17/5/15.
  */
 
-public class HomePresenter extends PresenterWrapper<HomeContract.View> implements HomeContract.Presenter {
+public class Home2Presenter extends PresenterWrapper<Home2Contract.View> implements Home2Contract.Presenter {
 
-    public HomePresenter(HomeContract.View mView) {
+    public Home2Presenter(Home2Contract.View mView) {
         super(mView);
     }
 

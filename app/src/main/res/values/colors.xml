@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#ffffff</color>
+    <color name="colorPrimary">#3a3b40</color>
+    <!--<color name="colorPrimary">#ffffff</color>-->
     <!--<color name="colorPrimary">#3F51B5</color>-->
     <color name="colorPrimaryDark">#00000000</color>
     <color name="colorAccent">#FF4081</color>
@@ -17,6 +18,11 @@
     <color name="color_block">#000000</color>
     <!--标题栏背景色-->
     <color name="color_toolbar_background">#d50000</color>
+
+    <color name="color_stl_selected">#33ccf9</color>
+    <color name="color_stl_unselected">#cccccc</color>
+
+    <color name="color_pink">#ff78c9</color>
 
     <color name="color_search_background">#efedecec</color>
 

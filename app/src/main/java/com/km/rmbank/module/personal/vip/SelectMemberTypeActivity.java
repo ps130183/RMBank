@@ -1,9 +1,12 @@
 package com.km.rmbank.module.personal.vip;
 
+import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -36,6 +39,9 @@ public class SelectMemberTypeActivity extends BaseActivity<SelectMemberTypePrese
 
     @BindView(R.id.btn_become_member)
     Button btnBecomeMember;
+
+    @BindView(R.id.rg_vip2_money)
+    RadioGroup rgVip2Money;
 
     private int vipType = 0;
     private int memberType = 0;
@@ -70,11 +76,12 @@ public class SelectMemberTypeActivity extends BaseActivity<SelectMemberTypePrese
     @Override
     protected void onCreate() {
         vipType = getIntent().getIntExtra("vipType",0);
+        initRgVip2Money();
     }
 
     @OnClick({R.id.tv_member1,R.id.iv_member1})
     public void selectMember1(View view){
-        selectMember(1);
+        selectMember(3);
     }
 
     @OnClick({R.id.tv_member2,R.id.iv_member2})
@@ -84,7 +91,7 @@ public class SelectMemberTypeActivity extends BaseActivity<SelectMemberTypePrese
 
     private void selectMember(int memberType){
         this.memberType = memberType;
-        if (memberType == 1){//体验式
+        if (memberType == 3){//体验式
             if ("3".equals(Constant.user.getRoleId()) || "2".equals(Constant.user.getRoleId())){
                 btnBecomeMember.setVisibility(View.GONE);
             } else {
@@ -99,11 +106,15 @@ public class SelectMemberTypeActivity extends BaseActivity<SelectMemberTypePrese
             tvMemberName.setText(memberNames[0]);
             tvMemberIntro.setText(memberTypeIntros[0]);
             amount = memberTypeDtos.get(0).getMemberMoney();
+
+            rgVip2Money.setVisibility(View.GONE);
         } else {//合伙人
             if ("2".equals(Constant.user.getRoleId())){
                 btnBecomeMember.setVisibility(View.GONE);
+                rgVip2Money.setVisibility(View.GONE);
             } else {
                 btnBecomeMember.setVisibility(View.VISIBLE);
+                rgVip2Money.setVisibility(View.VISIBLE);
             }
             tvMember1.setBackgroundResource(R.drawable.shape_member_type_unselected);
             tvMember1.setTextColor(getResources().getColor(R.color.color_red));
@@ -114,6 +125,17 @@ public class SelectMemberTypeActivity extends BaseActivity<SelectMemberTypePrese
             tvMemberName.setText(memberNames[1]);
             tvMemberIntro.setText(memberTypeIntros[1]);
             amount = memberTypeDtos.get(1).getMemberMoney();
+
+            int moneyDifference = memberTypeDtos.get(1).getMoneyDifference();
+            if (moneyDifference == 20000){
+                selectVip2Money(0);
+            } else if (moneyDifference < 20000 && moneyDifference >= 10000){
+                selectVip2Money(1);
+            } else if (moneyDifference < 10000 && moneyDifference >= 5000){
+                selectVip2Money(2);
+            } else {
+                selectVip2Money(3);
+            }
         }
     }
 
@@ -123,7 +145,16 @@ public class SelectMemberTypeActivity extends BaseActivity<SelectMemberTypePrese
             showToast("支付暂未开通");
             return;
         }
+        float money = Float.parseFloat(amount);
+        if (memberType == 2 && money > memberTypeDtos.get(1).getMoneyDifference()){
+            showToast("您选择的金额大于所需支付的金额");
+            return;
+        }
+
         Bundle bundle = new Bundle();
+        if (memberType == 2 && money == memberTypeDtos.get(1).getMoneyDifference()){
+            bundle.putBoolean("becomeVip2",true);
+        }
         bundle.putInt("paymentForObj",memberType);
         bundle.putString("amount",amount);
         toNextActivity(PaymentActivity.class,bundle);
@@ -135,7 +166,7 @@ public class SelectMemberTypeActivity extends BaseActivity<SelectMemberTypePrese
         MemberTypeDto memberTypeDto1 = memberTypeDtos.get(0);
         MemberTypeDto memberTypeDto2 = memberTypeDtos.get(1);
         memberNames[0] += "(" + memberTypeDto1.getMemberMoney() + "元)";
-        memberNames[1] += "(" + memberTypeDto2.getMemberMoney() + "元)";
+        memberNames[1] += "(" + memberTypeDto2.getMemberMoney() + "元,还需支付" + memberTypeDto2.getMoneyDifference() + "元)";
 
 //        memberTypeIntros[0] = memberTypeDto1.getExperience();
 //        memberTypeIntros[1] = memberTypeDto2.getPartner();
@@ -147,5 +178,34 @@ public class SelectMemberTypeActivity extends BaseActivity<SelectMemberTypePrese
         } else {
             selectMember(2);
         }
+    }
+
+    /**
+     * 初始化 合伙人 选择付款金额  监听
+     */
+    private void initRgVip2Money(){
+        rgVip2Money.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
+                switch (checkedId){
+                    case R.id.rbtn_money1:
+                        amount = "20000";
+                        break;
+                    case R.id.rbtn_money2:
+                        amount = "1";
+                        break;
+                    case R.id.rbtn_money3:
+                        amount = "0.05";
+                        break;
+                    case R.id.rbtn_money4:
+                        amount = "0.02";
+                        break;
+                }
+            }
+        });
+    }
+
+    private void selectVip2Money(int position){
+        ((RadioButton)rgVip2Money.getChildAt(position)).setChecked(true);
     }
 }

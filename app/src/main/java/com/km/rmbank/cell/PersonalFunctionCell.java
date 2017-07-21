@@ -69,6 +69,8 @@ public class PersonalFunctionCell extends BaseCell<UserDto> implements View.OnCl
         holder.getView(R.id.rl_service).setOnClickListener(this);
         holder.getTextView(R.id.tv_attention).setOnClickListener(this);
 
+        holder.getTextView(R.id.tv_my_club).setOnClickListener(this);
+
     }
 
     @Override

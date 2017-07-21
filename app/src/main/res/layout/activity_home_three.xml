@@ -71,37 +71,62 @@
         </android.support.v7.widget.RecyclerView>
 
 
-        <com.getbase.floatingactionbutton.FloatingActionsMenu
+        <!--<com.getbase.floatingactionbutton.FloatingActionsMenu-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignParentRight="true"-->
+            <!--android:layout_alignParentBottom="true"-->
+            <!--android:layout_marginBottom="@dimen/view_space_32"-->
+            <!--app:fab_text="玩"-->
+            <!--app:fab_rotation="0"-->
+            <!--app:fab_addButtonColorNormal="#ff78c9"-->
+            <!--app:fab_addButtonColorPressed="#ff78c9"-->
+            <!--app:fab_addButtonPlusIconColor="#ffffff"-->
+            <!--app:fab_labelStyle="@style/menu_labels_style"-->
+            <!--&gt;-->
+
+            <!--<com.getbase.floatingactionbutton.FloatingActionButton-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--app:fab_title="周边"-->
+                <!--app:fab_colorNormal="#dd717070"-->
+                <!--app:fab_colorPressed="#dd717070"-->
+                <!--app:fab_size="mini"/>-->
+
+            <!--<com.getbase.floatingactionbutton.FloatingActionButton-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--app:fab_title="活动"-->
+                <!--app:fab_colorNormal="#dd717070"-->
+                <!--app:fab_colorPressed="#dd717070"-->
+                <!--app:fab_size="mini"/>-->
+
+        <!--</com.getbase.floatingactionbutton.FloatingActionsMenu>-->
+        <ImageView
+            android:id="@+id/iv_fab_play"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:src="@mipmap/ic_home_fab_play"
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
+            android:layout_marginRight="@dimen/view_space_16"
             android:layout_marginBottom="@dimen/view_space_32"
-            app:fab_text="玩"
-            app:fab_rotation="0"
-            app:fab_addButtonColorNormal="#ff78c9"
-            app:fab_addButtonColorPressed="#ff78c9"
-            app:fab_addButtonPlusIconColor="#ffffff"
-            app:fab_labelStyle="@style/menu_labels_style"
-            >
+            />
+        <ImageView
+            android:id="@+id/iv_fab_near"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/ic_home_fab_near"
+            android:layout_above="@+id/iv_fab_play"
+            android:layout_alignRight="@+id/iv_fab_play"/>
 
-            <com.getbase.floatingactionbutton.FloatingActionButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:fab_title="周边"
-                app:fab_colorNormal="#dd717070"
-                app:fab_colorPressed="#dd717070"
-                app:fab_size="mini"/>
-
-            <com.getbase.floatingactionbutton.FloatingActionButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:fab_title="活动"
-                app:fab_colorNormal="#dd717070"
-                app:fab_colorPressed="#dd717070"
-                app:fab_size="mini"/>
-
-        </com.getbase.floatingactionbutton.FloatingActionsMenu>
+        <ImageView
+            android:id="@+id/iv_fab_action"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/ic_home_fab_baoming"
+            android:layout_above="@+id/iv_fab_near"
+            android:layout_alignRight="@+id/iv_fab_near"/>
 
     </RelativeLayout>
 

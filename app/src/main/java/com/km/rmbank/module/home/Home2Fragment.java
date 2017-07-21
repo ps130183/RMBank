@@ -1,17 +1,13 @@
 package com.km.rmbank.module.home;
 
 import android.os.Bundle;
-import android.support.design.widget.AppBarLayout;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.EditText;
 
 import com.km.rmbank.R;
 import com.km.rmbank.adapter.HomeAdapter;
-import com.km.rmbank.basic.BaseAdapter;
 import com.km.rmbank.basic.BaseFragment;
 import com.km.rmbank.basic.RVUtils;
 import com.km.rmbank.cell.HomeFloorFourCell;
@@ -25,26 +21,14 @@ import com.km.rmbank.dto.BannerDto;
 import com.km.rmbank.dto.HomeGoodsTypeDto;
 import com.km.rmbank.dto.HomeNewRecommendDto;
 import com.km.rmbank.dto.HomeRecommendDto;
-import com.km.rmbank.dto.ShareDto;
-import com.km.rmbank.entity.HomeDataEntity;
-import com.km.rmbank.entity.HomeGtEntity;
-import com.km.rmbank.module.actionarea.InformationDetailActivity;
 import com.km.rmbank.module.home.message.MessageActivity;
 import com.km.rmbank.module.login.LoginActivity;
 import com.km.rmbank.module.personal.vip.SelectMemberTypeActivity;
-import com.km.rmbank.module.rmshop.goods.GoodsActivity;
 import com.km.rmbank.module.rmshop.goods.RmShopActivity;
 import com.km.rmbank.utils.Constant;
-import com.km.rmbank.utils.UmengShareUtils;
 import com.km.rv_libs.TemplateAdapter;
 import com.km.rv_libs.base.ICell;
-import com.orhanobut.logger.Logger;
 import com.ps.androidlib.utils.AppUtils;
-import com.ps.androidlib.utils.BannerUtils;
-import com.umeng.socialize.UMShareListener;
-import com.umeng.socialize.bean.SHARE_MEDIA;
-import com.youth.banner.Banner;
-import com.youth.banner.listener.OnBannerListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,7 +40,7 @@ import butterknife.OnClick;
  * Created by kamangkeji on 17/3/14.
  */
 
-public class HomeNewFragment extends BaseFragment<HomePresenter> implements HomeContract.View {
+public class Home2Fragment extends BaseFragment<HomePresenter> implements HomeContract.View {
 
 //    @BindView(R.id.app_bar)
 //    AppBarLayout appBar;
@@ -87,15 +71,15 @@ public class HomeNewFragment extends BaseFragment<HomePresenter> implements Home
 
     private HomeGoodsTypeCell mHomeGoodsTypeCell;
 
-    public static HomeNewFragment newInstance(Bundle bundle) {
-        HomeNewFragment fragment = new HomeNewFragment();
+    public static Home2Fragment newInstance(Bundle bundle) {
+        Home2Fragment fragment = new Home2Fragment();
         fragment.setArguments(bundle);
         return fragment;
     }
 
     @Override
     protected int getContentView() {
-        return R.layout.fragment_new_home;
+        return R.layout.fragment_2_home;
     }
 
     @Override

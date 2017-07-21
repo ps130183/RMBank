@@ -6,22 +6,17 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.km.rmbank.R;
 import com.km.rmbank.basic.BaseActivity;
 import com.km.rmbank.event.LoginSuccessEvent;
-import com.km.rmbank.module.HomeActivity;
-import com.km.rmbank.module.HomeNewActivity;
-import com.km.rmbank.module.HomeThreeActivity;
+import com.km.rmbank.module.Home2Activity;
 import com.km.rmbank.module.personal.AgreementActivity;
 import com.km.rmbank.utils.Constant;
 import com.orhanobut.logger.Logger;
 import com.ps.androidlib.utils.EventBusUtils;
-
-import org.reactivestreams.Subscriber;
 
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
@@ -95,7 +90,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     private void returnHome(){
         Bundle bundle = new Bundle();
         bundle.putInt("position",0);
-        toNextActivity(HomeThreeActivity.class,bundle);
+        toNextActivity(Home2Activity.class,bundle);
 //        EventBusUtils.post(new LogoutEntity(true));
     }
 
@@ -128,7 +123,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
             }
         });
         EventBusUtils.post(new LoginSuccessEvent());
-        toNextActivity(HomeThreeActivity.class);
+        toNextActivity(Home2Activity.class);
     }
 
     @Override

@@ -1,1 +1,1 @@
-include ':app', ':androidlib', ':rv_libs', ':pickerview', ':libqrcode', ':gallerypick', ':ucrop', ':utilcode', ':guideShowLib', ':mainnavigatetabbar', ':easeui', ':library', ':fablibrary'
+include ':app', ':androidlib', ':rv_libs', ':pickerview', ':libqrcode', ':gallerypick', ':ucrop', ':utilcode', ':guideShowLib', ':mainnavigatetabbar', ':easeui', ':fablibrary'

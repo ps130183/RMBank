@@ -32,11 +32,12 @@ public class GoodsListShoppingAdapter extends BaseAdapter<GoodsDto> implements B
     public void createView(ViewHolder holder, int position) {
         GoodsDto goodsDto = getItemData(position);
         GlideUtils.loadImage(holder.ivGoods,goodsDto.getThumbnailUrl());
+
         holder.tvGoodsName.setText(goodsDto.getName());
         holder.tvGoodsPrice.setText("¥"+goodsDto.getPrice());
         holder.tvSubTitle.setText(goodsDto.getSubtitle());
         holder.tvAccess.setText(goodsDto.getAccess());
-        if (goodsDto.getRole() == 2){
+        if (goodsDto.getRole() == 2 && goodsDto.getType() == 1){
             holder.ivIsVip2.setVisibility(View.VISIBLE);
         } else {
             holder.ivIsVip2.setVisibility(View.GONE);

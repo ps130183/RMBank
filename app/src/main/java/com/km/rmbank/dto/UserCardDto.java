@@ -17,44 +17,15 @@ public class UserCardDto extends BaseEntity implements Parcelable {
 
     private String cardPhone;//名片手机号
 
-    private String position;//所在公司职位
+    private String position;// 身份
 
-    private String company;//所在公司
+    private String provideResources;//提供资源
 
-    private String companyProfile;//企业介绍
+    private String demandResources;//需求资源
 
-    private List<IndustryDto> provideResourcesMap;//提供资源
+    private List<String> provideResourcesMap;
+    private List<String> demandResourcesMap;
 
-    private List<IndustryDto> demandResourcesMap;//需求资源
-
-    @Override
-    public String toString() {
-        return "UserCardDto{" +
-                "name='" + name + '\'' +
-                ", cardPhone='" + cardPhone + '\'' +
-                ", position='" + position + '\'' +
-                ", company='" + company + '\'' +
-                ", companyProfile='" + companyProfile + '\'' +
-                ", provideResourcesMap=" + provideResourcesMap +
-                ", demandResourcesMap=" + demandResourcesMap +
-                ", provideResourcesId='" + provideResourcesId + '\'' +
-                ", demandResourcesId='" + demandResourcesId + '\'' +
-                ", location='" + location + '\'' +
-                ", detailedAddress='" + detailedAddress + '\'' +
-                ", emailAddress='" + emailAddress + '\'' +
-                ", status=" + status +
-                ", friendMobilePhone='" + friendMobilePhone + '\'' +
-                ", portraitUrl='" + portraitUrl + '\'' +
-                ", mobilePhone='" + mobilePhone + '\'' +
-                ", nickName='" + nickName + '\'' +
-                '}';
-    }
-
-    private String provideResourcesId;//提供资源
-
-    private String demandResourcesId;//需求资源
-
-    private String location;//所在地
 
     private String detailedAddress;//详细地址
 
@@ -92,44 +63,20 @@ public class UserCardDto extends BaseEntity implements Parcelable {
         this.position = position;
     }
 
-    public String getCompany() {
-        return company;
+    public String getProvideResources() {
+        return provideResources;
     }
 
-    public void setCompany(String company) {
-        this.company = company;
+    public void setProvideResources(String provideResources) {
+        this.provideResources = provideResources;
     }
 
-    public String getCompanyProfile() {
-        return companyProfile;
+    public String getDemandResources() {
+        return demandResources;
     }
 
-    public void setCompanyProfile(String companyProfile) {
-        this.companyProfile = companyProfile;
-    }
-
-    public String getProvideResourcesId() {
-        return provideResourcesId;
-    }
-
-    public void setProvideResourcesId(String provideResourcesId) {
-        this.provideResourcesId = provideResourcesId;
-    }
-
-    public String getDemandResourcesId() {
-        return demandResourcesId;
-    }
-
-    public void setDemandResourcesId(String demandResourcesId) {
-        this.demandResourcesId = demandResourcesId;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
+    public void setDemandResources(String demandResources) {
+        this.demandResources = demandResources;
     }
 
     public String getDetailedAddress() {
@@ -146,22 +93,6 @@ public class UserCardDto extends BaseEntity implements Parcelable {
 
     public void setEmailAddress(String emailAddress) {
         this.emailAddress = emailAddress;
-    }
-
-    public List<IndustryDto> getProvideResourcesMap() {
-        return provideResourcesMap;
-    }
-
-    public void setProvideResourcesMap(List<IndustryDto> provideResourcesMap) {
-        this.provideResourcesMap = provideResourcesMap;
-    }
-
-    public List<IndustryDto> getDemandResourcesMap() {
-        return demandResourcesMap;
-    }
-
-    public void setDemandResourcesMap(List<IndustryDto> demandResourcesMap) {
-        this.demandResourcesMap = demandResourcesMap;
     }
 
     public int getStatus() {
@@ -204,23 +135,59 @@ public class UserCardDto extends BaseEntity implements Parcelable {
         this.nickName = nickName;
     }
 
+    public List<String> getProvideResourcesMap() {
+        return provideResourcesMap;
+    }
+
+    public void setProvideResourcesMap(List<String> provideResourcesMap) {
+        this.provideResourcesMap = provideResourcesMap;
+    }
+
+    public List<String> getDemandResourcesMap() {
+        return demandResourcesMap;
+    }
+
+    public void setDemandResourcesMap(List<String> demandResourcesMap) {
+        this.demandResourcesMap = demandResourcesMap;
+    }
+
     /**
      * 是否为空
      * @return
      */
     @Override
     public boolean isEmpty(){
-        if (TextUtils.isEmpty(name) || TextUtils.isEmpty(cardPhone) || TextUtils.isEmpty(company) || TextUtils.isEmpty(position)
-                || TextUtils.isEmpty(companyProfile)
-                || (TextUtils.isEmpty(provideResourcesId) && provideResourcesMap == null)
-                || (TextUtils.isEmpty(demandResourcesId) && demandResourcesMap == null)
-                || TextUtils.isEmpty(location) || TextUtils.isEmpty(detailedAddress) || TextUtils.isEmpty(emailAddress)){
+        if (TextUtils.isEmpty(name) || TextUtils.isEmpty(cardPhone)
+                || TextUtils.isEmpty(position)
+                || TextUtils.isEmpty(provideResources)
+                || TextUtils.isEmpty(demandResources)
+                || TextUtils.isEmpty(detailedAddress) || TextUtils.isEmpty(emailAddress)){
             return true;
         }
         return false;
     }
 
     public UserCardDto() {
+    }
+
+    @Override
+    public String toString() {
+        return "UserCardDto{" +
+                "name='" + name + '\'' +
+                ", cardPhone='" + cardPhone + '\'' +
+                ", position='" + position + '\'' +
+                ", provideResources='" + provideResources + '\'' +
+                ", demandResources='" + demandResources + '\'' +
+                ", provideResourcesMap=" + provideResourcesMap +
+                ", demandResourcesMap=" + demandResourcesMap +
+                ", detailedAddress='" + detailedAddress + '\'' +
+                ", emailAddress='" + emailAddress + '\'' +
+                ", status=" + status +
+                ", friendMobilePhone='" + friendMobilePhone + '\'' +
+                ", portraitUrl='" + portraitUrl + '\'' +
+                ", mobilePhone='" + mobilePhone + '\'' +
+                ", nickName='" + nickName + '\'' +
+                '}';
     }
 
     @Override
@@ -233,13 +200,10 @@ public class UserCardDto extends BaseEntity implements Parcelable {
         dest.writeString(this.name);
         dest.writeString(this.cardPhone);
         dest.writeString(this.position);
-        dest.writeString(this.company);
-        dest.writeString(this.companyProfile);
-        dest.writeTypedList(this.provideResourcesMap);
-        dest.writeTypedList(this.demandResourcesMap);
-        dest.writeString(this.provideResourcesId);
-        dest.writeString(this.demandResourcesId);
-        dest.writeString(this.location);
+        dest.writeString(this.provideResources);
+        dest.writeString(this.demandResources);
+        dest.writeStringList(this.provideResourcesMap);
+        dest.writeStringList(this.demandResourcesMap);
         dest.writeString(this.detailedAddress);
         dest.writeString(this.emailAddress);
         dest.writeInt(this.status);
@@ -253,13 +217,10 @@ public class UserCardDto extends BaseEntity implements Parcelable {
         this.name = in.readString();
         this.cardPhone = in.readString();
         this.position = in.readString();
-        this.company = in.readString();
-        this.companyProfile = in.readString();
-        this.provideResourcesMap = in.createTypedArrayList(IndustryDto.CREATOR);
-        this.demandResourcesMap = in.createTypedArrayList(IndustryDto.CREATOR);
-        this.provideResourcesId = in.readString();
-        this.demandResourcesId = in.readString();
-        this.location = in.readString();
+        this.provideResources = in.readString();
+        this.demandResources = in.readString();
+        this.provideResourcesMap = in.createStringArrayList();
+        this.demandResourcesMap = in.createStringArrayList();
         this.detailedAddress = in.readString();
         this.emailAddress = in.readString();
         this.status = in.readInt();

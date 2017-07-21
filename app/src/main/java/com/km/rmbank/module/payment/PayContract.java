@@ -21,7 +21,7 @@ public interface PayContract {
         void showUserBalance(UserBalanceDto userBalanceDto);
     }
     interface Presenter extends BasePresenter{
-        void createPayOrder(String amount);
+        void createPayOrder(String amount,String memberType);
         void getAliPayOrder(String payNumber);
         void getWeiChatParams(String payNumber);
         void payBalance(String payNumber);

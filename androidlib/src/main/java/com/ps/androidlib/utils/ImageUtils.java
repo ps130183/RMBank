@@ -25,6 +25,7 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.NinePatchDrawable;
 import android.media.ExifInterface;
 import android.os.Build;
+import android.os.Environment;
 import android.renderscript.Allocation;
 import android.renderscript.Element;
 import android.renderscript.RenderScript;
@@ -46,6 +47,15 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * <pre>
@@ -1468,17 +1478,72 @@ public final class ImageUtils {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         int quality = 100;
         src.compress(CompressFormat.JPEG, quality, baos);
-        Logger.d("原图大小 = " + (baos.size()/1024) + "KB");
+        Logger.d("原图大小 = " + (baos.size() / 1024) + "KB");
         while (baos.toByteArray().length > maxByteSize && quality > 0) {
             baos.reset();
             src.compress(CompressFormat.JPEG, quality -= 5, baos);
         }
-        Logger.d("压缩以后 图片大小 = " + (baos.size()/1024) + "KB");
+        Logger.d("压缩以后 图片大小 = " + (baos.size() / 1024) + "KB");
         if (quality < 0) return null;
         byte[] bytes = baos.toByteArray();
         if (recycle && !src.isRecycled()) src.recycle();
         return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
     }
+
+
+    /**
+     * 压缩图片（质量压缩）
+     *
+     * @param bitmap
+     */
+    public static File compressImage(Bitmap bitmap) {
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);//质量压缩方法，这里100表示不压缩，把压缩后的数据存放到baos中
+        int options = 100;
+        while (baos.toByteArray().length / 1024 > 2048) {  //循环判断如果压缩后图片是否大于2M,大于继续压缩
+            baos.reset();//重置baos即清空baos
+            options -= 10;//每次都减少10
+            bitmap.compress(Bitmap.CompressFormat.JPEG, options, baos);//这里压缩options%，把压缩后的数据存放到baos中
+            long length = baos.toByteArray().length;
+        }
+        SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
+        Date date = new Date(System.currentTimeMillis());
+        String filename = format.format(date);
+        File path = new File(Environment.getExternalStorageDirectory().getPath() + File.separator + "RMBank" + File.separator + "image" + File.separator);
+        File file = new File(AppUtils.getImagePath(filename + ".jpg"));
+        if (!path.exists()) {
+            path.mkdirs();
+        }
+
+        try {
+            FileOutputStream fos = new FileOutputStream(file);
+            try {
+                fos.write(baos.toByteArray());
+                fos.flush();
+                fos.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        recycleBitmap(bitmap);
+        return file;
+
+    }
+
+    public static void recycleBitmap(Bitmap... bitmaps) {
+        if (bitmaps == null) {
+            return;
+        }
+        for (Bitmap bm : bitmaps) {
+            if (null != bm && !bm.isRecycled()) {
+                bm.recycle();
+            }
+        }
+    }
+
 
     /**
      * 按采样大小压缩

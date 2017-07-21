@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/color_red"
+    android:background="@color/colorPrimary"
     android:paddingTop="@dimen/status_height"
     android:orientation="vertical">
 
@@ -29,8 +29,7 @@
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_margin="@dimen/view_space_16"
-            android:scaleType="fitXY"
-            android:src="@mipmap/timg" />
+            android:scaleType="fitXY"/>
 
         <TextView
             android:id="@+id/tv_user_nick_name"

@@ -278,7 +278,7 @@
         <activity android:name=".module.actionarea.InformationDetailActivity" />
         <activity android:name=".module.personal.integral.IntegralRuleActivity" />
         <activity
-            android:name=".module.HomeNewActivity"
+            android:name=".module.Home2Activity"
             android:launchMode="singleTask" />
         <activity android:name=".module.rmshop.goods.RmShopActivity" />
         <activity android:name=".module.nearbyvip.NearbyVipActivity" />
@@ -288,7 +288,19 @@
             android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity android:name="com.hyphenate.easeui.ui.EaseShowBigImageActivity" />
         <activity android:name=".module.UserCardGuideActivity" />
-        <activity android:name=".module.HomeThreeActivity"
+
+        <activity
+            android:name=".module.club.EditMyClubActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".module.club.ClubInfoActivity"
+            android:launchMode="singleTask" />
+        <activity android:name=".module.club.recent.ReleaseActionRecentActivity" />
+        <activity android:name=".module.club.recent.ActionRecentInfoActivity" />
+        <activity android:name=".module.club.past.ReleaseActionPastActivity" />
+        <activity android:name=".module.club.past.ActionPastDetailActivity" />
+        <activity
+            android:name=".module.personal.userinfo.UserCardInfoActivity"
             android:launchMode="singleTask"></activity>
     </application>
 

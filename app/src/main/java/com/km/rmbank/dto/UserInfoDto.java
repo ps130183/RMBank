@@ -37,6 +37,17 @@ public class UserInfoDto extends BaseEntity implements Parcelable {
 
     private String allowStutas;
 
+    private int clubStatus;//1:已编辑 0：未编辑
+    private int isNotEditCard;// 是否编辑名片：0为未编辑，1为已编辑
+
+    public int getIsNotEditCard() {
+        return isNotEditCard;
+    }
+
+    public void setIsNotEditCard(int isNotEditCard) {
+        this.isNotEditCard = isNotEditCard;
+    }
+
     public String getBirthday() {
         return birthday;
     }
@@ -73,7 +84,17 @@ public class UserInfoDto extends BaseEntity implements Parcelable {
                 ", updateDate='" + updateDate + '\'' +
                 ", roleId='" + roleId + '\'' +
                 ", allowStutas='" + allowStutas + '\'' +
+                ", clubStatus=" + clubStatus +
+                ", isNotEditCard=" + isNotEditCard +
                 '}';
+    }
+
+    public int getClubStatus() {
+        return clubStatus;
+    }
+
+    public void setClubStatus(int clubStatus) {
+        this.clubStatus = clubStatus;
     }
 
     public UserInfoDto() {
@@ -128,6 +149,14 @@ public class UserInfoDto extends BaseEntity implements Parcelable {
     }
 
     @Override
+    public boolean isEmpty() {
+        if (TextUtils.isEmpty(nickName) || TextUtils.isEmpty(portraitUrl)){
+            return true;
+        }
+        return false;
+    }
+
+    @Override
     public int describeContents() {
         return 0;
     }
@@ -143,6 +172,8 @@ public class UserInfoDto extends BaseEntity implements Parcelable {
         dest.writeString(this.updateDate);
         dest.writeString(this.roleId);
         dest.writeString(this.allowStutas);
+        dest.writeInt(this.clubStatus);
+        dest.writeInt(this.isNotEditCard);
     }
 
     protected UserInfoDto(Parcel in) {
@@ -155,6 +186,8 @@ public class UserInfoDto extends BaseEntity implements Parcelable {
         this.updateDate = in.readString();
         this.roleId = in.readString();
         this.allowStutas = in.readString();
+        this.clubStatus = in.readInt();
+        this.isNotEditCard = in.readInt();
     }
 
     public static final Creator<UserInfoDto> CREATOR = new Creator<UserInfoDto>() {
@@ -168,12 +201,4 @@ public class UserInfoDto extends BaseEntity implements Parcelable {
             return new UserInfoDto[size];
         }
     };
-
-    @Override
-    public boolean isEmpty() {
-        if (TextUtils.isEmpty(nickName) || TextUtils.isEmpty(portraitUrl)){
-            return true;
-        }
-        return false;
-    }
 }

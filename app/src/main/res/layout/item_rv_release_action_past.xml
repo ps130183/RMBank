@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:background="@color/color_white"
+    android:paddingTop="@dimen/view_space_8"
+    android:paddingBottom="@dimen/view_space_8"
+    android:paddingLeft="@dimen/view_space_16"
+    android:paddingRight="@dimen/view_space_16"
+    >
+
+    <FrameLayout
+        android:id="@+id/fl_upload_introduce_img"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_centerHorizontal="true">
+        <ImageView
+            android:id="@+id/iv_upload_introduce_img"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:src="@mipmap/ic_edit_club_upload_img"
+            android:visibility="visible"
+            android:scaleType="fitXY"
+            />
+        <com.km.rmbank.ui.CircleProgressView
+            android:id="@+id/cpv_upload_introduce_img"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            />
+    </FrameLayout>
+
+
+    <LinearLayout
+            android:id="@+id/ll_introduce"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_below="@+id/fl_upload_introduce_img"
+            android:layout_toLeftOf="@+id/btn_add_delete"
+            android:layout_marginTop="@dimen/view_space_8">
+
+            <TextView
+                android:id="@+id/tv_img_intro"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="图片介绍："
+                android:layout_marginBottom="@dimen/view_space_8"
+                />
+            <EditText
+                android:id="@+id/et_introduce"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/tv_img_intro"
+                android:lines="3"
+                android:background="@drawable/shape_edittext_border_gray_right_angle"
+                android:hint="图片介绍"
+                android:textSize="@dimen/text_size_14"
+                android:gravity="top"
+                android:padding="@dimen/view_space_4"
+                />
+
+        </LinearLayout>
+
+
+        <Button
+            android:id="@+id/btn_add_delete"
+            android:layout_width="60dp"
+            android:layout_height="30dp"
+            android:text="新增"
+            android:textColor="@color/color_white"
+            android:background="@drawable/shape_edit_club_button"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignBottom="@+id/ll_introduce"
+            android:layout_marginBottom="@dimen/view_space_8"
+            android:layout_marginLeft="@dimen/view_space_16"
+            />
+
+</RelativeLayout>

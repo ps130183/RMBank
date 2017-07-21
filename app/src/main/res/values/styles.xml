@@ -47,7 +47,8 @@
 
 
     <!-- 我是分割线        以下是app自用  -->
-    <style name="Personal"/>
+    <style name="Personal" />
+
     <style name="Personal.UserInfo">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_weight">1</item>
@@ -84,6 +85,7 @@
         <item name="android:textSize">@dimen/text_size_14</item>
         <item name="android:gravity">center_vertical</item>
     </style>
+
     <style name="Personal.function_ll">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
@@ -93,7 +95,8 @@
         <item name="android:orientation">vertical</item>
     </style>
 
-    <style name="Goods"/>
+    <style name="Goods" />
+
     <style name="Goods.BackGauge">
         <item name="android:paddingLeft">@dimen/view_space_16</item>
         <item name="android:paddingRight">@dimen/view_space_16</item>
@@ -106,6 +109,7 @@
         <item name="android:paddingTop">@dimen/view_space_8</item>
         <item name="android:paddingBottom">@dimen/view_space_8</item>
     </style>
+
     <style name="SingleLineEditText">
         <item name="android:lines">1</item>
         <item name="android:textSize">@dimen/text_size_14</item>
@@ -114,12 +118,15 @@
         <item name="android:paddingBottom">@dimen/view_space_8</item>
     </style>
 
-    <style name="Personal.User"/>
-    <style name="Personal.User.EditCard"/>
+    <style name="Personal.User" />
+
+    <style name="Personal.User.EditCard" />
+
     <style name="Personal.User.EditCard.ll">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
+
     <style name="Personal.User.EditCard.pll" parent="Personal.User.EditCard.ll">
         <item name="android:layout_marginTop">@dimen/view_space_8</item>
         <item name="android:paddingLeft">@dimen/view_space_16</item>
@@ -127,24 +134,25 @@
         <item name="android:orientation">vertical</item>
         <item name="android:paddingTop">@dimen/view_space_8</item>
     </style>
+
     <style name="Personal.User.EditCard.sll" parent="Personal.User.EditCard.ll">
         <item name="android:paddingTop">@dimen/view_space_8</item>
         <item name="android:paddingBottom">@dimen/view_space_8</item>
         <item name="android:orientation">horizontal</item>
     </style>
+
     <style name="Personal.User.EditCard.tv">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">@dimen/text_size_16</item>
         <item name="android:layout_marginRight">@dimen/view_space_16</item>
     </style>
+
     <style name="Personal.User.EditCard.et_nofocuse">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">@dimen/text_size_14</item>
         <item name="android:background">@color/color_white</item>
-        <item name="android:focusable">false</item>
-        <item name="android:focusableInTouchMode">false</item>
     </style>
 
     <style name="Personal.User.EditCard.et_focuse">
@@ -162,14 +170,16 @@
         <item name="android:background">@color/color_white</item>
     </style>
 
-    <style name="Personal.User.Setting"/>
+    <style name="Personal.User.Setting" />
+
     <style name="Personal.User.Setting.tv">
         <item name="android:paddingTop">@dimen/view_space_16</item>
         <item name="android:paddingBottom">@dimen/view_space_16</item>
         <item name="android:textSize">@dimen/text_size_14</item>
     </style>
 
-    <style name="Personal.User.Order"/>
+    <style name="Personal.User.Order" />
+
     <style name="Personal.User.Order.Button">
         <item name="android:textColor">@drawable/selector_order_button_textcolor</item>
         <item name="android:background">@drawable/selector_order_button</item>
@@ -179,4 +189,8 @@
         <item name="android:background">@drawable/fab_label_background</item>
         <item name="android:textColor">@color/color_white</item>
     </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

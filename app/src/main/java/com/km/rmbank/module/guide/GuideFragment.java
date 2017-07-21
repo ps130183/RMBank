@@ -4,11 +4,9 @@ import android.view.View;
 
 import com.km.rmbank.R;
 import com.km.rmbank.basic.BaseFragment;
-import com.km.rmbank.module.HomeActivity;
-import com.km.rmbank.module.HomeNewActivity;
+import com.km.rmbank.module.Home2Activity;
 import com.ps.androidlib.utils.SPUtils;
 
-import butterknife.BindView;
 import butterknife.OnClick;
 
 /**
@@ -30,7 +28,7 @@ public class GuideFragment extends BaseFragment {
 
     @OnClick(R.id.to_home)
     public void toHome(View view){
-        toNextActivity(HomeNewActivity.class);
+        toNextActivity(Home2Activity.class);
 //        toNextActivity(HomeActivity.class);
         SPUtils.getInstance().put("isFirst",false);
         getActivity().finish();

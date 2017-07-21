@@ -20,9 +20,9 @@ public class PayPresenter extends PresenterWrapper<PayContract.View> implements 
     }
 
     @Override
-    public void createPayOrder(String amount) {
+    public void createPayOrder(String amount,String memberType) {
        mView.showLoading();
-        mApiwrapper.createPayOrder(amount)
+        mApiwrapper.createPayOrder(amount,memberType)
                 .subscribe(newSubscriber(new Consumer<PayOrderDto>() {
                     @Override
                     public void accept(@NonNull PayOrderDto payOrderDto) throws Exception {
