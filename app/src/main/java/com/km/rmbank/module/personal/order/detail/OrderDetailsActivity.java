@@ -121,8 +121,9 @@ public class OrderDetailsActivity extends BaseActivity<OrderDetailPresenter> imp
                     showExpress(true,true);
                 } else {
                     showExpress(false,false);
-                    tvOrderStatus.setText("待收货");
-                    btnAction.setText("确认收货");
+                    tvOrderStatus.setText("待发货");
+//                    btnAction.setText("确认收货");
+                    btnAction.setVisibility(View.GONE);
                 }
                 break;
             case 3://已发货

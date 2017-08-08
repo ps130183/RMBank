@@ -14,6 +14,8 @@ import com.km.rmbank.dto.MyTeamDto;
 import com.km.rmbank.entity.TeamEntity;
 import com.km.rmbank.dto.UserDto;
 import com.km.rmbank.module.personal.userinfo.EditUserCardActivity;
+import com.km.rmbank.module.personal.userinfo.UserCardInfoActivity;
+import com.km.rmbank.module.personal.userinfo.UserCardInfoContract;
 
 import java.util.List;
 
@@ -69,7 +71,8 @@ public class MyTeamActivity extends BaseActivity<MyTeamPresenter> implements MyT
     public void clickUser(MyTeamDto.MemberDtoListBean itemData, int position) {
 //        showToast(itemData.toString());
         Bundle bundle = new Bundle();
-        bundle.putParcelable("memberDto",itemData);
-        toNextActivity(EditUserCardActivity.class,bundle);
+//        bundle.putParcelable("memberDto",itemData);
+        bundle.putString("shopId",itemData.getId());
+        toNextActivity(UserCardInfoActivity.class,bundle);
     }
 }

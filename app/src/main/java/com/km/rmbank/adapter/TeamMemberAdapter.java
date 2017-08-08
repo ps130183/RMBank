@@ -1,6 +1,8 @@
 package com.km.rmbank.adapter;
 
 import android.content.Context;
+import android.text.Html;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -34,6 +36,19 @@ public class TeamMemberAdapter extends BaseAdapter<MyTeamDto.MemberDtoListBean> 
         MyTeamDto.MemberDtoListBean userEntity = getItemData(position);
         holder.tvUserNickName.setText(userEntity.getNickName());
         GlideUtils.loadCircleImage(holder.ivUserPortrait,userEntity.getPortraitUrl());
+        if (!TextUtils.isEmpty(userEntity.getReferrerPhone()) && !"0".equals(userEntity.getReferrerPhone())){
+            holder.tvReferrerMan.setVisibility(View.VISIBLE);
+            String referrerPhone = "由<font color='#0099cf'>" + userEntity.getReferrerPhone() +"</font>邀请";
+            CharSequence csReferrer ;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+                csReferrer = Html.fromHtml(referrerPhone,Html.FROM_HTML_MODE_LEGACY);
+            } else {
+                csReferrer = Html.fromHtml(referrerPhone);
+            }
+            holder.tvReferrerMan.setText(csReferrer);
+        } else {
+            holder.tvReferrerMan.setVisibility(View.GONE);
+        }
     }
 
     class ViewHolder extends BaseViewHolder{
@@ -42,6 +57,8 @@ public class TeamMemberAdapter extends BaseAdapter<MyTeamDto.MemberDtoListBean> 
         ImageView ivUserPortrait;
         @BindView(R.id.tv_user_nick_name)
         TextView tvUserNickName;
+        @BindView(R.id.tv_referrer_man)
+        TextView tvReferrerMan;
 
         public ViewHolder(View itemView) {
             super(itemView);

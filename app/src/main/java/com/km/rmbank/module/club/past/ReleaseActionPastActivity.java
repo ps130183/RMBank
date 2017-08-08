@@ -17,6 +17,7 @@ import com.km.rmbank.event.ClubIntroduceEntity;
 import com.km.rmbank.module.club.ClubInfoActivity;
 import com.km.rmbank.ui.CircleProgressView;
 import com.orhanobut.logger.Logger;
+import com.ps.androidlib.utils.AppUtils;
 import com.ps.androidlib.utils.DialogUtils;
 import com.ps.androidlib.utils.glide.GlideUtils;
 import com.ps.androidlib.utils.imageselector.ImageUtils;
@@ -38,24 +39,18 @@ public class ReleaseActionPastActivity extends BaseActivity<ReleaseActionPastPre
     private int imgUploadPosition = -1;
     private int introduceImgPosition = -1;
 
-    @BindView(R.id.iv_upload_action_past_img1)
+    @BindView(R.id.iv_upload_action_img)
     ImageView ivUploadActionPastImg1;
-    @BindView(R.id.iv_upload_action_past_img2)
-    ImageView ivUploadActionPastImg2;
-    @BindView(R.id.iv_upload_action_past_img3)
-    ImageView ivUploadActionPastImg3;
 
-    @BindView(R.id.cpv_upload_pastaction_img1)
-    CircleProgressView cpvUploadPastacitonImg1;
-    @BindView(R.id.cpv_upload_pastaction_img2)
-    CircleProgressView cpvUploadPastacitonImg2;
-    @BindView(R.id.cpv_upload_pastaction_img3)
-    CircleProgressView cpvUploadPastacitonImg3;
+    @BindView(R.id.cpv_upload_action_img)
+    CircleProgressView cpvUploadPastacitonImg;
 
     @BindView(R.id.et_action_past_title)
     EditText etActionPastTitle;
 
     private ActionPastDto mActionPastDto;
+
+    private int mWindowWidth = 0;
 
 
     @Override
@@ -75,6 +70,7 @@ public class ReleaseActionPastActivity extends BaseActivity<ReleaseActionPastPre
 
     @Override
     protected void onCreate() {
+        mWindowWidth = AppUtils.getCurWindowWidth(this);
         setRightBtnClick("立即发布", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -141,7 +137,7 @@ public class ReleaseActionPastActivity extends BaseActivity<ReleaseActionPastPre
      *
      * @param view
      */
-    @OnClick({R.id.tv_upload_action_past_img1, R.id.iv_upload_action_past_img1})
+    @OnClick({R.id.iv_upload_action_img})
     public void onClickUploadLogo1(View view) {
         imgUploadPosition = 1;
         PermissionGen.with(ReleaseActionPastActivity.this)
@@ -150,33 +146,6 @@ public class ReleaseActionPastActivity extends BaseActivity<ReleaseActionPastPre
                 .request();
     }
 
-    /**
-     * 上传往期活动图片2
-     *
-     * @param view
-     */
-    @OnClick({R.id.tv_upload_action_past_img2, R.id.iv_upload_action_past_img2})
-    public void onClickUploadLogo2(View view) {
-        imgUploadPosition = 2;
-        PermissionGen.with(ReleaseActionPastActivity.this)
-                .addRequestCode(1)
-                .permissions(Manifest.permission.CAMERA)
-                .request();
-    }
-
-    /**
-     * 上传往期活动图片3
-     *
-     * @param view
-     */
-    @OnClick({R.id.tv_upload_action_past_img3, R.id.iv_upload_action_past_img3})
-    public void onClickUploadLogo3(View view) {
-        imgUploadPosition = 3;
-        PermissionGen.with(ReleaseActionPastActivity.this)
-                .addRequestCode(1)
-                .permissions(Manifest.permission.CAMERA)
-                .request();
-    }
 
     @PermissionSuccess(requestCode = 1)
     public void requestCameraSuccess() {
@@ -223,14 +192,11 @@ public class ReleaseActionPastActivity extends BaseActivity<ReleaseActionPastPre
         @Override
         public void onSuccess(List<String> photoList) {
             if (imgUploadPosition == 1) {
-                ivUploadActionPastImg1.setVisibility(View.VISIBLE);
-                GlideUtils.loadCircleImage(ivUploadActionPastImg1, photoList.get(0));
-            } else if (imgUploadPosition == 2) {
-                ivUploadActionPastImg2.setVisibility(View.VISIBLE);
-                GlideUtils.loadCircleImage(ivUploadActionPastImg2, photoList.get(0));
-            }  else if (imgUploadPosition == 3) {
-                ivUploadActionPastImg3.setVisibility(View.VISIBLE);
-                GlideUtils.loadCircleImage(ivUploadActionPastImg3, photoList.get(0));
+//                ivUploadActionPastImg1.setVisibility(View.VISIBLE);
+//                int windowWidth = AppUtils.getCurWindowWidth(this);
+                ivUploadActionPastImg1.getLayoutParams().width = mWindowWidth / 320 * 309;
+                ivUploadActionPastImg1.getLayoutParams().height = mWindowWidth / 320 * 125;
+                GlideUtils.loadImage(ivUploadActionPastImg1, photoList.get(0));
             } else if (imgUploadPosition == 4) {
                 if (introduceImgPosition < 0) {
                     return;
@@ -249,13 +215,7 @@ public class ReleaseActionPastActivity extends BaseActivity<ReleaseActionPastPre
     public void uploadActionImgSuccess(String imageUrl, int imageType, int position) {
         switch (imageType){
             case 1:
-                mActionPastDto.setAvatarUrl1(imageUrl);
-                break;
-            case 2:
-                mActionPastDto.setAvatarUrl2(imageUrl);
-                break;
-            case 3:
-                mActionPastDto.setAvatarUrl3(imageUrl);
+                mActionPastDto.setAvatarUrl(imageUrl);
                 break;
             case 4:
                 if (position < 0) {
@@ -273,13 +233,7 @@ public class ReleaseActionPastActivity extends BaseActivity<ReleaseActionPastPre
     public void showUploadImgProgress(int imageType, int position, int progress) {
         switch (imageType){
             case 1:
-                cpvUploadPastacitonImg1.setProgress(progress);
-                break;
-            case 2:
-                cpvUploadPastacitonImg1.setProgress(progress);
-                break;
-            case 3:
-                cpvUploadPastacitonImg1.setProgress(progress);
+                cpvUploadPastacitonImg.setProgress(progress);
                 break;
             case 4:
                 ClubIntroduceAdapter adapter = (ClubIntroduceAdapter) rvActionPastDetails.getAdapter();

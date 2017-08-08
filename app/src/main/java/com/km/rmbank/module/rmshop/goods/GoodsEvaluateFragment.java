@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.km.rmbank.R;
 import com.km.rmbank.adapter.GoodsEvluateAdapter;
@@ -26,6 +27,8 @@ public class GoodsEvaluateFragment extends BaseFragment<GoodsEvaluatePresenter> 
 
     @BindView(R.id.recyclerview)
     RecyclerView mRecyclerview;
+    @BindView(R.id.tv_all_evaluate)
+    TextView tvAllEvaluate;
 
     private GoodsDetailsDto goodsDetailsDto;
     public static GoodsEvaluateFragment newInstance(Bundle bundle) {
@@ -47,6 +50,7 @@ public class GoodsEvaluateFragment extends BaseFragment<GoodsEvaluatePresenter> 
     @Override
     protected void createView() {
         goodsDetailsDto = getArguments().getParcelable("goodsDetailsDto");
+        tvAllEvaluate.setText("全部("+ goodsDetailsDto.getCommentNum() +")");
     }
 
 

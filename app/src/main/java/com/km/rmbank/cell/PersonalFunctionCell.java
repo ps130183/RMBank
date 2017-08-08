@@ -27,41 +27,33 @@ public class PersonalFunctionCell extends BaseCell<UserDto> implements View.OnCl
     public void onBindViewHolder(BaseViewHolder holder, int position) {
         super.onBindViewHolder(holder, position);
 
-        TextView tvMyTeam = holder.getTextView(R.id.tv_my_team);
-        View lineTeamContact = holder.getView(R.id.line_team_contact);
+//        TextView tvMyTeam = holder.getTextView(R.id.tv_my_team);
+//        View lineTeamContact = holder.getView(R.id.line_team_contact);
         TextView tvMyContact = holder.getTextView(R.id.tv_my_contact);
         RelativeLayout rlMyContact = (RelativeLayout) holder.getView(R.id.rl_my_contact);
         myContactHint = holder.getTextView(R.id.tv_my_contact_hint);
 
-
-        LinearLayout llIntegralGoods = holder.findView(R.id.ll_integral_goods);
+//        LinearLayout llMyClub = holder.findView(R.id.ll_my_club);
+        View lineIntegral = holder.findView(R.id.line_integral_goods);
         TextView tvMyIntegral = holder.getTextView(R.id.tv_my_integral);
-        TextView tvGoodsManager = holder.getTextView(R.id.tv_goods_manager);
+//        TextView tvGoodsManager = holder.getTextView(R.id.tv_goods_manager);
         String usertype = mData.getRoleId();
         switch (usertype){
             case "3"://体验式会员
-                tvMyTeam.setVisibility(View.GONE);
-                lineTeamContact.setVisibility(View.GONE);
-                llIntegralGoods.setVisibility(View.VISIBLE);
+                tvMyIntegral.setVisibility(View.VISIBLE);
+                lineIntegral.setVisibility(View.VISIBLE);
                 break;
-            case "2"://合伙人会员
-                tvMyTeam.setVisibility(View.VISIBLE);
-                lineTeamContact.setVisibility(View.VISIBLE);
-                llIntegralGoods.setVisibility(View.VISIBLE);
-                break;
-
             case "4"://普通用户
             default://普通用户
-                tvMyTeam.setVisibility(View.GONE);
-                lineTeamContact.setVisibility(View.GONE);
-                llIntegralGoods.setVisibility(View.GONE);
+                tvMyIntegral.setVisibility(View.GONE);
+                lineIntegral.setVisibility(View.GONE);
                 break;
         }
 
-        tvMyTeam.setOnClickListener(this);
+//        tvMyTeam.setOnClickListener(this);
         tvMyContact.setOnClickListener(this);
         tvMyIntegral.setOnClickListener(this);
-        tvGoodsManager.setOnClickListener(this);
+//        tvGoodsManager.setOnClickListener(this);
         holder.getTextView(R.id.tv_my_order).setOnClickListener(this);
         holder.getTextView(R.id.tv_address).setOnClickListener(this);
         holder.getTextView(R.id.tv_service).setOnClickListener(this);
@@ -69,7 +61,7 @@ public class PersonalFunctionCell extends BaseCell<UserDto> implements View.OnCl
         holder.getView(R.id.rl_service).setOnClickListener(this);
         holder.getTextView(R.id.tv_attention).setOnClickListener(this);
 
-        holder.getTextView(R.id.tv_my_club).setOnClickListener(this);
+//        holder.getTextView(R.id.tv_my_club).setOnClickListener(this);
 
     }
 

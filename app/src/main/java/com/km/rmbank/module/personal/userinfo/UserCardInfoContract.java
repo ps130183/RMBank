@@ -11,8 +11,14 @@ import com.km.rmbank.dto.UserCardDto;
 public interface UserCardInfoContract {
     interface View extends BaseView{
         void showUserCardInfo(UserCardDto userCardDto);
+        void applyBecomeFriendSuccess();
     }
     interface Presenter extends BasePresenter{
         void getUserCardInfo();
+        void getUserCardById(String userId);
+
+        void addShopToFriend(String friendMobilePhone);
+
+        void applyBecomeMyFriends(String mobilePhone);
     }
 }

@@ -60,39 +60,11 @@ public class MyContactActivity extends BaseActivity<MyContactPresenter> implemen
 
     @Override
     public void initRecyclerview() {
-//        RVUtils.setLinearLayoutManage(mRecyclerview, LinearLayoutManager.VERTICAL);
-//        RVUtils.addDivideItemForRv(mRecyclerview);
-//        MyContactAdapter adapter = new MyContactAdapter(this);
-//        mRecyclerview.setAdapter(adapter);
-//
-//        SwipeRefreshUtils.initSwipeRefresh(mSwipeRefresh, new SwipeRefreshLayout.OnRefreshListener() {
-//            @Override
-//            public void onRefresh() {
-//                mPresenter.getMyFriends();
-//            }
-//        });
-//
-//        adapter.setItemClickListener(new BaseAdapter.ItemClickListener<MyFriendsDto>() {
-//            @Override
-//            public void onItemClick(MyFriendsDto itemData, int position) {
-////                showToast(itemData.getMobilePhone());
-//                Bundle bundle = new Bundle();
-//                bundle.putString("to_user_id",itemData.getMobilePhone());
-//                bundle.putString("user_nick_name",itemData.getNickName());
-//                toNextActivity(EaseChatActivity.class,bundle);
-//            }
-//
-//        });
-
         mPresenter.getMyFriends();
     }
 
     @Override
     public void showMyContact(final List<MyFriendsDto> myFriendsDtos) {
-
-//        MyContactAdapter adapter = (MyContactAdapter) mRecyclerview.getAdapter();
-//        adapter.addData(myFriendsDtos);
-
         for (MyFriendsDto friendsDto : myFriendsDtos){
             EaseUser user = new EaseUser(friendsDto.getMobilePhone());
             user.setAvatar(friendsDto.getPortraitUrl());
@@ -114,31 +86,6 @@ public class MyContactActivity extends BaseActivity<MyContactPresenter> implemen
         });
 
         getSupportFragmentManager().beginTransaction().replace(R.id.fl_contact,mEaseContactListFragment).commit();
-
-//        EaseUI.getInstance().setUserProfileProvider(new EaseUI.EaseUserProfileProvider() {
-//            @Override
-//            public EaseUser getUser(String username) {
-//                EaseUser user = null;
-//                if (username.equals(Constant.user.getMobilePhone())){//登录的人
-//                    user = new EaseUser(username);
-//                    if (!Constant.userInfo.isEmpty()){
-//                        user.setAvatar(Constant.userInfo.getPortraitUrl());
-//                        user.setNickname(Constant.userInfo.getNickName());
-//                    }
-////                    user.setNickname();
-//                } else {
-//                    for (MyFriendsDto friendsDto : myFriendsDtos){
-//                        if (username.equals(friendsDto.getMobilePhone())){
-//                            user = new EaseUser(username);
-//                            user.setNickname(friendsDto.getNickName());
-//                            user.setAvatar(friendsDto.getPortraitUrl());
-//                            break;
-//                        }
-//                    }
-//                }
-//                return user;
-//            }
-//        });
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

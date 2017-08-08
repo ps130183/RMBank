@@ -8,6 +8,9 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
+import com.hyphenate.EMCallBack;
+import com.hyphenate.chat.EMChatManager;
+import com.hyphenate.chat.EMClient;
 import com.km.rmbank.R;
 import com.km.rmbank.basic.BaseActivity;
 import com.km.rmbank.basic.BasePresenter;
@@ -134,6 +137,23 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
 //                showToast("退出登录");
                 Constant.user.clear();
 //                EventBusUtils.post(new LogoutEntity(true));
+                //此方法为异步方法
+                EMClient.getInstance().logout(true, new EMCallBack() {
+                    @Override
+                    public void onSuccess() {
+                        Logger.d("已退出环信聊天");
+                    }
+
+                    @Override
+                    public void onError(int i, String s) {
+                        Logger.d("退出环信聊天失败");
+                    }
+
+                    @Override
+                    public void onProgress(int i, String s) {
+
+                    }
+                });
                 toNextActivity(LoginActivity.class);
             }
         });

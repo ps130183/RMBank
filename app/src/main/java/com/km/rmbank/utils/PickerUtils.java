@@ -53,7 +53,8 @@ public class PickerUtils {
         final SimpleDateFormat sdf = new SimpleDateFormat(format);
         //控制时间范围
         Calendar calendar = Calendar.getInstance();
-        pvTime.setRange(calendar.get(Calendar.YEAR) - 30, calendar.get(Calendar.YEAR));
+        pvTime.setRange(1900, calendar.get(Calendar.YEAR));
+//        pvTime.setRange(calendar.get(Calendar.YEAR) - 60, calendar.get(Calendar.YEAR));
         Date date = null;
         if (TextUtils.isEmpty(curDate)){
             date = new Date();

@@ -14,35 +14,21 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="150dp"
+            android:gravity="center"
             android:background="@color/color_divider1">
 
-            <TextView
-                android:id="@+id/tv_upload_action_img"
-                android:layout_width="90dp"
-                android:layout_height="90dp"
-                android:layout_centerInParent="true"
-                android:background="@drawable/shape_edit_club_upload_logo"
-                android:gravity="center"
-                android:text="上传活动图片" />
-
-            <FrameLayout
-                android:layout_width="90dp"
-                android:layout_height="90dp"
-                android:layout_centerInParent="true">
                 <ImageView
                     android:id="@+id/iv_upload_action_img"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_width="90dp"
+                    android:layout_height="90dp"
                     android:scaleType="fitXY"
-                    android:src="@mipmap/timg"
-                    android:visibility="gone" />
+                    android:src="@mipmap/ic_open_camera" />
                 <com.km.rmbank.ui.CircleProgressView
                     android:id="@+id/cpv_upload_action_img"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_width="90dp"
+                    android:layout_height="90dp"
                     android:visibility="gone"
                     />
-            </FrameLayout>
 
 
         </RelativeLayout>

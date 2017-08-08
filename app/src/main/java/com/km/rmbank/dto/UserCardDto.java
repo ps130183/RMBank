@@ -39,6 +39,8 @@ public class UserCardDto extends BaseEntity implements Parcelable {
     private String mobilePhone;
     private String nickName;
 
+    private String shareUrl;
+
     public String getName() {
         return name;
     }
@@ -151,6 +153,14 @@ public class UserCardDto extends BaseEntity implements Parcelable {
         this.demandResourcesMap = demandResourcesMap;
     }
 
+    public String getShareUrl() {
+        return shareUrl;
+    }
+
+    public void setShareUrl(String shareUrl) {
+        this.shareUrl = shareUrl;
+    }
+
     /**
      * 是否为空
      * @return
@@ -162,6 +172,19 @@ public class UserCardDto extends BaseEntity implements Parcelable {
                 || TextUtils.isEmpty(provideResources)
                 || TextUtils.isEmpty(demandResources)
                 || TextUtils.isEmpty(detailedAddress) || TextUtils.isEmpty(emailAddress)){
+
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isEmpty2(){
+        if (TextUtils.isEmpty(name) || TextUtils.isEmpty(cardPhone)
+                || TextUtils.isEmpty(position)
+                || (provideResourcesMap == null || provideResourcesMap.size() == 0)
+                || (demandResourcesMap == null || demandResourcesMap.size() == 0)
+                || TextUtils.isEmpty(detailedAddress) || TextUtils.isEmpty(emailAddress)){
+
             return true;
         }
         return false;
@@ -187,6 +210,7 @@ public class UserCardDto extends BaseEntity implements Parcelable {
                 ", portraitUrl='" + portraitUrl + '\'' +
                 ", mobilePhone='" + mobilePhone + '\'' +
                 ", nickName='" + nickName + '\'' +
+                ", shareUrl='" + shareUrl + '\'' +
                 '}';
     }
 
@@ -211,6 +235,7 @@ public class UserCardDto extends BaseEntity implements Parcelable {
         dest.writeString(this.portraitUrl);
         dest.writeString(this.mobilePhone);
         dest.writeString(this.nickName);
+        dest.writeString(this.shareUrl);
     }
 
     protected UserCardDto(Parcel in) {
@@ -228,6 +253,7 @@ public class UserCardDto extends BaseEntity implements Parcelable {
         this.portraitUrl = in.readString();
         this.mobilePhone = in.readString();
         this.nickName = in.readString();
+        this.shareUrl = in.readString();
     }
 
     public static final Creator<UserCardDto> CREATOR = new Creator<UserCardDto>() {

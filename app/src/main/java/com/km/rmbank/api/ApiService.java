@@ -24,6 +24,7 @@ import com.km.rmbank.dto.NearbyVipDto;
 import com.km.rmbank.dto.PayOrderDto;
 import com.km.rmbank.dto.ReceiverAddressDto;
 import com.km.rmbank.dto.Response;
+import com.km.rmbank.dto.ServiceDto;
 import com.km.rmbank.dto.ShareDto;
 import com.km.rmbank.dto.ShoppingCartDto;
 import com.km.rmbank.dto.UserAccountDetailDto;
@@ -931,7 +932,7 @@ public interface ApiService {
      * @return
      */
     @FormUrlEncoded
-    @POST(SecretConstant.API_HOST_PATH + "/auth/user/userCard/info")
+    @POST(SecretConstant.API_HOST_PATH + "/auth/user/userCard/info/send")
     Flowable<Response<UserCardDto>> getUserCardById(@Field("token") String token,
                                                         @Field("id") String id);
 
@@ -1075,8 +1076,8 @@ public interface ApiService {
      */
     @FormUrlEncoded
     @POST(SecretConstant.API_HOST_PATH + "/auto/club/detail")
-    Flowable<Response<ClubDto>> getMyClubInfoBasic(@Field("token") String token,
-                                                   @Field("clubId") String clubId);
+    Flowable<Response<ClubDto>> getMyClubInfoBasic(@Field("token") String token,@Field("clubId") String clubId);
+
 
     /**
      * 获取我的俱乐部图文介绍信息
@@ -1198,5 +1199,14 @@ public interface ApiService {
                                            @Field("activityId") String activityId,
                                            @Field("registrationName") String registrationName,
                                            @Field("registrationPhone") String registrationPhone);
+
+    /**
+     * 获取客服信息
+     * @param token
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(SecretConstant.API_HOST_PATH + "/auth/user/admin/service")
+    Flowable<Response<ServiceDto>> getServiceInfo(@Field("token") String token);
 
 }

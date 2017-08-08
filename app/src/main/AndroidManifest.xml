@@ -285,6 +285,7 @@
         <activity android:name=".module.personal.mycontact.MyContactActivity" />
         <activity
             android:name=".module.chat.EaseChatActivity"
+            android:launchMode="singleTask"
             android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity android:name="com.hyphenate.easeui.ui.EaseShowBigImageActivity" />
         <activity android:name=".module.UserCardGuideActivity" />

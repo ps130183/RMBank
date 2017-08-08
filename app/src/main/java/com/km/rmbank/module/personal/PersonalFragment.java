@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -13,15 +12,14 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.km.rmbank.R;
-import com.km.rmbank.basic.BaseActivity;
 import com.km.rmbank.basic.BaseFragment;
 import com.km.rmbank.basic.RVUtils;
 import com.km.rmbank.cell.PersonalFunctionCell;
 import com.km.rmbank.cell.PersonalUserInfoCell;
+import com.km.rmbank.dto.ServiceDto;
 import com.km.rmbank.dto.ShareDto;
 import com.km.rmbank.dto.UserCardDto;
 import com.km.rmbank.dto.UserInfoDto;
-import com.km.rmbank.entity.PersonalFunctionEntity;
 import com.km.rmbank.dto.UserDto;
 import com.km.rmbank.module.personal.account.UserAccountActivity;
 import com.km.rmbank.module.personal.attention.AttentionGoodsActivity;
@@ -39,7 +37,6 @@ import com.km.rmbank.utils.UmengShareUtils;
 import com.km.rv_libs.TemplateAdapter;
 import com.km.rv_libs.base.ICell;
 import com.orhanobut.logger.Logger;
-import com.ps.androidlib.utils.DialogUtils;
 import com.ps.androidlib.utils.MToast;
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
@@ -225,7 +222,7 @@ public class PersonalFragment extends BaseFragment<PersonalPresenter> implements
                 case R.id.tv_edit_card:
                     toNextActivity(EditUserCardActivity.class);
                     break;
-                case R.id.tv_vip:
+                case R.id.tv_all_goods:
 //                    if ("2".equals(Constant.user.getRoleId())){
 //                        showToast("您已经是合伙人会员");
 //                        return;
@@ -317,5 +314,10 @@ public class PersonalFragment extends BaseFragment<PersonalPresenter> implements
     @Override
     public void showShareContent(ShareDto shareDto) {
         this.shareDto = shareDto;
+    }
+
+    @Override
+    public void chatService(ServiceDto serviceDto) {
+
     }
 }

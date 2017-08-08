@@ -7,6 +7,7 @@ import com.km.rmbank.basic.BaseView;
 import com.km.rmbank.dto.MyFriendsDto;
 import com.km.rmbank.dto.ShareDto;
 import com.km.rmbank.dto.UserCardDto;
+import com.km.rmbank.dto.UserInfoDto;
 
 import java.util.List;
 
@@ -21,6 +22,8 @@ public interface Home2Contract {
         void locationSuccess();
 
         void showMyFriends(List<MyFriendsDto> myFriendsDtos);
+
+        void showUserInfo(UserInfoDto userInfoDto);
     }
     interface Presenter extends BasePresenter{
         void getShareContent();
@@ -28,5 +31,7 @@ public interface Home2Contract {
         void getUserLocation(String longitude,String latitude);
 
         void getMyFriends();
+
+        void loadUserInfo();
     }
 }

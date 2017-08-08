@@ -3,23 +3,18 @@ package com.km.rmbank.module.home;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.km.rmbank.R;
+import com.km.rmbank.adapter.Home3ActionPastAdapter;
+import com.km.rmbank.basic.BaseAdapter;
 import com.km.rmbank.basic.BaseFragment;
 import com.km.rmbank.basic.RVUtils;
-import com.km.rmbank.cell.Home3ClubAction1Cell;
-import com.km.rmbank.cell.Home3ClubAction2Cell;
 import com.km.rmbank.dto.InformationDto;
 import com.km.rmbank.module.club.past.ActionPastDetailActivity;
-import com.km.rmbank.module.club.recent.ActionRecentInfoActivity;
-import com.km.rv_libs.TemplateAdapter;
-import com.km.rv_libs.base.BaseAdapter;
-import com.km.rv_libs.base.ICell;
+import com.km.rmbank.utils.SwipeRefreshUtils;
 import com.ps.androidlib.utils.AppUtils;
 import com.ps.androidlib.utils.BannerUtils;
 import com.youth.banner.Banner;
@@ -86,9 +81,9 @@ public class Home3ClubFragment extends BaseFragment<Home3ClubPresenter> implemen
 
     private void initRecyclerview(){
         RVUtils.setLinearLayoutManage(rvClubAction, LinearLayoutManager.VERTICAL);
-        RVUtils.addDivideItemForRv(rvClubAction,RVUtils.DIVIDER_COLOR_DEFAULT,3);
-        final TemplateAdapter adapter = new TemplateAdapter();
-
+        RVUtils.addDivideItemForRv(rvClubAction,RVUtils.DIVIDER_COLOR_DEFAULT,1);
+        final Home3ActionPastAdapter adapter = new Home3ActionPastAdapter(getContext());
+        adapter.setClub(true);
         rvClubAction.setAdapter(adapter);
 
         adapter.addLoadMore(rvClubAction, new BaseAdapter.MoreDataListener() {
@@ -96,6 +91,15 @@ public class Home3ClubFragment extends BaseFragment<Home3ClubPresenter> implemen
             public void loadMoreData() {
                 mPresenter.getActionList(adapter.getNextPage());
             }
+        });
+        adapter.setItemClickListener(new BaseAdapter.ItemClickListener<InformationDto>() {
+            @Override
+            public void onItemClick(InformationDto itemData, int position) {
+                Bundle bundle = new Bundle();
+                bundle.putString("actionPastId",itemData.getId());
+                toNextActivity(ActionPastDetailActivity.class,bundle);
+            }
+
         });
 
         mPresenter.getActionList(1);
@@ -109,29 +113,8 @@ public class Home3ClubFragment extends BaseFragment<Home3ClubPresenter> implemen
 
     @Override
     public void getActionListSuccess(List<InformationDto> actionDtos, int pageNo) {
-        TemplateAdapter adapter = (TemplateAdapter) rvClubAction.getAdapter();
-        List<ICell> mIcells = new ArrayList<>();
-        for (int i = 0; i < actionDtos.size(); i++){
-            InformationDto informationDto = actionDtos.get(i);
-            if (i % 2 == 0){
-                Home3ClubAction1Cell cell1 = new Home3ClubAction1Cell(getContext(),informationDto);
-                cell1.setOnCellClickListener(clickActionListener);
-                mIcells.add(cell1);
-            } else {
-                Home3ClubAction2Cell cell2 = new Home3ClubAction2Cell(getContext(),informationDto);
-                cell2.setOnCellClickListener(clickActionListener);
-                mIcells.add(cell2);
-            }
-        }
-        adapter.addData(mIcells);
+        Home3ActionPastAdapter adapter = (Home3ActionPastAdapter) rvClubAction.getAdapter();
+        adapter.addData(actionDtos,pageNo);
     }
 
-    ICell.OnCellClickListener clickActionListener = new ICell.OnCellClickListener<InformationDto>() {
-        @Override
-        public void cellClick(InformationDto mData, int position) {
-            Bundle bundle = new Bundle();
-            bundle.putString("actionPastId",mData.getId());
-            toNextActivity(ActionPastDetailActivity.class,bundle);
-        }
-    };
 }

@@ -101,8 +101,6 @@ public class ActionRecentInfoActivity extends BaseActivity<ActionRecentInfoPrese
 
         if (isMyClub){
             btnApply.setVisibility(View.GONE);
-        } else {
-            llAction.setVisibility(View.GONE);
         }
 
         llApplyViewWrapper = new AnimatorViewWrapper(llApply);
@@ -230,10 +228,11 @@ public class ActionRecentInfoActivity extends BaseActivity<ActionRecentInfoPrese
         mFragments = new ArrayList<>();
         Bundle bundle = new Bundle();
         bundle.putParcelable("actionDto",actionDto);
+        bundle.putBoolean("isMyClub",isMyClub);
         mFragments.add(ActionRecentContentFragment.newInstance(bundle));
-        if (isMyClub){
-            mFragments.add(ActionJoinMemberFragment.newInstance(bundle));
-        }
+//        if (isMyClub){
+        mFragments.add(ActionJoinMemberFragment.newInstance(bundle));
+//        }
         selectActionInfo(0);
     }
 

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
@@ -15,6 +15,7 @@
             android:layout_height="@dimen/toolbar_status_height"
             android:paddingTop="@dimen/status_height"
             app:layout_scrollFlags="scroll|enterAlways"
+            app:popupTheme="@style/ToolbarPopupTheme"
             >
 
             <RelativeLayout
@@ -33,7 +34,7 @@
                     android:id="@+id/iv_more"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:src="@mipmap/ic_more_horiz_grey600_36dp"
+                    android:src="@mipmap/ic_add_white_48px"
                     android:visibility="visible"
                     android:layout_centerVertical="true"
                     android:layout_alignParentRight="true"
@@ -51,6 +52,7 @@
                     android:layout_marginRight="@dimen/view_space_64"
                     android:layout_centerVertical="true"
                     android:layout_toLeftOf="@+id/tv_message"
+                    android:paddingLeft="@dimen/view_space_8"
                     android:layout_gravity="center">
 
                     <TextView
@@ -59,7 +61,6 @@
                         android:layout_height="wrap_content"
                         android:text="  输入你正在找的宝贝"
                         android:textSize="@dimen/text_size_14"
-                        android:layout_centerHorizontal="true"
                         android:drawableLeft="@mipmap/ic_search_32"
                         />
 
@@ -79,6 +80,39 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/toolbar_height"
             android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/ll_all_goods"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/tv_all_goods"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="全部商品"
+                    android:textSize="@dimen/text_size_14"
+                    android:textColor="@color/color_white"
+                    android:gravity="center" />
+                <ImageView
+                    android:id="@+id/iv_vip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/ic_triangle_16"
+                    android:layout_marginLeft="@dimen/view_space_4"
+                    android:visibility="gone"
+                    />
+            </LinearLayout>
+
+            <View
+                android:layout_width="@dimen/divider_line_1"
+                android:layout_height="match_parent"
+                android:background="@color/color_divider1"
+                android:layout_marginTop="@dimen/view_space_8"
+                android:layout_marginBottom="@dimen/view_space_8"/>
+
             <LinearLayout
                 android:id="@+id/ll_goods_type"
                 android:layout_width="0dp"
@@ -92,7 +126,7 @@
                     android:layout_height="wrap_content"
                     android:text="选择分类"
                     android:textSize="@dimen/text_size_14"
-                    android:textColor="@color/color_block"
+                    android:textColor="@color/color_white"
                     android:gravity="center" />
                 <ImageView
                     android:id="@+id/iv_goods_type"
@@ -124,7 +158,7 @@
                     android:layout_height="wrap_content"
                     android:text="默认排序"
                     android:textSize="@dimen/text_size_14"
-                    android:textColor="@color/color_block"
+                    android:textColor="@color/color_white"
                     android:gravity="center" />
                 <ImageView
                     android:id="@+id/iv_sort"
@@ -135,37 +169,6 @@
                     />
             </LinearLayout>
 
-
-            <View
-                android:layout_width="@dimen/divider_line_1"
-                android:layout_height="match_parent"
-                android:background="@color/color_divider1"
-                android:layout_marginTop="@dimen/view_space_8"
-                android:layout_marginBottom="@dimen/view_space_8"/>
-
-            <LinearLayout
-                android:id="@+id/ll_vip"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="horizontal">
-                <TextView
-                    android:id="@+id/tv_vip"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="发布人"
-                    android:textSize="@dimen/text_size_14"
-                    android:textColor="@color/color_block"
-                    android:gravity="center" />
-                <ImageView
-                    android:id="@+id/iv_vip"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@mipmap/ic_triangle_16"
-                    android:layout_marginLeft="@dimen/view_space_4"
-                    />
-            </LinearLayout>
         </LinearLayout>
         <include layout="@layout/divider_height_1"/>
     </android.support.design.widget.AppBarLayout>
@@ -174,6 +177,7 @@
         android:id="@+id/swiper_refresh"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/app_bar_layout"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_goodslist"
@@ -189,6 +193,7 @@
         android:id="@+id/fl_select_goods_type"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@+id/app_bar_layout"
         android:background="#33000000"
         app:layout_behavior="com.km.rmbank.utils.behavior.CusBehavior"
         android:visibility="gone">
@@ -332,4 +337,4 @@
 
 
 
-</android.support.design.widget.CoordinatorLayout>
+</RelativeLayout>

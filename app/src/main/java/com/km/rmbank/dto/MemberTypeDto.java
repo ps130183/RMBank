@@ -19,6 +19,7 @@ public class MemberTypeDto {
     private int moneyDifference;
     private String roleId;
     private String partner;
+    private String residueMember;
 
     public int getMoneyDifference() {
         return moneyDifference;
@@ -68,15 +69,24 @@ public class MemberTypeDto {
         this.partner = partner;
     }
 
+    public String getResidueMember() {
+        return residueMember;
+    }
+
+    public void setResidueMember(String residueMember) {
+        this.residueMember = residueMember;
+    }
+
     @Override
     public String toString() {
         return "MemberTypeDto{" +
                 "experience='" + experience + '\'' +
                 ", id='" + id + '\'' +
                 ", memberMoney='" + memberMoney + '\'' +
-                ", moneyDifference='" + moneyDifference + '\'' +
+                ", moneyDifference=" + moneyDifference +
                 ", roleId='" + roleId + '\'' +
                 ", partner='" + partner + '\'' +
+                ", residueMember='" + residueMember + '\'' +
                 '}';
     }
 }

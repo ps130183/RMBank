@@ -35,27 +35,26 @@
         android:textColor="@color/color_red"
         android:textSize="@dimen/text_size_18"
         android:layout_toRightOf="@+id/iv_goods"
-        android:layout_above="@+id/fl_sub_title"/>
+        android:layout_alignBottom="@+id/iv_goods" />
 
     <FrameLayout
         android:id="@+id/fl_sub_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/iv_goods"
-        android:layout_toLeftOf="@+id/iv_is_vip2"
-        android:layout_alignBottom="@+id/iv_goods">
+        android:layout_above="@+id/tv_goods_price"
+        >
         <TextView
             android:id="@+id/tv_sub_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/view_space_8"
-            android:text="会员专享 全场9折"
+            android:text="会员专享 全场9折会员专享 全场9折会员专享 全场9折会员专享 全场9折"
             android:textColor="@color/color_red"
             android:textSize="@dimen/text_size_12"
             android:padding="@dimen/view_space_4"
             android:maxLines="1"
             android:ellipsize="end"
-            android:background="@drawable/shape_shop_list_sub_title"
 
             android:layout_marginRight="@dimen/view_space_16"
             android:layout_marginBottom="@dimen/view_space_4"/>

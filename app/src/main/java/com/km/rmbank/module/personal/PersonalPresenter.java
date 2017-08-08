@@ -1,5 +1,6 @@
 package com.km.rmbank.module.personal;
 
+import com.km.rmbank.dto.ServiceDto;
 import com.km.rmbank.dto.ShareDto;
 import com.km.rmbank.dto.UserCardDto;
 import com.km.rmbank.dto.UserInfoDto;
@@ -59,6 +60,18 @@ public class PersonalPresenter extends PresenterWrapper<PersonalContract.View> i
                     @Override
                     public void accept(@NonNull ShareDto shareDto) throws Exception {
                         mView.showShareContent(shareDto);
+                    }
+                }));
+    }
+
+    @Override
+    public void getService() {
+        mView.showLoading();
+        mApiwrapper.getServiceInfo()
+                .subscribe(newSubscriber(new Consumer<ServiceDto>() {
+                    @Override
+                    public void accept(@NonNull ServiceDto serviceDto) throws Exception {
+                        mView.chatService(serviceDto);
                     }
                 }));
     }

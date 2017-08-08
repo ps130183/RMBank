@@ -37,7 +37,7 @@ public class GoodsListShoppingAdapter extends BaseAdapter<GoodsDto> implements B
         holder.tvGoodsPrice.setText("¥"+goodsDto.getPrice());
         holder.tvSubTitle.setText(goodsDto.getSubtitle());
         holder.tvAccess.setText(goodsDto.getAccess());
-        if (goodsDto.getRole() == 2 && goodsDto.getType() == 1){
+        if (goodsDto.getRole() == 2 && (goodsDto.getType() == 1 || goodsDto.getType() == 0)){
             holder.ivIsVip2.setVisibility(View.VISIBLE);
         } else {
             holder.ivIsVip2.setVisibility(View.GONE);

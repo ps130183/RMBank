@@ -39,6 +39,7 @@
                 android:layout_alignBottom="@+id/tv_member1"
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="@dimen/view_space_16"
+                android:visibility="gone"
                 />
 
         </RelativeLayout>
@@ -56,9 +57,21 @@
                 android:layout_centerInParent="true"
                 android:text="合伙人会员"
                 android:gravity="center"
-                android:textColor="@color/color_red"
+                android:textColor="@color/colorPrimary"
                 android:textStyle="bold"
                 />
+
+            <TextView
+                android:id="@+id/tv_vip_number"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/tv_member2"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="@dimen/view_space_32"
+                android:gravity="center"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/text_size_12"
+                android:text=""/>
 
             <ImageView
                 android:id="@+id/iv_member2"
@@ -68,6 +81,7 @@
                 android:layout_alignBottom="@+id/tv_member2"
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="@dimen/view_space_16"
+                android:visibility="gone"
                 />
 
         </RelativeLayout>

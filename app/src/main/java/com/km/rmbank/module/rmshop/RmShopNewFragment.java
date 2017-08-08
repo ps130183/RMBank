@@ -2,43 +2,32 @@ package com.km.rmbank.module.rmshop;
 
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.flyco.tablayout.SlidingTabLayout;
 import com.km.rmbank.R;
 import com.km.rmbank.adapter.GoodsListShoppingAdapter;
 import com.km.rmbank.adapter.GoodsTypeRmAdaapter;
-import com.km.rmbank.adapter.ViewPagerTabLayoutAdapter;
 import com.km.rmbank.basic.BaseAdapter;
 import com.km.rmbank.basic.BaseFragment;
 import com.km.rmbank.basic.RVUtils;
 import com.km.rmbank.dto.GoodsDto;
 import com.km.rmbank.dto.GoodsTypeDto;
 import com.km.rmbank.dto.HomeGoodsTypeDto;
-import com.km.rmbank.entity.GoodsTypeEntity;
 import com.km.rmbank.module.home.SearchActivity;
 import com.km.rmbank.module.home.message.MessageActivity;
 import com.km.rmbank.module.personal.shopcart.ShoppingCartActivity;
 import com.km.rmbank.module.rmshop.goods.GoodsActivity;
 import com.km.rmbank.utils.SwipeRefreshUtils;
-import com.nineoldandroids.animation.Animator;
-import com.nineoldandroids.animation.AnimatorListenerAdapter;
 import com.nineoldandroids.animation.ObjectAnimator;
-import com.orhanobut.logger.Logger;
-import com.ps.androidlib.animator.AnimatorViewWrapper;
 import com.ps.androidlib.animator.ShowViewAnimator;
 import com.ps.androidlib.utils.AppUtils;
 import com.zaaach.toprightmenu.MenuItem;
@@ -48,7 +37,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 
 /**
@@ -90,7 +78,7 @@ public class RmShopNewFragment extends BaseFragment<RmShopPresenter> implements 
     TextView tvGoodsType;
     @BindView(R.id.tv_sort)
     TextView tvSort;
-    @BindView(R.id.tv_vip)
+    @BindView(R.id.tv_all_goods)
     TextView tvVip;
 
     @BindView(R.id.fl_select_goods_type)
@@ -150,6 +138,7 @@ public class RmShopNewFragment extends BaseFragment<RmShopPresenter> implements 
 
     @Override
     protected void createView() {
+
         Bundle bundle = getArguments();
         if (bundle != null){
             isFromHome =bundle.getBoolean("isFromHome",false);
@@ -267,6 +256,7 @@ public class RmShopNewFragment extends BaseFragment<RmShopPresenter> implements 
         RVUtils.setLinearLayoutManage(rvGt2, LinearLayoutManager.VERTICAL);
         RVUtils.addDivideItemForRv(rvGt2,0xffeeeeee,2);
         final GoodsTypeRmAdaapter gt2Adapter = new GoodsTypeRmAdaapter(getContext());
+        gt2Adapter.setmExistEmptyView(false);
         rvGt2.setAdapter(gt2Adapter);
 
         gt1Aadapter.setOnGoodsTypeCheckedListener(new GoodsTypeRmAdaapter.OnGoodsTypeCheckedListener() {
@@ -428,23 +418,24 @@ public class RmShopNewFragment extends BaseFragment<RmShopPresenter> implements 
         rotrationSort();
     }
 
-    @OnClick({R.id.tv_vip,R.id.ll_vip,R.id.iv_vip})
+    @OnClick({R.id.tv_all_goods,R.id.ll_all_goods,R.id.iv_vip})
     public void selectVip(View view){
-        if (llSelectVip.getVisibility() == View.GONE){
-            flSelectGoodsType.setVisibility(View.VISIBLE);
-            if (llSelectGoodsType.getVisibility() == View.VISIBLE){
-                mSelectGoodsAnimator.showViewByAnimator(llSelectGoodsType,null);
-                rotrationGoodsType();
-            }
-            if ((rvSelectSort.getVisibility() == View.VISIBLE)){
-                mSortAnimator.showViewByAnimator(rvSelectSort,null);
-                rotrationSort();
-            }
-        } else {
-            flSelectGoodsType.setVisibility(View.GONE);
-        }
-        mSelectVip.showViewByAnimator(llSelectVip,null);
-        rotrationVip();
+
+        GoodsTypeRmAdaapter adaapter1 = (GoodsTypeRmAdaapter) rvGt1.getAdapter();
+        GoodsTypeRmAdaapter adaapter2 = (GoodsTypeRmAdaapter) rvGt2.getAdapter();
+        adaapter1.clearChecked();
+        adaapter2.clearAllData();
+
+        tvGoodsType.setText("选择分类");
+        tvSort.setText("默认排序");
+
+        GoodsTypeRmAdaapter adaapterSort = (GoodsTypeRmAdaapter) rvSelectSort.getAdapter();
+        adaapterSort.setDefaultCheckedFirst();
+
+        isInIndextActivity = "";
+        orderBy = 0;
+        roleId = "";
+        mPresenter.getGoodsList(1,isInIndextActivity,orderBy,roleId);
     }
 
     @OnClick(R.id.btn_confirm)

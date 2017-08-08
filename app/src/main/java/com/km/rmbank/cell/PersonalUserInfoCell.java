@@ -1,8 +1,6 @@
 package com.km.rmbank.cell;
 
-import android.text.TextUtils;
 import android.view.View;
-import android.widget.TextView;
 
 import com.km.rmbank.R;
 import com.km.rmbank.dto.UserInfoDto;
@@ -32,31 +30,33 @@ public class PersonalUserInfoCell extends BaseCell<UserInfoDto> implements View.
         if (mData !=null){
             GlideUtils.loadCircleImage(holder.getImageView(R.id.iv_user_portrait), mData.getPortraitUrl());
             holder.getTextView(R.id.tv_user_nick_name).setText(mData.getNickName());
-            holder.getTextView(R.id.tv_time).setText("hi,这是你加入玩转地球的第" + mData.getRegisterDate() + "天");
+
             String vipType = "";
             holder.getTextView(R.id.tv_user_account).setVisibility(View.VISIBLE);
             if ("2".equals(Constant.user.getRoleId())){
-                vipType = "合伙人会员";
+                vipType = "合伙人";
             } else if ("3".equals(Constant.user.getRoleId())){
-                vipType = "体验式会员";
+                vipType = "会员";
             } else {
+                vipType = "用户";
                 holder.getTextView(R.id.tv_user_account).setVisibility(View.GONE);
             }
-            TextView tvVipType = holder.getTextView(R.id.tv_vip_type);
-            if (TextUtils.isEmpty(vipType)){
-                tvVipType.setVisibility(View.GONE);
-            } else {
-                tvVipType.setVisibility(View.VISIBLE);
-            }
-            tvVipType.setText(vipType);
+            holder.getTextView(R.id.tv_time).setText("尊敬的" + vipType + ",这是你加入玩转地球的第" + mData.getRegisterDate() + "天");
+//            TextView tvVipType = holder.getTextView(R.id.tv_vip_type);
+//            if (TextUtils.isEmpty(vipType)){
+//                tvVipType.setVisibility(View.GONE);
+//            } else {
+//                tvVipType.setVisibility(View.VISIBLE);
+//            }
+//            tvVipType.setText(vipType);
         }
 
         holder.getImageView(R.id.iv_user_portrait).setOnClickListener(this);
         holder.getTextView(R.id.tv_user_account).setOnClickListener(this);
         holder.getTextView(R.id.tv_edit_card).setOnClickListener(this);
-        holder.getTextView(R.id.tv_vip).setOnClickListener(this);
+        holder.getTextView(R.id.tv_all_goods).setOnClickListener(this);
         holder.getTextView(R.id.tv_setting).setOnClickListener(this);
-        holder.getImageView(R.id.iv_shop_cart).setOnClickListener(this);
+//        holder.getImageView(R.id.iv_shop_cart).setOnClickListener(this);
 
     }
 

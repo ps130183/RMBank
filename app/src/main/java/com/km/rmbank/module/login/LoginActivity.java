@@ -145,7 +145,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
                             }
                             tvSendCode.setText("重新发送");
                             isSendCode = true;
-                            tvSendCode.setTextColor(ContextCompat.getColor(LoginActivity.this,R.color.color_red));
+                            tvSendCode.setTextColor(ContextCompat.getColor(LoginActivity.this,R.color.color_blue3));
                         }
                     }
                 });
@@ -155,7 +155,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     public void onPhoneLengthChange(Editable s){
         if (s.length() >= 11){
             isSendCode = true;
-            tvSendCode.setTextColor(ContextCompat.getColor(LoginActivity.this,R.color.color_red));
+            tvSendCode.setTextColor(ContextCompat.getColor(LoginActivity.this,R.color.color_blue3));
         } else {
             isSendCode = false;
             tvSendCode.setTextColor(ContextCompat.getColor(LoginActivity.this,R.color.color_text_gray2));

@@ -79,6 +79,7 @@ public class MyTeamDto {
         private String total;
         private String type;
         private String updateDate;
+        private String referrerPhone;
 
         public String getAge() {
             return age;
@@ -200,6 +201,17 @@ public class MyTeamDto {
             this.updateDate = updateDate;
         }
 
+        public String getReferrerPhone() {
+            return referrerPhone;
+        }
+
+        public void setReferrerPhone(String referrerPhone) {
+            this.referrerPhone = referrerPhone;
+        }
+
+        public MemberDtoListBean() {
+        }
+
         @Override
         public int describeContents() {
             return 0;
@@ -222,9 +234,7 @@ public class MyTeamDto {
             dest.writeString(this.total);
             dest.writeString(this.type);
             dest.writeString(this.updateDate);
-        }
-
-        public MemberDtoListBean() {
+            dest.writeString(this.referrerPhone);
         }
 
         protected MemberDtoListBean(Parcel in) {
@@ -243,9 +253,10 @@ public class MyTeamDto {
             this.total = in.readString();
             this.type = in.readString();
             this.updateDate = in.readString();
+            this.referrerPhone = in.readString();
         }
 
-        public static final Parcelable.Creator<MemberDtoListBean> CREATOR = new Parcelable.Creator<MemberDtoListBean>() {
+        public static final Creator<MemberDtoListBean> CREATOR = new Creator<MemberDtoListBean>() {
             @Override
             public MemberDtoListBean createFromParcel(Parcel source) {
                 return new MemberDtoListBean(source);

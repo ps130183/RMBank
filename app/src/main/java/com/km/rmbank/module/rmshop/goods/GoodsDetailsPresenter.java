@@ -2,6 +2,7 @@ package com.km.rmbank.module.rmshop.goods;
 
 import com.km.rmbank.dto.GoodsDetailsDto;
 import com.km.rmbank.dto.ReceiverAddressDto;
+import com.km.rmbank.dto.UserCardDto;
 import com.km.rmbank.utils.retrofit.PresenterWrapper;
 
 import io.reactivex.Flowable;
@@ -59,6 +60,17 @@ public class GoodsDetailsPresenter extends PresenterWrapper<GoodsDetailsContract
                     @Override
                     public void accept(@NonNull String s) throws Exception {
                         mView.addShoppingCartSuccess();
+                    }
+                }));
+    }
+
+    @Override
+    public void getShopUserCartInfo(String id) {
+        mApiwrapper.getUserCardById(id)
+                .subscribe(newSubscriber(new Consumer<UserCardDto>() {
+                    @Override
+                    public void accept(@NonNull UserCardDto userCardDto) throws Exception {
+                        mView.showShopUserCartInfo(userCardDto);
                     }
                 }));
     }

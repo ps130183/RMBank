@@ -38,13 +38,12 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="合伙人会员"
+                android:text="体验式会员"
                 android:textColor="@color/color_white"
                 android:textStyle="bold"
-                android:drawableTop="@mipmap/ic_home3_vip2"
+                android:drawableTop="@mipmap/ic_home3_vip1"
                 android:layout_margin="@dimen/view_space_8"
                 />
-
             <View
                 android:layout_width="@dimen/divider_line_1"
                 android:layout_height="match_parent"
@@ -56,12 +55,13 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="体验式会员"
+                android:text="合伙人会员"
                 android:textColor="@color/color_white"
                 android:textStyle="bold"
-                android:drawableTop="@mipmap/ic_home3_vip1"
+                android:drawableTop="@mipmap/ic_home3_vip2"
                 android:layout_margin="@dimen/view_space_8"
                 />
+
 
         </LinearLayout>
 

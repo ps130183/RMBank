@@ -31,6 +31,7 @@ public class ActionJoinMemberFragment extends BaseFragment<ActionJoinMemberPrese
     RecyclerView rvActionJoinMember;
 
     private ActionDto mActionDto;
+    private boolean isMyClub;
 
     public static ActionJoinMemberFragment newInstance(Bundle bundle) {
         ActionJoinMemberFragment fragment = new ActionJoinMemberFragment();
@@ -51,13 +52,14 @@ public class ActionJoinMemberFragment extends BaseFragment<ActionJoinMemberPrese
     @Override
     protected void createView() {
         mActionDto = getArguments().getParcelable("actionDto");
+        isMyClub = getArguments().getBoolean("isMyClub",isMyClub);
         initRecyclerview();
     }
 
     private void initRecyclerview(){
         RVUtils.setLinearLayoutManage(rvActionJoinMember, LinearLayoutManager.VERTICAL);
         RVUtils.addDivideItemForRv(rvActionJoinMember);
-        final ActionRecentJoinMemberAdapter adapter = new ActionRecentJoinMemberAdapter(getContext());
+        final ActionRecentJoinMemberAdapter adapter = new ActionRecentJoinMemberAdapter(getContext(),isMyClub);
         rvActionJoinMember.setAdapter(adapter);
 
         adapter.addLoadMore(rvActionJoinMember, new BaseAdapter.MoreDataListener() {

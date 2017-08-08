@@ -102,7 +102,7 @@ public class MyOrderAdapter extends BaseAdapter<OrderDto> implements BaseAdapter
                 if (!isUser) {//商家
                     holder.tvOrderStatus.setText("待发货");
                 } else {
-                    holder.tvOrderStatus.setText("待收货");
+                    holder.tvOrderStatus.setText("待发货");
                 }
                 holder.rlAction.setVisibility(View.GONE);
                 break;

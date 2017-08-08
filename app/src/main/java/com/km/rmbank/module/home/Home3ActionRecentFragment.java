@@ -55,7 +55,7 @@ public class Home3ActionRecentFragment extends BaseFragment<Home3ActionRecentPre
 
     private void initRecentAction(){
         RVUtils.setLinearLayoutManage(rvActionRecent, LinearLayoutManager.VERTICAL);
-        RVUtils.addDivideItemForRv(rvActionRecent,RVUtils.DIVIDER_COLOR_WHITE);
+        RVUtils.addDivideItemForRv(rvActionRecent,RVUtils.DIVIDER_COLOR_WHITE,1);
         final ActionRecentHome3Adapter adapter = new ActionRecentHome3Adapter(getContext());
         rvActionRecent.setAdapter(adapter);
 

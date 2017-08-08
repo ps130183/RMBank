@@ -1,6 +1,7 @@
 package com.km.rmbank.adapter;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -39,7 +40,8 @@ public class ActionRecentHome3Adapter extends BaseAdapter<ActionDto> implements 
         GlideUtils.loadCircleImage(holder.ivClubLogo,actionDto.getClubLogo());
 
         holder.tvActionName.setText(actionDto.getTitle());
-        holder.tvClubNameTime.setText(actionDto.getClubName() + "    " + DateUtils.getInstance().getDate(actionDto.getStartDate()));
+        String clubName = TextUtils.isEmpty(actionDto.getClubName()) ? "玩转地球商旅学苑" : actionDto.getClubName();
+        holder.tvClubNameTime.setText(clubName + "    " + DateUtils.getInstance().getDate(actionDto.getStartDate()));
     }
 
     class ViewHolder extends BaseViewHolder{

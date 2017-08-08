@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -75,7 +76,7 @@ public class ActionPastDetailActivity extends BaseActivity<ActionPastDetailPrese
         clubId = actionPastDto.getClubId();
         tvTitle.setText(actionPastDto.getTitle());
         tvActionName.setText(actionPastDto.getTitle());
-        tvClubName.setText(actionPastDto.getClubName());
+        tvClubName.setText(TextUtils.isEmpty(actionPastDto.getClubName()) ? "玩转地球商旅学苑" : actionPastDto.getClubName());
         GlideUtils.loadCircleImage(ivClubLogo,actionPastDto.getClubLogo());
         tvReleaseTime.setText("发布时间：" + DateUtils.getInstance().getDate(actionPastDto.getCreateDate()));
 
@@ -86,6 +87,9 @@ public class ActionPastDetailActivity extends BaseActivity<ActionPastDetailPrese
 
     @OnClick({R.id.iv_club_logo,R.id.tv_club_name})
     public void onClickClubName(View view){
+        if ("manager".equals(clubId)){
+            return;
+        }
         Bundle bundle = new Bundle();
         bundle.putString("clubId",clubId);
         toNextActivity(ClubInfoActivity.class,bundle);

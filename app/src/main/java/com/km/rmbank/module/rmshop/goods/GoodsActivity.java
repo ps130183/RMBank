@@ -18,10 +18,12 @@ import com.km.rmbank.adapter.ViewPagerTabLayoutAdapter;
 import com.km.rmbank.basic.BaseActivity;
 import com.km.rmbank.dto.GoodsDetailsDto;
 import com.km.rmbank.dto.ReceiverAddressDto;
+import com.km.rmbank.dto.UserCardDto;
 import com.km.rmbank.event.ConfirmGoodsNumberEvent;
 import com.km.rmbank.event.GoodsDetailNumberEvent;
 import com.km.rmbank.module.personal.shopcart.ShoppingCartActivity;
 import com.km.rmbank.module.personal.userinfo.EditUserCardActivity;
+import com.km.rmbank.module.personal.userinfo.UserCardInfoActivity;
 import com.ps.androidlib.animator.ShowViewAnimator;
 import com.ps.androidlib.utils.EventBusUtils;
 import com.ps.androidlib.utils.ViewUtils;
@@ -112,6 +114,18 @@ public class GoodsActivity extends BaseActivity<GoodsDetailsPresenter> implement
         showToast("已加入购物车");
     }
 
+    @Override
+    public void showShopUserCartInfo(UserCardDto userCardDto) {
+        if (userCardDto.isEmpty2()){
+            showToast("该商家尚未编辑名片");
+            return;
+        }
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("userCardDto",userCardDto);
+        bundle.putString("friendPhone",userCardDto.getMobilePhone());
+        toNextActivity(UserCardInfoActivity.class,bundle);
+    }
+
     class GoodsCenterView implements CenterViewInterface {
 
         @Override
@@ -199,9 +213,7 @@ public class GoodsActivity extends BaseActivity<GoodsDetailsPresenter> implement
 //            showToast("客服暂未开通");
 //            return;
 //        }
-        Bundle bundle = new Bundle();
-        bundle.putString("shopId",mGoodsDetails.getShopId());
-        toNextActivity(EditUserCardActivity.class,bundle);
+        mPresenter.getShopUserCartInfo(mGoodsDetails.getShopId());
     }
 
     /** ----------------- 以下是 选择商品数量 --------------------- */

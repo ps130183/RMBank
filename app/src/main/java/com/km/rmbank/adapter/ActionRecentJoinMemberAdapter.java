@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.km.rmbank.R;
 import com.km.rmbank.basic.BaseAdapter;
 import com.km.rmbank.dto.ActionMemberDto;
+import com.ps.androidlib.utils.StringUtils;
 import com.ps.androidlib.utils.glide.GlideUtils;
 
 import butterknife.BindView;
@@ -19,9 +20,12 @@ import butterknife.BindView;
 
 public class ActionRecentJoinMemberAdapter extends BaseAdapter<ActionMemberDto> implements BaseAdapter.IAdapter<ActionRecentJoinMemberAdapter.ViewHolder> {
 
-    public ActionRecentJoinMemberAdapter(Context mContext) {
+    private boolean isMyClub;
+
+    public ActionRecentJoinMemberAdapter(Context mContext,boolean isMyClub) {
         super(mContext, R.layout.item_rv_action_recent_member);
         setiAdapter(this);
+        this.isMyClub = isMyClub;
     }
 
     @Override
@@ -39,7 +43,7 @@ public class ActionRecentJoinMemberAdapter extends BaseAdapter<ActionMemberDto> 
         }
 
         holder.tvMmeberName.setText(actionMemberDto.getRegistrationName());
-        holder.tvMmeberPhone.setText(actionMemberDto.getRegistrationPhone());
+        holder.tvMmeberPhone.setText(isMyClub ? actionMemberDto.getRegistrationPhone() : StringUtils.hidePhone(actionMemberDto.getRegistrationPhone()));
     }
 
     class ViewHolder extends BaseViewHolder{

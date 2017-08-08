@@ -118,6 +118,7 @@ public class EditUserCardActivity extends BaseActivity<EditUserCardPresenter> im
 //        memberDtoListBean = getIntent().getParcelableExtra("memberDto");
 //        shopId = getIntent().getStringExtra("shopId");
         if (userCardDto != null){
+//            btnCreateCode.setVisibility(View.GONE);
             showUserCard(userCardDto);
         }
 //        PickerUtils.showOptions(this,etLocation,vMasker);
@@ -297,8 +298,8 @@ public class EditUserCardActivity extends BaseActivity<EditUserCardPresenter> im
             for (String resource : userCardDto.getDemandResourcesMap()){
                 bufDemand.append(resource).append("#");
             }
-            etProviderResource.setText(bufProvide.toString().substring(0,bufProvide.length() - 1));
-            etNeedResource.setText(bufDemand.toString().substring(0,bufDemand.length() - 1));
+            etProviderResource.setText(bufProvide.length() > 0 ? bufProvide.toString().substring(0,bufProvide.length() - 1) : "");
+            etNeedResource.setText(bufDemand.length() > 0 ? bufDemand.toString().substring(0,bufDemand.length() - 1) : "");
             etAddress.setText(userCardDto.getDetailedAddress());
             etEmail.setText(userCardDto.getEmailAddress());
         }

@@ -20,9 +20,6 @@ public class ActionPastDto extends BaseEntity implements Parcelable {
     private String clubLogo;
     private long createDate;
     private String avatarUrl;
-    private String avatarUrl1;
-    private String avatarUrl2;
-    private String avatarUrl3;
     private String title;
     private List<DynamicBean> dynamicList;
     private List<DynamicBean> detailList;
@@ -45,9 +42,6 @@ public class ActionPastDto extends BaseEntity implements Parcelable {
                 ", clubLogo='" + clubLogo + '\'' +
                 ", createDate=" + createDate +
                 ", avatarUrl='" + avatarUrl + '\'' +
-                ", avatarUrl1='" + avatarUrl1 + '\'' +
-                ", avatarUrl2='" + avatarUrl2 + '\'' +
-                ", avatarUrl3='" + avatarUrl3 + '\'' +
                 ", title='" + title + '\'' +
                 ", dynamicList=" + dynamicList +
                 ", detailList=" + detailList +
@@ -103,29 +97,6 @@ public class ActionPastDto extends BaseEntity implements Parcelable {
         this.clubId = clubId;
     }
 
-    public String getAvatarUrl1() {
-        return avatarUrl1;
-    }
-
-    public void setAvatarUrl1(String avatarUrl1) {
-        this.avatarUrl1 = avatarUrl1;
-    }
-
-    public String getAvatarUrl2() {
-        return avatarUrl2;
-    }
-
-    public void setAvatarUrl2(String avatarUrl2) {
-        this.avatarUrl2 = avatarUrl2;
-    }
-
-    public String getAvatarUrl3() {
-        return avatarUrl3;
-    }
-
-    public void setAvatarUrl3(String avatarUrl3) {
-        this.avatarUrl3 = avatarUrl3;
-    }
 
     public String getTitle() {
         return title;
@@ -149,17 +120,11 @@ public class ActionPastDto extends BaseEntity implements Parcelable {
 
     public void setAvatarUrl(String avatarUrl) {
         this.avatarUrl = avatarUrl;
-        String[] avatarUrls = avatarUrl.split("#");
-        setAvatarUrl1(avatarUrls[0]);
-        setAvatarUrl2(avatarUrls[1]);
-        setAvatarUrl3(avatarUrls[2]);
     }
 
     @Override
     public boolean isEmpty() {
-        if (TextUtils.isEmpty(clubId) || TextUtils.isEmpty(avatarUrl1)
-                || TextUtils.isEmpty(avatarUrl2)
-                || TextUtils.isEmpty(avatarUrl3)
+        if (TextUtils.isEmpty(clubId)
                 || TextUtils.isEmpty(title)){
             return true;
         }
@@ -262,9 +227,6 @@ public class ActionPastDto extends BaseEntity implements Parcelable {
         dest.writeString(this.clubLogo);
         dest.writeLong(this.createDate);
         dest.writeString(this.avatarUrl);
-        dest.writeString(this.avatarUrl1);
-        dest.writeString(this.avatarUrl2);
-        dest.writeString(this.avatarUrl3);
         dest.writeString(this.title);
         dest.writeTypedList(this.dynamicList);
         dest.writeTypedList(this.detailList);
@@ -278,9 +240,6 @@ public class ActionPastDto extends BaseEntity implements Parcelable {
         this.clubLogo = in.readString();
         this.createDate = in.readLong();
         this.avatarUrl = in.readString();
-        this.avatarUrl1 = in.readString();
-        this.avatarUrl2 = in.readString();
-        this.avatarUrl3 = in.readString();
         this.title = in.readString();
         this.dynamicList = in.createTypedArrayList(DynamicBean.CREATOR);
         this.detailList = in.createTypedArrayList(DynamicBean.CREATOR);

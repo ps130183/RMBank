@@ -1,146 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
-
-    <LinearLayout
-        style="@style/Personal.function_ll"
-        >
+    <LinearLayout style="@style/Personal.function_ll">
 
         <TextView
-            android:id="@+id/tv_my_club"
+            android:id="@+id/tv_my_order"
             style="@style/Personal.function_tv"
-            android:text="  我的俱乐部"
-            android:drawableLeft="@mipmap/ic_personal_my_team"
-            />
-
-    </LinearLayout>
-
-    <LinearLayout
-        style="@style/Personal.function_ll"
-        >
-
-        <TextView
-            android:id="@+id/tv_my_team"
-            style="@style/Personal.function_tv"
-            android:text="  我的团队"
-            android:drawableLeft="@mipmap/ic_personal_my_team"
-            />
+            android:drawableLeft="@mipmap/ic_personal_my_order"
+            android:text="  我的订单" />
 
         <View
-            android:id="@+id/line_team_contact"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginLeft="50dp"
-            android:background="@color/color_divider1"/>
+            android:background="@color/color_divider1" />
 
+        <TextView
+            android:id="@+id/tv_address"
+            style="@style/Personal.function_tv"
+            android:drawableLeft="@mipmap/ic_personal_receiveraddress"
+            android:text="  收货地址" />
+
+    </LinearLayout>
+
+    <LinearLayout style="@style/Personal.function_ll">
         <RelativeLayout
             android:id="@+id/rl_my_contact"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <TextView
                 android:id="@+id/tv_my_contact"
                 style="@style/Personal.function_tv"
-                android:text="  我的人脉"
                 android:drawableLeft="@mipmap/ic_personal_my_friend"
-                />
+                android:text="  我的人脉" />
 
             <TextView
                 android:id="@+id/tv_my_contact_hint"
                 android:layout_width="10dp"
                 android:layout_height="10dp"
-                android:background="@drawable/shape_tv_circle_red"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:visibility="gone"
-                />
+                android:background="@drawable/shape_tv_circle_red"
+                android:visibility="gone" />
         </RelativeLayout>
-
-
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/ll_integral_goods"
-        style="@style/Personal.function_ll"
-        >
-        
-        <TextView
-            android:id="@+id/tv_my_integral"
-            style="@style/Personal.function_tv"
-            android:text="  我的积分"
-            android:drawableLeft="@mipmap/ic_personal_integral"
-            android:visibility="visible"
-            />
 
         <View
             android:id="@+id/line_integral_goods"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginLeft="50dp"
-            android:visibility="visible"
-            android:background="@color/color_divider1"/>
+            android:background="@color/color_divider1"
+            android:visibility="visible" />
+
 
         <TextView
-            android:id="@+id/tv_goods_manager"
+            android:id="@+id/tv_my_integral"
             style="@style/Personal.function_tv"
-            android:text="  商品管理"
-            android:drawableLeft="@mipmap/ic_personal_goods_manage"
-            />
-        
+            android:drawableLeft="@mipmap/ic_personal_integral"
+            android:text="  我的积分"
+            android:visibility="visible" />
+
+
     </LinearLayout>
 
-    <LinearLayout
-        style="@style/Personal.function_ll"
-        >
-
-        <TextView
-            android:id="@+id/tv_my_order"
-            style="@style/Personal.function_tv"
-            android:text="  我的订单"
-            android:drawableLeft="@mipmap/ic_personal_my_order"
-            />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginLeft="50dp"
-            android:background="@color/color_divider1"/>
-
-        <TextView
-            android:id="@+id/tv_address"
-            style="@style/Personal.function_tv"
-            android:text="  收货地址"
-            android:drawableLeft="@mipmap/ic_personal_receiveraddress"
-            />
-
-    </LinearLayout>
-    <LinearLayout
-        style="@style/Personal.function_ll"
-        >
+    <LinearLayout style="@style/Personal.function_ll">
 
         <RelativeLayout
             android:id="@+id/rl_service"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <TextView
                 android:id="@+id/tv_service"
                 style="@style/Personal.function_tv"
-                android:text="  在线客服"
                 android:drawableLeft="@mipmap/ic_personal_service"
-                />
+                android:text="  在线客服" />
 
             <TextView
                 android:id="@+id/tv_service_phone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="010-87655945"
-                android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
                 android:layout_marginRight="@dimen/view_space_16"
-                />
+                android:text="" />
         </RelativeLayout>
 
 
@@ -148,14 +95,13 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginLeft="50dp"
-            android:background="@color/color_divider1"/>
+            android:background="@color/color_divider1" />
 
         <TextView
             android:id="@+id/tv_attention"
             style="@style/Personal.function_tv"
-            android:text="  我的关注"
             android:drawableLeft="@mipmap/ic_personal_follow"
-            />
+            android:text="  我的关注" />
 
     </LinearLayout>
 

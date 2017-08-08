@@ -8,7 +8,7 @@
 
     <color name="gallery_blue">#ffffff</color>
 
-    <color name="comui_tab_text_color">#ff333333</color>
+    <color name="tab_selected_text_color">#33CCFF</color>
 
     <!--默认背景颜色-->
     <color name="color_default_background">#f4f2f2</color>
@@ -45,6 +45,7 @@
     <color name="color_text_account">#66e1ca</color>
     <color name="color_blue">#0180ff</color>
     <color name="color_blue2">#2bf8ff</color>
+    <color name="color_blue3">#0099cf</color>
     <color name="color_red">#ff0109</color>
     <color name="color_green">#62fd01</color>
 

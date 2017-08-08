@@ -60,6 +60,7 @@ public class BaseApplication extends MultiDexApplication {
         return mInstance;
     }
 
+
     /**
      * 初始化日志打印
      */

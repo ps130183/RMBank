@@ -3,6 +3,7 @@ package com.km.rmbank.module;
 import com.km.rmbank.dto.MyFriendsDto;
 import com.km.rmbank.dto.ShareDto;
 import com.km.rmbank.dto.UserCardDto;
+import com.km.rmbank.dto.UserInfoDto;
 import com.km.rmbank.utils.Constant;
 import com.km.rmbank.utils.retrofit.PresenterWrapper;
 
@@ -80,6 +81,20 @@ public class Home2Presenter extends PresenterWrapper<Home2Contract.View> impleme
                     @Override
                     public void accept(@NonNull List<MyFriendsDto> myFriendsDtos) throws Exception {
                         mView.showMyFriends(myFriendsDtos);
+                    }
+                }));
+    }
+
+    @Override
+    public void loadUserInfo() {
+        if (Constant.user.isEmpty()){
+            return;
+        }
+        mApiwrapper.getUserInfo()
+                .subscribe(newSubscriber(new Consumer<UserInfoDto>() {
+                    @Override
+                    public void accept(@NonNull UserInfoDto userInfoDto) throws Exception {
+                        mView.showUserInfo(userInfoDto);
                     }
                 }));
     }

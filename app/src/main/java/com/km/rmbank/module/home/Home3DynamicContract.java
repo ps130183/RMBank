@@ -12,7 +12,7 @@ import java.util.List;
 
 public interface Home3DynamicContract {
     interface View extends BaseView{
-        void showDynamicInformationList(List<InformationDto> informationDtos);
+        void showDynamicInformationList(List<InformationDto> informationDtos,int pageNo);
     }
     interface Presenter extends BasePresenter{
         void getDynamicInformationList(int pageNo);

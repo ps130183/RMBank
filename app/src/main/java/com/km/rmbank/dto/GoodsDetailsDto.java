@@ -87,6 +87,8 @@ public class GoodsDetailsDto extends BaseEntity implements Parcelable {
 
     private ReceiverAddressDto receiverAddressDto;
 
+    private String commentNum;
+
     @Override
     public boolean isEmpty() {
         if (TextUtils.isEmpty(name) || TextUtils.isEmpty(subtitle) || TextUtils.isEmpty(price) || TextUtils.isEmpty(isInIndexActivity)
@@ -385,6 +387,14 @@ public class GoodsDetailsDto extends BaseEntity implements Parcelable {
         this.productTypeOne = productTypeOne;
     }
 
+    public String getCommentNum() {
+        return commentNum;
+    }
+
+    public void setCommentNum(String commentNum) {
+        this.commentNum = commentNum;
+    }
+
     public GoodsDetailsDto() {
     }
 
@@ -431,6 +441,7 @@ public class GoodsDetailsDto extends BaseEntity implements Parcelable {
         dest.writeString(this.total);
         dest.writeParcelable(this.goodsTypeDto, flags);
         dest.writeParcelable(this.receiverAddressDto, flags);
+        dest.writeString(this.commentNum);
     }
 
     protected GoodsDetailsDto(Parcel in) {
@@ -470,6 +481,7 @@ public class GoodsDetailsDto extends BaseEntity implements Parcelable {
         this.total = in.readString();
         this.goodsTypeDto = in.readParcelable(HomeGoodsTypeDto.class.getClassLoader());
         this.receiverAddressDto = in.readParcelable(ReceiverAddressDto.class.getClassLoader());
+        this.commentNum = in.readString();
     }
 
     public static final Creator<GoodsDetailsDto> CREATOR = new Creator<GoodsDetailsDto>() {

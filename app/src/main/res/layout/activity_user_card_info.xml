@@ -16,7 +16,7 @@
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="280dp">
             <ImageView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -149,7 +149,7 @@
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="220dp">
             <ImageView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -212,7 +212,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#0099bb"
-            android:text="重新编辑"
+            android:text="编辑"
             android:textColor="@color/color_white"
             android:textStyle="bold"
             android:layout_marginLeft="@dimen/view_space_32"

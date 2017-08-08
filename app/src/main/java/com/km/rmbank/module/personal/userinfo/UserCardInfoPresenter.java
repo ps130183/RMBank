@@ -32,4 +32,40 @@ public class UserCardInfoPresenter extends PresenterWrapper<UserCardInfoContract
                     }
                 }));
     }
+
+    @Override
+    public void getUserCardById(String userId) {
+        mView.showLoading();
+        mApiwrapper.getUserCardById(userId)
+                .subscribe(newSubscriber(new Consumer<UserCardDto>() {
+                    @Override
+                    public void accept(@NonNull UserCardDto userCardDto) throws Exception {
+                        mView.showUserCardInfo(userCardDto);
+                    }
+                }));
+    }
+
+    @Override
+    public void addShopToFriend(String friendMobilePhone) {
+        mView.showLoading();
+        mApiwrapper.applyBecomeFriend(friendMobilePhone)
+                .subscribe(newSubscriber(new Consumer<String>() {
+                    @Override
+                    public void accept(@NonNull String s) throws Exception {
+
+                    }
+                }));
+    }
+
+    @Override
+    public void applyBecomeMyFriends(String mobilePhone) {
+        mView.showLoading();
+        mApiwrapper.applyBecomeFriend(mobilePhone)
+                .subscribe(newSubscriber(new Consumer<String>() {
+                    @Override
+                    public void accept(@NonNull String s) throws Exception {
+                        mView.applyBecomeFriendSuccess();
+                    }
+                }));
+    }
 }

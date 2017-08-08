@@ -1,6 +1,8 @@
 package com.km.rmbank.api;
 
 
+import android.text.TextUtils;
+
 import com.google.gson.Gson;
 import com.km.rmbank.dto.ActionDto;
 import com.km.rmbank.dto.ActionMemberDto;
@@ -25,6 +27,7 @@ import com.km.rmbank.dto.MyTeamDto;
 import com.km.rmbank.dto.NearbyVipDto;
 import com.km.rmbank.dto.PayOrderDto;
 import com.km.rmbank.dto.ReceiverAddressDto;
+import com.km.rmbank.dto.ServiceDto;
 import com.km.rmbank.dto.ShareDto;
 import com.km.rmbank.dto.ShoppingCartDto;
 import com.km.rmbank.dto.UserAccountDetailDto;
@@ -1023,7 +1026,7 @@ public class ApiWrapper extends RetrofitUtil {
     public Flowable<String> releaseActionPast(ActionPastDto actionPastDto){
         String dynamicList = gson.toJson(actionPastDto.getDynamicList());
         return getService().releaseActionPast(actionPastDto.getClubId(),
-                actionPastDto.getAvatarUrl1()+"#"+actionPastDto.getAvatarUrl2()+"#"+actionPastDto.getAvatarUrl3(),
+                actionPastDto.getAvatarUrl(),
                 actionPastDto.getTitle(),dynamicList)
                 .compose(this.<String>applySchedulers());
     }
@@ -1068,5 +1071,14 @@ public class ApiWrapper extends RetrofitUtil {
     public Flowable<String> applyAction(String activityId,String name,String phone){
         return getService().applyAction(Constant.user.getToken(),activityId,name,phone)
                 .compose(this.<String>applySchedulers());
+    }
+
+    /**
+     * 获取客服信息
+     * @return
+     */
+    public Flowable<ServiceDto> getServiceInfo(){
+        return getService().getServiceInfo(Constant.user.getToken())
+                .compose(this.<ServiceDto>applySchedulers());
     }
 }

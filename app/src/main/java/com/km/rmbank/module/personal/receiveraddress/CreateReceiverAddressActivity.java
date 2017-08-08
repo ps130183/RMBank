@@ -24,12 +24,12 @@ public class CreateReceiverAddressActivity extends BaseActivity<CreateReceiverAd
     @BindView(R.id.et_address_detail)
     EditText etAddressDetail;
 
-    @BindView(R.id.et_address_area)
-    EditText etAddressArea;
-    @BindView(R.id.vMasker)
-    View vMasker;
+//    @BindView(R.id.et_address_area)
+//    EditText etAddressArea;
+//    @BindView(R.id.vMasker)
+//    View vMasker;
 
-    private SelectCityPick cityPick;
+//    private SelectCityPick cityPick;
     private ReceiverAddressDto mReceiverAddressDto;
 
     @Override
@@ -51,7 +51,7 @@ public class CreateReceiverAddressActivity extends BaseActivity<CreateReceiverAd
     @Override
     protected void onCreate() {
         mReceiverAddressDto = getIntent().getParcelableExtra("receiverAddressDto");
-        cityPick = new SelectCityPick();
+//        cityPick = new SelectCityPick();
         setRightBtnClick("保存", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -60,10 +60,10 @@ public class CreateReceiverAddressActivity extends BaseActivity<CreateReceiverAd
         });
         if (mReceiverAddressDto != null){//修改编辑
             title.setText("编辑收货地址");
-            cityPick.getOptionsPosition(mReceiverAddressDto.getId());
+//            cityPick.getOptionsPosition(mReceiverAddressDto.getId());
             initReceiverAddress();
         }
-        cityPick.showOptions(this,etAddressArea,vMasker);
+//        cityPick.showOptions(this,etAddressArea,vMasker);
     }
 
     /**
@@ -72,10 +72,10 @@ public class CreateReceiverAddressActivity extends BaseActivity<CreateReceiverAd
     private void initReceiverAddress(){
         etName.setText(mReceiverAddressDto.getReceivePerson());
         etPhone.setText(mReceiverAddressDto.getReceivePersonPhone());
-        String area = cityPick.getSelectedContent();
+//        String area = cityPick.getSelectedContent();
         String detail = mReceiverAddressDto.getReceiveAddress();
-        detail = detail.replace(area,"");
-        etAddressArea.setText(area);
+//        detail = detail.replace(area,"");
+//        etAddressArea.setText(area);
         etAddressDetail.setText(detail);
     }
 
@@ -83,7 +83,7 @@ public class CreateReceiverAddressActivity extends BaseActivity<CreateReceiverAd
         ReceiverAddressDto receiverAddressDto = new ReceiverAddressDto();
         receiverAddressDto.setReceivePerson(etName.getText().toString());
         receiverAddressDto.setReceivePersonPhone(etPhone.getText().toString());
-        receiverAddressDto.setReceiveAddress(etAddressArea.getText().toString() + etAddressDetail.getText().toString());
+        receiverAddressDto.setReceiveAddress(etAddressDetail.getText().toString());
 
         if (receiverAddressDto.isEmpty()){
             showToast("请将收货地址信息填写完整");
@@ -100,7 +100,7 @@ public class CreateReceiverAddressActivity extends BaseActivity<CreateReceiverAd
 
     @Override
     public void createReceiverAddressSuccess(String id) {
-        cityPick.saveOptionsPosition(id);
+//        cityPick.saveOptionsPosition(id);
         finish();
     }
 }

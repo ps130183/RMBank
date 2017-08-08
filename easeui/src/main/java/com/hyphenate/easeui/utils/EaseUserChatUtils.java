@@ -46,6 +46,12 @@ public class EaseUserChatUtils {
         }
     }
 
+    public static void clear(){
+        if (mUsers != null){
+            mUsers.clear();
+        }
+    }
+
     public static List<EaseUser> getUsers() {
         return mUsers;
     }

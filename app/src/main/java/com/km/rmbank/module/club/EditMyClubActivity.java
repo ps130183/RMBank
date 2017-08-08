@@ -24,7 +24,6 @@ import com.km.rmbank.module.personal.userinfo.UserInfoActivity;
 import com.km.rmbank.ui.CircleProgressView;
 import com.km.rmbank.utils.fileupload.FileUploadingListener;
 import com.orhanobut.logger.Logger;
-import com.ps.androidlib.ui.KeyboardLayout;
 import com.ps.androidlib.utils.AppUtils;
 import com.ps.androidlib.utils.DialogUtils;
 import com.ps.androidlib.utils.SoftKeyInputHidWidget;
@@ -105,7 +104,7 @@ public class EditMyClubActivity extends BaseActivity<EditMyClubPresenter> implem
         initClubIntroduceList();
 
         mClubDto = getIntent().getParcelableExtra("clubDto");
-        if (mClubDto == null){
+        if (mClubDto == null) {
             isCreate = true;
             mClubDto = new ClubDto();
         } else {
@@ -114,10 +113,10 @@ public class EditMyClubActivity extends BaseActivity<EditMyClubPresenter> implem
 
     }
 
-    private void setData(){
+    private void setData() {
 
-        GlideUtils.loadCircleImage(ivUploadLogo,mClubDto.getClubLogo());
-        GlideUtils.loadImage(ivBackground,mClubDto.getBackgroundImg());
+        GlideUtils.loadCircleImage(ivUploadLogo, mClubDto.getClubLogo());
+        GlideUtils.loadImage(ivBackground, mClubDto.getBackgroundImg());
         etClubName.setText(mClubDto.getClubName());
         etClubIntroduce.setText(mClubDto.getContent());
 
@@ -125,20 +124,23 @@ public class EditMyClubActivity extends BaseActivity<EditMyClubPresenter> implem
         ivUploadLogo.setVisibility(View.VISIBLE);
 
 
-
         ClubIntroduceAdapter adapter = (ClubIntroduceAdapter) rvClubIntroduce.getAdapter();
         List<ClubIntroduceEntity> clubIntroduceEntities = new ArrayList<>();
         List<ClubDto.ClubDetailBean> detailBeanList = mClubDto.getClubDetailList();
-        for (int i = 0; i < detailBeanList.size(); i++){
-            ClubIntroduceEntity entity = new ClubIntroduceEntity();
-            entity.setIntroduceImgPath(detailBeanList.get(i).getClubImage());
-            entity.setIntroduceContent(detailBeanList.get(i).getClubContent());
-            if (i != detailBeanList.size() - 1){
-                entity.setCanDelete(true);
-            } else {
-                entity.setCanDelete(false);
+        if (detailBeanList.size() == 0) {
+            clubIntroduceEntities.add(new ClubIntroduceEntity());
+        } else {
+            for (int i = 0; i < detailBeanList.size(); i++) {
+                ClubIntroduceEntity entity = new ClubIntroduceEntity();
+                entity.setIntroduceImgPath(detailBeanList.get(i).getClubImage());
+                entity.setIntroduceContent(detailBeanList.get(i).getClubContent());
+                if (i != detailBeanList.size() - 1) {
+                    entity.setCanDelete(true);
+                } else {
+                    entity.setCanDelete(false);
+                }
+                clubIntroduceEntities.add(entity);
             }
-            clubIntroduceEntities.add(entity);
         }
         adapter.addData(clubIntroduceEntities);
     }
@@ -150,7 +152,7 @@ public class EditMyClubActivity extends BaseActivity<EditMyClubPresenter> implem
 
         RVUtils.addDivideItemForRv(rvClubIntroduce);
         RVUtils.setLinearLayoutManage(rvClubIntroduce, LinearLayoutManager.VERTICAL);
-        final ClubIntroduceAdapter adapter = new ClubIntroduceAdapter(this,R.layout.item_rv_edit_club_introduce);
+        final ClubIntroduceAdapter adapter = new ClubIntroduceAdapter(this, R.layout.item_rv_edit_club_introduce);
         rvClubIntroduce.setAdapter(adapter);
 
         adapter.setOnClickAddOrDeleteListener(new ClubIntroduceAdapter.OnClickAddOrDeleteListener() {
@@ -275,7 +277,7 @@ public class EditMyClubActivity extends BaseActivity<EditMyClubPresenter> implem
             }
 //            mPresenter.uploadProtrait(photoList.get(0));
             Logger.d("--------------------- selectImageListener   uploadClubImg ---------------------");
-            mPresenter.uploadClubImg(imagePath, imgUploadPosition,introduceImgPosition);
+            mPresenter.uploadClubImg(imagePath, imgUploadPosition, introduceImgPosition);
         }
     };
 
@@ -283,30 +285,30 @@ public class EditMyClubActivity extends BaseActivity<EditMyClubPresenter> implem
     /**
      * 保存俱乐部信息
      */
-    private void createMyClub(){
+    private void createMyClub() {
         mClubDto.setClubName(etClubName.getText().toString());
         mClubDto.setContent(etClubIntroduce.getText().toString());
 
 
         ClubIntroduceAdapter adapter = (ClubIntroduceAdapter) rvClubIntroduce.getAdapter();
         List<ClubDto.ClubDetailBean> clubDetailBeens = new ArrayList<>();
-        for (ClubIntroduceEntity entity : adapter.getAllData()){
+        for (ClubIntroduceEntity entity : adapter.getAllData()) {
             ClubDto.ClubDetailBean detailBean = new ClubDto.ClubDetailBean();
             detailBean.setClubImage(entity.getIntroduceImgPath());
             detailBean.setClubContent(entity.getIntroduceContent());
             clubDetailBeens.add(detailBean);
         }
-        if (mClubDto.getClubDetailList() != null){
+        if (mClubDto.getClubDetailList() != null) {
             mClubDto.getClubDetailList().clear();
         }
         mClubDto.setClubDetailList(clubDetailBeens);
 
-        if (mClubDto.isEmpty()){
+        if (mClubDto.isEmpty()) {
             showToast("请将俱乐部信息补充完整");
             return;
         }
 
-        if (isCreate){
+        if (isCreate) {
             mPresenter.createMyClub(mClubDto);
         } else {
             mPresenter.editMyClub(mClubDto);
@@ -340,7 +342,7 @@ public class EditMyClubActivity extends BaseActivity<EditMyClubPresenter> implem
 
     @Override
     public void showImageUploadProgress(int imageType, int position, int progress) {
-        switch (imageType){
+        switch (imageType) {
             case 1:
                 cpvUploadLogo.setProgress(progress);
                 break;
@@ -348,7 +350,7 @@ public class EditMyClubActivity extends BaseActivity<EditMyClubPresenter> implem
                 break;
             case 3:
                 ClubIntroduceAdapter adapter = (ClubIntroduceAdapter) rvClubIntroduce.getAdapter();
-                adapter.setProgress(position,progress);
+                adapter.setProgress(position, progress);
                 break;
         }
     }

@@ -1,0 +1,114 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.km.rmbank.module.center.CenterVipFunctionFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingTop="@dimen/status_height"
+        android:background="@color/colorPrimary">
+
+        <android.support.v7.widget.Toolbar
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/toolbar_height"
+            android:background="@color/colorPrimary">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="合伙人"
+                android:textColor="@color/color_white"
+                android:textSize="@dimen/text_size_16"
+                android:layout_gravity="center"
+                />
+
+        </android.support.v7.widget.Toolbar>
+
+    </LinearLayout>
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <LinearLayout
+                style="@style/Personal.function_ll"
+                >
+
+                <TextView
+                    android:id="@+id/tv_my_team"
+                    style="@style/Personal.function_tv"
+                    android:text="  我的团队"
+                    android:drawableLeft="@mipmap/ic_personal_my_team"
+                    />
+
+                <View
+                    android:id="@+id/line_team_contact"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="50dp"
+                    android:background="@color/color_divider1"/>
+
+                <TextView
+                    android:id="@+id/tv_goods_manager"
+                    style="@style/Personal.function_tv"
+                    android:text="  商品管理"
+                    android:drawableLeft="@mipmap/ic_personal_goods_manage"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_my_club"
+                style="@style/Personal.function_ll"
+                >
+
+                <TextView
+                    android:id="@+id/tv_my_club"
+                    style="@style/Personal.function_tv"
+                    android:text="  我的俱乐部"
+                    android:drawableLeft="@mipmap/ic_personal_club"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_integral_goods"
+                style="@style/Personal.function_ll"
+                >
+
+                <TextView
+                    android:id="@+id/tv_my_account"
+                    style="@style/Personal.function_tv"
+                    android:text="  我的账户"
+                    android:drawableLeft="@mipmap/ic_personal_account"
+                    />
+
+                <View
+                    android:id="@+id/line_integral_goods"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="50dp"
+                    android:visibility="visible"
+                    android:background="@color/color_divider1"/>
+
+                <TextView
+                    android:id="@+id/tv_my_integral"
+                    style="@style/Personal.function_tv"
+                    android:text="  我的积分"
+                    android:drawableLeft="@mipmap/ic_personal_integral"
+                    android:visibility="visible"
+                    />
+            </LinearLayout>
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+
+
+
+</LinearLayout>

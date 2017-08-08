@@ -41,21 +41,21 @@
                 />
         </LinearLayout>
         <include layout="@layout/divider_height_1"/>
-        <LinearLayout
-            style="@style/Personal.User.EditCard.sll"
-            >
-            <TextView
-                style="@style/Personal.User.EditCard.tv"
-                android:text="所在地区"
-                />
+        <!--<LinearLayout-->
+            <!--style="@style/Personal.User.EditCard.sll"-->
+            <!--&gt;-->
+            <!--<TextView-->
+                <!--style="@style/Personal.User.EditCard.tv"-->
+                <!--android:text="所在地区"-->
+                <!--/>-->
 
-            <EditText
-                android:id="@+id/et_address_area"
-                style="@style/Personal.User.EditCard.et_nofocuse"
-                android:hint="请选择所在地区"
-                />
-        </LinearLayout>
-        <include layout="@layout/divider_height_1"/>
+            <!--<EditText-->
+                <!--android:id="@+id/et_address_area"-->
+                <!--style="@style/Personal.User.EditCard.et_nofocuse"-->
+                <!--android:hint="请选择所在地区"-->
+                <!--/>-->
+        <!--</LinearLayout>-->
+        <!--<include layout="@layout/divider_height_1"/>-->
         <LinearLayout
             style="@style/Personal.User.EditCard.sll"
             >

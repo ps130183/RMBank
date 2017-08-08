@@ -3,7 +3,7 @@
     android:orientation="vertical" 
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="@dimen/view_space_16">
+    android:padding="@dimen/view_space_8">
 
     <ImageView
         android:id="@+id/iv_club_intro"

@@ -222,7 +222,7 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseAdapter.Ba
                 curPage++;
             } else {
                 curPage = 1;
-                clearAllData();
+                mListDatas.clear();
             }
             mListDatas.addAll(datas);
             if (mListDatas.size() < pageNumber){ //数据不足一页
@@ -314,7 +314,7 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseAdapter.Ba
     public void clearAllData() {
         if (mListDatas != null) {
             mListDatas.clear();
-//            curPage = 0;
+            curPage = 0;
             notifyDataSetChanged();
         }
     }

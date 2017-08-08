@@ -43,6 +43,8 @@ public class SelectMemberTypeActivity extends BaseActivity<SelectMemberTypePrese
     @BindView(R.id.rg_vip2_money)
     RadioGroup rgVip2Money;
 
+    @BindView(R.id.tv_vip_number)
+    TextView tvVipNumber;
     private int vipType = 0;
     private int memberType = 0;
     private String amount;//支付金额
@@ -99,9 +101,10 @@ public class SelectMemberTypeActivity extends BaseActivity<SelectMemberTypePrese
             }
             tvMember1.setBackgroundResource(R.drawable.shape_member_type_selected);
             tvMember1.setTextColor(getResources().getColor(R.color.color_white));
+            tvVipNumber.setTextColor(getResources().getColor(R.color.colorPrimary));
 
             tvMember2.setBackgroundResource(R.drawable.shape_member_type_unselected);
-            tvMember2.setTextColor(getResources().getColor(R.color.color_red));
+            tvMember2.setTextColor(getResources().getColor(R.color.colorPrimary));
 
             tvMemberName.setText(memberNames[0]);
             tvMemberIntro.setText(memberTypeIntros[0]);
@@ -117,7 +120,8 @@ public class SelectMemberTypeActivity extends BaseActivity<SelectMemberTypePrese
                 rgVip2Money.setVisibility(View.VISIBLE);
             }
             tvMember1.setBackgroundResource(R.drawable.shape_member_type_unselected);
-            tvMember1.setTextColor(getResources().getColor(R.color.color_red));
+            tvMember1.setTextColor(getResources().getColor(R.color.colorPrimary));
+            tvVipNumber.setTextColor(getResources().getColor(R.color.color_white));
 
             tvMember2.setBackgroundResource(R.drawable.shape_member_type_selected);
             tvMember2.setTextColor(getResources().getColor(R.color.color_white));
@@ -168,6 +172,8 @@ public class SelectMemberTypeActivity extends BaseActivity<SelectMemberTypePrese
         memberNames[0] += "(" + memberTypeDto1.getMemberMoney() + "元)";
         memberNames[1] += "(" + memberTypeDto2.getMemberMoney() + "元,还需支付" + memberTypeDto2.getMoneyDifference() + "元)";
 
+        tvVipNumber.setText("剩余名额：" + memberTypeDto2.getResidueMember() + "位");
+
 //        memberTypeIntros[0] = memberTypeDto1.getExperience();
 //        memberTypeIntros[1] = memberTypeDto2.getPartner();
 //        if ("3".equals(Constant.user.getRoleId())){
@@ -192,13 +198,13 @@ public class SelectMemberTypeActivity extends BaseActivity<SelectMemberTypePrese
                         amount = "20000";
                         break;
                     case R.id.rbtn_money2:
-                        amount = "1";
+                        amount = "10000";
                         break;
                     case R.id.rbtn_money3:
-                        amount = "0.05";
+                        amount = "5000";
                         break;
                     case R.id.rbtn_money4:
-                        amount = "0.02";
+                        amount = "2000";
                         break;
                 }
             }

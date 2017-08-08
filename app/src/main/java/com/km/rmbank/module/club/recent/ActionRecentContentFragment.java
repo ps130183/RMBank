@@ -3,8 +3,10 @@ package com.km.rmbank.module.club.recent;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.text.TextUtilsCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,7 +63,8 @@ public class ActionRecentContentFragment extends BaseFragment {
         mActionDto = getArguments().getParcelable("actionDto");
 
 //        GlideUtils.loadImage(ivActionImg,mActionDto.getActivityPictureUrl());
-        tvClubName.setText(mActionDto.getTitle());
+        String clubName = TextUtils.isEmpty(mActionDto.getClubName()) ? "玩转地球商旅学苑" : mActionDto.getClubName();
+        tvClubName.setText(clubName);
         tvActionAddress.setText(mActionDto.getAddress());
         tvHoldTime.setText(mActionDto.getHoldDate());
         tvActionFlow.setText(mActionDto.getFlow());

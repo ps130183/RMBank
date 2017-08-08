@@ -17,6 +17,7 @@ import com.km.rmbank.basic.BaseActivity;
 import com.km.rmbank.dto.UserCardDto;
 import com.km.rmbank.dto.UserInfoDto;
 import com.km.rmbank.module.personal.userinfo.EditUserCardActivity;
+import com.km.rmbank.module.personal.userinfo.UserCardInfoActivity;
 import com.km.rmbank.utils.Constant;
 
 import butterknife.BindView;
@@ -51,26 +52,29 @@ public class EaseChatActivity extends BaseActivity<EaseChatPresenter> implements
 
         userid = getIntent().getStringExtra("to_user_id");
         String nickName = getIntent().getStringExtra("user_nick_name");
+        boolean isService = getIntent().getBooleanExtra("isService",false);
         mTitle.setText(nickName);
 
-        setRightIconClick(R.mipmap.ic_ease_chat_user, new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mPresenter.getUserCardInfo(Constant.QRCODE_URL + userid);
-            }
-        });
+        if (!isService){
+            setRightIconClick(R.mipmap.ic_ease_chat_user, new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mPresenter.getUserCardInfo(Constant.QRCODE_URL + userid);
+                }
+            });
+        }
     }
 
     @Override
     public void showUserCart(UserCardDto userCardDto, String phone) {
-        if (userCardDto.isEmpty()){
+        if (userCardDto.isEmpty2()){
             showToast("该用户尚未编辑名片");
             return;
         }
         Bundle bundle = new Bundle();
         bundle.putParcelable("userCardDto",userCardDto);
         bundle.putString("friendPhone",phone);
-        toNextActivity(EditUserCardActivity.class,bundle);
+        toNextActivity(UserCardInfoActivity.class,bundle);
     }
 
     @Override

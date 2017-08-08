@@ -16,10 +16,12 @@ import com.km.rmbank.basic.RVUtils;
 import com.km.rmbank.dto.ActionDto;
 import com.km.rmbank.event.ClubIntroduceEntity;
 import com.km.rmbank.module.club.ClubInfoActivity;
+import com.km.rmbank.module.club.past.ReleaseActionPastActivity;
 import com.km.rmbank.ui.CircleProgressView;
 import com.km.rmbank.utils.PickerUtils;
 import com.lvfq.pickerview.TimePickerView;
 import com.orhanobut.logger.Logger;
+import com.ps.androidlib.utils.AppUtils;
 import com.ps.androidlib.utils.DialogUtils;
 import com.ps.androidlib.utils.glide.GlideUtils;
 import com.ps.androidlib.utils.imageselector.ImageUtils;
@@ -41,8 +43,6 @@ public class ReleaseActionRecentActivity extends BaseActivity<ReleaseActionRecen
     private int imgUploadPosition = -1;
     private int introduceImgPosition = -1;
 
-    @BindView(R.id.tv_upload_action_img)
-    TextView tvUploadActionImg;
     @BindView(R.id.iv_upload_action_img)
     ImageView ivUploadActionImg;
 
@@ -61,6 +61,8 @@ public class ReleaseActionRecentActivity extends BaseActivity<ReleaseActionRecen
     private ActionDto mActionDto;
     private String clubId;
 
+    private int mWindowWidth = 0;
+
     @Override
     protected int getContentView() {
         return R.layout.activity_release_action_recent;
@@ -78,6 +80,7 @@ public class ReleaseActionRecentActivity extends BaseActivity<ReleaseActionRecen
 
     @Override
     protected void onCreate() {
+        mWindowWidth = AppUtils.getCurWindowWidth(this);
         setRightBtnClick("立即发布", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -152,7 +155,7 @@ public class ReleaseActionRecentActivity extends BaseActivity<ReleaseActionRecen
      *
      * @param view
      */
-    @OnClick({R.id.tv_upload_action_img, R.id.iv_upload_action_img})
+    @OnClick({R.id.iv_upload_action_img})
     public void onClickUploadLogo(View view) {
         imgUploadPosition = 1;
         PermissionGen.with(ReleaseActionRecentActivity.this)
@@ -187,26 +190,24 @@ public class ReleaseActionRecentActivity extends BaseActivity<ReleaseActionRecen
             public void onItemClick(CharSequence charSequence, int i) {
                 switch (i) {
                     case 0:
-                        boolean isCrop;
                         if (imgUploadPosition == 1) {
-                            isCrop = true;
+                            ImageUtils.getSingleImageByCrop(ReleaseActionRecentActivity.this,false,309,125,selectImageListener);
                         } else {
-                            isCrop = false;
+                            ImageUtils.getImageFromCamera(ReleaseActionRecentActivity.this, false, selectImageListener);
                         }
-                        ImageUtils.getImageFromCamera(ReleaseActionRecentActivity.this, isCrop, selectImageListener);
+
                         break;
                     case 1:
-                        ImageUtils.ImageType imageType;
                         if (imgUploadPosition == 1) {
-                            imageType = ImageUtils.ImageType.PROTRAIT;
+                            ImageUtils.getSingleImageByCrop(ReleaseActionRecentActivity.this,false,309,125,selectImageListener);
                         } else {
-                            imageType = ImageUtils.ImageType.PRODUCT;
+                            ImageUtils.getImageFromPhotoAlbum(ReleaseActionRecentActivity.this,
+                                    ImageUtils.ImageType.PRODUCT,
+                                    ImageUtils.ImageNumber.SINGLE,
+                                    null,
+                                    selectImageListener);
                         }
-                        ImageUtils.getImageFromPhotoAlbum(ReleaseActionRecentActivity.this,
-                                imageType,
-                                ImageUtils.ImageNumber.SINGLE,
-                                null,
-                                selectImageListener);
+
                         break;
                 }
             }
@@ -223,8 +224,10 @@ public class ReleaseActionRecentActivity extends BaseActivity<ReleaseActionRecen
         public void onSuccess(List<String> photoList) {
 //            mPresenter.uploadProtrait(photoList.get(0));
             if (imgUploadPosition == 1) {
-                ivUploadActionImg.setVisibility(View.VISIBLE);
-                GlideUtils.loadCircleImage(ivUploadActionImg, photoList.get(0));
+//                ivUploadActionImg.setVisibility(View.VISIBLE);
+                ivUploadActionImg.getLayoutParams().width = mWindowWidth / 320 * 309;
+                ivUploadActionImg.getLayoutParams().height = mWindowWidth / 320 * 125;
+                GlideUtils.loadImage(ivUploadActionImg, photoList.get(0));
             } else if (imgUploadPosition == 2) {
 //                GlideUtils.loadImage(ivBackground, photoList.get(0));
             } else if (imgUploadPosition == 3) {

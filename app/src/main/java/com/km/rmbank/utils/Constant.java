@@ -18,7 +18,7 @@ public class Constant {
     public static boolean isAllowUserCard = true;
 
     //获取名片 接口
-    public static final String QRCODE_URL = SecretConstant.API_HOST + SecretConstant.API_HOST_PATH + "/user/saoUserCard/info?mobilePhone=";
+    public static final String QRCODE_URL = SecretConstant.API_HOST + SecretConstant.API_HOST_PATH + "/user/saoUserCard/info/send?mobilePhone=";
 
 
 

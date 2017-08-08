@@ -3,6 +3,7 @@ package com.ps.androidlib.utils.imageselector;
 import android.app.Activity;
 import android.content.Context;
 
+import com.orhanobut.logger.Logger;
 import com.yancy.gallerypick.config.GalleryConfig;
 import com.yancy.gallerypick.config.GalleryPick;
 import com.yancy.gallerypick.inter.IHandlerCallBack;
@@ -44,6 +45,8 @@ public class ImageUtils {
                 .filePath(imagePath)
                 .build();
     }
+
+
 
     /**
      * 选择单张图片  头像
@@ -103,7 +106,7 @@ public class ImageUtils {
     public static void getSingleImageByCrop(Context mContext, boolean isOpenCamera, int cropWidth,int cropHeight, final SelectImageListener listener) {
         mGallertConfig.getBuilder().provider(mContext.getPackageName() + ".fileprovider")
                 .crop(true)
-                .crop(true, cropWidth, cropHeight, cropWidth, cropHeight)
+                .crop(true, cropWidth, cropHeight, cropWidth*5, cropHeight*5)
                 .isOpenCamera(isOpenCamera)
                 .iHandlerCallBack(getCallBack(listener))
                 .build();
@@ -166,7 +169,7 @@ public class ImageUtils {
         return new IHandlerCallBack() {
             @Override
             public void onStart() {
-
+                Logger.i("onStart: 开启");
             }
 
             @Override
@@ -176,17 +179,17 @@ public class ImageUtils {
 
             @Override
             public void onCancel() {
-
+                Logger.i("onCancel: 取消");
             }
 
             @Override
             public void onFinish() {
-
+                Logger.i("onFinish: 结束");
             }
 
             @Override
             public void onError() {
-
+                Logger.i("onError: 出错");
             }
         };
     }

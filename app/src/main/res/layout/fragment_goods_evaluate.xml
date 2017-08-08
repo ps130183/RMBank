@@ -5,23 +5,24 @@
     android:orientation="vertical"
     tools:context="com.km.rmbank.module.rmshop.goods.GoodsEvaluateFragment">
 
-    <!--<TextView-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="全部(45)"-->
-        <!--android:textColor="@color/color_white"-->
-        <!--android:textSize="@dimen/text_size_14"-->
-        <!--android:paddingLeft="@dimen/view_space_16"-->
-        <!--android:paddingRight="@dimen/view_space_16"-->
-        <!--android:paddingTop="@dimen/view_space_8"-->
-        <!--android:paddingBottom="@dimen/view_space_8"-->
-        <!--android:layout_marginLeft="@dimen/view_space_16"-->
-        <!--android:layout_marginTop="@dimen/view_space_8"-->
-        <!--android:layout_marginBottom="@dimen/view_space_8"-->
-        <!--android:background="@drawable/shape_textview_background"-->
-        <!--/>-->
+    <TextView
+        android:id="@+id/tv_all_evaluate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textColor="@color/color_white"
+        android:textSize="@dimen/text_size_14"
+        android:paddingLeft="@dimen/view_space_16"
+        android:paddingRight="@dimen/view_space_16"
+        android:paddingTop="@dimen/view_space_8"
+        android:paddingBottom="@dimen/view_space_8"
+        android:layout_marginLeft="@dimen/view_space_16"
+        android:layout_marginTop="@dimen/view_space_8"
+        android:layout_marginBottom="@dimen/view_space_8"
+        android:background="@drawable/shape_textview_background"
+        />
 
-    <!--<include layout="@layout/divider_height_1"/>-->
+    <include layout="@layout/divider_height_1"/>
 
     <include layout="@layout/recyclerview"/>
 </LinearLayout>

@@ -24,13 +24,13 @@ public class Home3DynamicPresenter extends PresenterWrapper<Home3DynamicContract
     }
 
     @Override
-    public void getDynamicInformationList(int pageNo) {
+    public void getDynamicInformationList(final int pageNo) {
         mView.showLoading();
         mApiwrapper.getDynamicInformationList(pageNo)
                 .subscribe(newSubscriber(new Consumer<List<InformationDto>>() {
                     @Override
                     public void accept(@NonNull List<InformationDto> informationDtos) throws Exception {
-                        mView.showDynamicInformationList(informationDtos);
+                        mView.showDynamicInformationList(informationDtos,pageNo);
                     }
                 }));
     }

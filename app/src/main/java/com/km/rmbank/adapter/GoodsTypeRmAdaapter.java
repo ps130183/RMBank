@@ -100,6 +100,7 @@ public class GoodsTypeRmAdaapter extends BaseAdapter<HomeGoodsTypeDto> implement
         if (getItemCount() == 0){
             return;
         }
+        clearChecked();
         HomeGoodsTypeDto entity = getAllData().get(0);
         entity.setChecked(true);
         notifyDataChanged();
@@ -139,6 +140,14 @@ public class GoodsTypeRmAdaapter extends BaseAdapter<HomeGoodsTypeDto> implement
             }
         }
         return checkedGoods;
+    }
+
+    public void clearChecked(){
+        List<HomeGoodsTypeDto> goodsTypeDtos = getAllData();
+        for (HomeGoodsTypeDto goodsTypeDto : goodsTypeDtos){
+            goodsTypeDto.setChecked(false);
+        }
+        notifyDataSetChanged();
     }
 
 
