@@ -6,6 +6,7 @@
     android:text="com.ps.mainactivity"
     android:textColor="@color/color_white"
     android:textSize="@dimen/title_size"
+    android:gravity="center"
     android:ellipsize="end"
     android:maxLines="1">
 </TextView>

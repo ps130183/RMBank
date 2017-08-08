@@ -94,7 +94,7 @@ public class SelectMemberTypeActivity extends BaseActivity<SelectMemberTypePrese
     private void selectMember(int memberType){
         this.memberType = memberType;
         if (memberType == 3){//体验式
-            if ("3".equals(Constant.user.getRoleId()) || "2".equals(Constant.user.getRoleId())){
+            if ("3".equals(Constant.userInfo.getRoleId()) || "2".equals(Constant.user.getRoleId())){
                 btnBecomeMember.setVisibility(View.GONE);
             } else {
                 btnBecomeMember.setVisibility(View.VISIBLE);
@@ -112,7 +112,7 @@ public class SelectMemberTypeActivity extends BaseActivity<SelectMemberTypePrese
 
             rgVip2Money.setVisibility(View.GONE);
         } else {//合伙人
-            if ("2".equals(Constant.user.getRoleId())){
+            if ("2".equals(Constant.userInfo.getRoleId())){
                 btnBecomeMember.setVisibility(View.GONE);
                 rgVip2Money.setVisibility(View.GONE);
             } else {

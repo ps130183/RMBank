@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.km.rmbank.R;
 import com.km.rmbank.basic.BaseActivity;
+import com.ps.androidlib.utils.AppUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -72,6 +73,7 @@ public class ToolBarTitle implements BaseActivity.TitleBarInterface {
             ivTitleRight.setVisibility(View.VISIBLE);
             ivTitleRight.setImageResource(iconRes);
             ivTitleRight.setOnClickListener(rightClick);
+            initCenterViewWidth();
         } else {
             ivTitleRight.setVisibility(View.GONE);
         }
@@ -85,12 +87,17 @@ public class ToolBarTitle implements BaseActivity.TitleBarInterface {
             if (!TextUtils.isEmpty(rightBtnText)){
                 tvTitleRight.setText(rightBtnText);
             }
+            initCenterViewWidth();
             tvTitleRight.setOnClickListener(rightClick);
         } else {
             tvTitleRight.setVisibility(View.GONE);
         }
     }
 
+    private void initCenterViewWidth(){
+        int windowWidth = AppUtils.getCurWindowWidth(flCenterView.getContext());
+        flCenterView.getLayoutParams().width = windowWidth / 5 * 3;
+    }
 
     @Override
     public boolean isSetTitle() {

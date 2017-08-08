@@ -79,7 +79,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
     private OnClickKeyCodeBackLisenter clickKeyCodeBackLisenter;
 
     /**
-     * 使用CompositeSubscription来持有所有的Subscriptions
+     * 使用CompositeSubscription来持有f所有的Subscriptions
      */
     protected CompositeDisposable mCompositeSubscription;
     protected ApiWrapper apiWrapper;
