@@ -43,6 +43,13 @@ public class ActionDto extends BaseEntity implements Parcelable {
     private List<ActionGuestBean> guestList;
     private String clubName;
     private String clubLogo;
+    private String clubId;
+
+
+    private String backgroundImg;
+    private String clubContent;
+    private int keepStatus;
+    private String mobilePhone;
 
 
     public String getActivityPictureUrl() {
@@ -72,6 +79,11 @@ public class ActionDto extends BaseEntity implements Parcelable {
                 ", guestList=" + guestList +
                 ", clubName='" + clubName + '\'' +
                 ", clubLogo='" + clubLogo + '\'' +
+                ", clubId='" + clubId + '\'' +
+                ", backgroundImg='" + backgroundImg + '\'' +
+                ", clubContent='" + clubContent + '\'' +
+                ", keepStatus=" + keepStatus +
+                ", mobilePhone='" + mobilePhone + '\'' +
                 '}';
     }
 
@@ -195,6 +207,46 @@ public class ActionDto extends BaseEntity implements Parcelable {
         this.guestList = guestList;
     }
 
+    public String getBackgroundImg() {
+        return backgroundImg;
+    }
+
+    public void setBackgroundImg(String backgroundImg) {
+        this.backgroundImg = backgroundImg;
+    }
+
+    public String getClubContent() {
+        return clubContent;
+    }
+
+    public void setClubContent(String clubContent) {
+        this.clubContent = clubContent;
+    }
+
+    public int getKeepStatus() {
+        return keepStatus;
+    }
+
+    public void setKeepStatus(int keepStatus) {
+        this.keepStatus = keepStatus;
+    }
+
+    public String getMobilePhone() {
+        return mobilePhone;
+    }
+
+    public void setMobilePhone(String mobilePhone) {
+        this.mobilePhone = mobilePhone;
+    }
+
+    public String getClubId() {
+        return clubId;
+    }
+
+    public void setClubId(String clubId) {
+        this.clubId = clubId;
+    }
+
     public ActionDto() {
     }
 
@@ -308,6 +360,11 @@ public class ActionDto extends BaseEntity implements Parcelable {
         dest.writeTypedList(this.guestList);
         dest.writeString(this.clubName);
         dest.writeString(this.clubLogo);
+        dest.writeString(this.clubId);
+        dest.writeString(this.backgroundImg);
+        dest.writeString(this.clubContent);
+        dest.writeInt(this.keepStatus);
+        dest.writeString(this.mobilePhone);
     }
 
     protected ActionDto(Parcel in) {
@@ -327,6 +384,11 @@ public class ActionDto extends BaseEntity implements Parcelable {
         this.guestList = in.createTypedArrayList(ActionGuestBean.CREATOR);
         this.clubName = in.readString();
         this.clubLogo = in.readString();
+        this.clubId = in.readString();
+        this.backgroundImg = in.readString();
+        this.clubContent = in.readString();
+        this.keepStatus = in.readInt();
+        this.mobilePhone = in.readString();
     }
 
     public static final Creator<ActionDto> CREATOR = new Creator<ActionDto>() {

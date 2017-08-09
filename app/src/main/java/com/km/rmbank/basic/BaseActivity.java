@@ -113,7 +113,6 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
         flContent = (FrameLayout) findViewById(R.id.fl_content);
         flContent.addView(viewContent);
         ButterKnife.bind(context);
-//        AppUtils.initState(this);
         StatusBarUtil.initState(context);
         onCreate();
         if (mPresenter != null) {

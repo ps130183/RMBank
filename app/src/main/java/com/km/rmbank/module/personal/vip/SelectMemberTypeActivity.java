@@ -48,16 +48,15 @@ public class SelectMemberTypeActivity extends BaseActivity<SelectMemberTypePrese
     private int vipType = 0;
     private int memberType = 0;
     private String amount;//支付金额
-    private String[] memberNames = {"体验式会员","合伙人会员"};
-    private String[] memberTypeIntros = {"1.成为体验式会员可以得到180体验积分，等同于180元现金可在商城上消费。\n" +
-            "2.直接享受玩转地球APP提供的所有商品的优惠。\n" +
-            "3.可以发布您自己的商品供所有用户来购买。\n" +
-            "4.每月最少15场的线下主题活动可以免费参加。",
-    "1.可享受体验式会员所有的服务。\n" +
-            "2.您的团队体验式会员达到15人可获得27000元现金奖励。\n" +
-            "3.15个体验式会员之后可多多获得积分。\n" +
-            "4.发展合伙人会员会有丰厚的现金奖励。\n" +
-            "5.毛里求斯的旅行可能会天降到您的头上。"};
+    private String[] memberNames = {"* 体验式会员","* 合伙人会员"};
+    private String[] memberTypeIntros = {"1.成为玩转地球尊贵体验官，可以获得积分180购买商城中所有商品。\n" +
+            "2.免费参加玩转地球举办的全部活动，红酒俱乐部、旗袍俱乐部等等。\n" ,
+            "1.拥有玩转地球尊贵合伙人身份。\n" +
+            "2.可以建立属于您自己的俱乐部。\n" +
+            "3.平台全部资源可免费试用。\n" +
+            "4.发布商品供用户购买。\n" +
+            "5.打造自己的人脉银行。\n" +
+                    "6.商品销售提成机制。"};
     private List<MemberTypeDto> memberTypeDtos;
     @Override
     protected int getContentView() {

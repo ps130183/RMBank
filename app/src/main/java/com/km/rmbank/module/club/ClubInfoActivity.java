@@ -114,8 +114,13 @@ public class ClubInfoActivity extends BaseActivity<ClubInfoPresenter> implements
 
         mClubInfoCell = new ClubInfoCell(null);
         mClubInfoCell.setOnFollowClubListener(new ClubInfoCell.onFollowClubListener() {
+
             @Override
             public void followClub(ClubDto clubDto) {
+                if(isMyClub){
+                    showToast("不能关注自己的俱乐部");
+                    return;
+                }
                 String content;
                 if (isFollow) {
                     content = "是否取消对该俱乐部的关注？";

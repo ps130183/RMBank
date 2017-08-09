@@ -289,7 +289,6 @@
             android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity android:name="com.hyphenate.easeui.ui.EaseShowBigImageActivity" />
         <activity android:name=".module.UserCardGuideActivity" />
-
         <activity
             android:name=".module.club.EditMyClubActivity"
             android:windowSoftInputMode="stateHidden" />
@@ -302,7 +301,9 @@
         <activity android:name=".module.club.past.ActionPastDetailActivity" />
         <activity
             android:name=".module.personal.userinfo.UserCardInfoActivity"
-            android:launchMode="singleTask"></activity>
+            android:launchMode="singleTask" />
+        <activity android:name=".module.club.recent.ActionJoinMemberActivity" />
+        <activity android:name=".module.club.recent.ActionApplyActivity"></activity>
     </application>
 
 </manifest>

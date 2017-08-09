@@ -1128,8 +1128,9 @@ public interface ApiService {
      * @return
      */
     @FormUrlEncoded
-    @POST(SecretConstant.API_HOST_PATH + "/club/activityDetail")
-    Flowable<Response<ActionDto>> getActionRecentInfo(@Field("id") String id);
+    @POST(SecretConstant.API_HOST_PATH + "/club/activityDetail/send")
+    Flowable<Response<ActionDto>> getActionRecentInfo(@Field("token") String token,
+                                                      @Field("id") String id);
 
     /**
      * 获取活动 的参加人员

@@ -4,15 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingLeft="@dimen/view_space_16"
-    android:paddingTop="@dimen/view_space_8"
-    android:paddingBottom="@dimen/view_space_8"
     android:paddingRight="@dimen/view_space_16"
     android:background="@color/color_white">
 
     <ImageView
         android:id="@+id/iv_protrait"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:src="@mipmap/timg"
         android:scaleType="fitXY"
         android:layout_margin="@dimen/view_space_16"

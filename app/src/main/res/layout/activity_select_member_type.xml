@@ -100,7 +100,8 @@
             android:id="@+id/tv_member_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="*体验式会员(1980元)"
+            android:text=""
+            android:textColor="@color/color_blue3"
             android:padding="@dimen/view_space_16"
             android:layout_marginTop="@dimen/divider_line_1"
             />
@@ -111,12 +112,11 @@
             android:layout_height="wrap_content"
             android:paddingLeft="@dimen/view_space_16"
             android:paddingRight="@dimen/view_space_16"
-            android:text="1.可以干什么有什么服务好的服务不是说的是做的，卡忙北鼻
-2.可以干什么有什么服务好的服务不是说的是做的，卡忙北鼻
-   哦耶被逼
-3.可以干什么有什么服务好的服务不是说的是做的，卡忙北鼻
-   继续做事儿吧"
+            android:textColor="@color/color_blue3"
+            android:text=""
             android:layout_below="@id/tv_member_name"
+            android:lineSpacingMultiplier="1.2"
+            android:letterSpacing="0.2"
             />
 
         <RadioGroup
@@ -125,6 +125,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:orientation="horizontal"
+            android:visibility="gone"
             android:gravity="center">
 
             <RadioButton
@@ -163,6 +164,7 @@
         style="@style/Button"
         android:text="前往认证"
         android:layout_alignParentBottom="true"
+        android:visibility="gone"
         />
 
 </RelativeLayout>

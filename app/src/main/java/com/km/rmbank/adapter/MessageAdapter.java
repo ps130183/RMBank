@@ -1,12 +1,16 @@
 package com.km.rmbank.adapter;
 
 import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.km.rmbank.R;
 import com.km.rmbank.basic.BaseAdapter;
+import com.km.rmbank.dto.EvaluateDto;
 import com.km.rmbank.dto.MessageDto;
+import com.ps.androidlib.utils.ViewUtils;
 
 import butterknife.BindView;
 
@@ -43,6 +47,18 @@ public class MessageAdapter extends BaseAdapter<MessageDto> implements BaseAdapt
         public ViewHolder(View itemView) {
             super(itemView);
         }
+    }
+
+    class EmptyViewHolder extends BaseAdapter.EmptyViewHolder{
+
+        public EmptyViewHolder(View itemView) {
+            super(itemView);
+        }
+    }
+
+    @Override
+    protected BaseAdapter<MessageDto>.EmptyViewHolder getEmptyViewHolder(LayoutInflater inflater, ViewGroup parent) {
+        return new MessageAdapter.EmptyViewHolder(ViewUtils.getView(inflater,parent,R.layout.rc_item_empty_message));
     }
 
 }

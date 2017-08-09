@@ -21,7 +21,6 @@
         android:letterSpacing="0.1"
         android:textColor="@color/color_block"
         android:textSize="@dimen/text_size_16"
-        android:text="测试文字测试文字测试文字测试文字测试文字测试文字测试文字测试文字测试文字测试文字测试文字测试文字测试文字测试文字测试文字测试文字测试文字测试文字测试文字测试文字测试文字测试文字测试文字测试文字"
         />
 
 </LinearLayout>

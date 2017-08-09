@@ -5,13 +5,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.km.rmbank.R;
+import com.km.rmbank.adapter.GoodsEvluateAdapter;
 import com.km.rmbank.adapter.MessageAdapter;
 import com.km.rmbank.basic.BaseActivity;
 import com.km.rmbank.basic.BaseAdapter;
 import com.km.rmbank.basic.RVUtils;
+import com.km.rmbank.dto.EvaluateDto;
 import com.km.rmbank.dto.MessageDto;
+import com.ps.androidlib.utils.ViewUtils;
 
 import java.util.List;
 

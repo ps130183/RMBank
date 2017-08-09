@@ -1,140 +1,324 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/color_white"
-    tools:context="com.km.rmbank.module.club.recent.ActionRecentInfoActivity">
+    android:background="@color/color_white">
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/nested_scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/ll_bottom">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/iv_club_background"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:scaleType="centerCrop"
+                />
+
+            <TextView
+                android:id="@+id/tv_action_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textSize="@dimen/text_size_16"
+                android:textColor="@color/color_block"
+                android:layout_marginLeft="@dimen/view_space_8"
+                android:layout_marginRight="@dimen/view_space_8"
+                android:layout_marginTop="@dimen/view_space_8"
+                android:layout_marginBottom="@dimen/view_space_4"
+                />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_marginTop="@dimen/view_space_4"
+                android:paddingLeft="@dimen/view_space_8"
+                android:paddingRight="@dimen/view_space_8"
+                android:layout_marginBottom="@dimen/view_space_8">
+                <ImageView
+                    android:id="@+id/iv_club_logo"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginRight="@dimen/view_space_8"
+                    android:scaleType="centerCrop"
+                    />
+                <TextView
+                    android:id="@+id/tv_club_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:layout_toRightOf="@+id/iv_club_logo"
+                    android:layout_centerVertical="true"
+                    />
+            </RelativeLayout>
+
+            <include layout="@layout/divider_height_1"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="34dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_action_start_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textColor="@color/color_block"
+                    android:drawableLeft="@mipmap/ic_action_recent_start_time"
+                    android:gravity="center|left"
+                    android:paddingTop="@dimen/view_space_8"
+                    android:paddingBottom="@dimen/view_space_8"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    />
+
+                <include layout="@layout/divider_height_1"/>
+
+                <TextView
+                    android:id="@+id/tv_action_address"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textColor="@color/color_block"
+                    android:drawableLeft="@mipmap/ic_action_recent_address"
+                    android:gravity="center|left"
+                    android:paddingTop="@dimen/view_space_8"
+                    android:paddingBottom="@dimen/view_space_8"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    />
+
+            </LinearLayout>
+
+            <include layout="@layout/divider_height_1"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginLeft="34dp"
+                android:layout_marginRight="34dp"
+                android:layout_marginTop="@dimen/view_space_16"
+                android:layout_marginBottom="@dimen/view_space_16"
+                android:paddingBottom="@dimen/view_space_8"
+                android:background="@drawable/shape_action_recent_info_club">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="25dp"
+                    android:background="@color/color_blue4"
+                    android:layout_marginBottom="@dimen/view_space_8"/>
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/view_space_16"
+                    android:paddingRight="@dimen/view_space_16">
+
+                    <ImageView
+                        android:id="@+id/iv_club_logo2"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:scaleType="centerCrop"
+                        android:layout_marginRight="@dimen/view_space_8"
+                        android:layout_centerVertical="true"
+                        />
+
+                    <TextView
+                        android:id="@+id/tv_club_name1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:layout_toRightOf="@+id/iv_club_logo2"
+                        android:layout_centerVertical="true"
+                        android:textSize="16dp"
+                        android:textColor="@color/color_block"
+                        android:ellipsize="end"
+                        android:maxEms="9"
+                        android:maxLines="1"
+                        />
+
+                    <ImageView
+                        android:id="@+id/iv_club_safe"
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:src="@mipmap/ic_action_recent_club_safe"
+                        android:layout_toRightOf="@+id/tv_club_name1"
+                        android:layout_marginLeft="@dimen/view_space_4"
+                        android:layout_marginRight="@dimen/view_space_4"
+                        android:layout_centerVertical="true"
+                        />
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="15dp"
+                        android:src="@mipmap/ic_action_recent_club_main"
+                        android:layout_toRightOf="@+id/iv_club_safe"
+                        android:layout_centerVertical="true"
+                        />
+
+                </RelativeLayout>
+
+                <TextView
+                    android:id="@+id/tv_club_introduce"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textSize="@dimen/text_size_12"
+                    android:layout_marginLeft="49dp"
+                    android:maxLines="1"
+                    android:enabled="true"
+                    />
+
+                <Button
+                    android:id="@+id/btn_keep_club"
+                    android:layout_width="80dp"
+                    android:layout_height="30dp"
+                    android:text=""
+                    android:textColor="@color/color_blue4"
+                    android:background="@drawable/shape_action_recent_club_btn_attention"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/view_space_8"
+                    />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:background="@color/color_divider1"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="活动流程"
+                android:textSize="15dp"
+                android:textColor="@color/color_blue4"
+                android:gravity="center"
+                android:padding="@dimen/view_space_16"
+                />
+            <TextView
+                android:id="@+id/tv_action_flow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/view_space_16"
+                android:paddingRight="@dimen/view_space_16"
+                android:lineSpacingExtra="2dp"
+                android:lineSpacingMultiplier="1.2"
+                android:letterSpacing="0.2"
+                android:text=""
+                android:textColor="@color/color_block"
+                />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:background="@color/color_divider2"
+                android:layout_marginTop="@dimen/view_space_16"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="受邀嘉宾"
+                android:textSize="15dp"
+                android:textColor="@color/color_blue4"
+                android:gravity="center"
+                android:padding="@dimen/view_space_16"
+                />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_invitation_mans"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/view_space_16">
+
+            </android.support.v7.widget.RecyclerView>
+
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
 
     <LinearLayout
-        android:id="@+id/ll_action"
+        android:id="@+id/ll_bottom"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="55dp"
+        android:layout_alignParentBottom="true"
         android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/tv_action_content"
+        <LinearLayout
+            android:id="@+id/ll_relation"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="活动内容"
-            android:gravity="center"
-            android:padding="@dimen/view_space_16"
-            />
+            android:layout_height="match_parent"
+            android:layout_weight="1.5"
+            android:orientation="vertical"
+            android:background="@color/color_divider1"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/tv_relation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="在线咨询"
+                android:drawableTop="@mipmap/ic_action_recent_request_club"
+                />
+
+        </LinearLayout>
 
         <View
             android:layout_width="@dimen/divider_line_1"
             android:layout_height="match_parent"
-            android:background="@color/color_divider2"
-            android:layout_marginTop="@dimen/view_space_8"
-            android:layout_marginBottom="@dimen/view_space_8"/>
-
-        <TextView
-            android:id="@+id/tv_action_member"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="参加人员"
-            android:gravity="center"
-            android:padding="@dimen/view_space_16"
+            android:background="@color/color_divider1"
             />
 
-    </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/divider_line_1"
-        android:background="@color/color_divider2"
-        android:layout_below="@+id/ll_action"
-        />
-
-    <FrameLayout
-        android:id="@+id/fl_action_recent_content"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="@dimen/divider_line_1"
-        android:layout_below="@+id/ll_action">
-
-    </FrameLayout>
-
-    <FrameLayout
-        android:id="@+id/fl_action_recent"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone">
-
-    </FrameLayout>
-    <LinearLayout
-        android:id="@+id/ll_apply"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_above="@+id/btn_apply"
-        android:layout_marginLeft="@dimen/view_space_32"
-        android:layout_marginRight="@dimen/view_space_32"
-        android:paddingTop="@dimen/view_space_16"
-        android:paddingBottom="@dimen/view_space_16"
-        android:background="@drawable/shape_action_recent_info_apply">
-
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_margin="@dimen/view_space_8">
+            android:id="@+id/ll_join_members"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1.5"
+            android:orientation="vertical"
+            android:background="@color/color_divider1"
+            android:gravity="center">
 
             <TextView
+                android:id="@+id/tv_join_members"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="您的姓名："
-                android:textColor="@color/color_block"
+                android:text="都有谁去"
+                android:drawableTop="@mipmap/ic_action_recent_join_members"
                 />
-            <EditText
-                android:id="@+id/et_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:lines="1"
-                android:textSize="@dimen/text_size_14"/>
-
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_margin="@dimen/view_space_8">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="手机号码："
-                android:textColor="@color/color_block"
-                />
-            <EditText
-                android:id="@+id/et_phone"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="phone"
-                android:maxLength="11"
-                android:lines="1"
-                android:textSize="@dimen/text_size_14"/>
 
         </LinearLayout>
 
+        <RelativeLayout
+            android:id="@+id/rl_action_apply"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:orientation="vertical"
+            android:background="@color/color_blue4">
+            <TextView
+                android:id="@+id/tv_action_apply"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:background="@color/color_blue4"
+                android:text="   我要报名"
+                android:textColor="@color/color_white"
+                android:drawableLeft="@mipmap/ic_action_recent_btn_apply"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:textStyle="bold"
+                />
+        </RelativeLayout>
+
+
+
+
     </LinearLayout>
-
-    <Button
-        android:id="@+id/btn_apply"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="报名"
-        android:textColor="@color/color_white"
-        android:textStyle="bold"
-        android:layout_alignParentBottom="true"
-        android:layout_marginLeft="@dimen/view_space_32"
-        android:layout_marginRight="@dimen/view_space_32"
-        android:layout_marginBottom="@dimen/view_space_16"
-        android:background="@drawable/shape_btn_action_recent_join"
-        />
-
 </RelativeLayout>
+

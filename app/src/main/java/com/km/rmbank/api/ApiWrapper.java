@@ -1004,7 +1004,7 @@ public class ApiWrapper extends RetrofitUtil {
      * @return
      */
     public Flowable<ActionDto> getActionRecentInfo(String actionId){
-        return getService().getActionRecentInfo(actionId)
+        return getService().getActionRecentInfo(Constant.user.getToken(),actionId)
                 .compose(this.<ActionDto>applySchedulers());
     }
 

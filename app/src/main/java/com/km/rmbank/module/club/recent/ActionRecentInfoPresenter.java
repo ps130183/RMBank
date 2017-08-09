@@ -52,4 +52,16 @@ public class ActionRecentInfoPresenter  extends PresenterWrapper<ActionRecentInf
                 }));
     }
 
+    @Override
+    public void followClub(String clubId, final boolean isFollow) {
+        mView.showLoading();
+        mApiwrapper.followGodos("",clubId)
+                .subscribe(newSubscriber(new Consumer<String>() {
+                    @Override
+                    public void accept(@NonNull String s) throws Exception {
+                        mView.followClubSuccess(isFollow);
+                    }
+                }));
+    }
+
 }

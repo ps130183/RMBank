@@ -6,7 +6,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <!--<item name="colorAccent">@color/colorAccent</item>-->
-        <item name="colorAccent">@color/color_red</item>
+        <item name="colorAccent">@color/color_blue3</item>
         <!--<item name="android:windowDrawsSystemBarBackgrounds">true</item>-->
         <item name="android:actionOverflowButtonStyle">@style/OverFlowButtonStyle</item>
     </style>
