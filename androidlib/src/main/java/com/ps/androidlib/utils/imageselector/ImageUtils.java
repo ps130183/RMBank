@@ -1,15 +1,25 @@
 package com.ps.androidlib.utils.imageselector;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 
 import com.orhanobut.logger.Logger;
+import com.ps.androidlib.utils.DialogUtils;
 import com.yancy.gallerypick.config.GalleryConfig;
 import com.yancy.gallerypick.config.GalleryPick;
 import com.yancy.gallerypick.inter.IHandlerCallBack;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Predicate;
+import io.reactivex.schedulers.Schedulers;
 
 
 /**
@@ -167,6 +177,7 @@ public class ImageUtils {
 
     private static IHandlerCallBack getCallBack(final SelectImageListener listener) {
         return new IHandlerCallBack() {
+
             @Override
             public void onStart() {
                 Logger.i("onStart: 开启");
@@ -175,6 +186,7 @@ public class ImageUtils {
             @Override
             public void onSuccess(List<String> photoList) {
                 listener.onSuccess(photoList);
+
             }
 
             @Override

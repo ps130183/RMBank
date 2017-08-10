@@ -1,6 +1,7 @@
 package com.ps.androidlib.utils;
 
 import android.annotation.TargetApi;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -35,6 +36,7 @@ import android.support.annotation.IntRange;
 import android.view.View;
 
 import com.orhanobut.logger.Logger;
+import com.ps.androidlib.event.CompressImageEvent;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -56,6 +58,8 @@ import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
+
+import static android.R.attr.bitmap;
 
 /**
  * <pre>
@@ -1496,17 +1500,20 @@ public final class ImageUtils {
      *
      * @param bitmap
      */
-    public static File compressImage(Bitmap bitmap) {
+    private static File compressImage(Bitmap bitmap) {
 
+        EventBusUtils.post(new CompressImageEvent());
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);//质量压缩方法，这里100表示不压缩，把压缩后的数据存放到baos中
+        Logger.d("image 压缩前 大小为 ============ " + (baos.toByteArray().length / 1024) + "K");
         int options = 100;
-        while (baos.toByteArray().length / 1024 > 2048) {  //循环判断如果压缩后图片是否大于2M,大于继续压缩
+        while (baos.toByteArray().length / 1024 > 200) {  //循环判断如果压缩后图片是否大于2M,大于继续压缩
             baos.reset();//重置baos即清空baos
             options -= 10;//每次都减少10
             bitmap.compress(Bitmap.CompressFormat.JPEG, options, baos);//这里压缩options%，把压缩后的数据存放到baos中
             long length = baos.toByteArray().length;
         }
+        Logger.d("image 压缩后 大小为 ============== " + (baos.toByteArray().length / 1024) + "K");
         SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
         Date date = new Date(System.currentTimeMillis());
         String filename = format.format(date);
@@ -1530,6 +1537,36 @@ public final class ImageUtils {
         }
         recycleBitmap(bitmap);
         return file;
+
+    }
+
+    /**
+     * 压缩图片（质量压缩）
+     *
+     * @param imagePath
+     */
+    public static Observable<String> compressImage(final String imagePath) {
+
+//        final Dialog dialog = DialogUtils.showLoadingDialog("正在处理图片，请稍后。。。");
+        Logger.d("image 压缩前 路径 --- " + imagePath);
+        Observable<String> fileObservable = Observable.just(imagePath)
+                .map(new Function<String, String>() {
+                    @Override
+                    public String apply(@NonNull String s) throws Exception {
+                        return compressImage(getBitmap(imagePath)).getAbsolutePath();
+                    }
+                })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnNext(new Consumer<String>() {
+                    @Override
+                    public void accept(@NonNull String s) throws Exception {
+//                        dialog.dismiss();
+                        Logger.d("image 压缩后 路径 --- " + s);
+                    }
+                });
+
+        return fileObservable;
 
     }
 

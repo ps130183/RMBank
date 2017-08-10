@@ -61,7 +61,9 @@
             android:id="@+id/et_phone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/color_white"/>
+            android:background="@color/color_white"
+            android:inputType="phone"
+            android:maxLength="11"/>
 
     </LinearLayout>
 

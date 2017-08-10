@@ -1,6 +1,7 @@
 package com.km.rmbank.module.club;
 
 import android.Manifest;
+import android.app.Dialog;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -20,16 +21,22 @@ import com.km.rmbank.basic.BaseActivity;
 import com.km.rmbank.basic.RVUtils;
 import com.km.rmbank.dto.ClubDto;
 import com.km.rmbank.event.ClubIntroduceEntity;
+import com.km.rmbank.event.UploadImageEvent;
 import com.km.rmbank.module.personal.userinfo.UserInfoActivity;
 import com.km.rmbank.ui.CircleProgressView;
 import com.km.rmbank.utils.fileupload.FileUploadingListener;
 import com.orhanobut.logger.Logger;
+import com.ps.androidlib.event.CompressImageEvent;
 import com.ps.androidlib.utils.AppUtils;
 import com.ps.androidlib.utils.DialogUtils;
+import com.ps.androidlib.utils.EventBusUtils;
 import com.ps.androidlib.utils.SoftKeyInputHidWidget;
 import com.ps.androidlib.utils.StatusBarUtil;
 import com.ps.androidlib.utils.glide.GlideUtils;
 import com.ps.androidlib.utils.imageselector.ImageUtils;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +45,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.BiFunction;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
@@ -275,11 +283,33 @@ public class EditMyClubActivity extends BaseActivity<EditMyClubPresenter> implem
                 entity.setIntroduceImgPath(imagePath);
                 adapter.notifyItemDataChanged(introduceImgPosition);
             }
-//            mPresenter.uploadProtrait(photoList.get(0));
-            Logger.d("--------------------- selectImageListener   uploadClubImg ---------------------");
-            mPresenter.uploadClubImg(imagePath, imgUploadPosition, introduceImgPosition);
+//            mPresenter.uploadClubImg(imagePath, imgUploadPosition, introduceImgPosition);
+            EventBusUtils.post(new UploadImageEvent(imagePath));
         }
     };
+
+    private Dialog compressImageDialog;
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void compressImageing(CompressImageEvent event){
+        if (compressImageDialog == null){
+            compressImageDialog = DialogUtils.showLoadingDialog("正在上传图片，请稍后。。。");
+        } else {
+            compressImageDialog.show();
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onSelecedPhoto(UploadImageEvent event){
+        com.ps.androidlib.utils.ImageUtils.compressImage(event.getImagePath())
+                .subscribe(new Consumer<String>() {
+                    @Override
+                    public void accept(@NonNull String s) throws Exception {
+                        compressImageDialog.dismiss();
+                        mPresenter.uploadClubImg(s, imgUploadPosition, introduceImgPosition);
+                    }
+                });
+
+    }
 
 
     /**

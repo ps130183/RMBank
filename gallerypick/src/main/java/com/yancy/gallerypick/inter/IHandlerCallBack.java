@@ -1,5 +1,7 @@
 package com.yancy.gallerypick.inter;
 
+import android.app.Activity;
+
 import java.util.List;
 
 /**

@@ -1,6 +1,9 @@
 package com.km.rmbank.module.club.recent;
 
 import android.Manifest;
+import android.app.Dialog;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -15,22 +18,30 @@ import com.km.rmbank.basic.BaseActivity;
 import com.km.rmbank.basic.RVUtils;
 import com.km.rmbank.dto.ActionDto;
 import com.km.rmbank.event.ClubIntroduceEntity;
+import com.km.rmbank.event.UploadImageEvent;
 import com.km.rmbank.module.club.ClubInfoActivity;
 import com.km.rmbank.module.club.past.ReleaseActionPastActivity;
 import com.km.rmbank.ui.CircleProgressView;
 import com.km.rmbank.utils.PickerUtils;
 import com.lvfq.pickerview.TimePickerView;
 import com.orhanobut.logger.Logger;
+import com.ps.androidlib.event.CompressImageEvent;
 import com.ps.androidlib.utils.AppUtils;
 import com.ps.androidlib.utils.DialogUtils;
+import com.ps.androidlib.utils.EventBusUtils;
 import com.ps.androidlib.utils.glide.GlideUtils;
 import com.ps.androidlib.utils.imageselector.ImageUtils;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
 import kr.co.namee.permissiongen.PermissionFail;
 import kr.co.namee.permissiongen.PermissionGen;
 import kr.co.namee.permissiongen.PermissionSuccess;
@@ -222,12 +233,13 @@ public class ReleaseActionRecentActivity extends BaseActivity<ReleaseActionRecen
     private ImageUtils.SelectImageListener selectImageListener = new ImageUtils.SelectImageListener() {
         @Override
         public void onSuccess(List<String> photoList) {
+            String imagePath = photoList.get(0);
 //            mPresenter.uploadProtrait(photoList.get(0));
             if (imgUploadPosition == 1) {
 //                ivUploadActionImg.setVisibility(View.VISIBLE);
                 ivUploadActionImg.getLayoutParams().width = mWindowWidth / 320 * 309;
                 ivUploadActionImg.getLayoutParams().height = mWindowWidth / 320 * 125;
-                GlideUtils.loadImage(ivUploadActionImg, photoList.get(0));
+                GlideUtils.loadImage(ivUploadActionImg, imagePath);
             } else if (imgUploadPosition == 2) {
 //                GlideUtils.loadImage(ivBackground, photoList.get(0));
             } else if (imgUploadPosition == 3) {
@@ -236,13 +248,37 @@ public class ReleaseActionRecentActivity extends BaseActivity<ReleaseActionRecen
                 }
                 ClubIntroduceAdapter adapter = (ClubIntroduceAdapter) rvGuest.getAdapter();
                 ClubIntroduceEntity entity = adapter.getItemData(introduceImgPosition);
-                entity.setIntroduceImgPath(photoList.get(0));
+                entity.setIntroduceImgPath(imagePath);
                 adapter.notifyItemChanged(introduceImgPosition);
             }
-            mPresenter.uploadActionImg(photoList.get(0),imgUploadPosition,introduceImgPosition);
+//            mPresenter.uploadActionImg(imagePath, imgUploadPosition, introduceImgPosition);
+            EventBusUtils.post(new UploadImageEvent(imagePath));
 
         }
     };
+
+    private Dialog compressImageDialog;
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void compressImageing(CompressImageEvent event){
+        if (compressImageDialog == null){
+            compressImageDialog = DialogUtils.showLoadingDialog("正在上传图片，请稍后。。。");
+        } else {
+            compressImageDialog.show();
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onSelecedPhoto(UploadImageEvent event){
+        com.ps.androidlib.utils.ImageUtils.compressImage(event.getImagePath())
+                .subscribe(new Consumer<String>() {
+                    @Override
+                    public void accept(@NonNull String s) throws Exception {
+                        compressImageDialog.dismiss();
+                        mPresenter.uploadActionImg(s, imgUploadPosition, introduceImgPosition);
+                    }
+                });
+
+    }
 
     @Override
     public void uploadActionImgSuccess(String imageUrl, int imageType,int position) {

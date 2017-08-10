@@ -2,6 +2,7 @@ package com.ps.androidlib.utils;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -115,6 +116,16 @@ public class DialogUtils {
                 clickListener.clickConfirm();
             }
         }).setBtnText("取消","确定").show();
+    }
+
+    /**
+     * 显示架子啊提示框
+     * @param content
+     * @return
+     */
+    public static Dialog showLoadingDialog(String content){
+        Dialog dialog = StyledDialog.buildMdLoading(content).show();
+        return dialog;
     }
 
     /**

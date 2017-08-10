@@ -16,10 +16,13 @@ public interface ActionRecentInfoContract {
         void showActionRecentInfo(ActionDto actionDto);
         void applyActionSuccess();
         void followClubSuccess(boolean isFollow);
+
     }
     interface Presenter extends BasePresenter{
         void getActionRecentInfo(String actionId);
         void applyAction(String activityId,String name,String phone);
         void followClub(String clubId,boolean isFollow);
+
+
     }
 }

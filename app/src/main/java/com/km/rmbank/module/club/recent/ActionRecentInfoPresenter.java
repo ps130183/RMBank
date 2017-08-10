@@ -2,6 +2,7 @@ package com.km.rmbank.module.club.recent;
 
 import com.km.rmbank.dto.ActionDto;
 import com.km.rmbank.dto.ActionMemberDto;
+import com.km.rmbank.dto.ActionMemberNumDto;
 import com.km.rmbank.utils.retrofit.PresenterWrapper;
 
 import java.util.List;

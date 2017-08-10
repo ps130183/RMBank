@@ -1,6 +1,7 @@
 package com.km.rmbank.module.personal.goodsmanager;
 
 import android.Manifest;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
@@ -22,9 +23,12 @@ import com.km.rmbank.dto.GoodsDetailsDto;
 import com.km.rmbank.dto.HomeGoodsTypeDto;
 import com.km.rmbank.entity.ImageEntity;
 import com.km.rmbank.event.GoodsTypeEvent;
+import com.km.rmbank.event.UploadImageEvent;
 import com.km.rmbank.ui.CircleProgressView;
 import com.km.rmbank.utils.InputFilterUtils;
+import com.ps.androidlib.event.CompressImageEvent;
 import com.ps.androidlib.utils.DialogUtils;
+import com.ps.androidlib.utils.EventBusUtils;
 import com.ps.androidlib.utils.glide.GlideUtils;
 import com.ps.androidlib.utils.imageselector.ImageUtils;
 
@@ -261,7 +265,9 @@ public class CreateNewGoodsActivity extends BaseActivity<CreateNewGoodsPresenter
             Observable.zip(observable1, observable2, new BiFunction<Integer, String, Integer>() {
                 @Override
                 public Integer apply(@io.reactivex.annotations.NonNull Integer position, @io.reactivex.annotations.NonNull String imagePath) throws Exception {
-                    mPresenter.uploadImage(imagePath, selectWidgetId, position);
+                    EventBusUtils.post(new UploadImageEvent(imagePath));
+//                    mPresenter.uploadImage(imagePath, selectWidgetId, imagePosition);
+                    imagePosition = position;
                     return 0;
                 }
 
@@ -274,6 +280,30 @@ public class CreateNewGoodsActivity extends BaseActivity<CreateNewGoodsPresenter
 
         }
     };
+
+    private Dialog compressImageDialog;
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void compressImageing(CompressImageEvent event){
+        if (compressImageDialog == null){
+            compressImageDialog = DialogUtils.showLoadingDialog("正在上传图片，请稍后。。。");
+        } else {
+            compressImageDialog.show();
+        }
+    }
+
+    private int imagePosition = -1;
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onSelecedPhoto(UploadImageEvent event){
+        com.ps.androidlib.utils.ImageUtils.compressImage(event.getImagePath())
+                .subscribe(new Consumer<String>() {
+                    @Override
+                    public void accept(@io.reactivex.annotations.NonNull String s) throws Exception {
+                        compressImageDialog.dismiss();
+                        mPresenter.uploadImage(s, selectWidgetId, imagePosition);
+                    }
+                });
+
+    }
 
     /**
      * 将图片设置到页面中，并返回所在位置

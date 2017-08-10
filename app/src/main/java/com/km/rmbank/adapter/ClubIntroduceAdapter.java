@@ -92,6 +92,10 @@ public class ClubIntroduceAdapter extends BaseAdapter<ClubIntroduceEntity> imple
                         MToast.showToast(mContext,"请将信息补充完整");
                         return;
                     }
+                    if (entity.getIntroduceImgPath().indexOf("http:") < 0){
+                        MToast.showToast(mContext,"正在上传图片，请稍后。。。");
+                        return;
+                    }
                     entity.setCanDelete(true);
                     int itemPosition = addData(new ClubIntroduceEntity());
                     if (itemPosition > 0){

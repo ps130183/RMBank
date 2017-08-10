@@ -45,7 +45,7 @@ public class ActionJoinMemberActivity extends BaseActivity<ActionJoinMemberPrese
 
     @Override
     protected String getTitleName() {
-        return "已报名";
+        return null;
     }
 
     @Override
@@ -77,6 +77,7 @@ public class ActionJoinMemberActivity extends BaseActivity<ActionJoinMemberPrese
             @Override
             public void onRefresh() {
                 mPresenter.getActionMemberList(mActionDto.getId(),1);
+                mPresenter.getActionMemberNum(mActionDto.getId());
             }
         });
 
@@ -92,11 +93,17 @@ public class ActionJoinMemberActivity extends BaseActivity<ActionJoinMemberPrese
             }
         });
         mPresenter.getActionMemberList(mActionDto.getId(),1);
+        mPresenter.getActionMemberNum(mActionDto.getId());
     }
 
     @Override
     public void showActionMemberList(List<ActionMemberDto> actionMemberDtos, int pageNo) {
         ActionRecentJoinMemberAdapter adapter = (ActionRecentJoinMemberAdapter) rvActionJoinMember.getAdapter();
         adapter.addData(actionMemberDtos,pageNo);
+    }
+
+    @Override
+    public void showActionMemberNum(String number) {
+        mTitle.setText("已报名(" + number +")");
     }
 }

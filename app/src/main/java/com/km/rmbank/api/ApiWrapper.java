@@ -1,11 +1,13 @@
 package com.km.rmbank.api;
 
 
+import android.graphics.Bitmap;
 import android.text.TextUtils;
 
 import com.google.gson.Gson;
 import com.km.rmbank.dto.ActionDto;
 import com.km.rmbank.dto.ActionMemberDto;
+import com.km.rmbank.dto.ActionMemberNumDto;
 import com.km.rmbank.dto.ActionPastDto;
 import com.km.rmbank.dto.AppVersionDto;
 import com.km.rmbank.dto.BannerDto;
@@ -43,11 +45,15 @@ import com.km.rmbank.utils.Constant;
 import com.km.rmbank.utils.fileupload.FileUploadingListener;
 import com.km.rmbank.utils.fileupload.UploadFileRequestBody;
 import com.km.rmbank.utils.retrofit.RetrofitUtil;
+import com.orhanobut.logger.Logger;
+import com.ps.androidlib.utils.ImageUtils;
 
 import java.io.File;
 import java.util.List;
 
 import io.reactivex.Flowable;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 //import rx.Observable;
@@ -199,8 +205,8 @@ public class ApiWrapper extends RetrofitUtil {
     public Flowable<String> imageUpload(String optionType, String imagePath, FileUploadingListener fileUploadObserver){
         RetrofitUtil util = new RetrofitUtil();
         RequestBody requestOptionType = util.createRequestBody(optionType);
-
         File image = new File(imagePath);
+
 //        Bitmap mBitmap = ImageUtils.compressByQuality(ImageUtils.getBitmap(imagePath),(long)(2 * 1024 * 1024),true);
 //        image = ImageUtils.compressImage(ImageUtils.getBitmap(imagePath));
 //        image = mBitmap.
@@ -1080,5 +1086,15 @@ public class ApiWrapper extends RetrofitUtil {
     public Flowable<ServiceDto> getServiceInfo(){
         return getService().getServiceInfo(Constant.user.getToken())
                 .compose(this.<ServiceDto>applySchedulers());
+    }
+
+    /**
+     * 获取 近期活动报名人数
+     * @param actionId
+     * @return
+     */
+    public Flowable<ActionMemberNumDto> getActionMemberNum(String actionId){
+        return getService().getActionMemberNum(actionId)
+                .compose(this.<ActionMemberNumDto>applySchedulers());
     }
 }

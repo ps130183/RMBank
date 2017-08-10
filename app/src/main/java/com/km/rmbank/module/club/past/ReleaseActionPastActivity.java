@@ -1,6 +1,9 @@
 package com.km.rmbank.module.club.past;
 
 import android.Manifest;
+import android.app.Dialog;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -14,19 +17,33 @@ import com.km.rmbank.basic.BaseActivity;
 import com.km.rmbank.basic.RVUtils;
 import com.km.rmbank.dto.ActionPastDto;
 import com.km.rmbank.event.ClubIntroduceEntity;
+import com.km.rmbank.event.UploadImageEvent;
 import com.km.rmbank.module.club.ClubInfoActivity;
 import com.km.rmbank.ui.CircleProgressView;
 import com.orhanobut.logger.Logger;
+import com.ps.androidlib.event.CompressImageEvent;
 import com.ps.androidlib.utils.AppUtils;
+import com.ps.androidlib.utils.DialogLoading;
 import com.ps.androidlib.utils.DialogUtils;
+import com.ps.androidlib.utils.EventBusUtils;
 import com.ps.androidlib.utils.glide.GlideUtils;
 import com.ps.androidlib.utils.imageselector.ImageUtils;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
 import kr.co.namee.permissiongen.PermissionFail;
 import kr.co.namee.permissiongen.PermissionGen;
 import kr.co.namee.permissiongen.PermissionSuccess;
@@ -71,7 +88,7 @@ public class ReleaseActionPastActivity extends BaseActivity<ReleaseActionPastPre
     @Override
     protected void onCreate() {
         mWindowWidth = AppUtils.getCurWindowWidth(this);
-        setRightBtnClick("立即发布", new View.OnClickListener() {
+        setRightBtnClick("发布", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 DialogUtils.showDefaultAlertDialog("是否要发布该活动？", new DialogUtils.ClickListener() {
@@ -88,10 +105,10 @@ public class ReleaseActionPastActivity extends BaseActivity<ReleaseActionPastPre
         mActionPastDto.setClubId(clubId);
     }
 
-    private void initRecyclerView(){
+    private void initRecyclerView() {
         RVUtils.addDivideItemForRv(rvActionPastDetails);
         RVUtils.setLinearLayoutManage(rvActionPastDetails, LinearLayoutManager.VERTICAL);
-        final ClubIntroduceAdapter adapter = new ClubIntroduceAdapter(this,R.layout.item_rv_release_action_past);
+        final ClubIntroduceAdapter adapter = new ClubIntroduceAdapter(this, R.layout.item_rv_release_action_past);
         rvActionPastDetails.setAdapter(adapter);
         adapter.setOnClickAddOrDeleteListener(new ClubIntroduceAdapter.OnClickAddOrDeleteListener() {
 
@@ -156,9 +173,9 @@ public class ReleaseActionPastActivity extends BaseActivity<ReleaseActionPastPre
                     case 0:
                         boolean isCrop;
                         if (imgUploadPosition == 1) {
-                            ImageUtils.getSingleImageByCrop(ReleaseActionPastActivity.this,true,309,125,selectImageListener);
-                        } else if (imgUploadPosition == 2 || imgUploadPosition == 3){
-                            ImageUtils.getSingleImageByCrop(ReleaseActionPastActivity.this,true,148,98,selectImageListener);
+                            ImageUtils.getSingleImageByCrop(ReleaseActionPastActivity.this, true, 309, 125, selectImageListener);
+                        } else if (imgUploadPosition == 2 || imgUploadPosition == 3) {
+                            ImageUtils.getSingleImageByCrop(ReleaseActionPastActivity.this, true, 148, 98, selectImageListener);
                         } else {
                             ImageUtils.getImageFromCamera(ReleaseActionPastActivity.this, false, selectImageListener);
                         }
@@ -166,10 +183,10 @@ public class ReleaseActionPastActivity extends BaseActivity<ReleaseActionPastPre
                         break;
                     case 1:
                         if (imgUploadPosition == 1) {
-                            ImageUtils.getSingleImageByCrop(ReleaseActionPastActivity.this,false,309,125,selectImageListener);
-                        } else if (imgUploadPosition == 2 || imgUploadPosition == 3){
-                            ImageUtils.getSingleImageByCrop(ReleaseActionPastActivity.this,false,148,98,selectImageListener);
-                        }else {
+                            ImageUtils.getSingleImageByCrop(ReleaseActionPastActivity.this, false, 309, 125, selectImageListener);
+                        } else if (imgUploadPosition == 2 || imgUploadPosition == 3) {
+                            ImageUtils.getSingleImageByCrop(ReleaseActionPastActivity.this, false, 148, 98, selectImageListener);
+                        } else {
                             ImageUtils.getImageFromPhotoAlbum(ReleaseActionPastActivity.this,
                                     ImageUtils.ImageType.PRODUCT,
                                     ImageUtils.ImageNumber.SINGLE,
@@ -191,29 +208,54 @@ public class ReleaseActionPastActivity extends BaseActivity<ReleaseActionPastPre
     private ImageUtils.SelectImageListener selectImageListener = new ImageUtils.SelectImageListener() {
         @Override
         public void onSuccess(List<String> photoList) {
+            String imagePath = photoList.get(0);
             if (imgUploadPosition == 1) {
-//                ivUploadActionPastImg1.setVisibility(View.VISIBLE);
-//                int windowWidth = AppUtils.getCurWindowWidth(this);
                 ivUploadActionPastImg1.getLayoutParams().width = mWindowWidth / 320 * 309;
                 ivUploadActionPastImg1.getLayoutParams().height = mWindowWidth / 320 * 125;
-                GlideUtils.loadImage(ivUploadActionPastImg1, photoList.get(0));
+                GlideUtils.loadImage(ivUploadActionPastImg1, imagePath);
             } else if (imgUploadPosition == 4) {
                 if (introduceImgPosition < 0) {
                     return;
                 }
                 ClubIntroduceAdapter adapter = (ClubIntroduceAdapter) rvActionPastDetails.getAdapter();
                 ClubIntroduceEntity entity = adapter.getItemData(introduceImgPosition);
-                entity.setIntroduceImgPath(photoList.get(0));
+                entity.setIntroduceImgPath(imagePath);
                 adapter.notifyItemDataChanged(introduceImgPosition);
             }
-            mPresenter.uploadActionImg(photoList.get(0),imgUploadPosition,introduceImgPosition);
+//            mPresenter.uploadActionImg(imagePath, imgUploadPosition, introduceImgPosition);
+            EventBusUtils.post(new UploadImageEvent(imagePath));
 
         }
+
+
     };
+    private Dialog compressImageDialog;
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void compressImageing(CompressImageEvent event){
+        if (compressImageDialog == null){
+            compressImageDialog = DialogUtils.showLoadingDialog("正在上传图片，请稍后。。。");
+        } else {
+            compressImageDialog.show();
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onSelecedPhoto(UploadImageEvent event){
+
+        com.ps.androidlib.utils.ImageUtils.compressImage(event.getImagePath())
+                .subscribe(new Consumer<String>() {
+                    @Override
+                    public void accept(@NonNull String s) throws Exception {
+                        compressImageDialog.dismiss();
+                        mPresenter.uploadActionImg(s, imgUploadPosition, introduceImgPosition);
+                    }
+                });
+
+    }
 
     @Override
     public void uploadActionImgSuccess(String imageUrl, int imageType, int position) {
-        switch (imageType){
+        switch (imageType) {
             case 1:
                 mActionPastDto.setAvatarUrl(imageUrl);
                 break;
@@ -231,13 +273,13 @@ public class ReleaseActionPastActivity extends BaseActivity<ReleaseActionPastPre
 
     @Override
     public void showUploadImgProgress(int imageType, int position, int progress) {
-        switch (imageType){
+        switch (imageType) {
             case 1:
                 cpvUploadPastacitonImg.setProgress(progress);
                 break;
             case 4:
                 ClubIntroduceAdapter adapter = (ClubIntroduceAdapter) rvActionPastDetails.getAdapter();
-                adapter.setProgress(position,progress);
+                adapter.setProgress(position, progress);
                 break;
         }
     }
@@ -251,14 +293,14 @@ public class ReleaseActionPastActivity extends BaseActivity<ReleaseActionPastPre
     /**
      * 保存 并 发布活动
      */
-    private void saveActionInfo(){
+    private void saveActionInfo() {
         mActionPastDto.setTitle(etActionPastTitle.getText().toString());
 
         ClubIntroduceAdapter adapter = (ClubIntroduceAdapter) rvActionPastDetails.getAdapter();
         List<ClubIntroduceEntity> entityList = adapter.getAllData();
         List<ActionPastDto.DynamicBean> dynamicBeanList = new ArrayList<>();
 
-        for (ClubIntroduceEntity entity : entityList){
+        for (ClubIntroduceEntity entity : entityList) {
             ActionPastDto.DynamicBean bean = new ActionPastDto.DynamicBean();
             bean.setDynamicImageContent(entity.getIntroduceContent());
             bean.setDynamicImage(entity.getIntroduceImgPath());
@@ -266,7 +308,7 @@ public class ReleaseActionPastActivity extends BaseActivity<ReleaseActionPastPre
         }
         mActionPastDto.setDynamicList(dynamicBeanList);
 
-        if (mActionPastDto.isEmpty()){
+        if (mActionPastDto.isEmpty()) {
             Logger.d(mActionPastDto.toString());
             showToast("请将活动的信息补充完整");
             return;

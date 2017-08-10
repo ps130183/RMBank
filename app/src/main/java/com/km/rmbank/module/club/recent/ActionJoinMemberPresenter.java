@@ -1,6 +1,7 @@
 package com.km.rmbank.module.club.recent;
 
 import com.km.rmbank.dto.ActionMemberDto;
+import com.km.rmbank.dto.ActionMemberNumDto;
 import com.km.rmbank.utils.retrofit.PresenterWrapper;
 
 import java.util.List;
@@ -30,6 +31,18 @@ public class ActionJoinMemberPresenter extends PresenterWrapper<ActionJoinMember
                     @Override
                     public void accept(@NonNull List<ActionMemberDto> actionMemberDtos) throws Exception {
                         mView.showActionMemberList(actionMemberDtos,pageNo);
+                    }
+                }));
+    }
+
+    @Override
+    public void getActionMemberNum(String actionId) {
+        mView.showLoading();
+        mApiwrapper.getActionMemberNum(actionId)
+                .subscribe(newSubscriber(new Consumer<ActionMemberNumDto>() {
+                    @Override
+                    public void accept(@NonNull ActionMemberNumDto actionMemberNumDto) throws Exception {
+                        mView.showActionMemberNum(actionMemberNumDto.getRegistrationNumber());
                     }
                 }));
     }

@@ -2,6 +2,7 @@ package com.km.rmbank.api;
 
 import com.km.rmbank.dto.ActionDto;
 import com.km.rmbank.dto.ActionMemberDto;
+import com.km.rmbank.dto.ActionMemberNumDto;
 import com.km.rmbank.dto.ActionPastDto;
 import com.km.rmbank.dto.AppVersionDto;
 import com.km.rmbank.dto.BannerDto;
@@ -1209,5 +1210,14 @@ public interface ApiService {
     @FormUrlEncoded
     @POST(SecretConstant.API_HOST_PATH + "/auth/user/admin/service")
     Flowable<Response<ServiceDto>> getServiceInfo(@Field("token") String token);
+
+    /**
+     * 获取 近期活动 报名人数
+     * @param activityId
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(SecretConstant.API_HOST_PATH + "/club/activity/registration/number")
+    Flowable<Response<ActionMemberNumDto>> getActionMemberNum(@Field("activityId") String activityId);
 
 }
