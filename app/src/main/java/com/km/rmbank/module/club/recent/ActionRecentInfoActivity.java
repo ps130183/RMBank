@@ -1,5 +1,6 @@
 package com.km.rmbank.module.club.recent;
 
+import android.os.Build;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -110,7 +111,8 @@ public class ActionRecentInfoActivity extends BaseActivity<ActionRecentInfoPrese
         llToolbarTop.setBackgroundColor(ContextCompat.getColor(this,R.color.color_white));
         mToolbar.setBackgroundColor(ContextCompat.getColor(this,R.color.color_white));
         mTitle.setTextColor(ContextCompat.getColor(this,R.color.color_block));
-//        Logger.d("系统类型    " + StatusBarUtil.StatusBarLightMode(this));//设置状态栏 字体颜色为深色
+        //设置状态栏 字体颜色为深色
+        StatusBarUtil.StatusBarLightMode(this);
 
         isMyClub = getIntent().getBooleanExtra("isMyClub",false);
         actionId = getIntent().getStringExtra("actionId");

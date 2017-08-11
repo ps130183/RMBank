@@ -19,6 +19,7 @@ import com.km.rmbank.basic.RVUtils;
 import com.km.rmbank.dto.ActionDto;
 import com.km.rmbank.dto.ActionMemberDto;
 import com.km.rmbank.utils.SwipeRefreshUtils;
+import com.ps.androidlib.utils.StatusBarUtil;
 
 import java.util.List;
 
@@ -58,6 +59,8 @@ public class ActionJoinMemberActivity extends BaseActivity<ActionJoinMemberPrese
         llToolbarTop.setBackgroundColor(ContextCompat.getColor(this,R.color.color_white));
         mToolbar.setBackgroundColor(ContextCompat.getColor(this,R.color.color_white));
         mTitle.setTextColor(ContextCompat.getColor(this,R.color.color_block));
+        //设置状态栏 字体颜色为深色
+        StatusBarUtil.StatusBarLightMode(this);
 
         setLeftIconClick(R.mipmap.ic_left_back1, new View.OnClickListener() {
             @Override

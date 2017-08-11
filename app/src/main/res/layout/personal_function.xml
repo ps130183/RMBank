@@ -21,7 +21,7 @@
         <TextView
             android:id="@+id/tv_address"
             style="@style/Personal.function_tv"
-            android:drawableLeft="@mipmap/ic_personal_receiveraddress"
+            android:drawableLeft="@mipmap/ic_personal_receiver_address"
             android:text="  收货地址" />
 
     </LinearLayout>

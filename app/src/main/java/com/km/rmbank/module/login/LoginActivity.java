@@ -155,7 +155,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     public void onPhoneLengthChange(Editable s){
         if (s.length() >= 11){
             isSendCode = true;
-            tvSendCode.setTextColor(ContextCompat.getColor(LoginActivity.this,R.color.color_blue3));
+            tvSendCode.setTextColor(ContextCompat.getColor(LoginActivity.this,R.color.color_theme));
         } else {
             isSendCode = false;
             tvSendCode.setTextColor(ContextCompat.getColor(LoginActivity.this,R.color.color_text_gray2));

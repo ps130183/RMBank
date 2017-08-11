@@ -56,10 +56,10 @@
                     android:background="@color/color_divider1"/>
 
                 <TextView
-                    android:id="@+id/tv_goods_manager"
+                    android:id="@+id/tv_my_account"
                     style="@style/Personal.function_tv"
-                    android:text="  商品管理"
-                    android:drawableLeft="@mipmap/ic_personal_goods_manage"
+                    android:text="  我的账户"
+                    android:drawableLeft="@mipmap/ic_personal_account"
                     />
 
             </LinearLayout>
@@ -72,7 +72,7 @@
                 <TextView
                     android:id="@+id/tv_my_club"
                     style="@style/Personal.function_tv"
-                    android:text="  我的俱乐部"
+                    android:text="  俱乐部"
                     android:drawableLeft="@mipmap/ic_personal_club"
                     />
 
@@ -84,10 +84,10 @@
                 >
 
                 <TextView
-                    android:id="@+id/tv_my_account"
+                    android:id="@+id/tv_goods_manager"
                     style="@style/Personal.function_tv"
-                    android:text="  我的账户"
-                    android:drawableLeft="@mipmap/ic_personal_account"
+                    android:text="  商品管理"
+                    android:drawableLeft="@mipmap/ic_personal_goods_manage"
                     />
 
                 <View

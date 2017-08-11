@@ -5,6 +5,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.google.gson.Gson;
+import com.km.rmbank.dto.JPushDto;
+import com.km.rmbank.module.club.past.ActionPastDetailActivity;
+import com.km.rmbank.module.club.recent.ActionRecentInfoActivity;
 import com.orhanobut.logger.Logger;
 
 import org.json.JSONObject;
@@ -52,16 +56,24 @@ public class JPushReceiver extends BroadcastReceiver {
 
     private void openNotification(Context context, Bundle bundle){
         String extras = bundle.getString(JPushInterface.EXTRA_EXTRA);
-        String myValue = "";
-        try {
-            JSONObject extrasJson = new JSONObject(extras);
-            myValue = extrasJson.optString("my");
-        } catch (Exception e) {
-            Logger.w("Unexpected: extras is not a valid json"+e);
-            return;
+        Gson gson = new Gson();
+        JPushDto mJpushDto = gson.fromJson(extras,JPushDto.class);
+        Logger.d(mJpushDto.toString());
+        Intent intent;
+        switch (mJpushDto.getType()){
+            case 1:
+                intent = new Intent(context, ActionRecentInfoActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra("actionId",mJpushDto.getId());
+                context.startActivity(intent);
+                break;
+            case 2:
+                intent = new Intent(context, ActionPastDetailActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra("actionPastId",mJpushDto.getId());
+                context.startActivity(intent);
+                break;
         }
-
-        Logger.d(myValue);
 //        if (TYPE_THIS.equals(myValue)) {
 //            Intent mIntent = new Intent(context, ThisActivity.class);
 //            mIntent.putExtras(bundle);

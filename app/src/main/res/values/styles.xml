@@ -24,7 +24,7 @@
         <item name="actionOverflowMenuStyle">@style/OverflowMenuStyle</item>
 
         <!--这个也正确,用这个吧-->
-        <item name="colorControlNormal">@color/color_white</item>
+        <!--<item name="colorControlNormal">@color/color_white</item>-->
     </style>
 
     <style name="OverflowMenuStyle" parent="Widget.AppCompat.Light.PopupMenu.Overflow">

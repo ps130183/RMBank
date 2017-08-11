@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.ps.androidlib.R;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 import java.lang.reflect.Field;
@@ -71,13 +72,14 @@ public class StatusBarUtil {
     public static int StatusBarLightMode(Activity activity){
         int result=0;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            if(MIUISetStatusBarLightMode(activity.getWindow(), true)){
-                result=1;
-            }else if(FlymeSetStatusBarLightMode(activity.getWindow(), true)){
-                result=2;
-            }else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                activity.getWindow().getDecorView().setSystemUiVisibility( View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN|View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//                activity.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN|View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+                activity.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN|View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
                 result=3;
+            } else if(FlymeSetStatusBarLightMode(activity.getWindow(), true)){
+                result=2;
+            } else if(MIUISetStatusBarLightMode(activity.getWindow(), true)){
+                result=1;
             }
         }
         return result;
@@ -222,4 +224,5 @@ public class StatusBarUtil {
         activity.getWindow().clearFlags(
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
     }
+
 }

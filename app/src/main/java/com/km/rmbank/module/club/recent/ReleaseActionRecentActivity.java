@@ -92,7 +92,7 @@ public class ReleaseActionRecentActivity extends BaseActivity<ReleaseActionRecen
     @Override
     protected void onCreate() {
         mWindowWidth = AppUtils.getCurWindowWidth(this);
-        setRightBtnClick("立即发布", new View.OnClickListener() {
+        setRightBtnClick("发布", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 //                toNextActivity(ActionRecentInfoActivity.class);

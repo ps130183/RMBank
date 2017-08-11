@@ -88,8 +88,8 @@ public class Home2Activity extends BaseActivity<Home2Presenter> implements Home2
 
     private ShareDto shareDto;
 
-    private int[] mSelectedIcon = {R.mipmap.icon_home_rbtn1_pressed, R.mipmap.icon_home_rbtn2_pressed, R.mipmap.icon_home_rbtn3_pressed, R.mipmap.icon_home_rbtn4_pressed,R.mipmap.ic_home_navigation_center};
-    private int[] mUnSelectedIcon = {R.mipmap.icon_home_rbtn1_unpress, R.mipmap.icon_home_rbtn2_unpress, R.mipmap.icon_home_rbtn3_unpress, R.mipmap.icon_home_rbtn4_unpress,R.mipmap.ic_home_navigation_center};
+    private int[] mSelectedIcon = {R.mipmap.icon_home_rbtn1_pressed, R.mipmap.icon_home_rbtn2_pressed, R.mipmap.icon_home_rbtn3_pressed, R.mipmap.icon_home_rbtn4_pressed,R.mipmap.ic_home_navigation_center_pressed};
+    private int[] mUnSelectedIcon = {R.mipmap.icon_home_rbtn1_unpress, R.mipmap.icon_home_rbtn2_unpress, R.mipmap.icon_home_rbtn3_unpress, R.mipmap.icon_home_rbtn4_unpress,R.mipmap.ic_home_navigation_center_unpress};
 
     @BindView(R.id.mainTabBar)
     MainNavigateTabBar mNavigateTabBar;

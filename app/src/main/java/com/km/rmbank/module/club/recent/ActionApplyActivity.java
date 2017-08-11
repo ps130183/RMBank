@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.km.rmbank.R;
 import com.km.rmbank.basic.BaseActivity;
 import com.km.rmbank.dto.ActionDto;
+import com.ps.androidlib.utils.StatusBarUtil;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -52,6 +53,8 @@ public class ActionApplyActivity extends BaseActivity<ActionRecentInfoPresenter>
         llToolbarTop.setBackgroundColor(ContextCompat.getColor(this,R.color.color_white));
         mToolbar.setBackgroundColor(ContextCompat.getColor(this,R.color.color_white));
         mTitle.setTextColor(ContextCompat.getColor(this,R.color.color_block));
+        //设置状态栏 字体颜色为深色
+        StatusBarUtil.StatusBarLightMode(this);
 
         setLeftIconClick(R.mipmap.ic_left_back1, new View.OnClickListener() {
             @Override

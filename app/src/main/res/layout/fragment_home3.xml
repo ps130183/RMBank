@@ -50,7 +50,7 @@
             app:tl_indicator_corner_radius="1.5dp"
             app:tl_indicator_height="0dp"
             app:tl_indicator_width="10dp"
-            app:tl_textSelectColor="#33CCFF"
+            app:tl_textSelectColor="@color/color_white"
             app:tl_textUnselectColor="@color/color_stl_unselected"
             app:tl_textsize="14sp"/>
     </LinearLayout>
