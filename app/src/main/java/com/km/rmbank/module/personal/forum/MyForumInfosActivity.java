@@ -18,6 +18,7 @@ import com.km.rmbank.event.MyForumCommentEvent;
 import com.km.rmbank.ui.FirstRecyclerView;
 import com.km.rv_libs.TemplateAdapter;
 import com.km.rv_libs.base.ICell;
+import com.orhanobut.logger.Logger;
 import com.ps.androidlib.utils.AppUtils;
 import com.ps.androidlib.utils.EventBusUtils;
 import com.ps.androidlib.utils.KeyboardUtils;

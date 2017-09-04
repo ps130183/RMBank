@@ -173,7 +173,11 @@ public class ForumOfMyCommentFragment extends BaseFragment<ForumOfMePresenter> i
     }
 
     public LinearLayoutManager getLayoutManager(){
-        return (LinearLayoutManager) rvForum.getLayoutManager();
+        LinearLayoutManager llm = (LinearLayoutManager) rvForum.getLayoutManager();
+        if (llm.findFirstVisibleItemPosition() == 0){
+            rvForum.smoothScrollToPosition(0);
+        }
+        return llm;
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

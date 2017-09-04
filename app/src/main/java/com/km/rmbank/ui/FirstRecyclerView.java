@@ -55,18 +55,20 @@ public class FirstRecyclerView extends RecyclerView {
             int firstVisibleItemPosition = mLayoutManager.findFirstVisibleItemPosition();
             if (firstVisibleItemPosition == 0){
                 if (Math.abs(deltaX) >= Math.abs(deltaY)){//左右滑动 不拦截
-//                    Logger.d("左右 滑动 ---- delaX = " + deltaX + "  delaY = " + deltaY);
+//                    Logger.d("左右 滑动 ---- delaX = " + deltaX + "  delaY = " + deltaY + "   delaX - delaY = " + (deltaX - deltaY));
                     return false;
                 } else if (deltaY > 0 && !subRvFirstVisibleListener.getSubRvFirstVisible(e)){//上下滑动，子rv的firstItem不在顶部，不拦截
+                    Logger.d("上下滑动，不拦截滑动，子rv的firstItem不在顶部");
                     return false;
                 } else {
-//                    Logger.d("上下滑动");
+                    Logger.d("上下滑动,父级recyclerView 的移动");
                     return true;
                 }
             } else {
                 //子recyclerview滑动到顶部，父级重新拦截
-                if (deltaY > 0 && subRvFirstVisibleListener.getSubRvFirstVisible(e)){
-                    return true;
+                if (deltaY > 0){
+                    Logger.d("subRvFirstVisible ==== " + subRvFirstVisibleListener.getSubRvFirstVisible(e));
+                    return subRvFirstVisibleListener.getSubRvFirstVisible(e);
                 }
                 return false;
             }

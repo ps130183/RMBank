@@ -78,5 +78,4 @@ public class MyForumInfoBottomCell extends BaseCell<String> {
         return llm;
     }
 
-
 }

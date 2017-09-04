@@ -36,7 +36,7 @@ public class Home3ActionPastAdapter extends BaseAdapter<InformationDto> implemen
     public void createView(ViewHolder holder, int position) {
         InformationDto informationDto = getItemData(position);
         String actionUrl = "";
-        if (informationDto.getAvatarUrl().indexOf("#") > 0){
+        if (informationDto.getAvatarUrl() != null && informationDto.getAvatarUrl().indexOf("#") > 0){
             actionUrl = informationDto.getAvatarUrl().split("#")[0];
         } else {
             actionUrl = informationDto.getAvatarUrl();

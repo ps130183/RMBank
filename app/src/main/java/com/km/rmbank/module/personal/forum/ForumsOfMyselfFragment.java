@@ -126,7 +126,6 @@ public class ForumsOfMyselfFragment extends BaseFragment<ForumOfMePresenter> imp
                 toNextActivity(PictureShowActivity.class,bundle);
             }
         });
-
     }
 
     @Override
@@ -176,7 +175,11 @@ public class ForumsOfMyselfFragment extends BaseFragment<ForumOfMePresenter> imp
     }
 
     public LinearLayoutManager getLayoutManager(){
-        return (LinearLayoutManager) rvForum.getLayoutManager();
+        LinearLayoutManager llm = (LinearLayoutManager) rvForum.getLayoutManager();
+        if (llm.findFirstVisibleItemPosition() == 0){
+            rvForum.smoothScrollToPosition(0);
+        }
+        return llm;
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
