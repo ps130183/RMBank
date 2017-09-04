@@ -35,6 +35,17 @@ public class ClubActionPastAdapter extends BaseAdapter<ActionPastDto> implements
         holder.tvCount.setText("浏览次数：" + actionPastDto.getViewCount());
         String[] avatarUrls = actionPastDto.getAvatarUrl().split("#");
         GlideUtils.loadImage(holder.ivAvatar,avatarUrls[0]);
+
+        int actionType = actionPastDto.getStatus();
+        String actionStatus = "";
+        if(actionType == 0){
+            actionStatus = "审核中";
+        } else if (actionType == 1){
+            actionStatus = "审核通过";
+        } else if (actionType == 2){
+            actionStatus = "审核拒绝";
+        }
+        holder.tvActionStatus.setText(actionStatus);
     }
 
     class ViewHolder extends BaseViewHolder{
@@ -45,6 +56,8 @@ public class ClubActionPastAdapter extends BaseAdapter<ActionPastDto> implements
         TextView tvCount;
         @BindView(R.id.iv_avatar)
         ImageView ivAvatar;
+        @BindView(R.id.tv_action_status)
+        TextView tvActionStatus;
 
         public ViewHolder(View itemView) {
             super(itemView);

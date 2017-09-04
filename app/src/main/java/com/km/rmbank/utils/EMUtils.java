@@ -1,6 +1,7 @@
 package com.km.rmbank.utils;
 
 import android.content.Context;
+import android.os.Build;
 import android.os.Handler;
 
 import com.hyphenate.EMConnectionListener;
@@ -33,7 +34,7 @@ public class EMUtils {
      * @param connect
      */
     public static void setEMConnectionListener(Context context,boolean connect){
-        if (connect){
+        if (connect && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
             EMClient.getInstance().addConnectionListener(new EMConnectListener(context));
         }
     }
@@ -91,7 +92,7 @@ public class EMUtils {
      */
     public static EMMessageListener setMessageReceiveListener(Context context,boolean receiver){
         EMMessageListener emMessageListener = new EMMessageListener(context);
-        if (receiver){//注册  接收
+        if (receiver  && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){//注册  接收
             EMClient.getInstance().chatManager().addMessageListener(emMessageListener);
         }
 
@@ -103,7 +104,9 @@ public class EMUtils {
      * @param emMessageListener
      */
     public static void removeMessageReceiverListener(EMMessageListener emMessageListener){
-        EMClient.getInstance().chatManager().removeMessageListener(emMessageListener);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+            EMClient.getInstance().chatManager().removeMessageListener(emMessageListener);
+        }
     }
 
     public static class EMMessageListener implements com.hyphenate.EMMessageListener{

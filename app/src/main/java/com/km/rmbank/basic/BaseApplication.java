@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.Application;
 import android.app.Notification;
 import android.content.Context;
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
@@ -14,9 +16,11 @@ import com.hyphenate.chat.EMClient;
 import com.hyphenate.easeui.EaseUI;
 import com.hyphenate.easeui.domain.EaseUser;
 import com.hyphenate.easeui.utils.EaseUserChatUtils;
+import com.km.rmbank.MainActivity;
 import com.km.rmbank.R;
 import com.km.rmbank.utils.Constant;
 import com.km.rmbank.utils.UmengShareUtils;
+import com.km.rmbank.utils.crash.CrashHandler;
 import com.orhanobut.logger.LogLevel;
 import com.orhanobut.logger.Logger;
 import com.ps.androidlib.utils.Utils;
@@ -47,6 +51,7 @@ public class BaseApplication extends MultiDexApplication {
     public void onCreate() {
         super.onCreate();
         mInstance = this;
+        initCrashHandler();
         initLogUtils();
         registCallback();
         initUtils();
@@ -60,6 +65,13 @@ public class BaseApplication extends MultiDexApplication {
         return mInstance;
     }
 
+
+    /**
+     * 初始化 异常捕获
+     */
+    private void initCrashHandler() {
+        CrashHandler.getInstance().init(this);
+    }
 
     /**
      * 初始化日志打印
@@ -122,7 +134,7 @@ public class BaseApplication extends MultiDexApplication {
     }
 
     private void initEaseUI() {
-        if (EaseUI.getInstance().init(this,null)){
+        if (EaseUI.getInstance().init(this, null) && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             EMClient.getInstance().setDebugMode(true);
             EaseUserChatUtils.init();
         }
@@ -131,9 +143,9 @@ public class BaseApplication extends MultiDexApplication {
     /**
      * 初始化 极光推送
      */
-    private void initJiPush(){
-        JPushInterface.setDebugMode(true); 	// 设置开启日志,发布时请关闭日志
-        JPushInterface.init(this);     		// 初始化 JPush
+    private void initJiPush() {
+        JPushInterface.setDebugMode(true);    // 设置开启日志,发布时请关闭日志
+        JPushInterface.init(this);            // 初始化 JPush
 
 //        BasicPushNotificationBuilder builder = new BasicPushNotificationBuilder(this);
 //        builder.statusBarDrawable = R.drawable.jpush_notification_icon;

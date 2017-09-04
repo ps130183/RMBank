@@ -1,12 +1,15 @@
 package com.km.rmbank.adapter;
 
 import android.content.Context;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.km.rmbank.R;
 import com.km.rmbank.basic.BaseAdapter;
+import com.km.rmbank.basic.RVUtils;
 import com.km.rmbank.dto.ActionPastDto;
 import com.ps.androidlib.utils.glide.GlideUtils;
 
@@ -31,19 +34,33 @@ public class ActionPastDetailsAdapter extends BaseAdapter<ActionPastDto.DynamicB
     @Override
     public void createView(ViewHolder holder, int position) {
         ActionPastDto.DynamicBean bean = getItemData(position);
-        GlideUtils.loadImage(holder.ivActionImg,bean.getDynamicImage());
+        if (bean.getDynamicImageList() == null || bean.getDynamicImageList().size() == 0){
+            holder.rvImage.setVisibility(View.GONE);
+        } else {
+            holder.rvImage.setVisibility(View.VISIBLE);
+        }
+        holder.adapter.addData(bean.getDynamicImageList());
         holder.tvContent.setText(bean.getDynamicImageContent());
     }
 
     class ViewHolder extends BaseViewHolder{
 
-        @BindView(R.id.iv_action_img)
-        ImageView ivActionImg;
+        @BindView(R.id.rv_image)
+        RecyclerView rvImage;
+        ImageTextAdapter adapter;
+
         @BindView(R.id.tv_content)
         TextView tvContent;
 
         public ViewHolder(View itemView) {
             super(itemView);
+            initRv();
+        }
+        private void initRv(){
+            RVUtils.setLinearLayoutManage(rvImage, LinearLayoutManager.VERTICAL);
+            RVUtils.addDivideItemForRv(rvImage,RVUtils.DIVIDER_COLOR_WHITE);
+            adapter = new ImageTextAdapter(mContext);
+            rvImage.setAdapter(adapter);
         }
     }
 }

@@ -25,6 +25,8 @@ public class ActionPastDto extends BaseEntity implements Parcelable {
     private List<DynamicBean> detailList;
     private int viewCount;
 
+    private int status;
+
     public String getId() {
         return id;
     }
@@ -46,7 +48,16 @@ public class ActionPastDto extends BaseEntity implements Parcelable {
                 ", dynamicList=" + dynamicList +
                 ", detailList=" + detailList +
                 ", viewCount=" + viewCount +
+                ", status=" + status +
                 '}';
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 
     public String getClubLogo() {
@@ -128,16 +139,16 @@ public class ActionPastDto extends BaseEntity implements Parcelable {
                 || TextUtils.isEmpty(title)){
             return true;
         }
-        if (dynamicList != null){
-            boolean isEmpty = false;
-            for (DynamicBean bean : dynamicList){
-                if (bean.isEmpty()){
-                    isEmpty = true;
-                    break;
-                }
-            }
-            return isEmpty;
-        }
+//        if (dynamicList != null){
+//            boolean isEmpty = false;
+//            for (DynamicBean bean : dynamicList){
+//                if (bean.isEmpty()){
+//                    isEmpty = true;
+//                    break;
+//                }
+//            }
+//            return isEmpty;
+//        }
         return false;
     }
 
@@ -145,12 +156,14 @@ public class ActionPastDto extends BaseEntity implements Parcelable {
 
     public static class DynamicBean extends BaseEntity implements Parcelable {
         private String dynamicImage;
+        private List<String> dynamicImageList;
         private String dynamicImageContent;
 
         @Override
         public String toString() {
             return "DynamicBean{" +
                     "dynamicImage='" + dynamicImage + '\'' +
+                    ", dynamicImageList=" + dynamicImageList +
                     ", dynamicImageContent='" + dynamicImageContent + '\'' +
                     '}';
         }
@@ -171,12 +184,23 @@ public class ActionPastDto extends BaseEntity implements Parcelable {
             this.dynamicImageContent = dynamicImageContent;
         }
 
+        public List<String> getDynamicImageList() {
+            return dynamicImageList;
+        }
+
+        public void setDynamicImageList(List<String> dynamicImageList) {
+            this.dynamicImageList = dynamicImageList;
+        }
+
         @Override
         public boolean isEmpty() {
             if (TextUtils.isEmpty(dynamicImage) || TextUtils.isEmpty(dynamicImageContent)){
                 return true;
             }
             return false;
+        }
+
+        public DynamicBean() {
         }
 
         @Override
@@ -187,14 +211,13 @@ public class ActionPastDto extends BaseEntity implements Parcelable {
         @Override
         public void writeToParcel(Parcel dest, int flags) {
             dest.writeString(this.dynamicImage);
+            dest.writeStringList(this.dynamicImageList);
             dest.writeString(this.dynamicImageContent);
-        }
-
-        public DynamicBean() {
         }
 
         protected DynamicBean(Parcel in) {
             this.dynamicImage = in.readString();
+            this.dynamicImageList = in.createStringArrayList();
             this.dynamicImageContent = in.readString();
         }
 
@@ -231,6 +254,7 @@ public class ActionPastDto extends BaseEntity implements Parcelable {
         dest.writeTypedList(this.dynamicList);
         dest.writeTypedList(this.detailList);
         dest.writeInt(this.viewCount);
+        dest.writeInt(this.status);
     }
 
     protected ActionPastDto(Parcel in) {
@@ -244,6 +268,7 @@ public class ActionPastDto extends BaseEntity implements Parcelable {
         this.dynamicList = in.createTypedArrayList(DynamicBean.CREATOR);
         this.detailList = in.createTypedArrayList(DynamicBean.CREATOR);
         this.viewCount = in.readInt();
+        this.status = in.readInt();
     }
 
     public static final Creator<ActionPastDto> CREATOR = new Creator<ActionPastDto>() {

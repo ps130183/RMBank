@@ -54,6 +54,8 @@ public class ActionRecentInfoActivity extends BaseActivity<ActionRecentInfoPrese
     Toolbar mToolbar;
     @BindView(R.id.title)
     TextView mTitle;
+    @BindView(R.id.tv_title_right)
+    TextView tvTitleRight;
 
     @BindView(R.id.iv_club_background)
     ImageView ivClubBackground;
@@ -87,6 +89,7 @@ public class ActionRecentInfoActivity extends BaseActivity<ActionRecentInfoPrese
 
     private String actionId;
     private ActionDto mActionDto;
+    private String clubId;
     private boolean isMyClub;
 
     private ShareDto shareDto;
@@ -116,17 +119,11 @@ public class ActionRecentInfoActivity extends BaseActivity<ActionRecentInfoPrese
 
         isMyClub = getIntent().getBooleanExtra("isMyClub",false);
         actionId = getIntent().getStringExtra("actionId");
+        clubId = getIntent().getStringExtra("clubId");
         mPresenter.getActionRecentInfo(actionId);
         shareDto = new ShareDto();
 
-        setRightIconClick(R.mipmap.ic_action_recent_share, new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openShare();
-            }
-        });
-
-        setLeftIconClick(R.mipmap.ic_left_back1, new View.OnClickListener() {
+        setLeftIconClick(R.mipmap.ic_left_back_block, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
@@ -176,6 +173,26 @@ public class ActionRecentInfoActivity extends BaseActivity<ActionRecentInfoPrese
         shareDto.setContent(actionDto.getFlow());
         shareDto.setSharePicUrl(actionDto.getActivityPictureUrl());
         shareDto.setPageUrl(actionDto.getWebActivityUrl());
+
+        if (isMyClub && !"1".equals(actionDto.getActivityType())){
+            tvTitleRight.setTextColor(ContextCompat.getColor(this, R.color.color_block));
+            setRightBtnClick("编辑", new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelable("actionDto",mActionDto);
+                    bundle.putString("clubId",clubId);
+                    toNextActivity(ReleaseActionRecentActivity.class,bundle);
+                }
+            });
+        } else {
+            setRightIconClick(R.mipmap.ic_action_recent_share, new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    openShare();
+                }
+            });
+        }
 
         GlideUtils.loadImage(ivClubBackground,actionDto.getBackgroundImg());
         tvActionTitle.setText(actionDto.getTitle());

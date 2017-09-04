@@ -1,5 +1,7 @@
 package com.km.rmbank.api;
 
+import android.support.annotation.IdRes;
+
 import com.km.rmbank.dto.ActionDto;
 import com.km.rmbank.dto.ActionMemberDto;
 import com.km.rmbank.dto.ActionMemberNumDto;
@@ -8,6 +10,8 @@ import com.km.rmbank.dto.AppVersionDto;
 import com.km.rmbank.dto.BannerDto;
 import com.km.rmbank.dto.ClubDto;
 import com.km.rmbank.dto.EvaluateDto;
+import com.km.rmbank.dto.ForumDto;
+import com.km.rmbank.dto.ForumInfoDto;
 import com.km.rmbank.dto.GoodsDetailsDto;
 import com.km.rmbank.dto.GoodsDto;
 import com.km.rmbank.dto.GoodsTypeDto;
@@ -1110,7 +1114,8 @@ public interface ApiService {
                                                       @Field("address") String address,
                                                       @Field("flow") String flow,
                                                       @Field("holdDate") String holdDate,
-                                                      @Field("appGuestList") String guestList);
+                                                      @Field("appGuestList") String guestList,
+                                                   @Field("id") String actionId);
 
     /**
      * 获取俱乐部 近期活动列表
@@ -1156,7 +1161,8 @@ public interface ApiService {
     Flowable<Response<String>> releaseActionPast(@Field("clubId") String clubId,
                                                  @Field("avatarUrl") String avatarUrl,
                                                  @Field("title") String title,
-                                                 @Field("dynamicList") String dynamicList);
+                                                 @Field("dynamicList") String dynamicList,
+                                                 @Field("id") String id);
 
     /**
      * 获取往期资讯 列表
@@ -1165,7 +1171,7 @@ public interface ApiService {
      * @return
      */
     @FormUrlEncoded
-    @POST(SecretConstant.API_HOST_PATH + "/information/list")
+    @POST(SecretConstant.API_HOST_PATH + "/club/information/list")
     Flowable<Response<List<ActionPastDto>>> getActionPastList(@Field("clubId") String clubId,
                                                               @Field("pageNo") int pageNo);
 
@@ -1220,4 +1226,102 @@ public interface ApiService {
     @POST(SecretConstant.API_HOST_PATH + "/club/activity/registration/number")
     Flowable<Response<ActionMemberNumDto>> getActionMemberNum(@Field("activityId") String activityId);
 
+    /**
+     * 发布捡漏
+     * @param token
+     * @param ruleTitle
+     * @param ruleContent
+     * @param rulePictureUrl
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(SecretConstant.API_HOST_PATH + "/auth/add/rule")
+    Flowable<Response<String>> releaseForum(@Field("token") String token,
+                                            @Field("ruleTitle") String ruleTitle,
+                                            @Field("ruleContent") String ruleContent,
+                                            @Field("rulePictureUrl") String rulePictureUrl);
+
+    /**
+     * 获取 捡漏列表
+     * @param pageNo
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(SecretConstant.API_HOST_PATH + "/rule/list")
+    Flowable<Response<List<ForumDto>>> getForumList(@Field("token") String token,
+                                                    @Field("pageNo") int pageNo);
+
+    /**
+     * 捡漏 帖子点赞
+     * @param token
+     * @param id
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(SecretConstant.API_HOST_PATH + "/auth/rule/praise")
+    Flowable<Response<String>> likeForum(@Field("token") String token,
+                                         @Field("id") String id);
+
+    /**
+     * 给 捡漏 帖子 发表评论
+     * @param token
+     * @param id
+     * @param commentContent
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(SecretConstant.API_HOST_PATH + "/auth/add/rule/comment")
+    Flowable<Response<String>> addForumComment(@Field("token") String token,
+                                               @Field("id") String id,
+                                               @Field("ruleCommentContent") String commentContent);
+
+    /**
+     * 获取更多的  捡漏帖子 评价
+     * @param id
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(SecretConstant.API_HOST_PATH + "/rule/comment/list")
+    Flowable<Response<List<ForumDto.ForumCommentDto>>> getMoreCommentList(@Field("id") String id);
+
+    /**
+     * 获取 我的捡漏 信息  评论数  获赞数  发帖数
+     * @param token
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(SecretConstant.API_HOST_PATH + "/auth/my/rule/statistics")
+    Flowable<Response<ForumInfoDto>> getMyForumInfos(@Field("token") String token);
+
+    /**
+     * 获取 我的捡漏专区  具体的  帖子列表
+     * @param token
+     * @param type
+     * @param pageNo
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(SecretConstant.API_HOST_PATH + "/auth/my/rule/details")
+    Flowable<Response<List<ForumDto>>> getMyForumList(@Field("token") String token,
+                                                      @Field("type") String type,
+                                                      @Field("pageNo") int pageNo);
+
+    /**
+     * 上传app crash 的情况到服务器
+     * @param appVersion
+     * @param osVersion
+     * @param vendor
+     * @param model
+     * @param cpuabi
+     * @param question
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(SecretConstant.API_HOST_PATH + "/appquestion/save")
+    Flowable<Response<String>> uploadAppCrashQuestion(@Field("appVersion") String appVersion,
+                                                      @Field("osVersion") String osVersion,
+                                                      @Field("vendor") String vendor,
+                                                              @Field("model") String model,
+                                                              @Field("cpuabi") String cpuabi,
+                                                              @Field("question") String question);
 }

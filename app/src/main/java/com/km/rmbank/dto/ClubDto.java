@@ -102,21 +102,22 @@ public class ClubDto extends BaseEntity implements Parcelable {
         if (TextUtils.isEmpty(clubLogo) || TextUtils.isEmpty(clubName) || TextUtils.isEmpty(content)){
             return true;
         }
-        if (clubDetailList != null){
-            boolean isEmpty = false;
-            for (ClubDetailBean bean : clubDetailList){
-                isEmpty = bean.isEmpty();
-                if (isEmpty){
-                    break;
-                }
-            }
-            return isEmpty;
-        }
+//        if (clubDetailList != null){
+//            boolean isEmpty = false;
+//            for (ClubDetailBean bean : clubDetailList){
+//                isEmpty = bean.isEmpty();
+//                if (isEmpty){
+//                    break;
+//                }
+//            }
+//            return isEmpty;
+//        }
         return false;
     }
 
     public static class ClubDetailBean extends BaseEntity implements Parcelable {
         private String clubImage;
+        private List<String> clubImageList;
         private String clubContent;
 
         public String getClubImage() {
@@ -135,10 +136,19 @@ public class ClubDto extends BaseEntity implements Parcelable {
             this.clubContent = clubContent;
         }
 
+        public List<String> getClubImageList() {
+            return clubImageList;
+        }
+
+        public void setClubImageList(List<String> clubImageList) {
+            clubImageList = clubImageList;
+        }
+
         @Override
         public String toString() {
             return "ClubDetailBean{" +
                     "clubImage='" + clubImage + '\'' +
+                    ", ClubImageList=" + clubImageList +
                     ", clubContent='" + clubContent + '\'' +
                     '}';
         }
@@ -151,6 +161,9 @@ public class ClubDto extends BaseEntity implements Parcelable {
             return false;
         }
 
+        public ClubDetailBean() {
+        }
+
         @Override
         public int describeContents() {
             return 0;
@@ -159,14 +172,13 @@ public class ClubDto extends BaseEntity implements Parcelable {
         @Override
         public void writeToParcel(Parcel dest, int flags) {
             dest.writeString(this.clubImage);
+            dest.writeStringList(this.clubImageList);
             dest.writeString(this.clubContent);
-        }
-
-        public ClubDetailBean() {
         }
 
         protected ClubDetailBean(Parcel in) {
             this.clubImage = in.readString();
+            this.clubImageList = in.createStringArrayList();
             this.clubContent = in.readString();
         }
 

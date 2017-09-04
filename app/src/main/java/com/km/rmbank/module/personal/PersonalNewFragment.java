@@ -25,6 +25,7 @@ import com.km.rmbank.dto.UserInfoDto;
 import com.km.rmbank.event.UpdateEaseUserUnreadNumberEvent;
 import com.km.rmbank.module.chat.EaseChatActivity;
 import com.km.rmbank.module.personal.attention.AttentionGoodsActivity;
+import com.km.rmbank.module.personal.forum.MyForumInfosActivity;
 import com.km.rmbank.module.personal.integral.MyIntegralActivity;
 import com.km.rmbank.module.personal.mycontact.MyContactActivity;
 import com.km.rmbank.module.personal.order.MyOrderActivity;
@@ -34,6 +35,7 @@ import com.km.rmbank.module.personal.shopcart.ShoppingCartActivity;
 import com.km.rmbank.module.personal.userinfo.EditUserCardActivity;
 import com.km.rmbank.module.personal.userinfo.UserCardInfoActivity;
 import com.km.rmbank.module.personal.userinfo.UserInfoActivity;
+import com.km.rmbank.module.personal.vip.AlreadyBecomeVip2Activity;
 import com.km.rmbank.module.personal.vip.SelectMemberTypeActivity;
 import com.km.rmbank.utils.Constant;
 import com.km.rv_libs.TemplateAdapter;
@@ -170,12 +172,13 @@ public class PersonalNewFragment extends BaseFragment<PersonalPresenter> impleme
         public void cellClick(UserInfoDto mData, int position) {
             Bundle bundle = new Bundle();
             switch (position) {
+                case R.id.tv_user_account:
                 case R.id.iv_user_portrait:
+                case R.id.tv_user_nick_name:
+                case R.id.tv_time:
+                case R.id.ll_user_info:
                     bundle.putParcelable("userInfo",mUserInfo);
                     toNextActivity(UserInfoActivity.class,bundle);
-                    break;
-                case R.id.tv_user_account:
-
                     break;
                 case R.id.tv_edit_card:
                     if (Constant.userInfo.getIsNotEditCard() == 0){
@@ -189,7 +192,11 @@ public class PersonalNewFragment extends BaseFragment<PersonalPresenter> impleme
 //                        showToast("您已经是合伙人会员");
 //                        return;
 //                    }
-                    toNextActivity(SelectMemberTypeActivity.class);
+                    if ("2".equals(Constant.userInfo.getRoleId())){
+                        toNextActivity(AlreadyBecomeVip2Activity.class);
+                    } else {
+                        toNextActivity(SelectMemberTypeActivity.class);
+                    }
                     break;
                 case R.id.tv_setting:
                     toNextActivity(SettingActivity.class);
@@ -244,6 +251,10 @@ public class PersonalNewFragment extends BaseFragment<PersonalPresenter> impleme
                 case R.id.tv_attention:
 //                    MToast.showToast(getContext(), "我的关注");
                     toNextActivity(AttentionGoodsActivity.class);
+                    break;
+                case R.id.tv_my_forum://捡漏专区
+//                    MToast.showToast(getContext(), "我的关注");
+                    toNextActivity(MyForumInfosActivity.class);
                     break;
             }
         }

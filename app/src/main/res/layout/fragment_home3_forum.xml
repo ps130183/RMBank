@@ -1,15 +1,68 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rl_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="com.km.rmbank.module.rank.RankingFragment">
+    android:background="@color/color_white">
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@mipmap/ic_home3_forum"
         android:scaleType="centerCrop"
-        />
+        android:src="@mipmap/ic_home3_forum"
+        android:visibility="gone" />
 
-</LinearLayout>
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swiper_refresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/color_white"
+        android:visibility="visible"
+        tools:context="com.km.rmbank.module.rank.RankingFragment">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_forum"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </android.support.v7.widget.RecyclerView>
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+    <RelativeLayout
+        android:id="@+id/ll_comment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/color_white"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/divider_line_1"
+            android:background="@color/color_divider1" />
+
+        <EditText
+            android:id="@+id/et_comment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/view_space_16"
+            android:layout_toLeftOf="@+id/btn_confirm"
+            android:background="@drawable/shape_et_search"
+            android:hint="评论"
+            android:padding="@dimen/view_space_8"
+            android:textSize="12sp" />
+
+        <Button
+            android:id="@+id/btn_confirm"
+            android:layout_width="80dp"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/view_space_16"
+            android:background="@drawable/selector_btn_press_all"
+            android:text="提交" />
+
+    </RelativeLayout>
+</RelativeLayout>
+

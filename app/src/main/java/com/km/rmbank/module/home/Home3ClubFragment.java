@@ -22,8 +22,14 @@ import com.youth.banner.listener.OnBannerListener;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -59,6 +65,22 @@ public class Home3ClubFragment extends BaseFragment<Home3ClubPresenter> implemen
         mWindowWidth = AppUtils.getCurWindowWidth(getContext());
         mPresenter.getBannerList();
         initRecyclerview();
+        SwipeRefreshUtils.initSwipeRefresh(mSwipeRefresh, new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                Observable.just(1)
+                        .delay(3, TimeUnit.SECONDS)
+                        .subscribeOn(Schedulers.computation())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Consumer<Integer>() {
+                            @Override
+                            public void accept(@NonNull Integer integer) throws Exception {
+                                mPresenter.getBannerList();
+                                mPresenter.getActionList(1);
+                            }
+                        });
+            }
+        });
     }
 
     private void initBannerData(final List<InformationDto> informationDtos) {

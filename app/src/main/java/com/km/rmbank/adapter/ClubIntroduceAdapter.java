@@ -1,6 +1,10 @@
 package com.km.rmbank.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -8,12 +12,17 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.km.rmbank.R;
 import com.km.rmbank.basic.BaseAdapter;
+import com.km.rmbank.basic.RVUtils;
+import com.km.rmbank.dto.ActionPastDto;
 import com.km.rmbank.event.ClubIntroduceEntity;
+import com.km.rmbank.module.club.EditClubImageTextInfoActivity;
 import com.km.rmbank.ui.CircleProgressView;
 import com.orhanobut.logger.Logger;
+import com.ps.androidlib.utils.DialogUtils;
 import com.ps.androidlib.utils.MToast;
 import com.ps.androidlib.utils.glide.GlideUtils;
 
@@ -28,8 +37,7 @@ import butterknife.OnTextChanged;
 
 public class ClubIntroduceAdapter extends BaseAdapter<ClubIntroduceEntity> implements BaseAdapter.IAdapter<ClubIntroduceAdapter.ViewHolder> {
 
-    private OnClickAddOrDeleteListener onClickAddOrDeleteListener;
-    private OnClickUploadIntroduceImgListener onClickUploadIntroduceImgListener;
+    private int type; //0:俱乐部  1：近期活动  2：往期活动
 
     public ClubIntroduceAdapter(Context mContext,int layoutRes) {
         super(mContext, layoutRes);
@@ -45,94 +53,40 @@ public class ClubIntroduceAdapter extends BaseAdapter<ClubIntroduceEntity> imple
     public void createView(final ViewHolder holder, final int position) {
         final ClubIntroduceEntity entity = getItemData(position);
 
-//        if (entity.isEmpty()){
-//            holder.btnAddDelete.setBackgroundResource(R.drawable.shape_edit_club_button_notclick);
-//        } else {
-//            holder.btnAddDelete.setBackgroundResource(R.drawable.shape_edit_club_button);
-//        }
-
-        if (!TextUtils.isEmpty(entity.getIntroduceImgPath())){
-            GlideUtils.loadImage(holder.ivUploadIntroduceImg,entity.getIntroduceImgPath());
-        } else {
-            GlideUtils.loadImage(holder.ivUploadIntroduceImg,R.mipmap.ic_edit_club_upload_img);
-        }
-
-        if (holder.cpvUploadImg != null){
-            if (entity.getProgress() > 0){
-                holder.cpvUploadImg.setProgress(entity.getProgress());
+        if (type != 2){
+            if (entity.getIntroduceImgPaths() == null || entity.getIntroduceImgPaths().size() == 0){
+                holder.rvImage.setVisibility(View.GONE);
             } else {
-                holder.cpvUploadImg.setProgress(0);
+                holder.rvImage.setVisibility(View.VISIBLE);
             }
-        }
-
-        holder.etIntroduce.setText(TextUtils.isEmpty(entity.getIntroduceContent()) ? "" : entity.getIntroduceContent());
-
-        String btnTitle = "";
-        if (entity.isCanDelete()){
-            btnTitle = "删除";
+            holder.adapter.addData(entity.getIntroduceImgPaths());
         } else {
-            btnTitle = "新增";
+            holder.ivPortrait.setVisibility(View.VISIBLE);
+            GlideUtils.loadCircleImage(holder.ivPortrait,entity.getIntroduceImgPaths().get(0));
         }
-        if (entity.isCanDelete()){
-            holder.etIntroduce.setFocusable(false);
-            holder.etIntroduce.setFocusableInTouchMode(false);
-        } else {
-            holder.etIntroduce.setFocusable(true);
-            holder.etIntroduce.setFocusableInTouchMode(true);
-        }
-        holder.btnAddDelete.setText(btnTitle);
-        holder.btnAddDelete.setOnClickListener(new View.OnClickListener() {
+        holder.tvContent.setText(entity.getIntroduceContent());
+
+        holder.tvDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (entity.isCanDelete()){//删除
-                    onClickAddOrDeleteListener.deleteClubIntroduce(position);
-                } else {//新增
-//                    entity.setIntroduceContent(holder.etIntroduce.getText().toString());
-                    if (entity.isEmpty()){
-                        MToast.showToast(mContext,"请将信息补充完整");
-                        return;
+                DialogUtils.showDefaultAlertDialog("是否要删除该项数据", new DialogUtils.ClickListener() {
+                    @Override
+                    public void clickConfirm() {
+                        removeData(entity);
                     }
-                    if (entity.getIntroduceImgPath().indexOf("http:") < 0){
-                        MToast.showToast(mContext,"正在上传图片，请稍后。。。");
-                        return;
-                    }
-                    entity.setCanDelete(true);
-                    int itemPosition = addData(new ClubIntroduceEntity());
-                    if (itemPosition > 0){
-                        notifyItemChanged(itemPosition - 1);
-                    }
-
-//                    onClickAddOrDeleteListener.addClubIntroduce(entity,position);
-                }
+                });
             }
         });
 
-        holder.ivUploadIntroduceImg.setOnClickListener(new View.OnClickListener() {
+        holder.tvEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onClickUploadIntroduceImgListener.clickUploadImg(position);
-            }
-        });
-
-        holder.etIntroduce.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                if (!TextUtils.isEmpty(s) && !entity.isCanDelete()){
-                    Logger.d("position = " + position + " ss = " + s.toString() + "   etIntroduce = " + holder.etIntroduce.getText().toString());
-                    entity.setIntroduceContent(s.toString());
-                }
-//                notifyItemDataChanged(position,"addOrDelete");
-//                Logger.d("position  === " + position + "   data : "+ entity.toString());
+                Intent intent = new Intent(mContext, EditClubImageTextInfoActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putInt("position",position);
+                bundle.putParcelable("imageTextData",entity);
+                intent.putExtras(bundle);
+                mContext.startActivity(intent);
             }
         });
     }
@@ -140,19 +94,34 @@ public class ClubIntroduceAdapter extends BaseAdapter<ClubIntroduceEntity> imple
 
     class ViewHolder extends BaseViewHolder{
 
-        @BindView(R.id.btn_add_delete)
-        Button btnAddDelete;
-        @BindView(R.id.iv_upload_introduce_img)
-        ImageView ivUploadIntroduceImg;
-        @BindView(R.id.et_introduce)
-        EditText etIntroduce;
+        @BindView(R.id.tv_delete)
+        TextView tvDelete;
+        @BindView(R.id.tv_edit)
+        TextView tvEdit;
 
-        CircleProgressView cpvUploadImg;
+        @BindView(R.id.rv_image)
+        RecyclerView rvImage;
+        ImageTextAdapter adapter;
+
+        @BindView(R.id.tv_content)
+        TextView tvContent;
+
+        ImageView ivPortrait;
+
 
         public ViewHolder(View itemView) {
             super(itemView);
-            cpvUploadImg = (CircleProgressView) itemView.findViewById(R.id.cpv_upload_introduce_img);
+            ivPortrait = (ImageView) itemView.findViewById(R.id.iv_portrait);
+            initRv();
         }
+
+        private void initRv(){
+            RVUtils.setLinearLayoutManage(rvImage, LinearLayoutManager.VERTICAL);
+            RVUtils.addDivideItemForRv(rvImage,RVUtils.DIVIDER_COLOR_WHITE);
+            adapter = new ImageTextAdapter(mContext);
+            rvImage.setAdapter(adapter);
+        }
+
     }
 
 
@@ -162,23 +131,7 @@ public class ClubIntroduceAdapter extends BaseAdapter<ClubIntroduceEntity> imple
         notifyItemChanged(position);
     }
 
-
-
-
-    public interface OnClickAddOrDeleteListener{
-        void addClubIntroduce(ClubIntroduceEntity curClubIntroduce,int position);
-        void deleteClubIntroduce(int position);
-    }
-
-    public void setOnClickAddOrDeleteListener(OnClickAddOrDeleteListener onClickAddOrDeleteListener) {
-        this.onClickAddOrDeleteListener = onClickAddOrDeleteListener;
-    }
-
-    public interface OnClickUploadIntroduceImgListener{
-        void clickUploadImg(int position);
-    }
-
-    public void setOnClickUploadIntroduceImgListener(OnClickUploadIntroduceImgListener onClickUploadIntroduceImgListener) {
-        this.onClickUploadIntroduceImgListener = onClickUploadIntroduceImgListener;
+    public void setType(int type) {
+        this.type = type;
     }
 }

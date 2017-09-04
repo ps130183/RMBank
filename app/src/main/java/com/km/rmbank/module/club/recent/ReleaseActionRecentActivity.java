@@ -2,6 +2,7 @@ package com.km.rmbank.module.club.recent;
 
 import android.Manifest;
 import android.app.Dialog;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
@@ -18,8 +19,10 @@ import com.km.rmbank.basic.BaseActivity;
 import com.km.rmbank.basic.RVUtils;
 import com.km.rmbank.dto.ActionDto;
 import com.km.rmbank.event.ClubIntroduceEntity;
+import com.km.rmbank.event.ImageTextInfoEvent;
 import com.km.rmbank.event.UploadImageEvent;
 import com.km.rmbank.module.club.ClubInfoActivity;
+import com.km.rmbank.module.club.EditClubImageTextInfoActivity;
 import com.km.rmbank.module.club.past.ReleaseActionPastActivity;
 import com.km.rmbank.ui.CircleProgressView;
 import com.km.rmbank.utils.PickerUtils;
@@ -109,6 +112,8 @@ public class ReleaseActionRecentActivity extends BaseActivity<ReleaseActionRecen
         mActionDto = getIntent().getParcelableExtra("actionDto");
         if (mActionDto == null){
             mActionDto = new ActionDto();
+        } else {
+            showActionInfo(mActionDto);
         }
     }
 
@@ -120,45 +125,34 @@ public class ReleaseActionRecentActivity extends BaseActivity<ReleaseActionRecen
         RVUtils.addDivideItemForRv(rvGuest);
         RVUtils.setLinearLayoutManage(rvGuest, LinearLayoutManager.VERTICAL);
         final ClubIntroduceAdapter adapter = new ClubIntroduceAdapter(this,R.layout.item_rv_release_action_recent_guest);
+        adapter.setType(2);
         rvGuest.setAdapter(adapter);
+    }
 
-        adapter.setOnClickAddOrDeleteListener(new ClubIntroduceAdapter.OnClickAddOrDeleteListener() {
+    private void showActionInfo(ActionDto actionDto){
+        GlideUtils.loadImage(ivUploadActionImg,actionDto.getActivityPictureUrl());
+        etActionName.setText(actionDto.getTitle());
+        etStartTime.setText(actionDto.getHoldDate());
+        etActionAddress.setText(actionDto.getAddress());
+        etActionFlow.setText(actionDto.getFlow());
 
-            @Override
-            public void addClubIntroduce(ClubIntroduceEntity curClubIntroduce, int position) {
-                curClubIntroduce.setCanDelete(true);
-                adapter.addData(new ClubIntroduceEntity());
-                adapter.notifyDataChanged();
-//                rvClubIntroduce.getLayoutManager().scrollToPosition(position+1);
+        List<ClubIntroduceEntity> clubIntroduceEntities = new ArrayList<>();
+        for (int i = 0; i < actionDto.getGuestList().size(); i++){
+            ClubIntroduceEntity entity = new ClubIntroduceEntity();
+            ActionDto.ActionGuestBean bean = actionDto.getGuestList().get(i);
+            List<String> imagePaths = new ArrayList<>();
+            imagePaths.add(bean.getAvatarUrl());
+            entity.setIntroduceImgPaths(imagePaths);
+            entity.setIntroduceContent(bean.getTitle());
+            entity.setCanDelete(true);
+            if (i == actionDto.getGuestList().size() - 1){
+                entity.setCanDelete(false);
             }
+            clubIntroduceEntities.add(entity);
+        }
 
-            @Override
-            public void deleteClubIntroduce(final int position) {
-                DialogUtils.showDefaultAlertDialog("是否删除该项介绍？", new DialogUtils.ClickListener() {
-                    @Override
-                    public void clickConfirm() {
-                        adapter.removeData(adapter.getItemData(position));
-                        adapter.notifyItemRemoved(position);
-                    }
-                });
-
-            }
-        });
-
-        adapter.setOnClickUploadIntroduceImgListener(new ClubIntroduceAdapter.OnClickUploadIntroduceImgListener() {
-            @Override
-            public void clickUploadImg(int position) {
-                introduceImgPosition = position;
-                imgUploadPosition = 3;
-                PermissionGen.with(ReleaseActionRecentActivity.this)
-                        .addRequestCode(1)
-                        .permissions(Manifest.permission.CAMERA)
-                        .request();
-            }
-
-        });
-        adapter.addData(new ClubIntroduceEntity());
-
+        ClubIntroduceAdapter adapter = (ClubIntroduceAdapter) rvGuest.getAdapter();
+        adapter.addData(clubIntroduceEntities);
     }
 
     /**
@@ -184,6 +178,13 @@ public class ReleaseActionRecentActivity extends BaseActivity<ReleaseActionRecen
                 mActionDto.setHoldDate(date);
             }
         });
+    }
+
+    @OnClick(R.id.fab_create)
+    public void createNewGuest(View view){
+        Bundle bundle = new Bundle();
+        bundle.putBoolean("isActionRecent",true);
+        toNextActivity(EditClubImageTextInfoActivity.class,bundle);
     }
 //    @OnClick(R.id.iv_background)
 //    public void onClickUploadCludBackground(View view) {
@@ -248,7 +249,7 @@ public class ReleaseActionRecentActivity extends BaseActivity<ReleaseActionRecen
                 }
                 ClubIntroduceAdapter adapter = (ClubIntroduceAdapter) rvGuest.getAdapter();
                 ClubIntroduceEntity entity = adapter.getItemData(introduceImgPosition);
-                entity.setIntroduceImgPath(imagePath);
+//                entity.setIntroduceImgPath(imagePath);
                 adapter.notifyItemChanged(introduceImgPosition);
             }
 //            mPresenter.uploadActionImg(imagePath, imgUploadPosition, introduceImgPosition);
@@ -257,15 +258,15 @@ public class ReleaseActionRecentActivity extends BaseActivity<ReleaseActionRecen
         }
     };
 
-    private Dialog compressImageDialog;
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void compressImageing(CompressImageEvent event){
-        if (compressImageDialog == null){
-            compressImageDialog = DialogUtils.showLoadingDialog("正在上传图片，请稍后。。。");
-        } else {
-            compressImageDialog.show();
-        }
-    }
+//    private Dialog compressImageDialog;
+//    @Subscribe(threadMode = ThreadMode.MAIN)
+//    public void compressImageing(CompressImageEvent event){
+//        if (compressImageDialog == null){
+//            compressImageDialog = DialogUtils.showLoadingDialog("正在上传图片，请稍后。。。");
+//        } else {
+//            compressImageDialog.show();
+//        }
+//    }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onSelecedPhoto(UploadImageEvent event){
@@ -273,10 +274,35 @@ public class ReleaseActionRecentActivity extends BaseActivity<ReleaseActionRecen
                 .subscribe(new Consumer<String>() {
                     @Override
                     public void accept(@NonNull String s) throws Exception {
-                        compressImageDialog.dismiss();
+//                        compressImageDialog.dismiss();
                         mPresenter.uploadActionImg(s, imgUploadPosition, introduceImgPosition);
                     }
                 });
+
+    }
+
+    /**
+     * 编辑完 图文详情 返回的结果
+     * @param event
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEditImageText(ImageTextInfoEvent event){
+        ClubIntroduceAdapter adapter = (ClubIntroduceAdapter) rvGuest.getAdapter();
+        if (event.getPosition() < 0){ //新增
+            ClubIntroduceEntity entity = new ClubIntroduceEntity();
+            entity.setIntroduceContent(event.getTextContent());
+            entity.setIntroduceImgPaths(event.getImageList());
+            int position = adapter.addData(entity);
+            adapter.notifyDataChanged();
+            Logger.d("add data position ====  " + position);
+        } else {//修改 编辑
+            ClubIntroduceEntity entity = adapter.getItemData(event.getPosition());
+            entity.setIntroduceContent(event.getTextContent());
+            entity.setIntroduceImgPaths(event.getImageList());
+            adapter.notifyItemChanged(event.getPosition());
+            Logger.d("refresh data position ====  " + event.getPosition());
+        }
+
 
     }
 
@@ -295,7 +321,7 @@ public class ReleaseActionRecentActivity extends BaseActivity<ReleaseActionRecen
                 Logger.d("adapter item position = " + position);
                 ClubIntroduceAdapter adapter = (ClubIntroduceAdapter) rvGuest.getAdapter();
                 ClubIntroduceEntity entity = adapter.getItemData(position);
-                entity.setIntroduceImgPath(imageUrl);
+//                entity.setIntroduceImgPath(imageUrl);
                 break;
         }
     }
@@ -337,7 +363,7 @@ public class ReleaseActionRecentActivity extends BaseActivity<ReleaseActionRecen
         for (ClubIntroduceEntity entity : entityList){
             ActionDto.ActionGuestBean bean = new ActionDto.ActionGuestBean();
             bean.setTitle(entity.getIntroduceContent());
-            bean.setAvatarUrl(entity.getIntroduceImgPath());
+            bean.setAvatarUrl(entity.getIntroduceImgPaths().get(0));
             guestBeanList.add(bean);
         }
         mActionDto.setGuestList(guestBeanList);

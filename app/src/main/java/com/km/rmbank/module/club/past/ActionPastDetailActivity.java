@@ -41,6 +41,7 @@ public class ActionPastDetailActivity extends BaseActivity<ActionPastDetailPrese
     private String actionPastId;
 
     private String clubId;
+    private boolean isMyClub;
 
     @Override
     protected int getContentView() {
@@ -60,6 +61,7 @@ public class ActionPastDetailActivity extends BaseActivity<ActionPastDetailPrese
     @Override
     protected void onCreate() {
         actionPastId = getIntent().getStringExtra("actionPastId");
+        isMyClub = getIntent().getBooleanExtra("isMyClub",false);
         initActionPastDetails();
         mPresenter.getActionPastDetails(actionPastId);
     }
@@ -72,7 +74,7 @@ public class ActionPastDetailActivity extends BaseActivity<ActionPastDetailPrese
     }
 
     @Override
-    public void showActionPastDetails(ActionPastDto actionPastDto) {
+    public void showActionPastDetails(final ActionPastDto actionPastDto) {
         clubId = actionPastDto.getClubId();
         tvTitle.setText(actionPastDto.getTitle());
         tvActionName.setText(actionPastDto.getTitle());
@@ -83,6 +85,17 @@ public class ActionPastDetailActivity extends BaseActivity<ActionPastDetailPrese
 
         ActionPastDetailsAdapter adapter = (ActionPastDetailsAdapter) rvActionPastDetails.getAdapter();
         adapter.addData(actionPastDto.getDetailList());
+
+        if (isMyClub && actionPastDto.getStatus() != 1){
+            setRightBtnClick("编辑", new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelable("actionPastDto",actionPastDto);
+                    toNextActivity(ReleaseActionPastActivity.class,bundle);
+                }
+            });
+        }
     }
 
     @OnClick({R.id.iv_club_logo,R.id.tv_club_name})

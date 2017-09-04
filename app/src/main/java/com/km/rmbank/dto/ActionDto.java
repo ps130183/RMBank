@@ -28,7 +28,7 @@ public class ActionDto extends BaseEntity implements Parcelable {
      */
 
     private String activityPictureUrl;
-    private String activityType;
+    private String activityType;//1 审核通过，0待审核，2拒绝
     private String content;
     private long createDate;
     private long durationDate;

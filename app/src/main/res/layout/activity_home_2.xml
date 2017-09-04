@@ -46,7 +46,7 @@
             <ImageView
                 android:id="@+id/tab_post_icon"
                 android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_height="80dp"
                 android:onClick="onClickPublish"
                 android:padding="12dp"
                 android:visibility="visible"/>

@@ -296,6 +296,14 @@ public abstract class BaseAdapter<T> extends RecyclerView.Adapter<BaseAdapter.Ba
         }
     }
 
+    public void addDataOnPosition(T data,int position){
+        if (mListDatas != null) {
+            mListDatas.add(position, data);
+            notifyItemChanged(position);
+//            notifyDataChanged();
+        }
+    }
+
     /**
      * 移除某条数据
      *

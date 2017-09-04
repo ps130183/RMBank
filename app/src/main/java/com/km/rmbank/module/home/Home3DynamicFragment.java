@@ -3,6 +3,7 @@ package com.km.rmbank.module.home;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
@@ -13,9 +14,17 @@ import com.km.rmbank.basic.BaseFragment;
 import com.km.rmbank.basic.RVUtils;
 import com.km.rmbank.dto.InformationDto;
 import com.km.rmbank.module.club.past.ActionPastDetailActivity;
+import com.km.rmbank.utils.SwipeRefreshUtils;
+
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -45,6 +54,21 @@ public class Home3DynamicFragment extends BaseFragment<Home3DynamicPresenter> im
     @Override
     protected void createView() {
         initRecycler();
+        SwipeRefreshUtils.initSwipeRefresh(mSwipeRefresh, new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                Observable.just(1)
+                        .delay(3, TimeUnit.SECONDS)
+                        .subscribeOn(Schedulers.computation())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Consumer<Integer>() {
+                            @Override
+                            public void accept(@NonNull Integer integer) throws Exception {
+                                mPresenter.getDynamicInformationList(1);
+                            }
+                        });
+            }
+        });
     }
 
     private void initRecycler(){

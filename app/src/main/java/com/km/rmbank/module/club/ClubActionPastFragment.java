@@ -34,6 +34,7 @@ public class ClubActionPastFragment extends BaseFragment<ClubActionPastPresenter
     RecyclerView rvActionPast;
 
     private ClubDto mClubDto;
+    private boolean isMyClub;
 
     public static ClubActionPastFragment newInstance(Bundle bundle) {
 
@@ -55,6 +56,7 @@ public class ClubActionPastFragment extends BaseFragment<ClubActionPastPresenter
     @Override
     protected void createView() {
         mClubDto = getArguments().getParcelable("clubDto");
+        isMyClub = getArguments().getBoolean("isMyClub");
         initRecyclerview();
     }
 
@@ -82,6 +84,7 @@ public class ClubActionPastFragment extends BaseFragment<ClubActionPastPresenter
             public void onItemClick(ActionPastDto itemData, int position) {
                 Bundle bundle = new Bundle();
                 bundle.putString("actionPastId",itemData.getId());
+                bundle.putBoolean("isMyClub",isMyClub);
                 toNextActivity(ActionPastDetailActivity.class,bundle);
             }
         });

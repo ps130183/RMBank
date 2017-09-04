@@ -27,6 +27,15 @@
     </LinearLayout>
 
     <LinearLayout style="@style/Personal.function_ll">
+        <TextView
+            android:id="@+id/tv_my_forum"
+            style="@style/Personal.function_tv"
+            android:drawableLeft="@mipmap/ic_personal_forum"
+            android:text="  捡漏专区" />
+    </LinearLayout>
+
+    <LinearLayout style="@style/Personal.function_ll">
+
         <RelativeLayout
             android:id="@+id/rl_my_contact"
             android:layout_width="match_parent"

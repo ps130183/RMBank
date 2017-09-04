@@ -24,6 +24,14 @@
             />
 
         <TextView
+            android:id="@+id/tv_action_status"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:layout_above="@+id/tv_count"
+            />
+
+        <TextView
             android:id="@+id/tv_count"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

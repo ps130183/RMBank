@@ -13,6 +13,8 @@ import com.km.rmbank.dto.AppVersionDto;
 import com.km.rmbank.dto.BannerDto;
 import com.km.rmbank.dto.ClubDto;
 import com.km.rmbank.dto.EvaluateDto;
+import com.km.rmbank.dto.ForumDto;
+import com.km.rmbank.dto.ForumInfoDto;
 import com.km.rmbank.dto.GoodsDetailsDto;
 import com.km.rmbank.dto.GoodsDto;
 import com.km.rmbank.dto.GoodsTypeDto;
@@ -989,7 +991,8 @@ public class ApiWrapper extends RetrofitUtil {
                 actionDto.getAddress(),
                 actionDto.getFlow(),
                 actionDto.getHoldDate(),
-                guestList)
+                guestList,
+                actionDto.getId())
                 .compose(this.<String>applySchedulers());
     }
 
@@ -1033,7 +1036,8 @@ public class ApiWrapper extends RetrofitUtil {
         String dynamicList = gson.toJson(actionPastDto.getDynamicList());
         return getService().releaseActionPast(actionPastDto.getClubId(),
                 actionPastDto.getAvatarUrl(),
-                actionPastDto.getTitle(),dynamicList)
+                actionPastDto.getTitle(),dynamicList,
+                actionPastDto.getId())
                 .compose(this.<String>applySchedulers());
     }
 
@@ -1096,5 +1100,98 @@ public class ApiWrapper extends RetrofitUtil {
     public Flowable<ActionMemberNumDto> getActionMemberNum(String actionId){
         return getService().getActionMemberNum(actionId)
                 .compose(this.<ActionMemberNumDto>applySchedulers());
+    }
+
+    /**
+     * 发布捡漏
+     * @param forumDto
+     * @return
+     */
+    public Flowable<String> releaseForum(ForumDto forumDto){
+        return getService().releaseForum(Constant.user.getToken(),
+                forumDto.getRuleTitle(),
+                forumDto.getRuleContent(),
+                forumDto.getRulePictureUrl())
+                .compose(this.<String>applySchedulers());
+    }
+
+    /**
+     * 获取首页 捡漏列表
+     * @param pageNo
+     * @return
+     */
+    public Flowable<List<ForumDto>> getForumList(int pageNo){
+        return getService().getForumList(Constant.user.getToken(),pageNo)
+                .compose(this.<List<ForumDto>>applySchedulers());
+    }
+
+    /**
+     * 捡漏  帖子点赞
+     * @param forumId
+     * @return
+     */
+    public Flowable<String> likeForum(String forumId){
+        return getService().likeForum(Constant.user.getToken(),forumId)
+                .compose(this.<String>applySchedulers());
+    }
+
+    /**
+     * 发表 捡漏帖子 评论
+     * @param forumId
+     * @param commentContent
+     * @return
+     */
+    public Flowable<String> addForumComment(String forumId,String commentContent){
+        return getService().addForumComment(Constant.user.getToken(),
+                forumId,commentContent)
+                .compose(this.<String>applySchedulers());
+    }
+
+    /**
+     * 获取更多的 捡漏帖子 评价
+     * @param forumId
+     * @return
+     */
+    public Flowable<List<ForumDto.ForumCommentDto>> getMoreCommentList(String forumId){
+        return getService().getMoreCommentList(forumId)
+                .compose(this.<List<ForumDto.ForumCommentDto>>applySchedulers());
+    }
+
+    /**
+     * 获取 我的捡漏 信息  评论数  获赞数  发帖数
+     * @return
+     */
+    public Flowable<ForumInfoDto> getMyForumInfos(){
+        return getService().getMyForumInfos(Constant.user.getToken())
+                .compose(this.<ForumInfoDto>applySchedulers());
+    }
+
+    /**
+     * 获取 我的捡漏专区  具体的  帖子列表
+     * @param type
+     * @param pageNo
+     * @return
+     */
+    public Flowable<List<ForumDto>> getMyForumList(String type,int pageNo){
+        return getService().getMyForumList(Constant.user.getToken(),
+                type,pageNo)
+                .compose(this.<List<ForumDto>>applySchedulers());
+    }
+
+    /**
+     * 上传 app crash问题的情况到服务器
+     * @param appVersion
+     * @param osVersion
+     * @param vendor
+     * @param model
+     * @param cpuabi
+     * @param question
+     * @return
+     */
+    public Flowable<String> uploadAppCrashQuestion(String appVersion,String osVersion,String vendor,
+                                                   String model,String cpuabi,String question){
+
+        return getService().uploadAppCrashQuestion(appVersion,osVersion,vendor,model,cpuabi,question)
+                .compose(this.<String>applySchedulers());
     }
 }

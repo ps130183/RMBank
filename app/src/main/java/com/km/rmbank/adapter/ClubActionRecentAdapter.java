@@ -34,6 +34,17 @@ public class ClubActionRecentAdapter extends BaseAdapter<ActionDto> implements B
         holder.tvActionTile.setText(actionDto.getTitle());
         holder.tvStartTime.setText("举办时间：" + actionDto.getHoldDate());
         GlideUtils.loadImage(holder.ivActionImg,actionDto.getActivityPictureUrl());
+
+        String actionType = actionDto.getActivityType();
+        String actionStatus = "";
+        if("0".equals(actionType)){
+            actionStatus = "审核中";
+        } else if ("1".equals(actionType)){
+            actionStatus = "审核通过";
+        } else if (("2").equals(actionType)){
+            actionStatus = "审核拒绝";
+        }
+        holder.tvActionStatus.setText(actionStatus);
     }
 
     class ViewHolder extends BaseViewHolder{
@@ -44,6 +55,8 @@ public class ClubActionRecentAdapter extends BaseAdapter<ActionDto> implements B
         TextView tvStartTime;
         @BindView(R.id.iv_action_img)
         ImageView ivActionImg;
+        @BindView(R.id.tv_action_status)
+        TextView tvActionStatus;
 
         public ViewHolder(View itemView) {
             super(itemView);

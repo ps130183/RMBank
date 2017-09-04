@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.km.rmbank.R;
+import com.km.rmbank.utils.WrapContentLinearLayoutManager;
 import com.orhanobut.logger.Logger;
 import com.ps.androidlib.rcline.DashlineItemDivider;
 import com.ps.androidlib.rcline.DividerItemDecoration;
@@ -30,7 +31,7 @@ public class RVUtils {
     public static final int DIVIDER_COLOR_ACCOUNT_DETAILS = 0xffcfcdcd;
 
     public static void setLinearLayoutManage(RecyclerView rc, int orientation){
-        LinearLayoutManager llm = new LinearLayoutManager(rc.getContext(),orientation,false);
+        WrapContentLinearLayoutManager llm = new WrapContentLinearLayoutManager(rc.getContext(),orientation,false);
         llm.setSmoothScrollbarEnabled(true);
         llm.setAutoMeasureEnabled(true);
         rc.setLayoutManager(llm);

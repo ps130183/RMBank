@@ -87,7 +87,7 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment imp
     public void onDestroy() {
         super.onDestroy();
         EventBusUtils.unregister(this);
-        if (loading != null && loading.isShowing()){
+        if (loading != null && loading.isShowing()) {
             loading.dismiss();
         }
     }
@@ -129,34 +129,40 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment imp
         toNextActivity(nextActivity, null);
     }
 
-    public void toNextActivityForResult(Class nextActivity,int requestCode,Bundle bundle){
-        Intent intent = new Intent(getContext(),nextActivity);
-        if (bundle != null){
+    public void toNextActivityForResult(Class nextActivity, int requestCode, Bundle bundle) {
+        Intent intent = new Intent(getContext(), nextActivity);
+        if (bundle != null) {
             intent.putExtras(bundle);
         }
-        startActivityForResult(intent,requestCode);
+        startActivityForResult(intent, requestCode);
     }
 
-    public void toNextActivityForResult(Class nextActivity,int requestCode){
-        toNextActivityForResult(nextActivity,requestCode,null);
+    public void toNextActivityForResult(Class nextActivity, int requestCode) {
+        toNextActivityForResult(nextActivity, requestCode, null);
     }
 
 
     @Override
     public void showLoading() {
-        if (loading == null){
-            loading= new DialogLoading(getContext());
+        if (mSwipeRefresh != null) {
+            mSwipeRefresh.setRefreshing(true);
+        } else {
+            if (loading == null) {
+                loading = new DialogLoading(getContext());
+            }
+            loading.show();
         }
-        loading.show();
     }
 
     @Override
     public void hideLoading() {
-        if (loading != null){
-            loading.dismiss();
-        }
-        if (mSwipeRefresh != null && mSwipeRefresh.isRefreshing()){
+
+        if (mSwipeRefresh != null && mSwipeRefresh.isRefreshing()) {
             mSwipeRefresh.setRefreshing(false);
+        } else {
+            if (loading != null) {
+                loading.dismiss();
+            }
         }
     }
 

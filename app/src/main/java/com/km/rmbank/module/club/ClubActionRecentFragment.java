@@ -79,6 +79,7 @@ public class ClubActionRecentFragment extends BaseFragment<ClubActionRecentPrese
                 Bundle bundle = new Bundle();
                 bundle.putString("actionId",itemData.getId());
                 bundle.putBoolean("isMyClub",isMyClub);
+                bundle.putString("clubId",mClubDto.getId());
                 toNextActivity(ActionRecentInfoActivity.class,bundle);
             }
         });

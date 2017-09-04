@@ -395,6 +395,49 @@ public class GoodsDetailsDto extends BaseEntity implements Parcelable {
         this.commentNum = commentNum;
     }
 
+    @Override
+    public String toString() {
+        return "GoodsDetailsDto{" +
+                "isChecked=" + isChecked +
+                ", alreadySoldCount='" + alreadySoldCount + '\'' +
+                ", bannerType='" + bannerType + '\'' +
+                ", bannerUrl='" + bannerUrl + '\'' +
+                ", createDate='" + createDate + '\'' +
+                ", freightInEveryAdd='" + freightInEveryAdd + '\'' +
+                ", freightInMaxCount='" + freightInMaxCount + '\'' +
+                ", freightMaxCount='" + freightMaxCount + '\'' +
+                ", id='" + id + '\'' +
+                ", indexActivityImage='" + indexActivityImage + '\'' +
+                ", indexActivityPosition='" + indexActivityPosition + '\'' +
+                ", isInIndexActivity='" + isInIndexActivity + '\'' +
+                ", isfollow='" + isfollow + '\'' +
+                ", name='" + name + '\'' +
+                ", price='" + price + '\'' +
+                ", productBannerUrl='" + productBannerUrl + '\'' +
+                ", productDetail='" + productDetail + '\'' +
+                ", productInShopCarCount=" + productInShopCarCount +
+                ", productNo='" + productNo + '\'' +
+                ", productType='" + productType + '\'' +
+                ", productTypeOne='" + productTypeOne + '\'' +
+                ", residualStock='" + residualStock + '\'' +
+                ", role='" + role + '\'' +
+                ", shopId='" + shopId + '\'' +
+                ", sort='" + sort + '\'' +
+                ", source='" + source + '\'' +
+                ", status='" + status + '\'' +
+                ", stockCount='" + stockCount + '\'' +
+                ", subtitle='" + subtitle + '\'' +
+                ", thumbnailUrl='" + thumbnailUrl + '\'' +
+                ", updateDate='" + updateDate + '\'' +
+                ", productBannerList=" + productBannerList +
+                ", productDetailList=" + productDetailList +
+                ", total='" + total + '\'' +
+                ", goodsTypeDto=" + goodsTypeDto +
+                ", receiverAddressDto=" + receiverAddressDto +
+                ", commentNum='" + commentNum + '\'' +
+                '}';
+    }
+
     public GoodsDetailsDto() {
     }
 

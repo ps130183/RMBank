@@ -56,7 +56,7 @@ public class ActionApplyActivity extends BaseActivity<ActionRecentInfoPresenter>
         //设置状态栏 字体颜色为深色
         StatusBarUtil.StatusBarLightMode(this);
 
-        setLeftIconClick(R.mipmap.ic_left_back1, new View.OnClickListener() {
+        setLeftIconClick(R.mipmap.ic_left_back_block, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();

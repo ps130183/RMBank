@@ -24,6 +24,15 @@
             />
 
         <TextView
+            android:id="@+id/tv_action_status"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:layout_above="@+id/tv_start_time"
+            android:layout_marginBottom="@dimen/view_space_4"
+            />
+
+        <TextView
             android:id="@+id/tv_start_time"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

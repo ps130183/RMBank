@@ -110,6 +110,8 @@ public class CreateNewGoodsActivity extends BaseActivity<CreateNewGoodsPresenter
 
     private String mProductNo;
 
+    private GoodsDetailsDto mGoodsDetailsDto;
+
     @Override
     protected int getContentView() {
         return R.layout.activity_create_new_goods;
@@ -424,6 +426,8 @@ public class CreateNewGoodsActivity extends BaseActivity<CreateNewGoodsPresenter
     @Override
     public void showGoodsInfo(GoodsDetailsDto goodsDetailsDto) {
 //        levelTwoGoodsType = goodsDetailsDto.getGoodsTypeDto();
+        mGoodsDetailsDto = goodsDetailsDto;
+
         etGoodsType.setText(goodsDetailsDto.getProductType());
         etName.setText(goodsDetailsDto.getName());
         etSubTitle.setText(goodsDetailsDto.getSubtitle());
@@ -488,7 +492,7 @@ public class CreateNewGoodsActivity extends BaseActivity<CreateNewGoodsPresenter
         goodsDetailsDto.setFreightInEveryAdd(etFrieghtAdd.getText().toString());
         goodsDetailsDto.setProductBannerUrl(getImageUrl(bannerPathList));
         goodsDetailsDto.setProductDetail(getImageUrl(goodsDetailPathList));
-        goodsDetailsDto.setIsInIndexActivity(levelTwoGoodsType.getId());
+        goodsDetailsDto.setIsInIndexActivity(levelTwoGoodsType == null ? mGoodsDetailsDto.getIsInIndexActivity() : levelTwoGoodsType.getId());
         if (TextUtils.isEmpty(actionUrl1) || TextUtils.isEmpty(actionUrl2) || TextUtils.isEmpty(actionUrl3)) {
             showToast("请上传活动图片");
             return;

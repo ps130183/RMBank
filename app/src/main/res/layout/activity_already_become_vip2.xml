@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.km.rmbank.module.personal.vip.AlreadyBecomeVip2Activity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/color_blue5"
+        android:paddingBottom="@dimen/view_space_16"
+        >
+
+        <ImageView
+            android:id="@+id/iv_already"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:src="@mipmap/ic_vip2_already"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/view_space_16"
+            android:layout_marginTop="@dimen/view_space_16"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/color_white"
+            android:text="合伙人尊享特权"
+            android:textSize="@dimen/text_size_18"
+            android:textStyle="bold"
+            android:layout_below="@+id/iv_already"
+            android:layout_centerHorizontal="true"
+            />
+
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="用一辈子的时间 活出三辈子的精彩"
+        android:textColor="@color/color_block"
+        android:textSize="16dp"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:layout_marginTop="@dimen/view_space_16"
+        android:layout_marginBottom="@dimen/view_space_16"
+        />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="@dimen/view_space_8"
+        android:layout_marginTop="16dp">
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@mipmap/ic_vip2_team"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="发展团队，积攒人脉"
+            android:textSize="15dp"
+            android:gravity="center"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/view_space_16"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/view_space_8"
+        android:layout_marginBottom="@dimen/view_space_8">
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@mipmap/ic_vip2_deduct"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="提成分红，坐享其成"
+            android:textSize="15dp"
+            android:gravity="center"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/view_space_16"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/view_space_8">
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@mipmap/ic_vip2_play"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="建俱乐部，玩转地球"
+            android:textSize="15dp"
+            android:gravity="center"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/view_space_16"
+            />
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Button
+            android:id="@+id/btn_release_action"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="发布俱乐部活动"
+            android:textColor="@color/color_white"
+            android:textStyle="bold"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="@dimen/view_space_32"
+            android:layout_marginRight="@dimen/view_space_32"
+            android:layout_marginBottom="@dimen/view_space_32"
+            android:layout_marginTop="@dimen/view_space_8"
+            android:background="@drawable/shape_already_vip2_btn"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="注：对于不积极的俱乐部合伙人，平台有权注销其资格"
+            android:textSize="10sp"
+            android:layout_above="@+id/btn_release_action"
+            android:gravity="center"
+            android:maxLines="1"
+            android:ellipsize="end"
+            />
+
+    </RelativeLayout>
+
+</LinearLayout>

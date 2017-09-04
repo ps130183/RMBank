@@ -52,7 +52,11 @@ public class PersonalUserInfoCell extends BaseCell<UserInfoDto> implements View.
         }
 
         holder.getImageView(R.id.iv_user_portrait).setOnClickListener(this);
+        holder.findView(R.id.ll_user_info).setOnClickListener(this);
         holder.getTextView(R.id.tv_user_account).setOnClickListener(this);
+        holder.getTextView(R.id.tv_user_nick_name).setOnClickListener(this);
+        holder.getTextView(R.id.tv_time).setOnClickListener(this);
+
         holder.getTextView(R.id.tv_edit_card).setOnClickListener(this);
         holder.getTextView(R.id.tv_all_goods).setOnClickListener(this);
         holder.getTextView(R.id.tv_setting).setOnClickListener(this);

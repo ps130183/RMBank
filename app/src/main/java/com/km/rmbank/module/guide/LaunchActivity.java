@@ -1,6 +1,7 @@
 package com.km.rmbank.module.guide;
 
 import android.content.Intent;
+import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -42,7 +43,7 @@ public class LaunchActivity extends AppCompatActivity {
                     @Override
                     public void accept(@NonNull Long aLong) throws Exception {
                         boolean isFirst = SPUtils.getInstance().getBoolean("isFirst",true);
-                        if (isFirst){
+                        if (isFirst && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
                             startActivity(new Intent(LaunchActivity.this,GuideActivity.class));
                         } else {
 //                            startActivity(new Intent(LaunchActivity.this,HomeThreeActivity.class));

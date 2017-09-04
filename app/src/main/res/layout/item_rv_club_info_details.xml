@@ -5,11 +5,12 @@
     android:layout_height="wrap_content"
     android:padding="@dimen/view_space_8">
 
-    <ImageView
-        android:id="@+id/iv_club_intro"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_image"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        />
+        android:layout_height="wrap_content">
+
+    </android.support.v7.widget.RecyclerView>
 
     <TextView
         android:id="@+id/tv_club_intro"

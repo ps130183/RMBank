@@ -71,7 +71,7 @@ public class ClubInfoActivity extends BaseActivity<ClubInfoPresenter> implements
     @Override
     protected void onResume() {
         super.onResume();
-//        mPresenter.getMyClubInfo();
+        mPresenter.getMyClubInfo(mClubId);
     }
 
     @Override

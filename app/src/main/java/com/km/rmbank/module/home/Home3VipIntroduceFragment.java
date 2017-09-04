@@ -9,7 +9,9 @@ import android.view.ViewGroup;
 
 import com.km.rmbank.R;
 import com.km.rmbank.basic.BaseFragment;
+import com.km.rmbank.module.personal.vip.AlreadyBecomeVip2Activity;
 import com.km.rmbank.module.personal.vip.SelectMemberTypeActivity;
+import com.km.rmbank.utils.Constant;
 
 import butterknife.OnClick;
 
@@ -40,9 +42,14 @@ public class Home3VipIntroduceFragment extends BaseFragment {
      */
     @OnClick(R.id.btn_apply_vip1)
     public void onApplyVip1(View view){
-        Bundle bundle = new Bundle();
-        bundle.putInt("vipType",3);
-        toNextActivity(SelectMemberTypeActivity.class,bundle);
+        if ("2".equals(Constant.userInfo.getRoleId())){
+            toNextActivity(AlreadyBecomeVip2Activity.class);
+        } else {
+            Bundle bundle = new Bundle();
+            bundle.putInt("vipType",3);
+            toNextActivity(SelectMemberTypeActivity.class,bundle);
+        }
+
     }
 
     /**
@@ -51,7 +58,11 @@ public class Home3VipIntroduceFragment extends BaseFragment {
      */
     @OnClick(R.id.btn_apply_vip2)
     public void onApplyVip2(View view){
-        toNextActivity(SelectMemberTypeActivity.class);
+        if ("2".equals(Constant.userInfo.getRoleId())){
+            toNextActivity(AlreadyBecomeVip2Activity.class);
+        } else {
+            toNextActivity(SelectMemberTypeActivity.class);
+        }
     }
 
 }

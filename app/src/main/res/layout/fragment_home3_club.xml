@@ -1,32 +1,40 @@
-<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/swiper_refresh"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.km.rmbank.module.home.Home3ClubFragment">
-
-    <LinearLayout
+    tools:context="com.km.rmbank.module.home.Home3ClubFragment"
+    >
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:paddingLeft="@dimen/view_space_4"
-        android:paddingRight="@dimen/view_space_4">
+        android:layout_height="match_parent">
 
-        <com.youth.banner.Banner
-            android:id="@+id/banner"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:layout_marginBottom="@dimen/view_space_4">
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/view_space_4"
+            android:paddingRight="@dimen/view_space_4">
 
-        </com.youth.banner.Banner>
+            <com.youth.banner.Banner
+                android:id="@+id/banner"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:layout_marginBottom="@dimen/view_space_4">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_club_action"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            </com.youth.banner.Banner>
 
-        </android.support.v7.widget.RecyclerView>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_club_action"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-    </LinearLayout>
+            </android.support.v7.widget.RecyclerView>
+
+        </LinearLayout>
 
 
-</android.support.v4.widget.NestedScrollView>
+    </android.support.v4.widget.NestedScrollView>
+
+</android.support.v4.widget.SwipeRefreshLayout>
+
