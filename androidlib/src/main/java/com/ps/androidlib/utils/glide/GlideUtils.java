@@ -109,6 +109,44 @@ public class GlideUtils {
                 });
     }
 
+    /**
+     * 根据imageView的宽度等比缩放图片的高度
+     *
+     * @param imageView
+     * @param imageRes
+     */
+    public static void loadImageByFitWidthRes(final ImageView imageView, final int imageRes) {
+        if (imageView == null) {
+            Logger.e("imageview is null");
+            return;
+        }
+        final ObjectAnimator anim = ObjectAnimator.ofInt(imageView, "ImageLevel", 0, 10000);
+        anim.setDuration(800);
+        anim.setRepeatCount(ObjectAnimator.INFINITE);
+        anim.start();
+
+        Glide.with(imageView.getContext())
+                .load(imageRes)
+                .asBitmap()
+                .placeholder(R.drawable.glide_placeholder_rotate)
+                .error(R.drawable.ic_load_fail)
+                .dontAnimate()
+                .into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
+                    @Override
+                    public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                        int imageWidth = resource.getWidth();
+                        int imageHeight = resource.getHeight();
+                        int height = ScreenUtils.getScreenWidth(imageView.getContext()) * imageHeight / imageWidth;
+                        ViewGroup.LayoutParams para = imageView.getLayoutParams();
+                        para.height = height;
+                        para.width = ScreenUtils.getScreenWidth(imageView.getContext());
+                        imageView.setImageBitmap(resource);
+
+                    }
+                });
+    }
+
+
     public static void loadImageCenterCrop(ImageView imageView, String imagePath) {
         if (imageView == null) {
             Logger.e("imageview is null");

@@ -170,6 +170,7 @@ public class UserCardInfoActivity extends BaseActivity<UserCardInfoPresenter> im
             tvProvideResource.setText(bufProvide.toString());
             tvDemandResource.setText(bufDemand.toString());
 
+            btnEditUserCard.setVisibility(View.VISIBLE);
             if (userCardDto.getStatus() == 2) {
                 btnEditUserCard.setText("发消息");
             } else if (userCardDto.getStatus() == 1){

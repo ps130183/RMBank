@@ -6,19 +6,39 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.km.rmbank.R;
 import com.km.rmbank.basic.BaseFragment;
 import com.km.rmbank.module.personal.vip.AlreadyBecomeVip2Activity;
 import com.km.rmbank.module.personal.vip.SelectMemberTypeActivity;
 import com.km.rmbank.utils.Constant;
+import com.ps.androidlib.utils.glide.GlideUtils;
 
+import butterknife.BindView;
 import butterknife.OnClick;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class Home3VipIntroduceFragment extends BaseFragment {
+
+    @BindView(R.id.iv_app_introduce1)
+    ImageView ivAppIntroduce1;
+    @BindView(R.id.iv_app_introduce2)
+    ImageView ivAppIntroduce2;
+    @BindView(R.id.iv_app_introduce3)
+    ImageView ivAppIntroduce3;
+    @BindView(R.id.iv_app_introduce4)
+    ImageView ivAppIntroduce4;
+    @BindView(R.id.iv_app_introduce5)
+    ImageView ivAppIntroduce5;
+
+    private int[] appIntroducesRes = {R.mipmap.ic_app_introduce_1,
+            R.mipmap.ic_app_introduce_2,
+            R.mipmap.ic_app_introduce_3,
+            R.mipmap.ic_app_introduce_4,
+            R.mipmap.ic_app_introduce_5};
 
     public static Home3VipIntroduceFragment newInstance(Bundle bundle) {
         Home3VipIntroduceFragment fragment = new Home3VipIntroduceFragment();
@@ -33,7 +53,11 @@ public class Home3VipIntroduceFragment extends BaseFragment {
 
     @Override
     protected void createView() {
-
+        GlideUtils.loadImageByFitWidthRes(ivAppIntroduce1,appIntroducesRes[0]);
+        GlideUtils.loadImageByFitWidthRes(ivAppIntroduce2,appIntroducesRes[1]);
+        GlideUtils.loadImageByFitWidthRes(ivAppIntroduce3,appIntroducesRes[2]);
+        GlideUtils.loadImageByFitWidthRes(ivAppIntroduce4,appIntroducesRes[3]);
+        GlideUtils.loadImageByFitWidthRes(ivAppIntroduce5,appIntroducesRes[4]);
     }
 
     /**

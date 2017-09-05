@@ -23,6 +23,7 @@ import com.km.rmbank.basic.RVUtils;
 import com.km.rmbank.dto.ClubDto;
 import com.km.rmbank.event.ClubIntroduceEntity;
 import com.km.rmbank.event.ImageTextInfoEvent;
+import com.km.rmbank.event.RefreshClubInfoEvent;
 import com.km.rmbank.event.UploadImageEvent;
 import com.km.rmbank.module.personal.userinfo.UserInfoActivity;
 import com.km.rmbank.ui.CircleProgressView;
@@ -357,6 +358,7 @@ public class EditMyClubActivity extends BaseActivity<EditMyClubPresenter> implem
 
     @Override
     public void createMyClubSuccess() {
+        EventBusUtils.post(new RefreshClubInfoEvent());
         toNextActivity(ClubInfoActivity.class);
         finish();
     }

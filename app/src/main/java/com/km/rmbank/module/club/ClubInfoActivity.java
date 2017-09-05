@@ -16,12 +16,16 @@ import com.km.rmbank.basic.RVUtils;
 import com.km.rmbank.cell.ClubInfoCell;
 import com.km.rmbank.cell.ClubInfoDetailsCell;
 import com.km.rmbank.dto.ClubDto;
+import com.km.rmbank.event.RefreshClubInfoEvent;
 import com.km.rmbank.module.club.past.ReleaseActionPastActivity;
 import com.km.rmbank.module.club.recent.ReleaseActionRecentActivity;
 import com.km.rmbank.utils.SwipeRefreshUtils;
 import com.km.rv_libs.TemplateAdapter;
 import com.ps.androidlib.utils.AppUtils;
 import com.ps.androidlib.utils.DialogUtils;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -71,7 +75,7 @@ public class ClubInfoActivity extends BaseActivity<ClubInfoPresenter> implements
     @Override
     protected void onResume() {
         super.onResume();
-        mPresenter.getMyClubInfo(mClubId);
+//        mPresenter.getMyClubInfo(mClubId);
     }
 
     @Override
@@ -252,5 +256,10 @@ public class ClubInfoActivity extends BaseActivity<ClubInfoPresenter> implements
     public void followClubSuccess() {
         isFollow = !isFollow;
         mClubInfoCell.setFollow(isFollow);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void refreshClubInfo(RefreshClubInfoEvent event){
+        mPresenter.getMyClubInfo(mClubId);
     }
 }
