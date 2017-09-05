@@ -180,7 +180,7 @@ public class UserCardInfoActivity extends BaseActivity<UserCardInfoPresenter> im
             setToolBarRight();
         } else {
             showToast("该用户尚未编辑名片");
-            finish();
+//            finish();
         }
     }
 

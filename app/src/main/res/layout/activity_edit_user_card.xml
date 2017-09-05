@@ -38,7 +38,7 @@
                     <EditText
                         android:id="@+id/et_name"
                         style="@style/Personal.User.EditCard.et_nofocuse"
-                        android:hint="请输入您的真实姓名"
+                        android:hint="请输入您的真实姓名,必填"
                         android:lines="1"
                         android:inputType="text"
                         />
@@ -72,7 +72,7 @@
                     <EditText
                         android:id="@+id/et_position"
                         style="@style/Personal.User.EditCard.et_nofocuse"
-                        android:hint="请填写您所在俱乐部及身份"
+                        android:hint="请填写您所在单位的职称,必填"
                         android:lines="1"
                         android:inputType="text"
                         />

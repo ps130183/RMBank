@@ -77,7 +77,7 @@ public interface ApiService {
      * @return
      */
     @FormUrlEncoded
-    @POST(SecretConstant.API_HOST_PATH + "/user/registerAndLogin")
+    @POST(SecretConstant.API_HOST_PATH + "/user/registerAndLogin/send")
     Flowable<Response<UserDto>> login(@Field("mobilePhone") String mobilePhone,
                                       @Field("smsCode") String smsCode);
 
@@ -163,6 +163,20 @@ public interface ApiService {
                                                    @Field("demandResources") String demandResources,
                                                    @Field("detailedAddress") String detailedAddress,
                                                    @Field("emailAddress") String emailAddress);
+
+    /**
+     * 生成个人名片
+     *
+     * @param name
+     * @param mobilePhone
+     * @param position
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(SecretConstant.API_HOST_PATH + "/userCard/update/info/send")
+    Flowable<Response<String>> createUserCardOnLogin(@Field("name") String name,
+                                              @Field("mobilePhone") String mobilePhone,
+                                              @Field("position") String position);
 
     /**
      * 获取个人名片

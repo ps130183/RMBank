@@ -33,6 +33,7 @@ import com.nineoldandroids.animation.AnimatorSet;
 import com.nineoldandroids.animation.ObjectAnimator;
 import com.orhanobut.logger.Logger;
 import com.ps.androidlib.animator.AnimatorViewWrapper;
+import com.ps.androidlib.utils.DateUtils;
 import com.ps.androidlib.utils.DialogUtils;
 import com.ps.androidlib.utils.MToast;
 import com.ps.androidlib.utils.StatusBarUtil;
@@ -257,6 +258,13 @@ public class ActionRecentInfoActivity extends BaseActivity<ActionRecentInfoPrese
     public void clickApply(View view){
         if (isMyClub){
             showToast("不能报名自己的活动");
+            return;
+        }
+
+        long holdDate = DateUtils.getInstance().stringDateToMillis(mActionDto.getHoldDate(),DateUtils.YMDHM);
+        long curDate = System.currentTimeMillis();
+        if (curDate >= holdDate){
+            showToast("报名已截止");
             return;
         }
         Bundle bundle = new Bundle();

@@ -311,7 +311,8 @@
             android:label="@string/title_activity_release_forum"
             android:theme="@style/AppTheme" />
         <activity android:name=".module.home.image.PictureShowActivity" />
-        <activity android:name=".module.club.EditClubImageTextInfoActivity"></activity>
+        <activity android:name=".module.club.EditClubImageTextInfoActivity" />
+        <activity android:name=".module.login.CreateUserCardOnLoginActivity"></activity>
     </application>
 
 </manifest>

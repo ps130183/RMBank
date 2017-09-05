@@ -127,6 +127,13 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     }
 
     @Override
+    public void createUserCard(String phone) {
+        Bundle bundle = new Bundle();
+        bundle.putString("phone",phone);
+        toNextActivity(CreateUserCardOnLoginActivity.class,bundle);
+    }
+
+    @Override
     public void getPhoneCodeSuccess() {
         tvSendCode.setText(time+"");
         isSendCode = false;

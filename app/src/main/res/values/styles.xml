@@ -78,6 +78,17 @@
         <item name="android:layout_margin">@dimen/view_space_16</item>
     </style>
 
+    <style name="Button3">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@color/color_blue5</item>
+        <item name="android:textSize">@dimen/text_size_16</item>
+        <item name="android:textColor">@color/color_white</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_margin">@dimen/view_space_16</item>
+    </style>
+
+
     <style name="Personal.function_tv">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>

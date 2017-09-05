@@ -165,6 +165,18 @@ public class ApiWrapper extends RetrofitUtil {
     }
 
     /**
+     * 登录时  填写个人名片的部分信息  姓名 身份
+     * @param name
+     * @param position
+     * @param phone
+     * @return
+     */
+    public Flowable<String> createUserCartOnLogin(String name, String position,String phone){
+        return getService().createUserCardOnLogin(name,phone,position)
+                .compose(this.<String>applySchedulers());
+    }
+
+    /**
      * 获取个人名片
      * @return
      */

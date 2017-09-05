@@ -10,6 +10,7 @@ import com.km.rmbank.basic.BaseView;
 public interface LoginContract {
     interface View extends BaseView{
         void loginSuccess();
+        void createUserCard(String phone);
         void getPhoneCodeSuccess();
     }
 

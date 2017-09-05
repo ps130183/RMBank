@@ -63,12 +63,12 @@ public class EMUtils {
                     if (error == EMError.USER_REMOVED) {// 显示帐号已经被移除
                         if (!Constant.user.isEmpty()){
                             MToast.showToast(instance, "帐号已经被移除");
-                            Constant.user.clear();
+//                            Constant.user.clear();
                         }
                     } else if (error == EMError.USER_LOGIN_ANOTHER_DEVICE) {// 显示帐号在其他设备登录
                         if (!Constant.user.isEmpty()) {
 //                            Utils.showToast(instance, "帐号在其他设备登录");
-                            Constant.user.clear();
+//                            Constant.user.clear();
                         }
                     } else {
 //                        if (NetUtils.hasNetwork(instance)){//连接不到聊天服务器

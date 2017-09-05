@@ -146,6 +146,24 @@ public class DateUtils {
         return iymd;
     }
 
+    /**
+     * 字符串日期 转 毫秒
+     * @param date
+     * @param state
+     * @return
+     */
+    public long stringDateToMillis(String date,String state){
+        long millis = 0;
+        Calendar calendar = Calendar.getInstance();
+        try {
+            calendar.setTime(new SimpleDateFormat(state).parse(date));
+            millis = calendar.getTimeInMillis();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return millis;
+    }
+
 
 
 }

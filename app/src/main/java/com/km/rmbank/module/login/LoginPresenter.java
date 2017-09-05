@@ -1,5 +1,7 @@
 package com.km.rmbank.module.login;
 
+import android.text.TextUtils;
+
 import com.km.rmbank.dto.DefaultDto;
 import com.km.rmbank.dto.UserDto;
 import com.km.rmbank.utils.Constant;
@@ -33,7 +35,12 @@ public class LoginPresenter extends PresenterWrapper<LoginContract.View> impleme
                     public void accept(@NonNull UserDto userDto) throws Exception {
                         userDto.saveToSp();
                         Constant.user.getDataFromSp();
-                        mView.loginSuccess();
+                        if (TextUtils.isEmpty(userDto.getToken())){
+                            mView.createUserCard(userDto.getMobilePhone());
+                        } else {
+                            mView.loginSuccess();
+                        }
+
                     }
 
                 }));
