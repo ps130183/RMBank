@@ -12,8 +12,10 @@ import android.support.v4.content.FileProvider;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.TextView;
@@ -445,6 +447,8 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
         @Override
         public void setViewWidget(View view) {
             TextView title = (TextView) view.findViewById(R.id.title);
+            FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, Gravity.CENTER);
+            title.setLayoutParams(lp);
             title.setText(getTitleName());
         }
     };

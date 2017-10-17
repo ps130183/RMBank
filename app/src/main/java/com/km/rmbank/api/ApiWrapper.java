@@ -1,14 +1,16 @@
 package com.km.rmbank.api;
 
 
-import android.graphics.Bitmap;
-import android.text.TextUtils;
-
 import com.google.gson.Gson;
 import com.km.rmbank.dto.ActionDto;
 import com.km.rmbank.dto.ActionMemberDto;
 import com.km.rmbank.dto.ActionMemberNumDto;
 import com.km.rmbank.dto.ActionPastDto;
+import com.km.rmbank.dto.ActiveGoodsDto;
+import com.km.rmbank.dto.ActiveGoodsOrderDetailDto;
+import com.km.rmbank.dto.ActiveGoodsOrderListDto;
+import com.km.rmbank.dto.ActiveValueDetailDto;
+import com.km.rmbank.dto.ActiveValueDto;
 import com.km.rmbank.dto.AppVersionDto;
 import com.km.rmbank.dto.BannerDto;
 import com.km.rmbank.dto.ClubDto;
@@ -47,15 +49,11 @@ import com.km.rmbank.utils.Constant;
 import com.km.rmbank.utils.fileupload.FileUploadingListener;
 import com.km.rmbank.utils.fileupload.UploadFileRequestBody;
 import com.km.rmbank.utils.retrofit.RetrofitUtil;
-import com.orhanobut.logger.Logger;
-import com.ps.androidlib.utils.ImageUtils;
 
 import java.io.File;
 import java.util.List;
 
 import io.reactivex.Flowable;
-import io.reactivex.annotations.NonNull;
-import io.reactivex.functions.Consumer;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 //import rx.Observable;
@@ -1205,5 +1203,86 @@ public class ApiWrapper extends RetrofitUtil {
 
         return getService().uploadAppCrashQuestion(appVersion,osVersion,vendor,model,cpuabi,question)
                 .compose(this.<String>applySchedulers());
+    }
+
+    /**
+     * 分享 近期活动  增加活跃值
+     * @param activityId
+     * @return
+     */
+    public Flowable<String> addActiveValue(String activityId){
+        return getService().addActiveValue(Constant.user.getToken(),activityId)
+                .compose(this.<String>applySchedulers());
+    }
+
+    /**
+     * 获取个人的活跃值
+     * @return
+     */
+    public Flowable<ActiveValueDto> getActiveValue(){
+        return getService().getActiveValue(Constant.user.getToken())
+                .compose(this.<ActiveValueDto>applySchedulers());
+    }
+
+    /**
+     * 获取个人活跃值 明细
+     * @param pageNo
+     * @return
+     */
+    public Flowable<List<ActiveValueDetailDto>> getActiveValueDetail(int pageNo){
+        return getService().getActiveValueDetail(Constant.user.getToken(),pageNo)
+                .compose(this.<List<ActiveValueDetailDto>>applySchedulers());
+    }
+
+    /**
+     * 获取 兑换商品列表
+     * @param pageNo
+     * @return
+     */
+    public Flowable<List<ActiveGoodsDto>> getConvertActiveGoodsList(int pageNo){
+        return getService().getConvertActiveGoodsList(pageNo,0)
+                .compose(this.<List<ActiveGoodsDto>>applySchedulers());
+    }
+
+    /**
+     * 获取 兑换商品 详情
+     * @param productNo
+     * @return
+     */
+    public Flowable<ActiveGoodsDto> getConvertActiveGoodsDetail(String productNo){
+        return getService().getConvertActiveGoodsDetail(productNo)
+                .compose(this.<ActiveGoodsDto>applySchedulers());
+    }
+
+    /**
+     * 兑换商品
+     * @param productNo
+     * @param productCount
+     * @param receiveAddressId
+     * @return
+     */
+    public Flowable<String> convertActiveGoods(String productNo,String productCount,String receiveAddressId){
+        return getService().convertActiveGoods(Constant.user.getToken(),productNo,productCount,receiveAddressId)
+                .compose(this.<String>applySchedulers());
+    }
+
+    /**
+     * 获取兑换商品 清单  列表
+     * @param pageNo
+     * @return
+     */
+    public Flowable<List<ActiveGoodsOrderListDto>> getActiveGoodsOrdetList(int pageNo){
+        return getService().getActiveGoodsOrderList(Constant.user.getToken(),pageNo)
+                .compose(this.<List<ActiveGoodsOrderListDto>>applySchedulers());
+    }
+
+    /**
+     * 获取 兑换商品的  订单 详情
+     * @param orderNo
+     * @return
+     */
+    public Flowable<ActiveGoodsOrderDetailDto> getActiveGoodsOrderDetail(String orderNo){
+        return getService().getActiveGoodsOrderDetail(Constant.user.getToken(),orderNo)
+                .compose(this.<ActiveGoodsOrderDetailDto>applySchedulers());
     }
 }

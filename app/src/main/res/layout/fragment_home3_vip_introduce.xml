@@ -1,184 +1,202 @@
-<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#102A60"
     tools:context="com.km.rmbank.module.home.Home3VipIntroduceFragment">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+    <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:orientation="vertical">-->
 
-        <ImageView
-            android:id="@+id/iv_app_introduce1"
+        <!--&lt;!&ndash;<ImageView&ndash;&gt;-->
+            <!--&lt;!&ndash;android:id="@+id/iv_app_introduce1"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+            <!--&lt;!&ndash;/>&ndash;&gt;-->
+
+        <!--&lt;!&ndash;<ImageView&ndash;&gt;-->
+            <!--&lt;!&ndash;android:id="@+id/iv_app_introduce2"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+            <!--&lt;!&ndash;/>&ndash;&gt;-->
+
+        <!--&lt;!&ndash;<ImageView&ndash;&gt;-->
+            <!--&lt;!&ndash;android:id="@+id/iv_app_introduce3"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+            <!--&lt;!&ndash;/>&ndash;&gt;-->
+        <!--&lt;!&ndash;<ImageView&ndash;&gt;-->
+            <!--&lt;!&ndash;android:id="@+id/iv_app_introduce4"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+            <!--&lt;!&ndash;/>&ndash;&gt;-->
+        <!--&lt;!&ndash;<ImageView&ndash;&gt;-->
+            <!--&lt;!&ndash;android:id="@+id/iv_app_introduce5"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+            <!--&lt;!&ndash;/>&ndash;&gt;-->
+
+
+        <!--<LinearLayout-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:orientation="horizontal"-->
+            <!--android:layout_gravity="center_horizontal"-->
+            <!--android:layout_marginTop="@dimen/view_space_16">-->
+
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="普通会员"-->
+                <!--android:textColor="@color/color_white"-->
+                <!--android:textStyle="bold"-->
+                <!--android:drawableTop="@mipmap/ic_home3_vip0"-->
+                <!--android:layout_margin="@dimen/view_space_8"-->
+                <!--/>-->
+
+            <!--<View-->
+                <!--android:layout_width="@dimen/divider_line_1"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:background="@color/color_divider2"-->
+                <!--android:layout_marginTop="@dimen/view_space_16"-->
+                <!--android:layout_marginBottom="@dimen/view_space_16"-->
+                <!--/>-->
+
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="体验式会员"-->
+                <!--android:textColor="@color/color_white"-->
+                <!--android:textStyle="bold"-->
+                <!--android:drawableTop="@mipmap/ic_home3_vip1"-->
+                <!--android:layout_margin="@dimen/view_space_8"-->
+                <!--/>-->
+            <!--<View-->
+                <!--android:layout_width="@dimen/divider_line_1"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:background="@color/color_divider2"-->
+                <!--android:layout_marginTop="@dimen/view_space_16"-->
+                <!--android:layout_marginBottom="@dimen/view_space_16"-->
+                <!--/>-->
+
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="合伙人会员"-->
+                <!--android:textColor="@color/color_white"-->
+                <!--android:textStyle="bold"-->
+                <!--android:drawableTop="@mipmap/ic_home3_vip2"-->
+                <!--android:layout_margin="@dimen/view_space_8"-->
+                <!--/>-->
+
+
+        <!--</LinearLayout>-->
+
+        <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:orientation="vertical"-->
+            <!--android:background="@drawable/shape_home3_vip"-->
+            <!--android:layout_margin="@dimen/view_space_16"-->
+            <!--android:padding="@dimen/view_space_8"-->
+            <!--&gt;-->
+            <!--<ImageView-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:src="@mipmap/ic_home3_vip_bg2"-->
+                <!--android:scaleType="fitXY"-->
+                <!--/>-->
+
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="可以建立自己人脉银行，享受尊贵服务"-->
+                <!--android:textColor="@color/color_block"-->
+                <!--android:textSize="15sp"-->
+                <!--android:layout_gravity="center_horizontal"-->
+                <!--android:layout_margin="@dimen/view_space_8"-->
+                <!--/>-->
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="跟各路大咖一起，活出三辈子的精彩"-->
+                <!--android:layout_gravity="center_horizontal"-->
+                <!--/>-->
+
+            <!--<Button-->
+                <!--android:id="@+id/btn_apply_vip2"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="30dp"-->
+                <!--android:text="立即认证"-->
+                <!--android:textColor="#00b2b5"-->
+                <!--android:layout_gravity="center_horizontal"-->
+                <!--android:background="@drawable/shape_home3_vip_btn"-->
+                <!--android:layout_marginTop="@dimen/view_space_8"-->
+                <!--/>-->
+        <!--</LinearLayout>-->
+        <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:orientation="vertical"-->
+            <!--android:background="@drawable/shape_home3_vip"-->
+            <!--android:layout_margin="@dimen/view_space_16"-->
+            <!--android:padding="@dimen/view_space_8"-->
+            <!--&gt;-->
+            <!--<ImageView-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:src="@mipmap/ic_home3_vip_bg1"-->
+                <!--android:scaleType="fitXY"-->
+                <!--/>-->
+
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="还在为产品没有出路而烦恼？加入我们吧"-->
+                <!--android:textColor="@color/color_block"-->
+                <!--android:textSize="15sp"-->
+                <!--android:layout_gravity="center_horizontal"-->
+                <!--android:layout_margin="@dimen/view_space_8"-->
+                <!--/>-->
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="只要你的产品够好，最好的客户都在这里"-->
+                <!--android:layout_gravity="center_horizontal"-->
+                <!--/>-->
+
+            <!--<Button-->
+                <!--android:id="@+id/btn_apply_vip1"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="30dp"-->
+                <!--android:text="立即认证"-->
+                <!--android:textColor="#00b2b5"-->
+                <!--android:layout_gravity="center_horizontal"-->
+                <!--android:background="@drawable/shape_home3_vip_btn"-->
+                <!--android:layout_marginTop="@dimen/view_space_8"-->
+                <!--/>-->
+        <!--</LinearLayout>-->
+
+    <!--</LinearLayout>-->
+
+        <WebView
+            android:id="@+id/webView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            />
+            android:layout_height="match_parent">
 
-        <ImageView
-            android:id="@+id/iv_app_introduce2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            />
+        </WebView>
 
-        <ImageView
-            android:id="@+id/iv_app_introduce3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            />
-        <ImageView
-            android:id="@+id/iv_app_introduce4"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            />
-        <ImageView
-            android:id="@+id/iv_app_introduce5"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            />
+        <Button
+            android:id="@+id/btn_apply_vip"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:background="@drawable/shape_tv_circle_red"
+            android:text="去认证"
+            android:textColor="@color/color_white"
+            android:textStyle="bold"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/view_space_16"/>
 
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/view_space_16">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="普通会员"
-                android:textColor="@color/color_white"
-                android:textStyle="bold"
-                android:drawableTop="@mipmap/ic_home3_vip0"
-                android:layout_margin="@dimen/view_space_8"
-                />
-
-            <View
-                android:layout_width="@dimen/divider_line_1"
-                android:layout_height="match_parent"
-                android:background="@color/color_divider2"
-                android:layout_marginTop="@dimen/view_space_16"
-                android:layout_marginBottom="@dimen/view_space_16"
-                />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="体验式会员"
-                android:textColor="@color/color_white"
-                android:textStyle="bold"
-                android:drawableTop="@mipmap/ic_home3_vip1"
-                android:layout_margin="@dimen/view_space_8"
-                />
-            <View
-                android:layout_width="@dimen/divider_line_1"
-                android:layout_height="match_parent"
-                android:background="@color/color_divider2"
-                android:layout_marginTop="@dimen/view_space_16"
-                android:layout_marginBottom="@dimen/view_space_16"
-                />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="合伙人会员"
-                android:textColor="@color/color_white"
-                android:textStyle="bold"
-                android:drawableTop="@mipmap/ic_home3_vip2"
-                android:layout_margin="@dimen/view_space_8"
-                />
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="@drawable/shape_home3_vip"
-            android:layout_margin="@dimen/view_space_16"
-            android:padding="@dimen/view_space_8"
-            >
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/ic_home3_vip_bg2"
-                android:scaleType="fitXY"
-                />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="可以建立自己人脉银行，享受尊贵服务"
-                android:textColor="@color/color_block"
-                android:textSize="15sp"
-                android:layout_gravity="center_horizontal"
-                android:layout_margin="@dimen/view_space_8"
-                />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="跟各路大咖一起，活出三辈子的精彩"
-                android:layout_gravity="center_horizontal"
-                />
-
-            <Button
-                android:id="@+id/btn_apply_vip2"
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:text="立即认证"
-                android:textColor="#00b2b5"
-                android:layout_gravity="center_horizontal"
-                android:background="@drawable/shape_home3_vip_btn"
-                android:layout_marginTop="@dimen/view_space_8"
-                />
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="@drawable/shape_home3_vip"
-            android:layout_margin="@dimen/view_space_16"
-            android:padding="@dimen/view_space_8"
-            >
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/ic_home3_vip_bg1"
-                android:scaleType="fitXY"
-                />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="还在为产品没有出路而烦恼？加入我们吧"
-                android:textColor="@color/color_block"
-                android:textSize="15sp"
-                android:layout_gravity="center_horizontal"
-                android:layout_margin="@dimen/view_space_8"
-                />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="只要你的产品够好，最好的客户都在这里"
-                android:layout_gravity="center_horizontal"
-                />
-
-            <Button
-                android:id="@+id/btn_apply_vip1"
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:text="立即认证"
-                android:textColor="#00b2b5"
-                android:layout_gravity="center_horizontal"
-                android:background="@drawable/shape_home3_vip_btn"
-                android:layout_marginTop="@dimen/view_space_8"
-                />
-        </LinearLayout>
-
-    </LinearLayout>
-
-</android.support.v4.widget.NestedScrollView>
+</RelativeLayout>

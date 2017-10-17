@@ -51,7 +51,7 @@ public class BaseApplication extends MultiDexApplication {
     public void onCreate() {
         super.onCreate();
         mInstance = this;
-        initCrashHandler();
+//        initCrashHandler();
         initLogUtils();
         registCallback();
         initUtils();

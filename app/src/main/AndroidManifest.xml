@@ -312,7 +312,13 @@
             android:theme="@style/AppTheme" />
         <activity android:name=".module.home.image.PictureShowActivity" />
         <activity android:name=".module.club.EditClubImageTextInfoActivity" />
-        <activity android:name=".module.login.CreateUserCardOnLoginActivity"></activity>
+        <activity android:name=".module.login.CreateUserCardOnLoginActivity" />
+        <activity android:name=".module.personal.active.ActiveInfoActivity" />
+        <activity android:name=".module.personal.active.ConvertActiveGoodsListActivity" />
+        <activity android:name=".module.personal.active.ConvertInventoryActivity" />
+        <activity android:name=".module.personal.active.ActiveGoodsInfoActivity" />
+        <activity android:name=".module.personal.active.ActiveValueIntroduceActivity"></activity>
+        <activity android:name=".module.personal.active.ActiveGoodsDetailActivity"></activity>
     </application>
 
 </manifest>

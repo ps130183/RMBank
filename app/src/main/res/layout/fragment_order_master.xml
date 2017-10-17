@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.km.rmbank.module.rank.RankingFragment">
+    tools:context="com.km.rmbank.module.rank.OrderMasterFragment">
 
     <include layout="@layout/toolbar_home"/>
 

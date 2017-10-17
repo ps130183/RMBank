@@ -17,12 +17,14 @@ public interface ActionRecentInfoContract {
         void applyActionSuccess();
         void followClubSuccess(boolean isFollow);
 
+        void addActiveValueSuccess(String result);
     }
     interface Presenter extends BasePresenter{
         void getActionRecentInfo(String actionId);
         void applyAction(String activityId,String name,String phone);
         void followClub(String clubId,boolean isFollow);
 
+        void addActiveValue(String activityId);
 
     }
 }

@@ -82,6 +82,11 @@ public class ActionApplyActivity extends BaseActivity<ActionRecentInfoPresenter>
 
     }
 
+    @Override
+    public void addActiveValueSuccess(String result) {
+
+    }
+
     @OnClick(R.id.btn_apply)
     public void clickApply(View view){
         String name = etName.getText().toString();

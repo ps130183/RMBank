@@ -11,38 +11,56 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/toolbar_height"
-        android:background="?attr/colorPrimary"
-        app:title=""
-        app:titleTextColor="@color/color_white">
+        android:background="?attr/colorPrimary">
 
-        <FrameLayout
-            android:id="@+id/fl_center_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-        </FrameLayout>
+            <ImageView
+                android:id="@+id/iv_back_left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/view_space_16"
+                />
 
-        <ImageView
-            android:id="@+id/iv_title_right"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_gravity="right|center"
-            android:layout_marginRight="@dimen/view_space_16"
-            android:visibility="gone"
-            android:src="@mipmap/ic_action_recent_share"
-            />
-        <TextView
-            android:id="@+id/tv_title_right"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="查询"
-            android:textColor="@color/color_white"
-            android:textSize="@dimen/text_size_14"
-            android:layout_gravity="right"
-            android:padding="@dimen/view_space_16"
-            android:visibility="gone"
-            />
+            <FrameLayout
+                android:id="@+id/fl_center_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:paddingLeft="@dimen/view_space_16"
+                android:paddingRight="@dimen/view_space_16">
+
+            </FrameLayout>
+
+            <ImageView
+                android:id="@+id/iv_title_right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/view_space_16"
+                android:visibility="gone"
+                android:src="@mipmap/ic_action_recent_share"
+                />
+            <TextView
+                android:id="@+id/tv_title_right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="查询"
+                android:textColor="@color/color_white"
+                android:textSize="@dimen/text_size_14"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:padding="@dimen/view_space_16"
+                android:visibility="gone"
+                />
+
+        </RelativeLayout>
+
+
 
 
     </android.support.v7.widget.Toolbar>

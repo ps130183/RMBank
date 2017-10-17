@@ -33,6 +33,7 @@ import com.nineoldandroids.animation.AnimatorSet;
 import com.nineoldandroids.animation.ObjectAnimator;
 import com.orhanobut.logger.Logger;
 import com.ps.androidlib.animator.AnimatorViewWrapper;
+import com.ps.androidlib.utils.AppUtils;
 import com.ps.androidlib.utils.DateUtils;
 import com.ps.androidlib.utils.DialogUtils;
 import com.ps.androidlib.utils.MToast;
@@ -87,6 +88,8 @@ public class ActionRecentInfoActivity extends BaseActivity<ActionRecentInfoPrese
     @BindView(R.id.rv_invitation_mans)
     RecyclerView rvInvitationMans;
 
+    @BindView(R.id.tv_add_active_value)
+    TextView tvAddActiveValue;
 
     private String actionId;
     private ActionDto mActionDto;
@@ -150,6 +153,7 @@ public class ActionRecentInfoActivity extends BaseActivity<ActionRecentInfoPrese
             @Override
             public void onResult(SHARE_MEDIA share_media) {
                 showToast("分享成功");
+                mPresenter.addActiveValue(actionId);
             }
 
             @Override
@@ -163,6 +167,33 @@ public class ActionRecentInfoActivity extends BaseActivity<ActionRecentInfoPrese
                 showToast("取消分享");
             }
         });
+    }
+
+    /**
+     * 增加 活跃值 动画
+     */
+    private void addActiveValue(){
+        int midHeight = AppUtils.getCurWindowHeight(this) / 2;
+
+        final ObjectAnimator alphaAnimator1 = ObjectAnimator.ofFloat(tvAddActiveValue,"alpha",0,1,0);
+        alphaAnimator1.setDuration(2000);
+
+        ObjectAnimator translationAnimator = ObjectAnimator.ofFloat(tvAddActiveValue, "Y",midHeight,midHeight - 200);
+        translationAnimator.setDuration(2000);
+        translationAnimator.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+                tvAddActiveValue.setVisibility(View.VISIBLE);
+                alphaAnimator1.start();
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                tvAddActiveValue.setVisibility(View.GONE);
+            }
+        });
+
+        translationAnimator.start();
     }
 
     @Override
@@ -236,6 +267,13 @@ public class ActionRecentInfoActivity extends BaseActivity<ActionRecentInfoPrese
         } else {
             btnKeepClub.setText("已关注");
         }
+    }
+
+    @Override
+    public void addActiveValueSuccess(String result) {
+//        Logger.d("activeValue  ====  " + result);
+        tvAddActiveValue.setText("活跃 +" + result);
+        addActiveValue();
     }
 
     /**

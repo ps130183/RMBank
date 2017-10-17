@@ -48,7 +48,7 @@ public class SelectMemberTypeActivity extends BaseActivity<SelectMemberTypePrese
     private int vipType = 0;
     private int memberType = 0;
     private String amount;//支付金额
-    private String[] memberNames = {"* 体验式会员","* 合伙人会员"};
+    private String[] memberNames = {"* 学员","* 合伙人"};
     private String[] memberTypeIntros = {"1.成为玩转地球尊贵体验官，可以获得积分180购买商城中所有商品。\n" +
             "2.免费参加玩转地球举办的全部活动，红酒俱乐部、旗袍俱乐部等等。\n" ,
             "1.拥有玩转地球尊贵合伙人身份。\n" +

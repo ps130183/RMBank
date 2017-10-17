@@ -9,9 +9,10 @@
 
     <com.flyco.tablayout.SlidingTabLayout
         android:id="@+id/s_tab_layout"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="48dp"
         android:background="@color/colorPrimary"
+        android:layout_gravity="center"
         app:tl_textSelectColor="@color/color_white"
         app:tl_textUnselectColor="@color/color_white"
         app:tl_textAllCaps="true"

@@ -36,7 +36,7 @@ public class PersonalUserInfoCell extends BaseCell<UserInfoDto> implements View.
             if ("2".equals(Constant.user.getRoleId())){
                 vipType = "合伙人";
             } else if ("3".equals(Constant.user.getRoleId())){
-                vipType = "会员";
+                vipType = "学员";
             } else {
                 vipType = "用户";
 //                holder.getTextView(R.id.tv_user_account).setVisibility(View.GONE);

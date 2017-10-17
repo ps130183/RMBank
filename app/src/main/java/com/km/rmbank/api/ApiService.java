@@ -1,11 +1,14 @@
 package com.km.rmbank.api;
 
-import android.support.annotation.IdRes;
-
 import com.km.rmbank.dto.ActionDto;
 import com.km.rmbank.dto.ActionMemberDto;
 import com.km.rmbank.dto.ActionMemberNumDto;
 import com.km.rmbank.dto.ActionPastDto;
+import com.km.rmbank.dto.ActiveGoodsDto;
+import com.km.rmbank.dto.ActiveGoodsOrderDetailDto;
+import com.km.rmbank.dto.ActiveGoodsOrderListDto;
+import com.km.rmbank.dto.ActiveValueDetailDto;
+import com.km.rmbank.dto.ActiveValueDto;
 import com.km.rmbank.dto.AppVersionDto;
 import com.km.rmbank.dto.BannerDto;
 import com.km.rmbank.dto.ClubDto;
@@ -46,18 +49,13 @@ import com.km.rmbank.utils.retrofit.SecretConstant;
 import java.util.List;
 
 import io.reactivex.Flowable;
-import io.reactivex.functions.Action;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
-import okhttp3.ResponseBody;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
-import retrofit2.http.GET;
-import retrofit2.http.Header;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
-import retrofit2.http.Streaming;
 import retrofit2.http.Url;
 //import rx.Observable;
 
@@ -1338,4 +1336,95 @@ public interface ApiService {
                                                               @Field("model") String model,
                                                               @Field("cpuabi") String cpuabi,
                                                               @Field("question") String question);
+
+    /**
+     * 分享 近期活动  增加活跃值
+     * @param token
+     * @param activityId
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(SecretConstant.API_HOST_PATH + "/auth/user/add/active/value")
+    Flowable<Response<String>> addActiveValue(@Field("token") String token,
+                                              @Field("activityId") String activityId);
+
+    /**
+     * 获取 个人的 活跃值
+     * @param token
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(SecretConstant.API_HOST_PATH + "/auth/active/value/account")
+    Flowable<Response<ActiveValueDto>> getActiveValue(@Field("token") String token);
+
+    /**
+     * 获取 个人的 活跃值  明细
+     * @param token
+     * @param pageNo
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(SecretConstant.API_HOST_PATH + "/auth/list/activeValue")
+    Flowable<Response<List<ActiveValueDetailDto>>> getActiveValueDetail(@Field("token") String token,
+                                                                        @Field("pageNo") int pageNo);
+
+
+    /**
+     * 获取 兑换商品 列表
+     * @param orderBy
+     * @param pageNo
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(SecretConstant.API_HOST_PATH + "/product/active/value/list")
+    Flowable<Response<List<ActiveGoodsDto>>> getConvertActiveGoodsList(@Field("pageNo") int pageNo,
+                                                                  @Field("orderBy") int orderBy);
+
+
+    /**
+     * 获取 兑换商品 详情
+     * @param productNo
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(SecretConstant.API_HOST_PATH + "/product/active/value/detail")
+    Flowable<Response<ActiveGoodsDto>> getConvertActiveGoodsDetail(@Field("productNo") String productNo);
+
+    /**
+     * 兑换商品
+     * @param token
+     * @param productNo
+     * @param productCount
+     * @param receiveAddressId
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(SecretConstant.API_HOST_PATH + "/auth/active/value/buy/create")
+    Flowable<Response<String>> convertActiveGoods(@Field("token") String token,
+                                                  @Field("productNo") String productNo,
+                                                  @Field("productCount") String productCount,
+                                                  @Field("receiveAddressId") String receiveAddressId);
+
+    /**
+     * 获取 兑换商品 清单 列表
+     * @param token
+     * @param pageNo
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(SecretConstant.API_HOST_PATH + "/auth/buy/product/active/value/list")
+    Flowable<Response<List<ActiveGoodsOrderListDto>>> getActiveGoodsOrderList(@Field("token") String token,
+                                                                              @Field("pageNo") int pageNo);
+
+    /**
+     * 获取兑换商品的 订单详情
+     * @param token
+     * @param orderNo
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(SecretConstant.API_HOST_PATH + "/auth/active/value/buy/product/details")
+    Flowable<Response<ActiveGoodsOrderDetailDto>> getActiveGoodsOrderDetail(@Field("token") String token,
+                                                                            @Field("orderNo") String orderNo);
+
 }

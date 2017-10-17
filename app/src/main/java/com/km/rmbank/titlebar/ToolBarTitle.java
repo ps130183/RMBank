@@ -26,6 +26,9 @@ public class ToolBarTitle implements BaseActivity.TitleBarInterface {
     @BindView(R.id.fl_center_view)
     FrameLayout flCenterView;
 
+    @BindView(R.id.iv_back_left)
+    ImageView ivBackLeft;
+
     @BindView(R.id.iv_title_right)
     ImageView ivTitleRight;
     @BindView(R.id.tv_title_right)
@@ -45,12 +48,14 @@ public class ToolBarTitle implements BaseActivity.TitleBarInterface {
     @Override
     public void setLeftButtton(int iconRes, View.OnClickListener leftClick) {
         if (iconRes > 0) {
-            toolbar.setNavigationIcon(iconRes);
+            ivBackLeft.setImageResource(iconRes);
+//            toolbar.setNavigationIcon(iconRes);
             if (leftClick != null) {
-                toolbar.setNavigationOnClickListener(leftClick);
+                ivBackLeft.setOnClickListener(leftClick);
             }
         } else {
-            toolbar.setNavigationIcon(null);
+//            toolbar.setNavigationIcon(null);
+            ivBackLeft.setVisibility(View.GONE);
         }
     }
 

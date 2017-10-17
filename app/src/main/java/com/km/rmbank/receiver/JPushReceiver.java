@@ -9,6 +9,7 @@ import com.google.gson.Gson;
 import com.km.rmbank.dto.JPushDto;
 import com.km.rmbank.module.club.past.ActionPastDetailActivity;
 import com.km.rmbank.module.club.recent.ActionRecentInfoActivity;
+import com.km.rmbank.module.home.message.MessageActivity;
 import com.orhanobut.logger.Logger;
 
 import org.json.JSONObject;
@@ -69,6 +70,12 @@ public class JPushReceiver extends BroadcastReceiver {
                 break;
             case 2:
                 intent = new Intent(context, ActionPastDetailActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra("actionPastId",mJpushDto.getId());
+                context.startActivity(intent);
+                break;
+            case 3:
+                intent = new Intent(context, MessageActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.putExtra("actionPastId",mJpushDto.getId());
                 context.startActivity(intent);

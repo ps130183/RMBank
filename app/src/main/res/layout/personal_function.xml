@@ -32,6 +32,39 @@
             style="@style/Personal.function_tv"
             android:drawableLeft="@mipmap/ic_personal_forum"
             android:text="  捡漏专区" />
+
+        <View
+            android:id="@+id/line_forum"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="50dp"
+            android:background="@color/color_divider1"
+            android:visibility="visible" />
+
+        <RelativeLayout
+            android:id="@+id/rl_my_active"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tv_my_active"
+                style="@style/Personal.function_tv"
+                android:drawableLeft="@mipmap/ic_personal_active_value"
+                android:text="  活跃值" />
+
+            <TextView
+                android:id="@+id/tv_all_active_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/view_space_16"
+                />
+
+        </RelativeLayout>
+
+
     </LinearLayout>
 
     <LinearLayout style="@style/Personal.function_ll">

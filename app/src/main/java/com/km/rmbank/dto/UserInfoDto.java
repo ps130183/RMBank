@@ -40,6 +40,8 @@ public class UserInfoDto extends BaseEntity implements Parcelable {
     private int clubStatus;//1:已编辑 0：未编辑
     private int isNotEditCard;// 是否编辑名片：0为未编辑，1为已编辑
 
+    private String activeValueAll;
+
     public int getIsNotEditCard() {
         return isNotEditCard;
     }
@@ -72,6 +74,14 @@ public class UserInfoDto extends BaseEntity implements Parcelable {
         this.nickName = nickName;
     }
 
+    public String getActiveValueAll() {
+        return activeValueAll;
+    }
+
+    public void setActiveValueAll(String activeValueAll) {
+        this.activeValueAll = activeValueAll;
+    }
+
     @Override
     public String toString() {
         return "UserInfoDto{" +
@@ -86,6 +96,7 @@ public class UserInfoDto extends BaseEntity implements Parcelable {
                 ", allowStutas='" + allowStutas + '\'' +
                 ", clubStatus=" + clubStatus +
                 ", isNotEditCard=" + isNotEditCard +
+                ", activeValueAll='" + activeValueAll + '\'' +
                 '}';
     }
 
@@ -174,6 +185,7 @@ public class UserInfoDto extends BaseEntity implements Parcelable {
         dest.writeString(this.allowStutas);
         dest.writeInt(this.clubStatus);
         dest.writeInt(this.isNotEditCard);
+        dest.writeString(this.activeValueAll);
     }
 
     protected UserInfoDto(Parcel in) {
@@ -188,6 +200,7 @@ public class UserInfoDto extends BaseEntity implements Parcelable {
         this.allowStutas = in.readString();
         this.clubStatus = in.readInt();
         this.isNotEditCard = in.readInt();
+        this.activeValueAll = in.readString();
     }
 
     public static final Creator<UserInfoDto> CREATOR = new Creator<UserInfoDto>() {

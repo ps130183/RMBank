@@ -65,4 +65,15 @@ public class ActionRecentInfoPresenter  extends PresenterWrapper<ActionRecentInf
                 }));
     }
 
+    @Override
+    public void addActiveValue(String activityId) {
+        mApiwrapper.addActiveValue(activityId)
+                .subscribe(newSubscriber(new Consumer<String>() {
+                    @Override
+                    public void accept(@NonNull String s) throws Exception {
+                        mView.addActiveValueSuccess(s);
+                    }
+                }));
+    }
+
 }

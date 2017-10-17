@@ -6,8 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 //import com.baidu.location.BDLocation;
 //import com.baidu.location.BDLocationListener;
@@ -31,26 +29,17 @@ import com.km.rmbank.event.PaySuccessEvent;
 import com.km.rmbank.event.RichScanEvent;
 import com.km.rmbank.event.ShareEvent;
 import com.km.rmbank.event.UserIsEmptyEvent;
-import com.km.rmbank.module.actionarea.InformationFragment;
 import com.km.rmbank.module.center.CenterVipFunctionFragment;
-import com.km.rmbank.module.home.Home2Fragment;
 import com.km.rmbank.module.home.Home3Fragment;
 import com.km.rmbank.module.login.LoginActivity;
-import com.km.rmbank.module.nearbyvip.NearbyVipActivity;
 import com.km.rmbank.module.personal.PersonalNewFragment;
 import com.km.rmbank.module.personal.order.MyOrderActivity;
-import com.km.rmbank.module.personal.userinfo.EditUserCardActivity;
 import com.km.rmbank.module.personal.userinfo.UserCardInfoActivity;
-import com.km.rmbank.module.rank.RankingFragment;
+import com.km.rmbank.module.rank.OrderMasterFragment;
 import com.km.rmbank.module.rmshop.RmShopNewFragment;
 import com.km.rmbank.utils.Constant;
 import com.km.rmbank.utils.UmengShareUtils;
-import com.nineoldandroids.animation.Animator;
-import com.nineoldandroids.animation.AnimatorListenerAdapter;
-import com.nineoldandroids.animation.AnimatorSet;
-import com.nineoldandroids.animation.ObjectAnimator;
 import com.orhanobut.logger.Logger;
-import com.ps.androidlib.utils.AppUtils;
 import com.ps.androidlib.utils.EventBusUtils;
 import com.startsmake.mainnavigatetabbar.widget.MainNavigateTabBar;
 import com.umeng.socialize.UMShareListener;
@@ -65,7 +54,6 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
-import butterknife.OnClick;
 import cn.jpush.android.api.JPushInterface;
 import cn.jpush.android.api.TagAliasCallback;
 import io.reactivex.Observable;
@@ -83,7 +71,7 @@ public class Home2Activity extends BaseActivity<Home2Presenter> implements Home2
     private static final String TAG_PAGE_HOME = "首页";
     private static final String TAG_PAGE_CITY = "商城";
     private static final String TAG_PAGE_PUBLISH = "合伙人";
-    private static final String TAG_PAGE_MESSAGE = "琅琊榜";
+    private static final String TAG_PAGE_MESSAGE = "约咖";
     private static final String TAG_PAGE_PERSON = "我的";
 
     private ShareDto shareDto;
@@ -179,7 +167,7 @@ public class Home2Activity extends BaseActivity<Home2Presenter> implements Home2
 
         mNavigateTabBar.addTab(Home3Fragment.class, new MainNavigateTabBar.TabParam(mUnSelectedIcon[0], mSelectedIcon[0], TAG_PAGE_HOME));
 //        mNavigateTabBar.addTab(Home2Fragment.class, new MainNavigateTabBar.TabParam(mUnSelectedIcon[0], mSelectedIcon[0], TAG_PAGE_HOME));
-        mNavigateTabBar.addTab(RankingFragment.class, new MainNavigateTabBar.TabParam(mUnSelectedIcon[2], mSelectedIcon[2], TAG_PAGE_MESSAGE));
+        mNavigateTabBar.addTab(OrderMasterFragment.class, new MainNavigateTabBar.TabParam(mUnSelectedIcon[2], mSelectedIcon[2], TAG_PAGE_MESSAGE));
         mNavigateTabBar.addTab(CenterVipFunctionFragment.class, new MainNavigateTabBar.TabParam(mUnSelectedIcon[4], mSelectedIcon[4], TAG_PAGE_PUBLISH));
         mNavigateTabBar.addTab(RmShopNewFragment.class, new MainNavigateTabBar.TabParam(mUnSelectedIcon[1], mSelectedIcon[1], TAG_PAGE_CITY));
         mNavigateTabBar.addTab(PersonalNewFragment.class, new MainNavigateTabBar.TabParam(mUnSelectedIcon[3], mSelectedIcon[3], TAG_PAGE_PERSON));

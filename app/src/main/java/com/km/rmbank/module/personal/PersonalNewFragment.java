@@ -24,6 +24,7 @@ import com.km.rmbank.dto.UserDto;
 import com.km.rmbank.dto.UserInfoDto;
 import com.km.rmbank.event.UpdateEaseUserUnreadNumberEvent;
 import com.km.rmbank.module.chat.EaseChatActivity;
+import com.km.rmbank.module.personal.active.ActiveInfoActivity;
 import com.km.rmbank.module.personal.attention.AttentionGoodsActivity;
 import com.km.rmbank.module.personal.forum.MyForumInfosActivity;
 import com.km.rmbank.module.personal.integral.MyIntegralActivity;
@@ -213,9 +214,9 @@ public class PersonalNewFragment extends BaseFragment<PersonalPresenter> impleme
         @Override
         public void cellClick(UserDto mData, int position) {
             switch (position) {
-                case R.id.tv_my_club:
-
-//                    toNextActivity(mycl);
+                case R.id.tv_my_active:
+                case R.id.tv_all_active_value:
+                    toNextActivity(ActiveInfoActivity.class);
                     break;
                 case R.id.tv_my_team:
 //                    MToast.showToast(getContext(), "我的团队");

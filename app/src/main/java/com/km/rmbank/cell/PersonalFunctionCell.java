@@ -1,5 +1,6 @@
 package com.km.rmbank.cell;
 
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -8,6 +9,7 @@ import android.widget.TextView;
 import com.km.rmbank.R;
 import com.km.rmbank.dto.UserDto;
 import com.km.rmbank.entity.PersonalFunctionEntity;
+import com.km.rmbank.utils.Constant;
 import com.km.rv_libs.base.BaseCell;
 import com.km.rv_libs.base.BaseViewHolder;
 
@@ -49,6 +51,7 @@ public class PersonalFunctionCell extends BaseCell<UserDto> implements View.OnCl
                 lineIntegral.setVisibility(View.GONE);
                 break;
         }
+        holder.getTextView(R.id.tv_all_active_value).setText((Constant.userInfo == null || TextUtils.isEmpty(Constant.userInfo.getActiveValueAll())) ? "0" : Constant.userInfo.getActiveValueAll());
 
 //        tvMyTeam.setOnClickListener(this);
         tvMyContact.setOnClickListener(this);
@@ -61,6 +64,9 @@ public class PersonalFunctionCell extends BaseCell<UserDto> implements View.OnCl
         holder.getView(R.id.rl_service).setOnClickListener(this);
         holder.getTextView(R.id.tv_attention).setOnClickListener(this);
         holder.getTextView(R.id.tv_my_forum).setOnClickListener(this);
+
+        holder.getTextView(R.id.tv_my_active).setOnClickListener(this);
+        holder.getTextView(R.id.tv_all_active_value).setOnClickListener(this);
 
 //        holder.getTextView(R.id.tv_my_club).setOnClickListener(this);
 
