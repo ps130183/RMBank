@@ -317,8 +317,10 @@
         <activity android:name=".module.personal.active.ConvertActiveGoodsListActivity" />
         <activity android:name=".module.personal.active.ConvertInventoryActivity" />
         <activity android:name=".module.personal.active.ActiveGoodsInfoActivity" />
-        <activity android:name=".module.personal.active.ActiveValueIntroduceActivity"></activity>
-        <activity android:name=".module.personal.active.ActiveGoodsDetailActivity"></activity>
+        <activity android:name=".module.personal.active.ActiveValueIntroduceActivity" />
+        <activity android:name=".module.personal.active.ActiveGoodsDetailActivity" />
+        <activity android:name=".module.master.MasterInfoActivity" />
+        <activity android:name=".module.master.MasterSubscribeOrderActivity"></activity>
     </application>
 
 </manifest>

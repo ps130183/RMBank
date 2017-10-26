@@ -5,4 +5,13 @@ package com.km.rmbank.event;
  */
 
 public class PaySuccessEvent {
+    private int payType;//0:商品 5：约咖
+
+    public PaySuccessEvent(int payType) {
+        this.payType = payType;
+    }
+
+    public int getPayType() {
+        return payType;
+    }
 }

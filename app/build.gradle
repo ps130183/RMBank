@@ -5,7 +5,7 @@ android {
         rmbank {
             keyAlias '人脉银行'
             keyPassword 'rmbank2017'
-            storeFile file('/Users/kamangkeji/Desktop/ASWorkSpace/RMBank/app/src/main/java/RMBankKeystore.jks')
+            storeFile file('/Users/PengSong/Desktop/ASWorkSpace/RMBank/app/src/main/java/RMBankKeystore.jks')
             storePassword 'rmbank2017'
 //            v2SigningEnabled false
         }
@@ -49,8 +49,8 @@ android {
         applicationId "com.km.rmbank"
         minSdkVersion 15
         targetSdkVersion 25
-        versionCode 7
-        versionName '3.1.4'
+        versionCode 8
+        versionName '3.1.5'
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         // Enabling multidex support.

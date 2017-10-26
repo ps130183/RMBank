@@ -35,7 +35,7 @@ import com.km.rmbank.module.login.LoginActivity;
 import com.km.rmbank.module.personal.PersonalNewFragment;
 import com.km.rmbank.module.personal.order.MyOrderActivity;
 import com.km.rmbank.module.personal.userinfo.UserCardInfoActivity;
-import com.km.rmbank.module.rank.OrderMasterFragment;
+import com.km.rmbank.module.master.OrderMasterFragment;
 import com.km.rmbank.module.rmshop.RmShopNewFragment;
 import com.km.rmbank.utils.Constant;
 import com.km.rmbank.utils.UmengShareUtils;
@@ -220,7 +220,9 @@ public class Home2Activity extends BaseActivity<Home2Presenter> implements Home2
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void paySuccess(PaySuccessEvent event) {
-        toNextActivity(MyOrderActivity.class);
+        if (event.getPayType() == 0){
+            toNextActivity(MyOrderActivity.class);
+        }
     }
 
     @Override

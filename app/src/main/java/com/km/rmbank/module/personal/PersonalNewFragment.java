@@ -24,6 +24,7 @@ import com.km.rmbank.dto.UserDto;
 import com.km.rmbank.dto.UserInfoDto;
 import com.km.rmbank.event.UpdateEaseUserUnreadNumberEvent;
 import com.km.rmbank.module.chat.EaseChatActivity;
+import com.km.rmbank.module.master.MasterSubscribeOrderActivity;
 import com.km.rmbank.module.personal.active.ActiveInfoActivity;
 import com.km.rmbank.module.personal.attention.AttentionGoodsActivity;
 import com.km.rmbank.module.personal.forum.MyForumInfosActivity;
@@ -218,9 +219,8 @@ public class PersonalNewFragment extends BaseFragment<PersonalPresenter> impleme
                 case R.id.tv_all_active_value:
                     toNextActivity(ActiveInfoActivity.class);
                     break;
-                case R.id.tv_my_team:
-//                    MToast.showToast(getContext(), "我的团队");
-
+                case R.id.tv_my_master:
+                    toNextActivity(MasterSubscribeOrderActivity.class);
                     break;
                 case R.id.tv_my_contact:
 //                    MToast.showToast(getContext(), "暂未开通");

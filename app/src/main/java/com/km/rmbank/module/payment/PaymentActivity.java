@@ -53,7 +53,7 @@ public class PaymentActivity extends BaseActivity<PayPresenter> implements PayCo
     TextView tvAmount;
 
     private PayOrderDto mPayOrderDto;
-    //为0：商品 支付  1：体验会员，2：合伙人会员
+    //为0：商品 支付  3：体验会员，2：合伙人会员 5：约咖
     private int paymentForObj;
     private String mAmount;//支付金额
 
@@ -86,7 +86,7 @@ public class PaymentActivity extends BaseActivity<PayPresenter> implements PayCo
         mPayOrderDto = getIntent().getParcelableExtra("payOrderDto");
         becomeVip2 = getIntent().getBooleanExtra("becomeVip2",false);
 
-        if (paymentForObj > 0){//认证会员支付时，隐藏余额支付 和 积分
+        if (paymentForObj == 3 || paymentForObj == 2){//认证会员支付时，隐藏余额支付 和 积分
             llPayBalance.setVisibility(View.GONE);
             mPresenter.createPayOrder(mAmount, String.valueOf(paymentForObj));
         } else { //商品支付
@@ -94,7 +94,7 @@ public class PaymentActivity extends BaseActivity<PayPresenter> implements PayCo
         }
 
         //普通用户隐藏 余额支付
-        if ("4".equals(Constant.user.getRoleId())){
+        if ("4".equals(Constant.user.getRoleId()) || "3".equals(Constant.user.getRoleId())){
             llPayBalance.setVisibility(View.GONE);
         } else {
             llPayBalance.setVisibility(View.VISIBLE);
@@ -173,7 +173,7 @@ public class PaymentActivity extends BaseActivity<PayPresenter> implements PayCo
         mPayOrderDto = payOrderDto;
         tvAmount.setText(payOrderDto.getSumPrice() + "元");
         if ("0".equals(mPayOrderDto.getSumPrice())){ //积分抵扣以后 0元 直接跳到成功页面
-            EventBusUtils.post(new PaySuccessEvent());
+            EventBusUtils.post(new PaySuccessEvent(paymentForObj));
         }
     }
 
@@ -247,14 +247,14 @@ public class PaymentActivity extends BaseActivity<PayPresenter> implements PayCo
         if (isCheck){
             mPresenter.checkPayResult(mPayOrderDto.getPayNumber());
         } else {
-            if (paymentForObj > 0){//会员充值
+            if (paymentForObj == 3 || paymentForObj == 2){//会员充值
 
                 Constant.user.setRoleId(paymentForObj == 3 ? "3" : (becomeVip2 ? "2" : "4"));
                 Constant.user.saveToSp();
                 toNextActivity(Home2Activity.class);
             } else {
                 toNextActivity(Home2Activity.class);
-                EventBusUtils.post(new PaySuccessEvent());
+                EventBusUtils.post(new PaySuccessEvent(paymentForObj));
                 finish();
             }
         }

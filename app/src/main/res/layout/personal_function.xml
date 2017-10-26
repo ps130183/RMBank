@@ -69,6 +69,17 @@
 
     <LinearLayout style="@style/Personal.function_ll">
 
+            <TextView
+                android:id="@+id/tv_my_master"
+                style="@style/Personal.function_tv"
+                android:drawableLeft="@mipmap/ic_personal_master"
+                android:text="  我与大咖" />
+
+    </LinearLayout>
+
+
+    <LinearLayout style="@style/Personal.function_ll">
+
         <RelativeLayout
             android:id="@+id/rl_my_contact"
             android:layout_width="match_parent"

@@ -111,10 +111,10 @@
                     android:id="@+id/tv_goods_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="商品民称"
-                    android:textSize="@dimen/text_size_14"
+                    android:text="商品名称"
+                    android:textSize="@dimen/text_size_16"
                     android:layout_toRightOf="@id/iv_goods_image"
-                    android:layout_alignBottom="@id/iv_goods_image"
+                    android:layout_centerVertical="true"
                     android:layout_marginBottom="@dimen/view_space_16"
                     />
 

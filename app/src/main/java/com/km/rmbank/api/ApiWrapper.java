@@ -26,6 +26,10 @@ import com.km.rmbank.dto.HomeRecommendDto;
 import com.km.rmbank.dto.InformationDto;
 import com.km.rmbank.dto.IntegralDetailsDto;
 import com.km.rmbank.dto.IntegralDto;
+import com.km.rmbank.dto.MasterBannerDto;
+import com.km.rmbank.dto.MasterDto;
+import com.km.rmbank.dto.MasterOrderDto;
+import com.km.rmbank.dto.MasterWorkDto;
 import com.km.rmbank.dto.MemberTypeDto;
 import com.km.rmbank.dto.MessageDto;
 import com.km.rmbank.dto.MyFriendsDto;
@@ -1284,5 +1288,67 @@ public class ApiWrapper extends RetrofitUtil {
     public Flowable<ActiveGoodsOrderDetailDto> getActiveGoodsOrderDetail(String orderNo){
         return getService().getActiveGoodsOrderDetail(Constant.user.getToken(),orderNo)
                 .compose(this.<ActiveGoodsOrderDetailDto>applySchedulers());
+    }
+
+    /**
+     * 获取大咖信息列表
+     * @param pageNo
+     * @return
+     */
+    public Flowable<List<MasterDto>> getMasters(int pageNo){
+        return getService().getMasters(pageNo)
+                .compose(this.<List<MasterDto>>applySchedulers());
+    }
+
+    /**
+     * 获取大咖banner列表
+     * @return
+     */
+    public Flowable<List<MasterBannerDto>> getMasterBanners(){
+        return getService().getMasterBanners(0)
+                .compose(this.<List<MasterBannerDto>>applySchedulers());
+    }
+
+    /**
+     * 获取大咖信息
+     * @param id
+     * @return
+     */
+    public Flowable<MasterDto> getMasterInfo(String id){
+        return getService().getMasterInfo(id)
+                .compose(this.<MasterDto>applySchedulers());
+    }
+
+    /**
+     * 获取大咖的相关作品列表
+     * @param id
+     * @param pageNo
+     * @return
+     */
+    public Flowable<List<MasterWorkDto>> getMasterWorkList(String id,int pageNo){
+        return getService().getMasterWorkList(id,pageNo)
+                .compose(this.<List<MasterWorkDto>>applySchedulers());
+    }
+
+    /**
+     * 创建 预约大咖 支付订单
+     * @param macaId
+     * @param macaWorksId
+     * @param money
+     * @return
+     */
+    public Flowable<PayOrderDto> createOrderMaster(String macaId,String macaWorksId,String money){
+        return getService().createOrderMaster(Constant.user.getToken(),macaId,macaWorksId,money)
+                .compose(this.<PayOrderDto>applySchedulers());
+    }
+
+    /**
+     * 获取 预约大咖的列表
+     * @param pageNo
+     * @return
+     */
+    public Flowable<List<MasterOrderDto>> getMasterSubscribeOrderList(int pageNo){
+        return getService().getMasterSubscribeOrderList(Constant.user.getToken(),pageNo)
+                .compose(this.<List<MasterOrderDto>>applySchedulers());
     }
 }

@@ -24,6 +24,10 @@ import com.km.rmbank.dto.HomeRecommendDto;
 import com.km.rmbank.dto.InformationDto;
 import com.km.rmbank.dto.IntegralDetailsDto;
 import com.km.rmbank.dto.IntegralDto;
+import com.km.rmbank.dto.MasterBannerDto;
+import com.km.rmbank.dto.MasterDto;
+import com.km.rmbank.dto.MasterOrderDto;
+import com.km.rmbank.dto.MasterWorkDto;
 import com.km.rmbank.dto.MemberTypeDto;
 import com.km.rmbank.dto.MessageDto;
 import com.km.rmbank.dto.MyFriendsDto;
@@ -1426,5 +1430,69 @@ public interface ApiService {
     @POST(SecretConstant.API_HOST_PATH + "/auth/active/value/buy/product/details")
     Flowable<Response<ActiveGoodsOrderDetailDto>> getActiveGoodsOrderDetail(@Field("token") String token,
                                                                             @Field("orderNo") String orderNo);
+
+    /**
+     * 获取大咖信息列表
+     * @param pageNo
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(SecretConstant.API_HOST_PATH + "/list/maca")
+    Flowable<Response<List<MasterDto>>> getMasters(@Field("pageNo") int pageNo);
+
+    /**
+     * 获取大咖的banner列表
+     * @param banner
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(SecretConstant.API_HOST_PATH + "/meca/banner")
+    Flowable<Response<List<MasterBannerDto>>> getMasterBanners(@Field("banner") int banner);
+
+    /**
+     * 获取大咖信息
+     * @param id
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(SecretConstant.API_HOST_PATH + "/maca/information")
+    Flowable<Response<MasterDto>> getMasterInfo(@Field("id") String id);
+
+    /**
+     * 获取大咖的相关作品列表
+     * @param id
+     * @param pageNo
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(SecretConstant.API_HOST_PATH + "/list/maca/works")
+    Flowable<Response<List<MasterWorkDto>>> getMasterWorkList(@Field("id") String id,
+                                                              @Field("pageNo") int pageNo);
+
+    /**
+     * 创建预约大咖 支付订单
+     * @param token
+     * @param macaId
+     * @param macaWorksId
+     * @param money
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(SecretConstant.API_HOST_PATH + "/auth/maca/appointment/create")
+    Flowable<Response<PayOrderDto>> createOrderMaster(@Field("token") String token,
+                                                 @Field("macaId") String macaId,
+                                                 @Field("macaWorksId") String macaWorksId,
+                                                 @Field("money") String money);
+
+    /**
+     * 获取预约大咖的列表
+     * @param token
+     * @param pageNo
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(SecretConstant.API_HOST_PATH + "/auth/list/maca/appointment")
+    Flowable<Response<List<MasterOrderDto>>> getMasterSubscribeOrderList(@Field("token") String token,
+                                                                         @Field("pageNo") int pageNo);
 
 }

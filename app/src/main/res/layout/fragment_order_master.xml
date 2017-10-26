@@ -3,15 +3,41 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.km.rmbank.module.rank.OrderMasterFragment">
+    tools:context="com.km.rmbank.module.master.OrderMasterFragment">
 
     <include layout="@layout/toolbar_home"/>
 
-    <ImageView
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swiper_refresh"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:src="@mipmap/ic_home3_forum"
-        android:scaleType="centerCrop"
-        />
+        android:layout_height="match_parent">
+
+        <android.support.v4.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <com.youth.banner.Banner
+                    android:id="@+id/banner"
+                    android:layout_width="match_parent"
+                    android:layout_height="180dp"
+                    android:background="@color/color_white">
+
+                </com.youth.banner.Banner>
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_master"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                </android.support.v7.widget.RecyclerView>
+
+            </LinearLayout>
+        </android.support.v4.widget.NestedScrollView>
+
+
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 </LinearLayout>

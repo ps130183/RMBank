@@ -8,6 +8,7 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -27,6 +28,7 @@ import com.km.rmbank.module.personal.userinfo.UserCardInfoActivity;
 import com.ps.androidlib.animator.ShowViewAnimator;
 import com.ps.androidlib.utils.EventBusUtils;
 import com.ps.androidlib.utils.ViewUtils;
+import com.ps.androidlib.utils.glide.GlideUtils;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -63,6 +65,11 @@ public class GoodsActivity extends BaseActivity<GoodsDetailsPresenter> implement
     @BindView(R.id.et_buy_goods_count)
     EditText etBuyGoodsCount;
 
+    @BindView(R.id.iv_goods_image)
+    ImageView ivGoodsImage;
+    @BindView(R.id.tv_goods_title)
+    TextView tvGoodsTilte;
+
 
     @Override
     protected int getContentView() {
@@ -97,6 +104,11 @@ public class GoodsActivity extends BaseActivity<GoodsDetailsPresenter> implement
     @Override
     public void showGoodsDetails(GoodsDetailsDto goodsDetailsDto) {
         mGoodsDetails = goodsDetailsDto;
+
+        //选择商品数量
+        GlideUtils.loadImage(ivGoodsImage,mGoodsDetails.getThumbnailUrl());
+        tvGoodsTilte.setText(mGoodsDetails.getName());
+
         isFollow = "0".equals(goodsDetailsDto.getIsfollow()) ? false : true;
         initViewPager(goodsDetailsDto);
         initBottom();
