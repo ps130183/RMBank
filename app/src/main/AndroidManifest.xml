@@ -298,7 +298,9 @@
         <activity android:name=".module.club.recent.ReleaseActionRecentActivity" />
         <activity android:name=".module.club.recent.ActionRecentInfoActivity" />
         <activity android:name=".module.club.past.ReleaseActionPastActivity" />
-        <activity android:name=".module.club.past.ActionPastDetailActivity" />
+        <activity android:name=".module.club.past.ActionPastDetailActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".module.personal.userinfo.UserCardInfoActivity"
             android:launchMode="singleTask" />
@@ -320,7 +322,7 @@
         <activity android:name=".module.personal.active.ActiveValueIntroduceActivity" />
         <activity android:name=".module.personal.active.ActiveGoodsDetailActivity" />
         <activity android:name=".module.master.MasterInfoActivity" />
-        <activity android:name=".module.master.MasterSubscribeOrderActivity"></activity>
+        <activity android:name=".module.master.MasterSubscribeOrderActivity" />
     </application>
 
 </manifest>

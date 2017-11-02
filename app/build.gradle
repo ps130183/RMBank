@@ -47,7 +47,7 @@ android {
     buildToolsVersion "25.0.2"
     defaultConfig {
         applicationId "com.km.rmbank"
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 25
         versionCode 8
         versionName '3.1.5'
@@ -150,4 +150,7 @@ dependencies {
     compile 'cn.jiguang.sdk:jcore:1.1.2'
     testCompile 'junit:junit:4.12'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
+
+    //视频播放
+    compile 'cn.jzvd:jiaozivideoplayer:6.1.1'
 }

@@ -26,6 +26,32 @@ public class ActionPastDto extends BaseEntity implements Parcelable {
     private int viewCount;
 
     private int status;
+    /**
+     * bannerType : 0
+     * detailList : [{"createDate":1509602237000,"dynamicId":"187","dynamicImage":"http://192.168.10.131:8080/wzdq/Aiyg/aiygImage/2017/11/d732643e3116441b86752983079a24e8.jpg","dynamicImageContent":"一坛好酒","dynamicImageList":["http://192.168.10.131:8080/wzdq/Aiyg/aiygImage/2017/11/d732643e3116441b86752983079a24e8.jpg"],"id":"1339"}]
+     * status : 1
+     * videoName : 带飞
+     * videoUrl : http://oyq5v8oq4.bkt.clouddn.com/Fk5NKNhSfxEeeKmJS9kzAu76_hEi
+     */
+
+    private String videoName;
+    private String videoUrl;
+
+    public String getVideoName() {
+        return videoName;
+    }
+
+    public void setVideoName(String videoName) {
+        this.videoName = videoName;
+    }
+
+    public String getVideoUrl() {
+        return videoUrl;
+    }
+
+    public void setVideoUrl(String videoUrl) {
+        this.videoUrl = videoUrl;
+    }
 
     public String getId() {
         return id;
@@ -49,6 +75,8 @@ public class ActionPastDto extends BaseEntity implements Parcelable {
                 ", detailList=" + detailList +
                 ", viewCount=" + viewCount +
                 ", status=" + status +
+                ", videoName='" + videoName + '\'' +
+                ", videoUrl='" + videoUrl + '\'' +
                 '}';
     }
 
@@ -255,6 +283,8 @@ public class ActionPastDto extends BaseEntity implements Parcelable {
         dest.writeTypedList(this.detailList);
         dest.writeInt(this.viewCount);
         dest.writeInt(this.status);
+        dest.writeString(this.videoName);
+        dest.writeString(this.videoUrl);
     }
 
     protected ActionPastDto(Parcel in) {
@@ -269,6 +299,8 @@ public class ActionPastDto extends BaseEntity implements Parcelable {
         this.detailList = in.createTypedArrayList(DynamicBean.CREATOR);
         this.viewCount = in.readInt();
         this.status = in.readInt();
+        this.videoName = in.readString();
+        this.videoUrl = in.readString();
     }
 
     public static final Creator<ActionPastDto> CREATOR = new Creator<ActionPastDto>() {

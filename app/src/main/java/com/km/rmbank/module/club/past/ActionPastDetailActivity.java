@@ -20,6 +20,8 @@ import com.ps.androidlib.utils.glide.GlideUtils;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import cn.jzvd.JZVideoPlayer;
+import cn.jzvd.JZVideoPlayerStandard;
 
 public class ActionPastDetailActivity extends BaseActivity<ActionPastDetailPresenter> implements ActionPastDetailContract.View {
 
@@ -36,6 +38,9 @@ public class ActionPastDetailActivity extends BaseActivity<ActionPastDetailPrese
     TextView tvReleaseTime;
     @BindView(R.id.rv_action_past_details)
     RecyclerView rvActionPastDetails;
+
+    @BindView(R.id.jzv_player)
+    JZVideoPlayerStandard jzvPlayer;
 
 
     private String actionPastId;
@@ -96,6 +101,13 @@ public class ActionPastDetailActivity extends BaseActivity<ActionPastDetailPrese
                 }
             });
         }
+        //视频
+        if (!TextUtils.isEmpty(actionPastDto.getVideoUrl())){
+            jzvPlayer.setVisibility(View.VISIBLE);
+            jzvPlayer.setUp(actionPastDto.getVideoUrl()
+                    , JZVideoPlayerStandard.SCREEN_LAYOUT_NORMAL, actionPastDto.getVideoName());
+            GlideUtils.loadImage(jzvPlayer.thumbImageView,actionPastDto.getAvatarUrl());
+        }
     }
 
     @OnClick({R.id.iv_club_logo,R.id.tv_club_name})
@@ -106,5 +118,18 @@ public class ActionPastDetailActivity extends BaseActivity<ActionPastDetailPrese
         Bundle bundle = new Bundle();
         bundle.putString("clubId",clubId);
         toNextActivity(ClubInfoActivity.class,bundle);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (JZVideoPlayer.backPress()) {
+            return;
+        }
+        super.onBackPressed();
+    }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        JZVideoPlayer.releaseAllVideos();
     }
 }

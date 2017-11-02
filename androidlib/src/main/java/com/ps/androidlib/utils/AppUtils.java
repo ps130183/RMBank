@@ -58,6 +58,36 @@ public class AppUtils {
         return (current.isAvailable());
     }
 
+    /**
+     * 判断是否是wifi连接
+     * @param mContext
+     * @return
+     */
+    public static boolean isWifi(Context mContext) {
+        ConnectivityManager connectivityManager = (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetInfo = connectivityManager.getActiveNetworkInfo();
+        if (activeNetInfo != null && activeNetInfo.getType() == ConnectivityManager.TYPE_WIFI) {
+            return true;
+        }
+        return false;
+    }
+
+
+    /**
+     * 判断是否是移动网络连接
+     * @param context
+     * @return
+     */
+    public boolean isMobileConnected(Context context) {
+        if (context != null) {
+            ConnectivityManager mConnectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo mMobileNetworkInfo = mConnectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);   //获取移动网络信息
+            if (mMobileNetworkInfo != null) {
+                return mMobileNetworkInfo.isAvailable();    //getState()方法是查询是否连接了数据网络
+            }
+        }
+        return false;
+    }
     public static String getCacheDir(Context context) {
         String cachePath = null;
         if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())

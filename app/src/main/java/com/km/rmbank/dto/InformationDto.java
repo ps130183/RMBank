@@ -20,6 +20,15 @@ public class InformationDto implements Parcelable {
 
     private String clubLogo;
     private String clubName;
+    /**
+     * videoName : 带飞
+     * videoUrl : http://oyq5v8oq4.bkt.clouddn.com/Fk5NKNhSfxEeeKmJS9kzAu76_hEi
+     * viewCount : 0
+     */
+
+    private String videoName;
+    private String videoUrl;
+
 
     public String getAvatarUrl() {
         return avatarUrl;
@@ -56,38 +65,6 @@ public class InformationDto implements Parcelable {
     public InformationDto() {
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.avatarUrl);
-        dest.writeString(this.id);
-        dest.writeString(this.title);
-        dest.writeString(this.viewCount);
-    }
-
-    protected InformationDto(Parcel in) {
-        this.avatarUrl = in.readString();
-        this.id = in.readString();
-        this.title = in.readString();
-        this.viewCount = in.readString();
-    }
-
-    public static final Creator<InformationDto> CREATOR = new Creator<InformationDto>() {
-        @Override
-        public InformationDto createFromParcel(Parcel source) {
-            return new InformationDto(source);
-        }
-
-        @Override
-        public InformationDto[] newArray(int size) {
-            return new InformationDto[size];
-        }
-    };
-
     public String getClubLogo() {
         return clubLogo;
     }
@@ -103,4 +80,60 @@ public class InformationDto implements Parcelable {
     public void setClubName(String clubName) {
         this.clubName = clubName;
     }
+
+    public String getVideoName() {
+        return videoName;
+    }
+
+    public void setVideoName(String videoName) {
+        this.videoName = videoName;
+    }
+
+    public String getVideoUrl() {
+        return videoUrl;
+    }
+
+    public void setVideoUrl(String videoUrl) {
+        this.videoUrl = videoUrl;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.avatarUrl);
+        dest.writeString(this.id);
+        dest.writeString(this.title);
+        dest.writeString(this.viewCount);
+        dest.writeString(this.clubLogo);
+        dest.writeString(this.clubName);
+        dest.writeString(this.videoName);
+        dest.writeString(this.videoUrl);
+    }
+
+    protected InformationDto(Parcel in) {
+        this.avatarUrl = in.readString();
+        this.id = in.readString();
+        this.title = in.readString();
+        this.viewCount = in.readString();
+        this.clubLogo = in.readString();
+        this.clubName = in.readString();
+        this.videoName = in.readString();
+        this.videoUrl = in.readString();
+    }
+
+    public static final Creator<InformationDto> CREATOR = new Creator<InformationDto>() {
+        @Override
+        public InformationDto createFromParcel(Parcel source) {
+            return new InformationDto(source);
+        }
+
+        @Override
+        public InformationDto[] newArray(int size) {
+            return new InformationDto[size];
+        }
+    };
 }

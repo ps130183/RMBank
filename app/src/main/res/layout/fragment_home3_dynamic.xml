@@ -1,17 +1,25 @@
-<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/swiper_refresh"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="@dimen/view_space_8"
-    android:paddingRight="@dimen/view_space_8"
-    tools:context="com.km.rmbank.module.home.Home3DynamicFragment">
+    android:orientation="vertical">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_home_dynamic"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swiper_refresh"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:paddingLeft="@dimen/view_space_8"
+        android:paddingRight="@dimen/view_space_8"
+        tools:context="com.km.rmbank.module.home.Home3DynamicFragment">
 
-    </android.support.v7.widget.RecyclerView>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_home_dynamic"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-</android.support.v4.widget.SwipeRefreshLayout>
+        </android.support.v7.widget.RecyclerView>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+</LinearLayout>
+
+

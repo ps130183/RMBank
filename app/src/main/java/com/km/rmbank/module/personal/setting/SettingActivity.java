@@ -117,7 +117,7 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
 
     @OnClick(R.id.tv_about)
     public void aboutMe(View view){
-        showToast("关于我们");
+//        showToast("关于我们");
         toNextActivity(AboutMeActivity.class);
     }
 

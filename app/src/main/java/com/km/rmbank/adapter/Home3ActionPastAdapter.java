@@ -1,6 +1,7 @@
 package com.km.rmbank.adapter;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -11,6 +12,8 @@ import com.km.rmbank.basic.BaseAdapter;
 import com.km.rmbank.dto.InformationDto;
 import com.ps.androidlib.utils.AppUtils;
 import com.ps.androidlib.utils.glide.GlideUtils;
+
+import javax.crypto.spec.IvParameterSpec;
 
 import butterknife.BindView;
 
@@ -50,6 +53,11 @@ public class Home3ActionPastAdapter extends BaseAdapter<InformationDto> implemen
             holder.tvClubNameTime.setText("浏览量：" + informationDto.getViewCount());
         }
 
+        //视频
+        if (!TextUtils.isEmpty(informationDto.getVideoUrl())){
+            holder.ivPlayVideo.setVisibility(View.VISIBLE);
+        }
+
     }
 
     class ViewHolder extends BaseViewHolder{
@@ -64,6 +72,9 @@ public class Home3ActionPastAdapter extends BaseAdapter<InformationDto> implemen
 
         @BindView(R.id.rl_club_info)
         RelativeLayout rlClubInfo;
+
+        @BindView(R.id.iv_play_video)
+        ImageView ivPlayVideo;
 
         public ViewHolder(View itemView) {
             super(itemView);

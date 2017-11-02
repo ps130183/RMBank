@@ -12,6 +12,14 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <cn.jzvd.JZVideoPlayerStandard
+            android:id="@+id/jzv_player"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:visibility="gone">
+
+        </cn.jzvd.JZVideoPlayerStandard>
+
         <TextView
             android:id="@+id/tv_action_name"
             android:layout_width="match_parent"

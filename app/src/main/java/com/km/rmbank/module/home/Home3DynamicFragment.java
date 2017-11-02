@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
 import com.km.rmbank.R;
 import com.km.rmbank.adapter.Home3ActionPastAdapter;
@@ -20,6 +21,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
@@ -102,5 +104,4 @@ public class Home3DynamicFragment extends BaseFragment<Home3DynamicPresenter> im
         Home3ActionPastAdapter adapter = (Home3ActionPastAdapter) rvHomeDynamic.getAdapter();
         adapter.addData(informationDtos,pageNo);
     }
-
 }
