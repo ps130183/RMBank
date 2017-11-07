@@ -36,6 +36,14 @@ public class ActionPastDto extends BaseEntity implements Parcelable {
 
     private String videoName;
     private String videoUrl;
+    /**
+     * bannerType : 0
+     * detailList : []
+     * status : 1
+     * webDynamicUrl : http://wanzhuandiqiu.com/app/html/dynamicDetail?id=195
+     */
+
+    private String webDynamicUrl;
 
     public String getVideoName() {
         return videoName;
@@ -77,6 +85,7 @@ public class ActionPastDto extends BaseEntity implements Parcelable {
                 ", status=" + status +
                 ", videoName='" + videoName + '\'' +
                 ", videoUrl='" + videoUrl + '\'' +
+                ", webDynamicUrl='" + webDynamicUrl + '\'' +
                 '}';
     }
 
@@ -180,6 +189,13 @@ public class ActionPastDto extends BaseEntity implements Parcelable {
         return false;
     }
 
+    public String getWebDynamicUrl() {
+        return webDynamicUrl;
+    }
+
+    public void setWebDynamicUrl(String webDynamicUrl) {
+        this.webDynamicUrl = webDynamicUrl;
+    }
 
 
     public static class DynamicBean extends BaseEntity implements Parcelable {
@@ -285,6 +301,7 @@ public class ActionPastDto extends BaseEntity implements Parcelable {
         dest.writeInt(this.status);
         dest.writeString(this.videoName);
         dest.writeString(this.videoUrl);
+        dest.writeString(this.webDynamicUrl);
     }
 
     protected ActionPastDto(Parcel in) {
@@ -301,6 +318,7 @@ public class ActionPastDto extends BaseEntity implements Parcelable {
         this.status = in.readInt();
         this.videoName = in.readString();
         this.videoUrl = in.readString();
+        this.webDynamicUrl = in.readString();
     }
 
     public static final Creator<ActionPastDto> CREATOR = new Creator<ActionPastDto>() {

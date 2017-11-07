@@ -14,9 +14,13 @@ import com.km.rmbank.adapter.ActionPastDetailsAdapter;
 import com.km.rmbank.basic.BaseActivity;
 import com.km.rmbank.basic.RVUtils;
 import com.km.rmbank.dto.ActionPastDto;
+import com.km.rmbank.dto.ShareDto;
 import com.km.rmbank.module.club.ClubInfoActivity;
+import com.km.rmbank.utils.UmengShareUtils;
 import com.ps.androidlib.utils.DateUtils;
 import com.ps.androidlib.utils.glide.GlideUtils;
+import com.umeng.socialize.UMShareListener;
+import com.umeng.socialize.bean.SHARE_MEDIA;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -48,6 +52,8 @@ public class ActionPastDetailActivity extends BaseActivity<ActionPastDetailPrese
     private String clubId;
     private boolean isMyClub;
 
+    private ShareDto mShareDto;
+
     @Override
     protected int getContentView() {
         return R.layout.activity_action_past_detail;
@@ -69,6 +75,39 @@ public class ActionPastDetailActivity extends BaseActivity<ActionPastDetailPrese
         isMyClub = getIntent().getBooleanExtra("isMyClub",false);
         initActionPastDetails();
         mPresenter.getActionPastDetails(actionPastId);
+
+        if (!isMyClub){
+            setRightIconClick(R.mipmap.ic_home_dynamic_share, new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mShareDto == null){
+                        showToast("获取分享内容失败");
+                        return;
+                    }
+                    UmengShareUtils.openShare(ActionPastDetailActivity.this, mShareDto, new UMShareListener() {
+                        @Override
+                        public void onStart(SHARE_MEDIA share_media) {
+
+                        }
+
+                        @Override
+                        public void onResult(SHARE_MEDIA share_media) {
+                            showToast("分享成功");
+                        }
+
+                        @Override
+                        public void onError(SHARE_MEDIA share_media, Throwable throwable) {
+                            showToast("分享失败");
+                        }
+
+                        @Override
+                        public void onCancel(SHARE_MEDIA share_media) {
+
+                        }
+                    });
+                }
+            });
+        }
     }
 
     private void initActionPastDetails(){
@@ -108,6 +147,12 @@ public class ActionPastDetailActivity extends BaseActivity<ActionPastDetailPrese
                     , JZVideoPlayerStandard.SCREEN_LAYOUT_NORMAL, actionPastDto.getVideoName());
             GlideUtils.loadImage(jzvPlayer.thumbImageView,actionPastDto.getAvatarUrl());
         }
+
+        mShareDto = new ShareDto();
+        mShareDto.setTitle(TextUtils.isEmpty(actionPastDto.getClubName()) ? "玩转地球商旅学苑" : actionPastDto.getClubName());
+        mShareDto.setContent(actionPastDto.getTitle());
+        mShareDto.setPageUrl(actionPastDto.getWebDynamicUrl());
+        mShareDto.setSharePicUrl(actionPastDto.getAvatarUrl());
     }
 
     @OnClick({R.id.iv_club_logo,R.id.tv_club_name})

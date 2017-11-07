@@ -56,6 +56,8 @@ public class Home3ActionPastAdapter extends BaseAdapter<InformationDto> implemen
         //视频
         if (!TextUtils.isEmpty(informationDto.getVideoUrl())){
             holder.ivPlayVideo.setVisibility(View.VISIBLE);
+        } else {
+            holder.ivPlayVideo.setVisibility(View.GONE);
         }
 
     }

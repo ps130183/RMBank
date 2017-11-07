@@ -92,7 +92,7 @@ public class Home2Fragment extends BaseFragment<HomePresenter> implements HomeCo
         mToolBar.setAlpha(0);
         mToolBar.setVisibility(View.GONE);
 //        initBanner();
-        mWindowWidth = AppUtils.getCurWindowWidth(getContext());
+        mWindowWidth   = AppUtils.getCurWindowWidth(getContext());
         mHomeHeaderHeight = mWindowWidth / 4 * 3;
         mHomeHeaderVisibleHeight = mHomeHeaderHeight;
         mToolbarHeight = mToolBar.getLayoutParams().height;
