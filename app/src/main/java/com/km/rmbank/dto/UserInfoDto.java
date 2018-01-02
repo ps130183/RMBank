@@ -42,6 +42,16 @@ public class UserInfoDto extends BaseEntity implements Parcelable {
 
     private String activeValueAll;
 
+    private int isTeach;//0  1
+
+    public int getIsTeach() {
+        return isTeach;
+    }
+
+    public void setIsTeach(int isTeach) {
+        this.isTeach = isTeach;
+    }
+
     public int getIsNotEditCard() {
         return isNotEditCard;
     }
@@ -97,6 +107,7 @@ public class UserInfoDto extends BaseEntity implements Parcelable {
                 ", clubStatus=" + clubStatus +
                 ", isNotEditCard=" + isNotEditCard +
                 ", activeValueAll='" + activeValueAll + '\'' +
+                ", isTeach=" + isTeach +
                 '}';
     }
 
@@ -186,6 +197,7 @@ public class UserInfoDto extends BaseEntity implements Parcelable {
         dest.writeInt(this.clubStatus);
         dest.writeInt(this.isNotEditCard);
         dest.writeString(this.activeValueAll);
+        dest.writeInt(this.isTeach);
     }
 
     protected UserInfoDto(Parcel in) {
@@ -201,6 +213,7 @@ public class UserInfoDto extends BaseEntity implements Parcelable {
         this.clubStatus = in.readInt();
         this.isNotEditCard = in.readInt();
         this.activeValueAll = in.readString();
+        this.isTeach = in.readInt();
     }
 
     public static final Creator<UserInfoDto> CREATOR = new Creator<UserInfoDto>() {

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="166dp"
+    android:padding="@dimen/view_space_8">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:src="@mipmap/defult_share"
+        android:scaleType="centerCrop"
+        />
+
+    <TextView
+        android:id="@+id/tv_action_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="99元体验官"
+        android:textSize="@dimen/text_size_14"
+        android:textColor="@color/color_white"
+        android:textStyle="bold"
+        android:padding="@dimen/view_space_8"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:background="#ff0101"
+        />
+</RelativeLayout>

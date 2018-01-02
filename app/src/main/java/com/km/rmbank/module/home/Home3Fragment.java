@@ -1,42 +1,26 @@
 package com.km.rmbank.module.home;
 
 
-import android.Manifest;
-import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.flyco.tablayout.CommonTabLayout;
-import com.flyco.tablayout.SlidingTabLayout;
 import com.flyco.tablayout.listener.CustomTabEntity;
 import com.flyco.tablayout.listener.OnTabSelectListener;
 import com.km.rmbank.R;
 import com.km.rmbank.adapter.ViewPagerAdapter;
-import com.km.rmbank.adapter.ViewPagerTabLayoutAdapter;
 import com.km.rmbank.basic.BaseFragment;
 import com.km.rmbank.event.HomeTabLayoutEvent;
 import com.km.rmbank.event.RichScanEvent;
 import com.km.rmbank.event.ShareEvent;
-import com.km.rmbank.module.Home2Activity;
 import com.km.rmbank.module.home.message.MessageActivity;
-import com.km.rmbank.module.personal.shopcart.ShoppingCartActivity;
-import com.km.rmbank.module.rmshop.GoodsFragment;
 import com.ps.androidlib.entity.TabEntity;
 import com.ps.androidlib.utils.EventBusUtils;
-import com.xys.libzxing.zxing.activity.CaptureActivity;
 import com.zaaach.toprightmenu.TopRightMenu;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -47,9 +31,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import kr.co.namee.permissiongen.PermissionFail;
-import kr.co.namee.permissiongen.PermissionGen;
-import kr.co.namee.permissiongen.PermissionSuccess;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -169,6 +150,7 @@ public class Home3Fragment extends BaseFragment {
         fragments.add(Home3DynamicFragment.newInstance(null));
         fragments.add(Home3ActionRecentFragment.newInstance(null));
         fragments.add(Home3ForumFragment.newInstance(null));
+//        fragments.add(Home3BenefitShareFragment.newInstance(null));
         fragments.add(Home3VipIntroduceFragment.newInstance(null));
         ArrayList<CustomTabEntity> tabEntityList = new ArrayList<>();
         for (int i = 0; i < mTitle.length; i++){

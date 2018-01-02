@@ -4,6 +4,19 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
+    <LinearLayout
+        style="@style/Personal.function_ll"
+        >
+
+        <TextView
+            android:id="@+id/tv_my_account"
+            style="@style/Personal.function_tv"
+            android:text="  我的账户"
+            android:drawableLeft="@mipmap/ic_personal_account"
+            />
+
+    </LinearLayout>
+
     <LinearLayout style="@style/Personal.function_ll">
 
         <TextView
@@ -74,6 +87,20 @@
                 style="@style/Personal.function_tv"
                 android:drawableLeft="@mipmap/ic_personal_master"
                 android:text="  我与大咖" />
+
+        <View
+            android:id="@+id/view_line_leader"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="50dp"
+            android:background="@color/color_divider1"
+            android:visibility="visible" />
+
+        <TextView
+            android:id="@+id/tv_group_leader"
+            style="@style/Personal.function_tv"
+            android:drawableLeft="@mipmap/ic_personal_group_leader"
+            android:text="  助教管理" />
 
     </LinearLayout>
 

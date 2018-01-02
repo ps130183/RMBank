@@ -298,9 +298,10 @@
         <activity android:name=".module.club.recent.ReleaseActionRecentActivity" />
         <activity android:name=".module.club.recent.ActionRecentInfoActivity" />
         <activity android:name=".module.club.past.ReleaseActionPastActivity" />
-        <activity android:name=".module.club.past.ActionPastDetailActivity"
+        <activity
+            android:name=".module.club.past.ActionPastDetailActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".module.personal.userinfo.UserCardInfoActivity"
             android:launchMode="singleTask" />
@@ -323,6 +324,9 @@
         <activity android:name=".module.personal.active.ActiveGoodsDetailActivity" />
         <activity android:name=".module.master.MasterInfoActivity" />
         <activity android:name=".module.master.MasterSubscribeOrderActivity" />
+        <activity android:name=".module.personal.leader.MeetingListActivity" />
+        <activity android:name=".module.personal.leader.EntranceSignInActivity" />
+        <activity android:name=".module.personal.leader.SignInListActivity"></activity>
     </application>
 
 </manifest>

@@ -25,10 +25,12 @@ import com.km.rmbank.dto.UserInfoDto;
 import com.km.rmbank.event.UpdateEaseUserUnreadNumberEvent;
 import com.km.rmbank.module.chat.EaseChatActivity;
 import com.km.rmbank.module.master.MasterSubscribeOrderActivity;
+import com.km.rmbank.module.personal.account.UserAccountActivity;
 import com.km.rmbank.module.personal.active.ActiveInfoActivity;
 import com.km.rmbank.module.personal.attention.AttentionGoodsActivity;
 import com.km.rmbank.module.personal.forum.MyForumInfosActivity;
 import com.km.rmbank.module.personal.integral.MyIntegralActivity;
+import com.km.rmbank.module.personal.leader.MeetingListActivity;
 import com.km.rmbank.module.personal.mycontact.MyContactActivity;
 import com.km.rmbank.module.personal.order.MyOrderActivity;
 import com.km.rmbank.module.personal.receiveraddress.ReceiverAddressActivity;
@@ -222,40 +224,38 @@ public class PersonalNewFragment extends BaseFragment<PersonalPresenter> impleme
                 case R.id.tv_my_master:
                     toNextActivity(MasterSubscribeOrderActivity.class);
                     break;
+                case R.id.tv_my_account:
+                    toNextActivity(UserAccountActivity.class);
+                    break;
                 case R.id.tv_my_contact:
-//                    MToast.showToast(getContext(), "暂未开通");
                     toNextActivity(MyContactActivity.class);
                     break;
                 case R.id.tv_my_integral:
-//                    MToast.showToast(getContext(), "我的积分");
                     toNextActivity(MyIntegralActivity.class);
                     break;
                 case R.id.tv_goods_manager:
-//                    MToast.showToast(getContext(), "商品管理");
 
                     break;
                 case R.id.tv_my_order:
-//                    MToast.showToast(getContext(), "我的订单");
                     toNextActivity(MyOrderActivity.class);
                     break;
                 case R.id.tv_address:
-//                    MToast.showToast(getContext(), "收货地址");
                     toNextActivity(ReceiverAddressActivity.class);
                     break;
                 case R.id.tv_service:
                 case R.id.tv_service_phone:
                 case R.id.rl_service:
-//                    MToast.showToast(getContext(), "在线客服");
 //                    call("010-87655945");
                     mPresenter.getService();
                     break;
                 case R.id.tv_attention:
-//                    MToast.showToast(getContext(), "我的关注");
                     toNextActivity(AttentionGoodsActivity.class);
                     break;
                 case R.id.tv_my_forum://捡漏专区
-//                    MToast.showToast(getContext(), "我的关注");
                     toNextActivity(MyForumInfosActivity.class);
+                    break;
+                case R.id.tv_group_leader://助教管理
+                    toNextActivity(MeetingListActivity.class);
                     break;
             }
         }

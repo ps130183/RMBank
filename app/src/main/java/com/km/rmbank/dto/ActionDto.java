@@ -51,6 +51,8 @@ public class ActionDto extends BaseEntity implements Parcelable {
     private int keepStatus;
     private String mobilePhone;
 
+    private String code;
+
 
     public String getActivityPictureUrl() {
         return activityPictureUrl;
@@ -84,6 +86,7 @@ public class ActionDto extends BaseEntity implements Parcelable {
                 ", clubContent='" + clubContent + '\'' +
                 ", keepStatus=" + keepStatus +
                 ", mobilePhone='" + mobilePhone + '\'' +
+                ", code='" + code + '\'' +
                 '}';
     }
 
@@ -247,6 +250,14 @@ public class ActionDto extends BaseEntity implements Parcelable {
         this.clubId = clubId;
     }
 
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
     public ActionDto() {
     }
 
@@ -365,6 +376,7 @@ public class ActionDto extends BaseEntity implements Parcelable {
         dest.writeString(this.clubContent);
         dest.writeInt(this.keepStatus);
         dest.writeString(this.mobilePhone);
+        dest.writeString(this.code);
     }
 
     protected ActionDto(Parcel in) {
@@ -389,6 +401,7 @@ public class ActionDto extends BaseEntity implements Parcelable {
         this.clubContent = in.readString();
         this.keepStatus = in.readInt();
         this.mobilePhone = in.readString();
+        this.code = in.readString();
     }
 
     public static final Creator<ActionDto> CREATOR = new Creator<ActionDto>() {

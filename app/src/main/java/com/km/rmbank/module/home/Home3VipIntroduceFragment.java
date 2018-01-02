@@ -3,11 +3,8 @@ package com.km.rmbank.module.home;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.webkit.WebView;
-import android.widget.ImageView;
 
 import com.km.rmbank.R;
 import com.km.rmbank.basic.BaseFragment;
@@ -15,7 +12,6 @@ import com.km.rmbank.module.personal.vip.AlreadyBecomeVip2Activity;
 import com.km.rmbank.module.personal.vip.SelectMemberTypeActivity;
 import com.km.rmbank.utils.Constant;
 import com.km.rmbank.utils.retrofit.SecretConstant;
-import com.ps.androidlib.utils.glide.GlideUtils;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -44,7 +40,9 @@ public class Home3VipIntroduceFragment extends BaseFragment {
 
     @BindView(R.id.webView)
     WebView webView;
+
     public static Home3VipIntroduceFragment newInstance(Bundle bundle) {
+
         Home3VipIntroduceFragment fragment = new Home3VipIntroduceFragment();
         fragment.setArguments(bundle);
         return fragment;
@@ -57,14 +55,9 @@ public class Home3VipIntroduceFragment extends BaseFragment {
 
     @Override
     protected void createView() {
-//        GlideUtils.loadImageByFitWidthRes(ivAppIntroduce1,appIntroducesRes[0]);
-//        GlideUtils.loadImageByFitWidthRes(ivAppIntroduce2,appIntroducesRes[1]);
-//        GlideUtils.loadImageByFitWidthRes(ivAppIntroduce3,appIntroducesRes[2]);
-//        GlideUtils.loadImageByFitWidthRes(ivAppIntroduce4,appIntroducesRes[3]);
-//        GlideUtils.loadImageByFitWidthRes(ivAppIntroduce5,appIntroducesRes[4]);
-
         webView.loadUrl(SecretConstant.API_HOST + SecretConstant.API_HOST_PATH + "/partner/introduce");
     }
+
 
     @OnClick(R.id.btn_apply_vip)
     public void applyVip(View view){

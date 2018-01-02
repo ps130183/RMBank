@@ -40,6 +40,7 @@ import com.km.rmbank.dto.ReceiverAddressDto;
 import com.km.rmbank.dto.ServiceDto;
 import com.km.rmbank.dto.ShareDto;
 import com.km.rmbank.dto.ShoppingCartDto;
+import com.km.rmbank.dto.SignInDto;
 import com.km.rmbank.dto.UserAccountDetailDto;
 import com.km.rmbank.dto.UserBalanceDto;
 import com.km.rmbank.dto.UserCardDto;
@@ -1350,5 +1351,24 @@ public class ApiWrapper extends RetrofitUtil {
     public Flowable<List<MasterOrderDto>> getMasterSubscribeOrderList(int pageNo){
         return getService().getMasterSubscribeOrderList(Constant.user.getToken(),pageNo)
                 .compose(this.<List<MasterOrderDto>>applySchedulers());
+    }
+
+    /**
+     * 获取助教 所属的活动列表
+     * @return
+     */
+    public Flowable<List<ActionDto>> getActionLists(){
+        return getService().getActionLists(Constant.user.getToken())
+                .compose(this.<List<ActionDto>>applySchedulers());
+    }
+
+    /**
+     * 获取助教 嘉宾签到列表
+     * @param id
+     * @return
+     */
+    public Flowable<List<SignInDto>> getSignInLists(String id){
+        return getService().getSignInLists(Constant.user.getToken(),id)
+                .compose(this.<List<SignInDto>>applySchedulers());
     }
 }

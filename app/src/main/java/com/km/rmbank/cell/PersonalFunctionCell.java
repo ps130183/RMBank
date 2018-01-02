@@ -57,6 +57,7 @@ public class PersonalFunctionCell extends BaseCell<UserDto> implements View.OnCl
         tvMyContact.setOnClickListener(this);
         tvMyIntegral.setOnClickListener(this);
 //        tvGoodsManager.setOnClickListener(this);
+        holder.getTextView(R.id.tv_my_account).setOnClickListener(this);
         holder.getTextView(R.id.tv_my_order).setOnClickListener(this);
         holder.getTextView(R.id.tv_address).setOnClickListener(this);
         holder.getTextView(R.id.tv_service).setOnClickListener(this);
@@ -69,6 +70,16 @@ public class PersonalFunctionCell extends BaseCell<UserDto> implements View.OnCl
         holder.getTextView(R.id.tv_all_active_value).setOnClickListener(this);
 
         holder.getTextView(R.id.tv_my_master).setOnClickListener(this);
+        holder.getTextView(R.id.tv_group_leader).setOnClickListener(this);
+
+        //是不是助教
+        if (Constant.userInfo != null && Constant.userInfo.getIsTeach() == 1){
+            holder.getTextView(R.id.tv_group_leader).setVisibility(View.VISIBLE);
+            holder.findView(R.id.view_line_leader).setVisibility(View.VISIBLE);
+        } else {
+            holder.getTextView(R.id.tv_group_leader).setVisibility(View.GONE);
+            holder.findView(R.id.view_line_leader).setVisibility(View.GONE);
+        }
 
 //        holder.getTextView(R.id.tv_my_club).setOnClickListener(this);
 

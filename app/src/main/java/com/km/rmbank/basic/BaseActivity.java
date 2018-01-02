@@ -235,7 +235,6 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
         return null;
     }
 
-    ;
 
     protected abstract void onCreate();
 

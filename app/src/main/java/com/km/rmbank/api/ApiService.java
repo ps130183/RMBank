@@ -39,6 +39,7 @@ import com.km.rmbank.dto.Response;
 import com.km.rmbank.dto.ServiceDto;
 import com.km.rmbank.dto.ShareDto;
 import com.km.rmbank.dto.ShoppingCartDto;
+import com.km.rmbank.dto.SignInDto;
 import com.km.rmbank.dto.UserAccountDetailDto;
 import com.km.rmbank.dto.UserBalanceDto;
 import com.km.rmbank.dto.UserCardDto;
@@ -1495,4 +1496,22 @@ public interface ApiService {
     Flowable<Response<List<MasterOrderDto>>> getMasterSubscribeOrderList(@Field("token") String token,
                                                                          @Field("pageNo") int pageNo);
 
+    /**
+     * 获取助教 的所属的活动列表
+     * @param token
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(SecretConstant.API_HOST_PATH + "/auth/activity/teachList")
+    Flowable<Response<List<ActionDto>>> getActionLists(@Field("token") String token);
+
+    /**
+     * 获取助教 嘉宾签到列表
+     * @param id
+     * @return
+     */
+    @FormUrlEncoded
+    @POST(SecretConstant.API_HOST_PATH + "/auth/activity/registrationList")
+    Flowable<Response<List<SignInDto>>> getSignInLists(@Field("token") String token,
+                                                       @Field("id") String id);
 }
